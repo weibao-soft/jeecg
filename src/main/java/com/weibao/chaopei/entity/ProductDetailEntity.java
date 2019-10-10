@@ -28,7 +28,7 @@ public class ProductDetailEntity implements java.io.Serializable {
 	@Column(name ="type",nullable=true,length=100)
 	private java.lang.String type;
 	
-	/**保费*/
+	/**保费。。。*/
 	@Column(name ="price",nullable=true,scale=2,length=10)	
 	private java.lang.String price;
 	

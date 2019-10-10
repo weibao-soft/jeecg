@@ -38,7 +38,7 @@ public class ProductMainController extends BaseController {
 	private static final Logger logger = Logger.getLogger(ProductMainController.class);
 	
 	/**
-	 * 我的产品主 页面跳转
+	 * 我的产品主 页面跳转 调试
 	 * 
 	 * @return
 	 */
@@ -82,7 +82,7 @@ public class ProductMainController extends BaseController {
 	}
 	
 	/**
-	 * easyui AJAX请求数据
+	 * easyui AJAX请求数据测试修改。。
 	 * 
 	 * @param request
 	 * @param response
