@@ -2,14 +2,12 @@ var addTabs = function (options) {
     //var rand = Math.random().toString();
     //var id = rand.substring(rand.indexOf('.') + 1);
     //var url = window.location.protocol + '//' + window.location.host;
-    //options.url = url + options.url;
-	
+    //options.url = url + options.url;	
     id = "tab_" + options.id;
     $(".active").removeClass("active");
     //如果TAB不存在，创建一个新的TAB
     if (!$("#" + id)[0]) {
-        //固定TAB中IFRAME高度
-
+        //固定TAB中IFRAME高度    	
         mainHeight = screen.height;
         mainHeight = mainHeight*0.72;//Ace 右侧高度默认
 
@@ -31,9 +29,9 @@ var addTabs = function (options) {
         //加入TABS
         $(".nav-tabs").append(title);
         $(".tab-content").append(content);
-    }else{
-    	//切换后重新加载页面
-        $("#" + id).find("iframe").attr("src",options.url);
+    }else{    	
+    	//切换后不要重新加载页面，如需重新加载页面，打开注释即可
+        // $("#" + id).find("iframe").attr("src",options.url);
     }
     //激活TAB
     $("#tab_" + id).addClass('active');

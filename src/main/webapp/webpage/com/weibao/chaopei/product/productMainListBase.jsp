@@ -10,11 +10,12 @@
    <t:dgCol title="标题"  field="title" queryMode="single" query="true" width="120"></t:dgCol>
    <t:dgCol title="期限"  field="period"  queryMode="single" query="true" width="120"></t:dgCol>
    <t:dgCol title="保险公司"  field="company"  queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
+   <t:dgCol title="操作" field="opt" width="100"></t:dgCol>   
+   <t:dgDefOpt url="productMainController.do?goAdd" title="三生三世" />
    <t:dgDelOpt title="删除" url="jformOrderMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>   
    <t:dgToolBar title="新增" icon="icon-add" url="productMainController.do?goAdd" funname="add" width="50%" height="50%"></t:dgToolBar>
    <t:dgToolBar title="编辑" icon="icon-edit" url="jformOrderMainController.do?goUpdate" funname="update" width="100%" height="100%"></t:dgToolBar>
-   <t:dgToolBar title="批量删除"  icon="icon-remove" url="jformOrderMainController.do?doBatchDel" funname="deleteALLSelect"></t:dgToolBar>
+   <t:dgToolBar title="批量删除"  icon="icon-remove" url="jformOrderMainController.do?doBatchDel" operationCode="" funname="deleteALLSelect"></t:dgToolBar>
    <t:dgToolBar title="导入数据" icon="icon-put" funname="ImportXls"></t:dgToolBar>
    <t:dgToolBar title="导出数据" icon="icon-putout" funname="ExportXls"></t:dgToolBar>
    <t:dgToolBar title="模板下载" icon="icon-putout" funname="ExportXlsByT"></t:dgToolBar>

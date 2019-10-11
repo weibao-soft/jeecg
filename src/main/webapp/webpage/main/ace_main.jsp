@@ -490,6 +490,7 @@
 		<script>
 		jQuery(function($) {
 			//$( "#tabs" ).tabs();
+			debugger
 			addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?hplushome'});
 			$('.theme-poptit .close').click(function(){
 	    		$('.theme-popover-mask').fadeOut(100);
