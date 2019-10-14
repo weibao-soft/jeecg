@@ -78,12 +78,14 @@ function addtt(title, url, id, icon, closable) {
 						icon : icon
 	});
 }
+/*
 $('#tt').tabs({onSelect : function(title) {
 						var p = $(this).tabs('getTab', title);
 						var url = p.find('iframe').attr('src');
 						p.find('iframe').attr('src',url);
 					}
 				});
+				*/
 function createFramett(id,url) {
 	var s = '<iframe id="'+id+'" scrolling="yes" frameborder="0"  src="'+url+'" width="100%" height="100%"></iframe>';
 	return s;
@@ -192,10 +194,10 @@ function zTreeOnLeftClick(event, treeId, treeNode) {
 			addtt('用户列表', url, '01','icon-user-set', 'false');
 			url = "organzationController.do?toAddSubCompany&pid="+selectNode.id;
 			addtt('创建下级机构', url, '02','icon-chart-organisation', 'false');
-			/*
-			url = "tSCompanyPositionController.do?list&companyId="+treeNode.id;;						
-			addtt('职务信息', url, '03','icon-chart-organisation', 'false');
-			*/
+			
+			url = "productMainController.do?goAssignProd&departid="+selectNode.id;;						
+			addtt('分配产品', url, '03','icon-chart-organisation', 'false');
+			
 			url = "organzationController.do?comDetail&id="+treeNode.id;			
 			addtt('基本信息', url, '04','icon-comturn', 'false');
 

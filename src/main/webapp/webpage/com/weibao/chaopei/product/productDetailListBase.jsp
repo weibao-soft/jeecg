@@ -8,8 +8,8 @@
   	group" collapsible="true">
    <t:dgCol title="主键"  field="id"  hidden="true"  queryMode="single"  width="0"></t:dgCol>   
    <t:dgCol title="名称"  field="productPlan"  extendParams="editor:'text'" queryMode="single"  width="100"></t:dgCol>
-   <t:dgCol title="单价"  field="type" extendParams="editor:'numberbox'"  queryMode="single"  width="50"></t:dgCol>
-   <t:dgCol title="身份证扫描件"  field="price"  queryMode="single"  width="120"></t:dgCol>
+   <t:dgCol title="营运性质"  field="type" extendParams="editor:'numberbox'"  queryMode="single"  width="50"></t:dgCol>
+   <t:dgCol title="保费"  field="price"  queryMode="single"  width="120"></t:dgCol>
    
    <%--  
 	<t:dgToolBar  title="编辑" icon="icon-edit"  funname="editRow"></t:dgToolBar>

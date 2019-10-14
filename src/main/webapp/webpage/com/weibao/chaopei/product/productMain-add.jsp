@@ -68,7 +68,7 @@
 				<label class="Validform_label">产品期限:</label>
 			</td>
 			<td class="value">
-		     	 <input id="period" name="period" type="text" style="width: 150px" class="inputxt"  datatype="*"  ignore="ignore" />
+		     	 <input id="period" name="period" type="text" style="width: 150px" class="inputxt"  datatype="*"  ignore="checked" />
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">产品期限</label>
 			</td>
@@ -76,13 +76,10 @@
 				<label class="Validform_label">保险公司:</label>
 			</td>
 			<td class="value">
-					<table></table>
-					<div class="form jeecgDetail"> 
-						<span id="file_uploadspan"><input type="file" name="content" id="content"/></span>
-					</div> 
-					<div class="form" id="filediv_content"></div>
+				  <t:dictSelect field="company" type="list" 
+						typeGroupCode="ins_comp" defaultVal="N" hasLabel="false"  title="保险公司" ></t:dictSelect>     
 				<span class="Validform_checktip"></span>
-				<label class="Validform_label" style="display: none;">备注</label>
+				<label class="Validform_label" style="display: none;">保险公司</label>
 			</td>
 		</tr>
 	</table>
@@ -105,7 +102,7 @@
 				  <label class="Validform_label" style="display: none;">产品计划</label>
 			  </td>
 			  <td align="left">
-				  	<input name="productDetailsList[#index#].type" maxlength="10" type="text" class="inputxt"  style="width:120px;"  datatype="d"  ignore="ignore" />
+				  	<input name="productDetailsList[#index#].type" maxlength="10" type="text" class="inputxt"  style="width:120px;"  ignore="ignore" />
 				  <label class="Validform_label" style="display: none;">营运性质</label>
 			  </td>			  
 			  <td align="left">
@@ -120,6 +117,7 @@
   	<script type="text/javascript">
   		function jeecgFormFileCallBack(data){
   			if (data.success == true) {
+  				debugger
 				uploadFile(data);
 			} else {
 				if (data.responseText == '' || data.responseText == undefined) {

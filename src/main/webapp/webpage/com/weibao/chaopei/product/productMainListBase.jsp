@@ -1,24 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
+<script src="plug-in/ace/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="plug-in/ace/assets/js/bootstrap.min.js"></script>
+<script src="plug-in/ace/assets/js/typeahead-bs2.min.js"></script>
+
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+  <script src="plug-in/ace/assets/js/excanvas.min.js"></script>
+<![endif]-->
+<!-- ace scripts -->
+<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+<script src="plug-in/ace/assets/js/ace-elements.min.js"></script>
+<script src="plug-in/ace/assets/js/ace.min.js"></script>
+<script src="plug-in/jquery/jquery.contextmenu.js"></script>
+<script src="plug-in/layer/layer.js"></script>
+<script src="plug-in/ace/js/bootbox.js"></script>
+<!--add-start--Author:wangkun Date:20160813 for:内部聊天修改-->
+<%@include file="/context/layui.jsp"%>
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="productMainList" checkbox="false" fitColumns="true" title="产品列表" actionUrl="productMainController.do?datagrid" 
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="产品名称"  field="name"  queryMode="single" query="true"  width="120"></t:dgCol>
-   <t:dgCol title="标题"  field="title" queryMode="single" query="true" width="120"></t:dgCol>
-   <t:dgCol title="期限"  field="period"  queryMode="single" query="true" width="120"></t:dgCol>
-   <t:dgCol title="保险公司"  field="company"  queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="操作" field="opt" width="100"></t:dgCol>   
-   <t:dgDefOpt url="productMainController.do?goAdd" title="三生三世" />
-   <t:dgDelOpt title="删除" url="jformOrderMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>   
+   
+   <t:dgCol title="产品名称"  field="name"  queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="标题"  field="title" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="期限"  field="period"  queryMode="single"  width="120"></t:dgCol>
+   <t:dgCol title="保险公司"  field="company" dictionary="ins_comp"  queryMode="single" width="120"></t:dgCol>   
+   
+   <t:dgCol title="操作" field="opt" width="100"></t:dgCol>      
+   <t:dgFunOpt title="立即投保"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
+   <t:dgDelOpt title="删除" url="jformOrderMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
+      
    <t:dgToolBar title="新增" icon="icon-add" url="productMainController.do?goAdd" funname="add" width="50%" height="50%"></t:dgToolBar>
    <t:dgToolBar title="编辑" icon="icon-edit" url="jformOrderMainController.do?goUpdate" funname="update" width="100%" height="100%"></t:dgToolBar>
    <t:dgToolBar title="批量删除"  icon="icon-remove" url="jformOrderMainController.do?doBatchDel" operationCode="" funname="deleteALLSelect"></t:dgToolBar>
    <t:dgToolBar title="导入数据" icon="icon-put" funname="ImportXls"></t:dgToolBar>
    <t:dgToolBar title="导出数据" icon="icon-putout" funname="ExportXls"></t:dgToolBar>
    <t:dgToolBar title="模板下载" icon="icon-putout" funname="ExportXlsByT"></t:dgToolBar>
+   
   </t:datagrid>
   </div>
  </div>
@@ -40,6 +63,9 @@ $(document).ready(function (){
 });
 function getCustomerList(id){
 	parent.getCustomerList(id);
+}
+function addTab(ids) {	
+	addTabs({id:ids,title:'首页',close: true,url: 'loginController.do?hplushome'});	
 }
 
 /**

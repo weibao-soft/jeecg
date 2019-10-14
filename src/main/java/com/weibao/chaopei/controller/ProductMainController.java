@@ -14,6 +14,7 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.weibao.chaopei.dao.ProductDetailDao;
+import com.weibao.chaopei.entity.DepartProductRefEntity;
 import com.weibao.chaopei.entity.ProductDetailEntity;
 import com.weibao.chaopei.entity.ProductEntity;
+import com.weibao.chaopei.page.ProductAssignRef;
 import com.weibao.chaopei.page.ProductMainPage;
 import com.weibao.chaopei.service.ProductServiceI;
 
@@ -34,6 +38,8 @@ public class ProductMainController extends BaseController {
 	private ProductServiceI  productService;
 	@Autowired
 	private SystemService systemService;
+	@Autowired
+	private ProductDetailDao productDetailDao;
 	
 	private static final Logger logger = Logger.getLogger(ProductMainController.class);
 	
@@ -81,6 +87,54 @@ public class ProductMainController extends BaseController {
 		return new ModelAndView("com/weibao/chaopei/product/productMain-add");
 	}
 	
+	
+	/**
+	 *跳转到分配产品的页面
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "goAssignProd")
+	public ModelAndView goAssignProd(String departid, HttpServletRequest req) {
+		//	先查询分配给上级单位(如果上级是null，则查看所有)所有的产品，然后再查询该组织已经分配的产品，然后已经分配的产品勾选上		
+		TSDepart depart = systemService.get(TSDepart.class, departid);
+		TSDepart parent = depart.getTSPDepart();
+		List<ProductAssignRef> refList = null;
+		if(parent == null) {
+			//	查询所有产品			
+			refList = productDetailDao.getProductAssignRefByRoot(departid);			
+			//	查找当前
+			CriteriaQuery cq = new CriteriaQuery(DepartProductRefEntity.class);
+			cq.eq("departId", depart.getId());
+			cq.eq("assignStatus", "1");
+			cq.add();
+			List<DepartProductRefEntity> refLists = systemService.getListByCriteriaQuery(cq, false);
+			refLists = systemService.findByProperty(DepartProductRefEntity.class, "departId", depart.getId());
+			System.out.println("....");
+		}else {
+			refList = productDetailDao.getProductAssignRefBySubRoot(parent.getId(), departid);
+			System.out.println("....");
+		}
+		
+		System.out.println("...");
+		req.setAttribute("refList", refList);
+		return new ModelAndView("com/weibao/chaopei/product/departProduct-assign");
+	}
+	
+	/**
+	 * 	修改分配产品的action
+	 * @param productEntity
+	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 */
+	@RequestMapping(params = "udpateAssignProd")
+	public void udpateAssignProd(ProductAssignRef productAssignRef,HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("....");	
+		List<String> refs = productAssignRef.getCheckedProdctAssign();
+		//查询条件组装器
+		
+	}
+	
 	/**
 	 * easyui AJAX请求数据测试修改。。
 	 * 
@@ -109,15 +163,19 @@ public class ProductMainController extends BaseController {
 	@RequestMapping(params = "productDetailDatagrid")
 	public void productDetailDatagrid(ProductDetailEntity productDetailEntity,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(ProductDetailEntity.class, dataGrid);
-		//查询条件组装器
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, productDetailEntity);
-		try{
-		//自定义追加查询条件
-		}catch (Exception e) {
-			throw new BusinessException(e.getMessage());
+		
+		if(productDetailEntity.getProductId() == null || "".equals(productDetailEntity.getProductId())){		
+			//	查询条件组装器
+		}else{
+			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, productDetailEntity);
+			try{
+				//	自定义追加查询条件
+				cq.add();
+				this.productService.getDataGridReturn(cq, true);
+			}catch (Exception e) {
+				throw new BusinessException(e.getMessage());
+			}			
 		}
-		cq.add();
-		this.productService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
 	
