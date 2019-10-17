@@ -4,13 +4,12 @@ var addTabs = function (options) {
     //var url = window.location.protocol + '//' + window.location.host;
     //options.url = url + options.url;	
     id = "tab_" + options.id;
-    $(".active").removeClass("active");
+    parent.parent.$(".active").removeClass("active");    
     //如果TAB不存在，创建一个新的TAB
-    if (!$("#" + id)[0]) {
+    if (!parent.parent.$("#" + id)[0]) {
         //固定TAB中IFRAME高度    	
         mainHeight = screen.height;
-        mainHeight = mainHeight*0.72;//Ace 右侧高度默认
-
+        mainHeight = mainHeight*0.72;//Ace 右侧高度默认        
         //
         //创建新TAB的title
         title = '<li role="presentation" id="tab_' + id + '"><a href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab">' + options.title;
@@ -27,17 +26,21 @@ var addTabs = function (options) {
                     '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes"></iframe></div>';
         }
         //加入TABS
-        $(".nav-tabs").append(title);
-        $(".tab-content").append(content);
+        //alert(parent.parent.$(".nav-tabs").attr("mytext"));
+        //alert(JSON.stringify($(".nav-tabs")));
+        //parent.$('.nav-tabs');
+        //alert( $('.nav-tabs', window.parent.document) );
+        parent.parent.$(".nav-tabs").append(title);
+        parent.parent.$(".tab-content").append(content);
     }else{    	
     	//切换后不要重新加载页面，如需重新加载页面，打开注释即可
         // $("#" + id).find("iframe").attr("src",options.url);
     }
     //激活TAB
-    $("#tab_" + id).addClass('active');
-    $("#" + id).addClass("active");
-
-    var last = $("#tabs>ul>li:last");
+    parent.parent.$("#tab_" + id).addClass('active');
+    parent.parent.$("#" + id).addClass("active");
+    debugger
+    var last = parent.parent.$("#tabs>ul>li:last");
     /*$(".contextMenuPlugin").mouseout(function(){
      $(".contextMenuPlugin").remove();
      })
@@ -228,7 +231,7 @@ var closeTab = function (id) {
     $("#tab_" + id).remove();
     $("#" + id).remove();
 };
-$(function () {
+$(function () {	
     mainHeight = $(document.body).height();
     $('.main-left,.main-right').height(mainHeight);
     $("[addtabs]").click(function () {

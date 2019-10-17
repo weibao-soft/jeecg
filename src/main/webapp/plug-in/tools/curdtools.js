@@ -337,6 +337,7 @@ function editfs(title,url) {
 }
 // 删除调用函数
 function delObj(url,name) {
+	alert('ssss');
 	gridname=name;
 	createdialog($.i18n.prop('del.confirm.title'), $.i18n.prop('del.this.confirm.msg'), url,name);
 }

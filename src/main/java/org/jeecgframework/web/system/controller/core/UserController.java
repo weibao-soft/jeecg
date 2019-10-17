@@ -1576,7 +1576,6 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdateMyOrgUser")
 	public ModelAndView addorupdateMyOrgUser(TSUser user, HttpServletRequest req) {
-        List<String> orgIdList = new ArrayList<String>();
         TSDepart tsDepart = new TSDepart();
 		if (StringUtil.isNotEmpty(user.getId())) {
 			user = systemService.getEntity(TSUser.class, user.getId());

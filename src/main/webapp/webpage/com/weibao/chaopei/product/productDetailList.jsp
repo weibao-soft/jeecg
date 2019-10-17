@@ -56,7 +56,7 @@
 			  	<label class="Validform_label" style="display: none;">产品计划</label>
 			</td>
 			<td align="left">
-				<input name="productDetailsList[0].type" maxlength="10" type="text" class="inputxt"  style="width:120px;"  datatype="d"  ignore="ignore" >
+				<input name="productDetailsList[0].type" maxlength="10" type="text" class="inputxt"  style="width:120px;"  ignore="ignore" >
 				<label class="Validform_label" style="display: none;">营运性质</label>
 			</td>			
 			<td align="left">

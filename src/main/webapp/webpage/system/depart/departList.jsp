@@ -61,7 +61,7 @@
             id = rowsData[0].id;
         }
         var url = "departController.do?add&id=" + id;
-
+		debugger
         add('<t:mutiLang langKey="common.add.param" langArg="common.department"/>', url, "departList","660px","480px");
 
     }

@@ -9,5 +9,5 @@ import com.weibao.chaopei.entity.ProductEntity;
 
 public interface ProductServiceI extends CommonService {
 	
-	public ProductEntity addMain(ProductEntity productEntity,List<ProductDetailEntity> productDetailsList);
+	public void addMain(ProductEntity productEntity,List<ProductDetailEntity> productDetailsList);
 }

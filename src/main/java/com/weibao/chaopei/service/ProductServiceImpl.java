@@ -1,5 +1,6 @@
 package com.weibao.chaopei.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
@@ -14,17 +15,16 @@ import com.weibao.chaopei.entity.ProductEntity;
 public class ProductServiceImpl extends CommonServiceImpl implements ProductServiceI {
 
 	@Override
-	public ProductEntity addMain(ProductEntity productEntity, List<ProductDetailEntity> productDetailsList) {
+	public void addMain(ProductEntity productEntity, List<ProductDetailEntity> productDetailsList) {
 		//保存主产品信息
-		ProductEntity saveTO = (ProductEntity)this.save(productEntity);
+		Serializable id = this.save(productEntity);
 		
 		/**保存-产品方案信息*/
 		for(ProductDetailEntity productDetail : productDetailsList){
 			//外键设置
 			productDetail.setProductId(productEntity.getId());
 			this.save(productDetail);
-		}		
-		return saveTO;
+		}				
 	}
 
 }

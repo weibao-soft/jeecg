@@ -541,8 +541,9 @@ public class OrganzationController extends BaseController {
 	 * 返回类型： ModelAndView
 	 */
 	@RequestMapping(params = "myUserOrgList")
-	public ModelAndView myUserOrgList(HttpServletRequest request, String departid) {
+	public ModelAndView myUserOrgList(HttpServletRequest request, String departid, String departname) {
 		request.setAttribute("departid", departid);
+		request.setAttribute("departname", departname);
 		return new ModelAndView("system/organzation/myDepartUserList");
 	}
 	
@@ -1159,36 +1160,29 @@ public class OrganzationController extends BaseController {
 	@RequestMapping(params="getMyTreeDataAsync",method ={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public List<Map<String,Object>> getMyTreeDataAsync(HttpServletResponse response,HttpServletRequest request ){
-		CriteriaQuery cq = new CriteriaQuery(TSDepart.class);
+		CriteriaQuery cq = new CriteriaQuery(TSDepart.class);		
 		List<Map<String,Object>> dataList = new ArrayList<Map<String,Object>>();
 		try{
 			String id = request.getParameter("id");
-			String userName = ResourceUtil.getSessionUser().getUserName();
-			if("admin".equals(userName)) {
-				if(oConvertUtils.isEmpty(id)){
+			//没有选择某个机构，加载根节点
+			if(oConvertUtils.isEmpty(id)){
+				String userName = ResourceUtil.getSessionUser().getUserName();
+				//如果是admin
+				if("admin".equals(userName)) {
 					//加载根节点
 					cq.isNull("TSPDepart");
-				}else{
-					//加载子节点
-					cq.eq("TSPDepart.id", id);
+				}else {
+					//不是admin，查询所属的机构
+					String hql = "select uo.tsDepart from TSUserOrg uo join uo.tsUser usr where usr.userName = ? order by uo.tsDepart.departOrder asc";
+					List<TSDepart> departList = systemService.findHql(hql, userName);
+					populateTree(departList,dataList);					
+					return dataList;
 				}
-			}else{
-				String sql = "select deptId from TSDepartAuthGroupEntity where id in (select groupId from TSDepartAuthgManagerEntity where userId = ?)";
-				List<String> deptIds = this.systemService.findHql(sql, userName);
-				if(deptIds!=null && deptIds.size()>0){
-					Object values[] = deptIds.toArray();
-					cq.in("id", values);
-					if(oConvertUtils.isEmpty(id)){
-						cq.isNull("TSPDepart");
-					}else{
-						//加载子节点
-						cq.eq("TSPDepart.id",id);
-					}
-				}else{
-					//如果非admin用户且无授权组织机构 那么 直接返回一个null
-					return null;
-				}
+			}else {
+				//加载子节点
+				cq.eq("TSPDepart.id", id);
 			}
+			
 			cq.addOrder("departOrder", SortDirection.asc);
 			cq.add();
 			List<TSDepart> departList =  this.systemService.getListByCriteriaQuery(cq, false);
@@ -1227,6 +1221,9 @@ public class OrganzationController extends BaseController {
 					 }else{
 						 map.put("isParent", false);
 					 }
+					 map.put("icon","plug-in/ztree/css/img/diy/company.png");
+					 /*
+					  * 全部都采用房子树结构
 					 if("1".equals(depart.getOrgType())){
 						 map.put("icon","plug-in/ztree/css/img/diy/company.png");
 					 }else if("2".equals(depart.getOrgType())){
@@ -1238,6 +1235,7 @@ public class OrganzationController extends BaseController {
 					 }else if("9".equals(depart.getOrgType())){
 						 map.put("icon","plug-in/ztree/css/img/diy/gysroot.png");
 					 }
+					 */
 					TSDepart parentdepart = depart.getTSPDepart();
 					if(parentdepart == null){
 						map.put("parentId","0");

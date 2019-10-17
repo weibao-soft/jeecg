@@ -15,7 +15,7 @@
 		   <!-- update-begin--Author:Yandong  Date:20180402 for： TASK #2601 【严重样式问题】我的组织机构，在shortcut风格下样式有问题-->
 		   <div style="width:105px;margin-left: 8px;margin-top: 2px;">
 			<a  icon="icon-add" class="easyui-linkbutton l-btn l-btn-plain"  onclick="addOneNode()">
-				<span class="bigger-110 no-text-shadow" style="width: 50px;">添加公司</span>
+				<span class="bigger-110 no-text-shadow" style="width: 50px;">添加一级机构</span>
 			</a>
 			</div>
 			<!-- update-begin--Author:Yandong  Date:20180402 for： TASK #2601 【严重样式问题】我的组织机构，在shortcut风格下样式有问题-->
@@ -25,7 +25,7 @@
 		</div>
 		<div data-options="region:'center'" title="">
     <!-- <iframe width="100%" height="100%" id="center"  src="" style="border:1px #fff solid; background:#fff;"></iframe> -->
-		<div id="tt" tabPosition="top" border=flase style="width:100%;height:100%;margin:0px;padding:0px;overflow-x:hidden;width:auto;" class="easyui-tabs" fit="true"></div>
+		<div id="tt" tabPosition="top" border=flase style="width:95%;height:100%;margin:0px;padding:0px;overflow-x:hidden;width:auto;" class="easyui-tabs" fit="true"></div>
         </div>
 
 		<div class="hidden">
@@ -78,12 +78,14 @@ function addtt(title, url, id, icon, closable) {
 						icon : icon
 	});
 }
+/*
 $('#tt').tabs({onSelect : function(title) {
 						var p = $(this).tabs('getTab', title);
 						var url = p.find('iframe').attr('src');
 						p.find('iframe').attr('src',url);
 					}
 				});
+				*/
 function createFramett(id,url) {
 	var s = '<iframe id="'+id+'" scrolling="yes" frameborder="0"  src="'+url+'" width="100%" height="100%"></iframe>';
 	return s;
@@ -153,8 +155,8 @@ function filter(treeId, parentNode, childNodes){
 
 //左击
 function zTreeOnLeftClick(event, treeId, treeNode) {
-	debugger;
-	var selectNode = getSelectNode();
+	
+	var selectNode = getSelectNode();	
 	flag = true;
 	clearTimeout(TimeFn);
 	setTimeout(function(){
@@ -163,7 +165,7 @@ function zTreeOnLeftClick(event, treeId, treeNode) {
 			var parentId = treeNode.id;
 			var orgType = treeNode.orgType;
 			closeAllTab();
-
+			/*
 			if(orgType=="1"){
 				var url = "organzationController.do?myUserOrgList&departid="+treeNode.id;
 				addtt('用户信息', url, '02','icon-user-set', 'false');
@@ -187,6 +189,17 @@ function zTreeOnLeftClick(event, treeId, treeNode) {
 				url = "organzationController.do?comDetail&id="+treeNode.id;
 				addtt('基本信息', url, '01','icon-comturn', 'false');
 			}
+			*/
+			var url = "organzationController.do?myUserOrgList&departid="+treeNode.id+"&departname="+treeNode.name;
+			addtt('用户列表', url, '01','icon-user-set', 'false');
+			url = "organzationController.do?toAddSubCompany&pid="+selectNode.id;
+			addtt('创建下级机构', url, '02','icon-chart-organisation', 'false');
+			
+			url = "productMainController.do?goAssignProd&departid="+selectNode.id;;						
+			addtt('分配产品', url, '03','icon-chart-organisation', 'false');
+			
+			url = "organzationController.do?comDetail&id="+treeNode.id;			
+			addtt('基本信息', url, '04','icon-comturn', 'false');
 
 			$("#tt").tabs("select", 0);
 		}
@@ -196,6 +209,7 @@ function zTreeOnLeftClick(event, treeId, treeNode) {
  * 树右击事件
  */
 function zTreeOnRightClick(e, treeId, treeNode) {	
+	/*
 	if (treeNode) {
 		currOrgId = treeNode.id;
 		orgTree.selectNode(treeNode);
@@ -232,6 +246,7 @@ function zTreeOnRightClick(e, treeId, treeNode) {
 			top : y
 		});
 	}
+	*/
 };
 //双击事件
 function zTreeOnDblClick(event, treeId, treeNode) {

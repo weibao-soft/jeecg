@@ -36,6 +36,7 @@ public class ProductDetailEntity implements java.io.Serializable {
 	@Column(name ="product_id",nullable=true,length=32)
 	private java.lang.String productId;
 	
+	
 	public java.lang.String getId(){
 		return this.id;
 	}

@@ -73,24 +73,24 @@ public class DataGridDelOptTag extends TagSupport {
 		return urlStyle;
 	}
 
-		public String getUrlclass() {
-			return urlclass;
-		}
-		public void setUrlclass(String urlclass) {
-			this.urlclass = urlclass;
-		}
-		public String getUrlfont() {
-			return urlfont;
-		}
-		public void setUrlfont(String urlfont) {
-			this.urlfont = urlfont;
-		}
+	public String getUrlclass() {
+		return urlclass;
+	}
+	public void setUrlclass(String urlclass) {
+		this.urlclass = urlclass;
+	}
+	public String getUrlfont() {
+		return urlfont;
+	}
+	public void setUrlfont(String urlfont) {
+		this.urlfont = urlfont;
+	}
 
-		public boolean isInGroup() {
-			return inGroup;
-		}
-		public void setInGroup(boolean inGroup) {
-			this.inGroup = inGroup;
-		}
+	public boolean isInGroup() {
+		return inGroup;
+	}
+	public void setInGroup(boolean inGroup) {
+		this.inGroup = inGroup;
+	}
 
 }

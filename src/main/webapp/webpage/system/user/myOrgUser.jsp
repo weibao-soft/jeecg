@@ -101,6 +101,7 @@
                 <span class="Validform_checktip"><t:mutiLang langKey="fill.realname"/></span>
             </td>
 		</tr>
+		<%--  
 		<tr>
 			<td align="right" width="10%" nowrap><label class="Validform_label">英文名: </label></td>
 			<td class="value" width="10%">
@@ -108,6 +109,8 @@
                 <span class="Validform_checktip">填写英文名</span>
             </td>
 		</tr>
+		--%>
+		<%-- 
 		<tr>
 			<td align="right" width="10%" nowrap><label class="Validform_label">工号: </label></td>
 			<td class="value" width="10%">
@@ -115,6 +118,7 @@
                 <span class="Validform_checktip">填写工号</span>
             </td>
 		</tr>
+		--%>
 		 <%-- <tr>
             <td align="right"><label class="Validform_label"> 用户类型: </label></td>
             <td class="value">
@@ -131,6 +135,7 @@
                 <span class="Validform_checktip"></span>
             </td>
         </tr> --%>
+        <%--
         <tr>
             <td align="right"><label class="Validform_label"> 性别: </label></td>
             <td class="value">
@@ -145,6 +150,7 @@
                 <span class="Validform_checktip">填写身份证号</span>
             </td>
 		</tr>
+		 --%>
 		<c:if test="${user.id==null }">
 			<tr>
 				<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.password"/>: </label></td>
@@ -204,6 +210,7 @@
                 <span class="Validform_checktip"></span>
             </td>
 		</tr>
+		<%-- 
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.tel"/>: </label></td>
 			<td class="value">
@@ -219,6 +226,7 @@
                 <span class="Validform_checktip"></span>
             </td>
 		</tr>
+		
 		<tr>
 			<td align="right" width="10%" nowrap><label class="Validform_label">传真: </label></td>
 			<td class="value" width="10%">
@@ -240,6 +248,7 @@
                 <span class="Validform_checktip">填写邮编</span>
             </td>
 		</tr>
+		--%>
 		<tr>
 			<td align="right" width="10%" nowrap><label class="Validform_label">备注: </label></td>
 			<td class="value" width="10%">
