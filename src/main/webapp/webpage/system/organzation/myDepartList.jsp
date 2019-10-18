@@ -13,10 +13,7 @@
 	<div class="easyui-layout" fit="true" scroll="no">
 		<div  data-options="region:'west',title:'我的机构管理',split:true" style="width:200px;overflow: auto;">
 		   <!-- update-begin--Author:Yandong  Date:20180402 for： TASK #2601 【严重样式问题】我的组织机构，在shortcut风格下样式有问题-->
-		   <div style="width:105px;margin-left: 8px;margin-top: 2px;">
-			<a  icon="icon-add" class="easyui-linkbutton l-btn l-btn-plain"  onclick="addOneNode()">
-				<span class="bigger-110 no-text-shadow" style="width: 50px;">添加一级机构</span>
-			</a>
+		   <div style="width:105px;margin-left: 8px;margin-top: 2px;">		   
 			</div>
 			<!-- update-begin--Author:Yandong  Date:20180402 for： TASK #2601 【严重样式问题】我的组织机构，在shortcut风格下样式有问题-->
 			 <div class="clear"></div> 
@@ -29,12 +26,7 @@
         </div>
 
 		<div class="hidden">
-			<div id="orgMenu" class="easyui-menu" data-options="onClick:menuHandler" style="width: 120px;">
-				<!-- <div data-options="name:'addSubCompany'">添加下级公司</div> -->
-				<div data-options="name:'addSubOrg'">添加下级部门</div>
-				<div data-options="name:'addSubJob'">添加下级岗位</div>
-				<div data-options="name:'edit'">编辑</div> 
-				<div data-options="name:'remove'">删除 </div> 
+			<div id="orgMenu" class="easyui-menu" data-options="onClick:menuHandler" style="width: 120px;">				
 				<div data-options="name:'fresh'">刷新</div>
 			</div>
 			<div id="gysMenu" class="easyui-menu" data-options="onClick:menuHandler" style="width: 120px;">
@@ -60,15 +52,16 @@
 </html>
 <script>
 
-$(function() {
-	debugger;
+$(function() {	
 	loadTreeNodes();
 });
 var flag = true;
 var TimeFn = null;
 var currOrgId,currOrgOpt;//设置当前右击事件的部门Id以及操作类型0-add;1-edit;2-del
+var currentDepart = "<%=request.getAttribute("currentDepart")%>";
+var isAdmin = <%=request.getAttribute("isAdmin")%>
 
-function addtt(title, url, id, icon, closable) {
+function addtt(title, url, id, icon, closable) {	
 	$('#tt').tabs('add',{
 						id : id,
 						title : title,
@@ -163,41 +156,21 @@ function zTreeOnLeftClick(event, treeId, treeNode) {
 		if(flag){
 			curSelectNode = treeNode;
 			var parentId = treeNode.id;
-			var orgType = treeNode.orgType;
-			closeAllTab();
-			/*
-			if(orgType=="1"){
-				var url = "organzationController.do?myUserOrgList&departid="+treeNode.id;
-				addtt('用户信息', url, '02','icon-user-set', 'false');
-				url = "tSCompanyPositionController.do?list&companyId="+treeNode.id;;
-				addtt('职务信息', url, '03','icon-chart-organisation', 'false');
-				url = "organzationController.do?comDetail&id="+treeNode.id;
-				addtt('基本信息', url, '01','icon-comturn', 'false');
-			}else if(orgType=="4"){
-				var url = "organzationController.do?myUserOrgList&departid="+treeNode.id;
-				addtt('用户信息', url, '02','icon-user-set', 'false');
-				url = "tSCompanyPositionController.do?list&companyId="+treeNode.id;;
-				addtt('职务信息', url, '03','icon-chart-organisation', 'false');
-				url = "organzationController.do?comDetail&id="+treeNode.id;
-				addtt('基本信息', url, '01','icon-comturn', 'false');
-			}else if(orgType=="9"){
-				//var url = "organzationController.do?comDetail&id="+treeNode.id;
-				//addtt('基本信息', url, '01','icon-comturn', 'false');
-			}else{
-				var url = "organzationController.do?myUserOrgList&departid="+treeNode.id;
-				addtt('用户信息', url, '02','icon-user-set', 'false');
-				url = "organzationController.do?comDetail&id="+treeNode.id;
-				addtt('基本信息', url, '01','icon-comturn', 'false');
+			var orgType = treeNode.orgType;			
+			closeAllTab();			
+			//	判断点选的节点是否当前操作用户所属机构的直接下属机构			
+			var url = "organzationController.do?myUserOrgList&departid="+treeNode.id;
+			addtt('用户管理', url, '01','icon-user-set', 'false');
+			//	点选的是自己所在的机构，才能创建下级机构
+			if(currentDepart == parentId){				
+				url = "organzationController.do?toAddSubCompany&pid="+selectNode.id;
+				addtt('创建下级机构', url, '02','icon-chart-organisation', 'false');							
+			}			
+			//	点选的是下级机构，才能有分配产品
+			if((currentDepart == treeNode.parentId) || isAdmin){
+				url = "productMainController.do?goAssignProd&departid="+selectNode.id;;						
+				addtt('分配产品', url, '03','icon-chart-organisation', 'false');
 			}
-			*/
-			var url = "organzationController.do?myUserOrgList&departid="+treeNode.id+"&departname="+treeNode.name;
-			addtt('用户列表', url, '01','icon-user-set', 'false');
-			url = "organzationController.do?toAddSubCompany&pid="+selectNode.id;
-			addtt('创建下级机构', url, '02','icon-chart-organisation', 'false');
-			
-			url = "productMainController.do?goAssignProd&departid="+selectNode.id;;						
-			addtt('分配产品', url, '03','icon-chart-organisation', 'false');
-			
 			url = "organzationController.do?comDetail&id="+treeNode.id;			
 			addtt('基本信息', url, '04','icon-comturn', 'false');
 
@@ -209,7 +182,7 @@ function zTreeOnLeftClick(event, treeId, treeNode) {
  * 树右击事件
  */
 function zTreeOnRightClick(e, treeId, treeNode) {	
-	/*
+	
 	if (treeNode) {
 		currOrgId = treeNode.id;
 		orgTree.selectNode(treeNode);
@@ -221,18 +194,8 @@ function zTreeOnRightClick(e, treeId, treeNode) {
 		var menuHeight = 75;
 		var menu = null;
 		if (treeNode != null) {
-			var orgType = treeNode.orgType;
-			if(orgType=="4"){
-				menu = $('#gysMenu');
-			}else if(orgType=="9"){
-				menu = $('#gysRootMenu');
-			}else if(orgType=="2"){
-				menu = $('#gysMenu');
-			}else if(orgType=="3"){
-				menu = $('#gysMenuGW');
-			}else{
-				menu = $('#gysMenu');
-			}
+			var orgType = treeNode.orgType;			
+			menu = $('#orgMenu');			
 		}
 		var x = e.pageX, y = e.pageY;
 		if (e.pageY + menuHeight > h) {
@@ -246,7 +209,7 @@ function zTreeOnRightClick(e, treeId, treeNode) {
 			top : y
 		});
 	}
-	*/
+	
 };
 //双击事件
 function zTreeOnDblClick(event, treeId, treeNode) {
@@ -335,6 +298,7 @@ function addSubJob() {
 function closeAllTab(){
 	var tabs = $('#tt').tabs("tabs");
 	var length = tabs.length;
+	debugger
     for(var i=0; i<length; i++){
     	var onetab = tabs[0];
         var title = onetab.panel('options').tab.text();
@@ -401,6 +365,7 @@ function delNode() {
 };
 //选择资源节点。
 function getSelectNode() {
+	debugger
 	orgTree = $.fn.zTree.getZTreeObj("orgTree");
 	var nodes = orgTree.getSelectedNodes();
 	var node = nodes[0];

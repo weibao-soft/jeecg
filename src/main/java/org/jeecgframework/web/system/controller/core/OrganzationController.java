@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,6 +37,7 @@ import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
+import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSRoleUser;
 import org.jeecgframework.web.system.pojo.base.TSUser;
@@ -74,6 +76,8 @@ public class OrganzationController extends BaseController {
 	private static final Logger logger = Logger.getLogger(OrganzationController.class);
 	private UserService userService;
 	private SystemService systemService;
+	@Resource
+	private ClientManager clientManager;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -105,7 +109,15 @@ public class OrganzationController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "myDepart")
-	public ModelAndView myDepart() {
+	public ModelAndView myDepart(HttpServletRequest request) {
+		TSUser user = clientManager.getClient().getUser();
+		TSDepart currentDepart = user.getCurrentDepart();
+		if("admin".equals(user.getUserName())){
+			request.setAttribute("isAdmin", true);
+		}else {
+			request.setAttribute("isAdmin", false);
+		}
+		request.setAttribute("currentDepart", currentDepart.getId());		
 		return new ModelAndView("system/organzation/myDepartList");
 	}
 	
@@ -541,8 +553,15 @@ public class OrganzationController extends BaseController {
 	 * 返回类型： ModelAndView
 	 */
 	@RequestMapping(params = "myUserOrgList")
-	public ModelAndView myUserOrgList(HttpServletRequest request, String departid, String departname) {
+	public ModelAndView myUserOrgList(HttpServletRequest request, String departid) {
 		request.setAttribute("departid", departid);
+		TSDepart tsDepart = systemService.get(TSDepart.class, departid);
+		TSDepart parent = tsDepart.getTSPDepart();
+		String departname = tsDepart.getDepartname();
+		while(parent != null) {
+			departname = parent.getDepartname()+"->"+departname;
+			parent = parent.getTSPDepart();
+		}		
 		request.setAttribute("departname", departname);
 		return new ModelAndView("system/organzation/myDepartUserList");
 	}
@@ -642,7 +661,7 @@ public class OrganzationController extends BaseController {
         return new ModelAndView("system/organzation/noCurDepartMyOrgUserList");
     }
     /**
-     * 获取 除当前 组织之外的用户信息列表
+     * 	获取 除当前 组织之外的用户信息列表
      * @param request request
      * @return 处理结果信息
      */
@@ -653,7 +672,7 @@ public class OrganzationController extends BaseController {
         CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
         org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, user);
 
-        // 获取 当前组织机构的用户信息
+        //	获取 当前组织机构的用户信息
         CriteriaQuery subCq = new CriteriaQuery(TSUserOrg.class);
         subCq.setProjection(Property.forName("tsUser.id"));
         subCq.eq("tsDepart.id", orgId);
@@ -1164,22 +1183,23 @@ public class OrganzationController extends BaseController {
 		List<Map<String,Object>> dataList = new ArrayList<Map<String,Object>>();
 		try{
 			String id = request.getParameter("id");
-			//没有选择某个机构，加载根节点
+			//	没有选择某个机构，加载根节点
 			if(oConvertUtils.isEmpty(id)){
-				String userName = ResourceUtil.getSessionUser().getUserName();
+				TSUser currentUser = ResourceUtil.getSessionUser();
+				String userName = currentUser.getUserName();
 				//如果是admin
 				if("admin".equals(userName)) {
-					//加载根节点
-					cq.isNull("TSPDepart");
+					//	加载admin所属机构下的所有机构
+					cq.isNull("TSPDepart");											
 				}else {
-					//不是admin，查询所属的机构
+					//	不是admin，查询所属的机构
 					String hql = "select uo.tsDepart from TSUserOrg uo join uo.tsUser usr where usr.userName = ? order by uo.tsDepart.departOrder asc";
 					List<TSDepart> departList = systemService.findHql(hql, userName);
 					populateTree(departList,dataList);					
 					return dataList;
 				}
 			}else {
-				//加载子节点
+				//	加载子节点
 				cq.eq("TSPDepart.id", id);
 			}
 			

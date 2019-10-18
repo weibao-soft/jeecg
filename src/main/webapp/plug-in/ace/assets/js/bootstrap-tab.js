@@ -9,7 +9,7 @@ var addTabs = function (options) {
     if (!$("#" + id)[0]) {
         //固定TAB中IFRAME高度    	
         mainHeight = screen.height;
-        mainHeight = mainHeight*0.72;//Ace 右侧高度默认
+        mainHeight = mainHeight*0.79;//Ace 右侧高度默认
 
         //
         //创建新TAB的title
@@ -19,7 +19,7 @@ var addTabs = function (options) {
             title += ' <i class="icon-remove" tabclose="' + id + '"></i>';
         }
         title += '</a></li>';
-        //是否指定TAB内容
+        //是否指定TAB内容        
         if (options.content) {
             content = '<div role="tabpanel" class="tab-pane" id="' + id + '">' + options.content + '</div>';
         } else {//没有内容，使用IFRAME打开链接

@@ -33,21 +33,21 @@
  </head>
  <body style="overflow-x: hidden;">
  	<form id="formobj" action="productMainController.do?udpateAssignProd" name="formobj" method="post"> 			
-		<%-- 
-		<input id="id" name="id" type="hidden" value="${productEntityPage.id }"/>
-		--%>
+		
+		<input id="departid" name="departid" type="hidden" value="${departid}"/>
+		
 		<c:forEach items="${refList}" var="reflation">
 			<c:if test="${reflation.assignStatus==1}">
 				<%-- 
 				<span class="icon ${operation.TSIcon.iconClas}">&nbsp;</span>
 				--%>
-				<input style="width: 20px;" type="checkbox" name="checkedProdctAssign" value="${reflation.productPlanId}" checked="checked" />${reflation.company} | ${reflation.productPlan}
+				<input style="width: 20px;" type="checkbox" name="checkedProdctAssign" value="${reflation.id},${reflation.productPlanId}" checked="checked" />${reflation.company} | ${reflation.productPlan}
 			 </c:if>
 			<c:if test="${empty reflation.assignStatus}">
 				<%--
 				<span class="icon group_add">&nbsp;</span>
 				--%>
-				<input style="width: 20px;" type="checkbox" name="checkedProdctAssign" value="${reflation.productPlanId}" />${reflation.company} | ${reflation.productPlan}
+				<input style="width: 20px;" type="checkbox" name="checkedProdctAssign" value="${reflation.id},${reflation.productPlanId}" />${reflation.company} | ${reflation.productPlan}
 			 </c:if>
 			<br>
 		</c:forEach>

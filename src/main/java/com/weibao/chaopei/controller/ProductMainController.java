@@ -1,5 +1,6 @@
 package com.weibao.chaopei.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,7 +91,7 @@ public class ProductMainController extends BaseController {
 	
 	/**
 	 *跳转到分配产品的页面
-	 * 
+	 * @param departid 被点选的机构
 	 * @return
 	 */
 	@RequestMapping(params = "goAssignProd")
@@ -99,24 +100,17 @@ public class ProductMainController extends BaseController {
 		TSDepart depart = systemService.get(TSDepart.class, departid);
 		TSDepart parent = depart.getTSPDepart();
 		List<ProductAssignRef> refList = null;
+		//	如果点选的机构是一级机构
 		if(parent == null) {
 			//	查询所有产品			
 			refList = productDetailDao.getProductAssignRefByRoot(departid);			
-			//	查找当前
-			CriteriaQuery cq = new CriteriaQuery(DepartProductRefEntity.class);
-			cq.eq("departId", depart.getId());
-			cq.eq("assignStatus", "1");
-			cq.add();
-			List<DepartProductRefEntity> refLists = systemService.getListByCriteriaQuery(cq, false);
-			refLists = systemService.findByProperty(DepartProductRefEntity.class, "departId", depart.getId());
-			System.out.println("....");
 		}else {
+			//	如果点选的机构是以及以下的其他机构
 			refList = productDetailDao.getProductAssignRefBySubRoot(parent.getId(), departid);
-			System.out.println("....");
 		}
 		
-		System.out.println("...");
 		req.setAttribute("refList", refList);
+		req.setAttribute("departid", departid);//	被点选的机构再传到产品分配页面
 		return new ModelAndView("com/weibao/chaopei/product/departProduct-assign");
 	}
 	
@@ -128,11 +122,26 @@ public class ProductMainController extends BaseController {
 	 * @param dataGrid
 	 */
 	@RequestMapping(params = "udpateAssignProd")
-	public void udpateAssignProd(ProductAssignRef productAssignRef,HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("....");	
+	public ModelAndView udpateAssignProd(ProductAssignRef productAssignRef,HttpServletRequest request, HttpServletResponse response) {		
 		List<String> refs = productAssignRef.getCheckedProdctAssign();
-		//查询条件组装器
-		
+		List<DepartProductRefEntity> entityList = new ArrayList<DepartProductRefEntity>();
+		List<String> removeIds = new ArrayList<String>();
+		for (String ref : refs) {
+			String[] idProductPlan = ref.split(",");
+			DepartProductRefEntity entity = new DepartProductRefEntity();
+			String id = idProductPlan[0];
+			if(StringUtil.isNotEmpty(id)) {
+				entity.setId(id);
+				removeIds.add(id);
+			}
+			entity.setAssignStatus("1");
+			entity.setDepartId(productAssignRef.getDepartid());
+			entity.setProductDetailId(idProductPlan[1]);
+			entityList.add(entity);					
+		}
+		productService.udpateAssignProd(productAssignRef.getDepartid(), entityList, removeIds);
+		//	传进来的都是被选中的产品方案，	
+		return goAssignProd(productAssignRef.getDepartid(), request);
 	}
 	
 	/**
