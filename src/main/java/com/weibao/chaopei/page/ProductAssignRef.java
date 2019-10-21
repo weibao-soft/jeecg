@@ -7,13 +7,21 @@ public class ProductAssignRef implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -724566306691255205L;
+	private String id;
 	private java.lang.String productPlanId;
 	private java.lang.String productId;
 	private java.lang.String company;	
 	private java.lang.String productPlan;
 	private java.lang.String assignStatus;
-	private List<String> checkedProdctAssign;
-	
+	private String departid;
+	private List<String> checkedProdctAssign;	
+		
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public java.lang.String getProductPlanId() {
 		return productPlanId;
 	}
@@ -50,5 +58,11 @@ public class ProductAssignRef implements java.io.Serializable {
 	public void setCheckedProdctAssign(List<String> checkedProdctAssign) {
 		this.checkedProdctAssign = checkedProdctAssign;
 	}
-			
+	public String getDepartid() {
+		return departid;
+	}
+	public void setDepartid(String departid) {
+		this.departid = departid;
+	}
+	
 }
