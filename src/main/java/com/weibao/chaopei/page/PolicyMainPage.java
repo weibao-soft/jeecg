@@ -2,11 +2,13 @@ package com.weibao.chaopei.page;
 
 import java.io.Serializable;
 
+
 public class PolicyMainPage implements Serializable {
 	private static final long serialVersionUID = -724566306691255205L;
 	
 	private java.lang.String id;
 
+	private java.lang.String planId;
 	private java.lang.String plateNo;
 	private java.lang.String frameNo;
 	private java.lang.String engineNo;
@@ -33,12 +35,19 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String reciAddress;
 	private java.lang.String orgCode3;
 	private java.lang.String compName3;
+	private java.lang.String userId;
 	
 	public java.lang.String getId() {
 		return id;
 	}
 	public void setId(java.lang.String id) {
 		this.id = id;
+	}
+	public java.lang.String getPlanId() {
+		return planId;
+	}
+	public void setPlanId(java.lang.String planId) {
+		this.planId = planId;
 	}
 	public java.lang.String getPlateNo() {
 		return plateNo;
@@ -195,6 +204,12 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setCompName3(java.lang.String compName3) {
 		this.compName3 = compName3;
+	}
+	public java.lang.String getUserId() {
+		return userId;
+	}
+	public void setUserId(java.lang.String userId) {
+		this.userId = userId;
 	}
 	
 	

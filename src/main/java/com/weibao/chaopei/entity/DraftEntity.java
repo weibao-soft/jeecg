@@ -51,6 +51,10 @@ public class DraftEntity implements Serializable {
 	/**暂存时间*/
 	@Column(name ="save_time",nullable=true)
 	private java.util.Date saveTime;
+	
+	/**修改时间*/
+	@Column(name ="update_time",nullable=true)
+	private java.util.Date updateTime;
 
 	public java.lang.String getId() {
 		return id;
@@ -114,6 +118,14 @@ public class DraftEntity implements Serializable {
 
 	public void setSaveTime(java.util.Date saveTime) {
 		this.saveTime = saveTime;
+	}
+
+	public java.util.Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(java.util.Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
 }

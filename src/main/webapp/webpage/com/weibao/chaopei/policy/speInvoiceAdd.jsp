@@ -7,14 +7,14 @@
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
 <SCRIPT type="text/javascript">
 //var compName2 = parent.$("#compName2p").val();
-//alert(compName2);
+//layer.msg(compName2);
 
 function closeDialog() {
 }
 </SCRIPT>
 </head>
 <body>
-<t:formvalid formid="dialog_formobj" dialog="true" layout="table" tiptype="1" action="" beforeSubmit="" callback="closeDialog">
+<t:formvalid formid="dialog_formobj" dialog="true" layout="table" tiptype="1" action="" beforeSubmit="" callback="">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
 	<table cellpadding="0" cellspacing="1" class="formtable">
 		<tr>

@@ -14,7 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
  * 草稿关联保单关系表
  */
 @Entity
-@Table(name = "wb_insurance_policy", schema = "")
+@Table(name = "wb_draft_relation", schema = "")
 public class DraftRelationEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

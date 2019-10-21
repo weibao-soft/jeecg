@@ -1,6 +1,9 @@
 package com.weibao.chaopei.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +12,7 @@ import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,10 @@ import com.weibao.chaopei.service.PolicyServiceI;
 @RequestMapping("/policyMainController")
 public class PolicyMainController extends BaseController {
 	private static final Logger logger = Logger.getLogger(PolicyMainController.class);
+	
+	private static final String ISO8859 = "ISO8859-1";
+	
+	private static final String UTF8 = "UTF-8";
 	
 	@Autowired
 	private PolicyServiceI  policyService;
@@ -47,6 +55,25 @@ public class PolicyMainController extends BaseController {
 	 */
 	@RequestMapping(params = "add")
 	public ModelAndView add(HttpServletRequest request) {
+        SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar canlendar = Calendar.getInstance();
+		canlendar.add(Calendar.DATE, 1);
+		Date startDate = canlendar.getTime();
+		
+		canlendar.add(Calendar.YEAR, 1);
+		canlendar.add(Calendar.DATE, -1);
+		Date endDate = canlendar.getTime();
+		
+		canlendar.add(Calendar.YEAR, -1);
+		canlendar.add(Calendar.DATE, 365);
+		Date maxDate = canlendar.getTime();
+
+        String start = sdfd.format(startDate);
+        String end = sdfd.format(endDate);
+        String max = sdfd.format(maxDate);
+		request.setAttribute("start", start);
+		request.setAttribute("end", end);
+		request.setAttribute("max", max);
 		return new ModelAndView("com/weibao/chaopei/policy/policyMainAdd");
 	}
 	
@@ -58,22 +85,8 @@ public class PolicyMainController extends BaseController {
 	@RequestMapping(params = "goAdd")
 	public ModelAndView goAdd(PolicyMainPage policyMainPage, HttpServletRequest req) {
 		try {
-			req.setCharacterEncoding("utf-8");
-			String compName2 = policyMainPage.getCompName2();
-			String compAddress = policyMainPage.getCompAddress();
-			String depositBank = policyMainPage.getDepositBank();
-			String recipients = policyMainPage.getRecipients();
-			String reciAddress = policyMainPage.getReciAddress();
-			compName2 = new String(compName2.getBytes("ISO8859-1"), "utf-8");
-			compAddress = new String(compAddress.getBytes("ISO8859-1"), "utf-8");
-			depositBank = new String(depositBank.getBytes("ISO8859-1"), "utf-8");
-			recipients = new String(recipients.getBytes("ISO8859-1"), "utf-8");
-			reciAddress = new String(reciAddress.getBytes("ISO8859-1"), "utf-8");
-			policyMainPage.setCompName2(compName2);
-			policyMainPage.setCompAddress(compAddress);
-			policyMainPage.setDepositBank(depositBank);
-			policyMainPage.setRecipients(recipients);
-			policyMainPage.setReciAddress(reciAddress);
+			req.setCharacterEncoding(UTF8);
+			setCharacterEncoding(policyMainPage);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage());
 		}
@@ -82,6 +95,32 @@ public class PolicyMainController extends BaseController {
 		}
 		req.setAttribute("policyMainPage", policyMainPage);
 		return new ModelAndView("com/weibao/chaopei/policy/speInvoiceAdd");
+	}
+	
+	/**
+	 * 从页面上传来的中文参数，由"ISO8859-1"编码转换为"UTF-8"
+	 * @param policyMainPage
+	 */
+	private void setCharacterEncoding(PolicyMainPage policyMainPage) {
+		try {
+			String compName2 = policyMainPage.getCompName2();
+			String compAddress = policyMainPage.getCompAddress();
+			String depositBank = policyMainPage.getDepositBank();
+			String recipients = policyMainPage.getRecipients();
+			String reciAddress = policyMainPage.getReciAddress();
+			compName2 = (compName2 != null) ? new String(compName2.getBytes(ISO8859), UTF8) : compName2;
+			compAddress = (compAddress != null) ? new String(compAddress.getBytes(ISO8859), UTF8) : compAddress;
+			depositBank = (depositBank != null) ? new String(depositBank.getBytes(ISO8859), UTF8) : depositBank;
+			recipients = (recipients != null) ? new String(recipients.getBytes(ISO8859), UTF8) : recipients;
+			reciAddress = (reciAddress != null) ? new String(reciAddress.getBytes(ISO8859), UTF8) : reciAddress;
+			policyMainPage.setCompName2(compName2);
+			policyMainPage.setCompAddress(compAddress);
+			policyMainPage.setDepositBank(depositBank);
+			policyMainPage.setRecipients(recipients);
+			policyMainPage.setReciAddress(reciAddress);
+		} catch (UnsupportedEncodingException e) {
+			logger.error(e.getMessage());
+		}
 	}
 	
 	/**
@@ -96,15 +135,19 @@ public class PolicyMainController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String message = "添加成功";
 		try{
+			//String userId = request.getParameter("userId");
+			String userId = ResourceUtil.getSessionUser().getId();
+			policyMainPage.setUserId(userId);
 			policyService.addMain(policyMainPage);
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
-			logger.info(e.getMessage());
-			e.printStackTrace();
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
 			message = "保单主信息添加失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
+		j.setObj(policyMainPage);
 		return j;
 	}
 }
