@@ -28,7 +28,7 @@ public class HolderEntity implements Serializable {
 	@Column(name ="holder_nature",nullable=true,length=20)
 	private java.lang.String holderNature;
 	
-	/**组织机构代码*/
+	/**投保单位组织机构代码*/
 	@Column(name ="org_code",nullable=true,length=40)
 	private java.lang.String orgCode;
 	

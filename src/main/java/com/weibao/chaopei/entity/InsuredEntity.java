@@ -24,11 +24,11 @@ public class InsuredEntity implements Serializable {
 	@Column(name ="id",nullable=false,length=32)
 	private java.lang.String id;
 	
-	/**组织机构代码*/
+	/**被投保单位组织机构代码*/
 	@Column(name ="org_code",nullable=true,length=20)
 	private java.lang.String orgCode;
 	
-	/**投保单位名称*/
+	/**被投保单位名称*/
 	@Column(name ="comp_name",nullable=true,length=100)
 	private java.lang.String compName;
 
