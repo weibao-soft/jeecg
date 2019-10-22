@@ -10,6 +10,9 @@
 *{font-size:14px;}
 </style>
 <SCRIPT type="text/javascript">
+$(document).ready(function(){
+});
+
 //提交表单数据
 function submitData() {
 	if(!validData()) {
@@ -43,6 +46,10 @@ function insurance() {
  <legend>国任投保</legend>
  <table cellpadding="0" cellspacing="1" class="formtable" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
+	<input id="id" name="id" type="hidden" value="${policyMainPage.holderId }"/>
+	<input id="id" name="id" type="hidden" value="${policyMainPage.insuredId }"/>
+	<input id="id" name="id" type="hidden" value="${policyMainPage.recipientsId }"/>
+	<input id="id" name="id" type="hidden" value="${policyMainPage.draftId }"/>
  
  <tr><td style="width:10%"></td><td style="width:90%">
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
