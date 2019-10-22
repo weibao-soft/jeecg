@@ -3,6 +3,11 @@ package com.weibao.chaopei.page;
 import java.io.Serializable;
 
 
+/**
+ * 保单Form Bean
+ * @author dms
+ *
+ */
 public class PolicyMainPage implements Serializable {
 	private static final long serialVersionUID = -724566306691255205L;
 	//保单id
