@@ -5,36 +5,70 @@ import java.io.Serializable;
 
 public class PolicyMainPage implements Serializable {
 	private static final long serialVersionUID = -724566306691255205L;
-	
+	//保单id
 	private java.lang.String id;
-
+	//保障方案id
 	private java.lang.String planId;
+	//车牌号
 	private java.lang.String plateNo;
+	//车架号
 	private java.lang.String frameNo;
+	//发动机号
 	private java.lang.String engineNo;
+	//保险开始日期
 	private java.util.Date startDate;
+	//保险结束日期
 	private java.util.Date endDate;
+	//保单状态
 	private java.lang.String status;
+	//投保联系人
 	private java.lang.String contactName;
+	//保单接收手机
 	private java.lang.String policyMobile;
+	//发票类型
 	private java.lang.String invoiceType;
+	//投保人性质
 	private java.lang.String holderNature;
+	//投保单位组织机构代码
 	private java.lang.String orgCode;
+	//投保单位名称
 	private java.lang.String compName;
+	//投保单位性质
 	private java.lang.String compNature;
+	//行业类别
 	private java.lang.String industryType;
+	//纳税人识别号
 	private java.lang.String taxpayerNo;
+	//普票接收人手机
 	private java.lang.String receiverMobile;
+	//专票公司名称
 	private java.lang.String compName2;
+	//专票公司地址
 	private java.lang.String compAddress;
+	//专票公司电话
 	private java.lang.String compPhone;
+	//开户行
 	private java.lang.String depositBank;
+	//银行账号
 	private java.lang.String bankAccount;
+	//专票收件人
 	private java.lang.String recipients;
+	//专票收件人电话
 	private java.lang.String recipientsTel;
+	//专票收件地址
 	private java.lang.String reciAddress;
+	//被投保单位组织机构代码
 	private java.lang.String orgCode3;
+	//被投保单位名称
 	private java.lang.String compName3;
+	//投保人id
+	private java.lang.String holderId;
+	//被投保人id
+	private java.lang.String insuredId;
+	//收件人id
+	private java.lang.String recipientsId;
+	private java.lang.String draftId;
+	//用户id
 	private java.lang.String userId;
 	
 	public java.lang.String getId() {
@@ -204,6 +238,30 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setCompName3(java.lang.String compName3) {
 		this.compName3 = compName3;
+	}
+	public java.lang.String getHolderId() {
+		return holderId;
+	}
+	public void setHolderId(java.lang.String holderId) {
+		this.holderId = holderId;
+	}
+	public java.lang.String getInsuredId() {
+		return insuredId;
+	}
+	public void setInsuredId(java.lang.String insuredId) {
+		this.insuredId = insuredId;
+	}
+	public java.lang.String getRecipientsId() {
+		return recipientsId;
+	}
+	public void setRecipientsId(java.lang.String recipientsId) {
+		this.recipientsId = recipientsId;
+	}
+	public java.lang.String getDraftId() {
+		return draftId;
+	}
+	public void setDraftId(java.lang.String draftId) {
+		this.draftId = draftId;
 	}
 	public java.lang.String getUserId() {
 		return userId;
