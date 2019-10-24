@@ -6,10 +6,30 @@
 <title>新增保单</title>
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
+<script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
+<link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 <style type="text/css">
 *{font-size:14px;}
 </style>
 <SCRIPT type="text/javascript">
+$(document).ready(function(){
+	getHolders();
+	getInsureds();
+    
+	/*$("#planId").editableSelect({
+        bg_iframe: false,
+        case_sensitive: false,
+        items_then_scroll: 10,
+        isFilter:false,
+        onSelect: function(list_item) {
+            var sele_val =  $(this).val();
+            console.log("selected", sele_val);
+        }
+    });*/
+
+    window.setTimeout(editablePolicy, 300);
+});
+
 //提交表单数据
 function submitData() {
 	if(!validData()) {
@@ -48,7 +68,7 @@ function insurance() {
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
 	 <tr><td style="width:15%">方案保障</td>
 	 <td style="width:85%">
-			<select name="planId" id="planId" style="width:400px;">                                                                                                   
+		<select name="planId" id="planId" style="width:400px;">
 			<option value="1">保障：累计600万，每次限额200万 保费:1000元</option>
 			<option value="2">保障：累计600万，每次限额300万 保费:1300元</option>
 			<option value="3">保障：累计200万，每次限额200万 保费:900元</option>
@@ -57,8 +77,8 @@ function insurance() {
 			<option value="6">保障：累计600万，每次限额300万，计划B 保费:1500元</option>
 			<option value="7">保障：累计200万，每次限额200万,计划B 保费:1100元</option>
 			<option value="8">保障：累计300万，每次限额300万，计划B 保费:1400元</option>
-			</select>
-			<span class="Validform_checktip"></span></td></tr>
+		</select>
+		<span class="Validform_checktip"></span></td></tr>
 	 </table>
  </td></tr>
  
@@ -110,7 +130,9 @@ function insurance() {
 				</select><span class="Validform_checktip"></span></td>
 		 <td style="width:15%"></td><td style="width:35%"></td></tr>
 		 <tr><td><span style="color: red;">*</span>单位名称</td>
-		 <td><input type="text" name="compName" id="compName" style="width:200px;" value="${compName}" /></td>
+		 <td><select name="compName" id="compName" style="width:180px;" autocomplete="off">
+				<option value=""></option>
+				</select></td>
 		 <td><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码) </td>
 		 <td><input type="text" name="orgCode" id="orgCode" maxlength="18" style="width:200px;" /></td></tr>
 		 <tr><td><span style="color: red;">*</span>单位性质</td>
@@ -154,7 +176,9 @@ function insurance() {
 		 </tr>
 		 <tr>
 		 <td><span style="color: red;">*</span>单位名称 </td>
-		 <td><input type="text" name="compName3" id="compName3" style="width:200px;" /></td>
+		 <td><select name="compName3" id="compName3" style="width:180px;" autocomplete="off">
+				<option value=""></option>
+				</select></td>
 		 <td><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码)</td>
 		 <td><input type="text" name="orgCode3" id="orgCode3" maxlength="18" style="width:200px;" />
 		 <span class="Validform_checktip"></span></td>

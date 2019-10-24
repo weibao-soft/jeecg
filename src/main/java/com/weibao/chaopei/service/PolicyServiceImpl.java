@@ -3,13 +3,17 @@ package com.weibao.chaopei.service;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.weibao.chaopei.dao.PolicyMainDao;
 import com.weibao.chaopei.entity.DraftEntity;
 import com.weibao.chaopei.entity.DraftRelationEntity;
 import com.weibao.chaopei.entity.HolderEntity;
@@ -22,6 +26,91 @@ import com.weibao.chaopei.page.PolicyMainPage;
 @Transactional
 public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServiceI {
 	private static final Logger logger = Logger.getLogger(PolicyServiceImpl.class);
+	
+	@Autowired
+	private PolicyMainDao policyMainDao;
+	
+	/**
+	 *  查询保单信息
+	 */
+	public PolicyMainPage getPolicyMainPage(String draftId) {
+		PolicyMainPage policyMainPage = new PolicyMainPage();
+		Map<String, Object> obj = null;
+		try {
+			obj = policyMainDao.getPolicyMainPage(draftId);
+			String recipientsId = (String)obj.get("recipients_id");
+			ReceiverEntity receiver = policyMainDao.getReceivers(recipientsId);
+			setPolicyMainPage(obj, policyMainPage);
+			setRecipients(receiver, policyMainPage);
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return policyMainPage;
+	}
+	
+	/**
+	 * 复制收件人
+	 * @param receiver
+	 * @param policyMainPage
+	 */
+	private void setRecipients(ReceiverEntity receiver, PolicyMainPage policyMainPage) {
+		policyMainPage.setRecipients(receiver.getRecipients());
+		policyMainPage.setRecipientsTel(receiver.getRecipientsTel());
+		policyMainPage.setReciAddress(receiver.getReciAddress());
+	}
+	
+	/**
+	 * 从结果Map中取值放入保单PageBean中
+	 * @param obj
+	 * @param policyMainPage
+	 */
+	private void setPolicyMainPage(Map<String, Object> obj, PolicyMainPage policyMainPage) {
+		policyMainPage.setId((String)obj.get("id"));
+		policyMainPage.setPlanId((String)obj.get("plan_id"));
+		policyMainPage.setPlateNo((String)obj.get("plate_no"));
+		policyMainPage.setFrameNo((String)obj.get("frame_no"));
+		policyMainPage.setEngineNo((String)obj.get("engine_no"));
+		policyMainPage.setStartDate((Date)obj.get("start_date"));
+		policyMainPage.setEndDate((Date)obj.get("end_date"));
+		policyMainPage.setStatus((String)obj.get("status"));
+		policyMainPage.setContactName((String)obj.get("contact_name"));
+		policyMainPage.setPolicyMobile((String)obj.get("policy_mobile"));
+		policyMainPage.setInvoiceType((String)obj.get("invoice_type"));
+		policyMainPage.setHolderId((String)obj.get("holder_id"));
+		policyMainPage.setInsuredId((String)obj.get("insured_id"));
+		policyMainPage.setRecipientsId((String)obj.get("recipients_id"));
+		policyMainPage.setDraftId((String)obj.get("draft_id"));
+		policyMainPage.setUserId((String)obj.get("user_id"));
+		policyMainPage.setHolderNature((String)obj.get("holder_nature"));
+		policyMainPage.setOrgCode((String)obj.get("org_code"));
+		policyMainPage.setCompName((String)obj.get("comp_name"));
+		policyMainPage.setCompNature((String)obj.get("comp_nature"));
+		policyMainPage.setIndustryType((String)obj.get("industry_type"));
+		policyMainPage.setTaxpayerNo((String)obj.get("taxpayer_no"));
+		policyMainPage.setReceiverMobile((String)obj.get("receiver_mobile"));
+		policyMainPage.setCompName2((String)obj.get("comp_name2"));
+		policyMainPage.setCompAddress((String)obj.get("comp_address"));
+		policyMainPage.setCompPhone((String)obj.get("comp_phone"));
+		policyMainPage.setDepositBank((String)obj.get("deposit_bank"));
+		policyMainPage.setBankAccount((String)obj.get("bank_account"));
+		policyMainPage.setCompName3((String)obj.get("comp_name3"));
+		policyMainPage.setOrgCode3((String)obj.get("org_code3"));
+		policyMainPage.setTruckNums((Integer)obj.get("truck_nums"));
+	}
+	
+	/**
+	 *  查询投保人名称
+	 */
+	public List<String> getPolicyHolders() {
+		return policyMainDao.getPolicyHolders();
+	}
+	
+	/**
+	 *  查询被投保人名称
+	 */
+	public List<String> getPolicyInsureds() {
+		return policyMainDao.getPolicyInsureds();
+	}
 
 	/**
 	 * 保存保单、投保人、被投保人、收件人等信息
@@ -63,10 +152,10 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			receiverEntity.setId("0");
 		
 			/**保存-保单关联信息，投保人、被投保人、收件人*/
-			this.save(holderEntity);
-			this.save(insuredEntity);
+			this.saveOrUpdate(holderEntity);
+			this.saveOrUpdate(insuredEntity);
 			if("3".equals(invoiceType)) {
-				this.save(receiverEntity);
+				this.saveOrUpdate(receiverEntity);
 			}
 			//外键设置
 			policyEntity.setHolderId(holderEntity.getId());
@@ -87,6 +176,10 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			draftRelationEntity.setDraftId(draftEntity.getId());
 			this.save(draftRelationEntity);
 			policyMainPage.setId(policyEntity.getId());
+			policyMainPage.setHolderId(holderEntity.getId());
+			policyMainPage.setInsuredId(insuredEntity.getId());
+			policyMainPage.setRecipientsId(receiverEntity.getId());
+			policyMainPage.setDraftId(draftEntity.getId());
 		} catch (IllegalAccessException e) {
 			logger.error(e.getMessage(), e);
 		} catch (InvocationTargetException e) {

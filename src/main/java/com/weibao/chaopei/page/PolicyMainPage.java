@@ -66,12 +66,15 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String orgCode3;
 	//被投保单位名称
 	private java.lang.String compName3;
+	//投保车辆(台)
+	private java.lang.Integer truckNums;
 	//投保人id
 	private java.lang.String holderId;
 	//被投保人id
 	private java.lang.String insuredId;
 	//收件人id
 	private java.lang.String recipientsId;
+	//草稿id
 	private java.lang.String draftId;
 	//用户id
 	private java.lang.String userId;
@@ -243,6 +246,12 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setCompName3(java.lang.String compName3) {
 		this.compName3 = compName3;
+	}
+	public java.lang.Integer getTruckNums() {
+		return truckNums;
+	}
+	public void setTruckNums(java.lang.Integer truckNums) {
+		this.truckNums = truckNums;
 	}
 	public java.lang.String getHolderId() {
 		return holderId;

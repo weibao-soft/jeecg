@@ -29,10 +29,11 @@
    <t:dgCol title="单位名称"  field="compName"  queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="组织机构代码"  field="orgCode" queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="联系人姓名"  field="contactName" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="手机"  field="policyMobile" queryMode="single" width="120"></t:dgCol>   
+   <t:dgCol title="状态"  field="status" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="修改时间"  field="updateTime" queryMode="single" width="120"></t:dgCol>
    
    <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
-   <t:dgDelOpt title="删除" url="jformOrderMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
+   <t:dgDelOpt title="删除" url="policyMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
       
    <t:dgToolBar title="编辑" icon="icon-edit" url="policyMainController.do?goUpdate" funname="update" width="100%" height="100%"></t:dgToolBar>
    

@@ -3,7 +3,7 @@ $(document).ready(function(){
 　　　　　　var value=$(this).children('option:selected').val();
         if(value=='3') {
         	$("#invoiceTr").css("display", "none");
-        	add("开具增值税专用发票","policyMainController.do?goAdd");
+        	add("开具增值税专用发票","policyMainController.do?addSpe");
         } else if(value=='2') {
         	$("#invoiceTr").css("display", "table-row");
         } else if(value=='1') {
@@ -25,6 +25,88 @@ $(document).ready(function(){
 	    }
 	});
 });
+
+
+function editablePolicy() {
+	$("#compName").editableSelect({
+        bg_iframe: false,
+        case_sensitive: false,
+        items_then_scroll: 10,
+        isFilter:false,
+        onSelect: function(list_item) {
+            var sele_val =  $(this).val();
+            //if(console) console.log("selected", sele_val);
+        }
+    });
+	$("#compName3").editableSelect({
+        bg_iframe: false,
+        case_sensitive: false,
+        items_then_scroll: 10,
+        isFilter:false,
+        onSelect: function(list_item) {
+        }
+    });
+}
+
+function getHolders() {
+	//获取投保人单位名称下拉框的数据
+    $.ajax({
+        url: "policyMainController.do?getHolders",
+        type: "POST",
+        data: {},
+        dataType: "json",
+        error: function () {
+            layer.alert("服务器异常");
+        },
+        success: function (data) {
+            if(console) console.log(data);
+            if (data.code == 200) {
+                addHldOptions(data.value);
+                return false;
+            } else {
+                layer.alert(data.message);
+            }
+        }
+    });
+}
+function getInsureds() {
+	//获取投保人单位名称下拉框的数据
+    $.ajax({
+        url: "policyMainController.do?getInsureds",
+        type: "POST",
+        data: {},
+        dataType: "json",
+        error: function () {
+            layer.alert("服务器异常");
+        },
+        success: function (data) {
+            if(console) console.log(data);
+            if (data.code == 200) {
+            	addIurOptions(data.value);
+                return false;
+            } else {
+                layer.alert(data.message);
+            }
+        }
+    });
+}
+function addHldOptions(items) {
+    $.each(items,function(n,value) {
+        var htmlContent = $('<option value="'+value+'">'+value+'</option>');
+        $('#compName').append(htmlContent);
+        //$('#compName').editableSelect('add', function () {
+        //    $(this).val(value);
+        //    $(this).text(value);
+        //});
+    });
+}
+function addIurOptions(items) {
+    $.each(items,function(n,value) {
+        var htmlContent = $('<option value="'+value+'">'+value+'</option>');
+        $('#compName3').append(htmlContent);
+    });
+}
+
 
 function addPolicy() {
 	var trbody = "<tr name='policytr'>";
@@ -81,6 +163,7 @@ function isPositiveInteger(s){
     var re = /^[0-9]+$/ ;
     return re.test(s)
 }
+
 
 /**
  * 添加事件打开窗口
@@ -150,7 +233,7 @@ function setChildUrl() {
 	url = url + "&recipientsTel=" + param.recipientsTel;
 	url = url + "&reciAddress=" + param.reciAddress;
 	
-    if(window.console) window.console.log(url);
+    if(window.console) console.log(url);
     //layer.msg(url);
 	return url;
 }

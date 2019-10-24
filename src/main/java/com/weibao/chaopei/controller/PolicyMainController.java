@@ -2,18 +2,24 @@ package com.weibao.chaopei.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
+import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
+import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.weibao.chaopei.entity.DraftEntity;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.service.PolicyServiceI;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/policyMainController")
@@ -47,9 +57,19 @@ public class PolicyMainController extends BaseController {
 	public ModelAndView list(HttpServletRequest request) {
 		return new ModelAndView("com/weibao/chaopei/policy/policyMainList");
 	}
+	
+	/**
+	 * 我的保单信息列表 页面跳转
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "mainlist")
+	public ModelAndView mainlist(HttpServletRequest request) {
+		return new ModelAndView("com/weibao/chaopei/policy/policyMainListBase");
+	}
 
 	/**
-	 * 保单主信息列表 页面跳转
+	 * 保单主信息新增 页面跳转
 	 * 
 	 * @return
 	 */
@@ -78,12 +98,32 @@ public class PolicyMainController extends BaseController {
 	}
 	
 	/**
+	 * 保单主信息编辑页面跳转
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "goUpdate")
+	public ModelAndView goUpdate(PolicyMainPage policyMainPage, HttpServletRequest req) {
+		try {
+			String draftId = policyMainPage.getDraftId();
+			req.setCharacterEncoding(UTF8);
+			//setCharacterEncoding(policyMainPage);
+			draftId = "402880ea6de38825016de38d8424000c";
+			policyMainPage = policyService.getPolicyMainPage(draftId);
+		} catch (UnsupportedEncodingException e) {
+			logger.error(e.getMessage());
+		}
+		req.setAttribute("policyMainPage", policyMainPage);
+		return new ModelAndView("com/weibao/chaopei/policy/policyMainUpdate");
+	}
+	
+	/**
 	 * 专票信息新增页面跳转
 	 * 
 	 * @return
 	 */
-	@RequestMapping(params = "goAdd")
-	public ModelAndView goAdd(PolicyMainPage policyMainPage, HttpServletRequest req) {
+	@RequestMapping(params = "addSpe")
+	public ModelAndView addSpe(PolicyMainPage policyMainPage, HttpServletRequest req) {
 		try {
 			req.setCharacterEncoding(UTF8);
 			setCharacterEncoding(policyMainPage);
@@ -124,9 +164,32 @@ public class PolicyMainController extends BaseController {
 	}
 	
 	/**
+	 * easyui AJAX请求数据
+	 * 
+	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 * @param user
+	 */
+	@RequestMapping(params = "datagrid")
+	public void datagrid(DraftEntity draftEntity,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		CriteriaQuery cq = new CriteriaQuery(DraftEntity.class, dataGrid);
+		//查询条件组装器
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, draftEntity);
+		try{
+		//自定义追加查询条件
+		}catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		cq.add();
+		this.policyService.getDataGridReturn(cq, true);
+		TagUtil.datagrid(response, dataGrid);
+	}
+	
+	/**
 	 * 添加保单主信息
 	 * 
-	 * @param ids
+	 * @param policyMainPage
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -149,5 +212,57 @@ public class PolicyMainController extends BaseController {
 		j.setMsg(message);
 		j.setObj(policyMainPage);
 		return j;
+	}
+	
+	/**
+	 *  查询保单投保人
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "getHolders")
+	@ResponseBody
+	public JSONObject getHolders(HttpServletRequest request) {
+		JSONObject object = new JSONObject();
+		List<String> holders = new ArrayList<String>();
+		String message = "查询成功";
+		try{
+			holders = policyService.getPolicyHolders();
+			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(holders);
+			object.put("value", JSONArray.toJSONString(array));
+			object.put("code", 200);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			object.put("code", 201);
+			message = "保单投保人查询失败";
+			throw new BusinessException(e.getMessage());
+		}
+		object.put("message", message);
+		return object;
+	}
+	
+	/**
+	 *  查询保单被投保人
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "getInsureds")
+	@ResponseBody
+	public JSONObject getInsureds(HttpServletRequest request) {
+		JSONObject object = new JSONObject();
+		List<String> holders = new ArrayList<String>();
+		String message = "查询成功";
+		try{
+			holders = policyService.getPolicyInsureds();
+			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(holders);
+			object.put("value", JSONArray.toJSONString(array));
+			object.put("code", 200);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			object.put("code", 201);
+			message = "保单投保人查询失败";
+			throw new BusinessException(e.getMessage());
+		}
+		object.put("message", message);
+		return object;
 	}
 }
