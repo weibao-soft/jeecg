@@ -9,6 +9,8 @@ import org.jeecgframework.minidao.annotation.ResultType;
 import org.jeecgframework.minidao.annotation.Sql;
 import org.jeecgframework.minidao.pojo.MiniDaoPage;
 
+import com.weibao.chaopei.entity.HolderEntity;
+import com.weibao.chaopei.entity.InsuredEntity;
 import com.weibao.chaopei.entity.ReceiverEntity;
 
 @MiniDao
@@ -31,9 +33,36 @@ public interface PolicyMainDao {
 	 * @return
 	 */
 	@Arguments({"recipientsId"})
-	@Sql("select id,recipients,recipients_tel,reci_address from wb_invoice_receiver where id=:recipientsId")
+	@Sql("select id,recipients,recipients_tel,reci_address,user_id from wb_invoice_receiver where id=:recipientsId")
 	@ResultType(ReceiverEntity.class)
 	public ReceiverEntity getReceivers(String recipientsId);
+	
+	/**
+	 *  查询投保人id
+	 * @return
+	 */
+	@Arguments({"orgCode"})
+	@Sql("select id from wb_policy_holder where org_code=:orgCode")
+	@ResultType(String.class)
+	public String getHolderIdByCode(String orgCode);
+	
+	/**
+	 *  查询被投保人id
+	 * @return
+	 */
+	@Arguments({"orgCode"})
+	@Sql("select id from wb_insured_info where org_code=:orgCode")
+	@ResultType(String.class)
+	public String getInsuredIdByCode(String orgCode);
+	
+	/**
+	 *  查询收件人id
+	 * @return
+	 */
+	@Arguments({"recipientsTel"})
+	@Sql("select id from wb_invoice_receiver where recipients_tel=:recipientsTel")
+	@ResultType(String.class)
+	public String getReceiverIdByTel(String recipientsTel);
 	
 	/**
 	 *  查询投保人名称
@@ -60,4 +89,25 @@ public interface PolicyMainDao {
 	@Sql("select departname from t_s_depart where id in (select org_id from t_s_user_org where user_id =:userid)")
 	@ResultType(String.class)
 	public List<String> getUserDepartNames(String userid);
+	
+	/**
+	 * 保存投保人
+	 * @param holder
+	 */
+	@Arguments({"holder"})
+	public void saveHolderEntity(HolderEntity holder);
+	
+	/**
+	 * 保存被投保人
+	 * @param insured
+	 */
+	@Arguments({"insured"})
+	public void saveInsuredEntity(InsuredEntity insured);
+	
+	/**
+	 * 保存收件人
+	 * @param receiver
+	 */
+	@Arguments({"receiver"})
+	public void saveReceiverEntity(ReceiverEntity receiver);
 }

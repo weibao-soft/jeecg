@@ -51,7 +51,7 @@ $(document).ready(function (){
 	//再由父页面内触发另一个
 	$("#policyMainList").datagrid({		
 		onClickRow: function (index, row) {
-			getCustomerList(row.id);
+			//getCustomerList(row.id);
 		}
 	});
 	

@@ -57,11 +57,11 @@
 					<input name="jformOrderCustomerList[0].id" type="hidden"/>
 					<input name="jformOrderCustomerList[0].fkId" type="hidden"/>
 				  <td align="left">
-					       	<input name="jformOrderCustomerList[0].name" maxlength="100" type="text" class="inputxt"  style="width:120px;"  ignore="ignore"  >
+					       	<input name="jformOrderCustomerList[0].name" maxlength="100" type="text" class="inputxt"  style="width:120px;" datatype="*" ignore="checked"  >
 					  <label class="Validform_label" style="display: none;">客户名</label>
 					</td>
 				  <td align="left">
-					  	<input name="jformOrderCustomerList[0].money" maxlength="10" type="text" class="inputxt"  style="width:120px;"  datatype="d"  ignore="ignore" >
+					  	<input name="jformOrderCustomerList[0].money" maxlength="10" type="text" class="inputxt"  style="width:120px;"  datatype="d"  ignore="checked" >
 					  <label class="Validform_label" style="display: none;">单价</label>
 					</td>
 				  <td align="left">
@@ -87,11 +87,11 @@
 						<input name="jformOrderCustomerList[${stuts.index }].id" type="hidden" value="${poVal.id }"/>
 						<input name="jformOrderCustomerList[${stuts.index }].fkId" type="hidden" value="${poVal.fkId }"/>
 				   <td align="left">
-					       	<input name="jformOrderCustomerList[${stuts.index }].name" maxlength="100" type="text" class="inputxt"  style="width:120px;"  ignore="ignore"  value="${poVal.name }"/>
+					       	<input name="jformOrderCustomerList[${stuts.index }].name" maxlength="100" type="text" class="inputxt"  style="width:120px;" datatype="*" ignore="checked"  value="${poVal.name }"/>
 					  <label class="Validform_label" style="display: none;">客户名</label>
 				   </td>
 				   <td align="left">
-					  	<input name="jformOrderCustomerList[${stuts.index }].money" maxlength="10" type="text" class="inputxt"  style="width:120px;"  datatype="d"  ignore="ignore"  value="${poVal.money }"/>
+					  	<input name="jformOrderCustomerList[${stuts.index }].money" maxlength="10" type="text" class="inputxt"  style="width:120px;"  datatype="d"  ignore="checked"  value="${poVal.money }"/>
 					  <label class="Validform_label" style="display: none;">单价</label>
 				   </td>
 				   <td align="left">

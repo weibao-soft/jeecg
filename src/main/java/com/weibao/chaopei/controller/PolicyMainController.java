@@ -103,17 +103,26 @@ public class PolicyMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "goUpdate")
-	public ModelAndView goUpdate(PolicyMainPage policyMainPage, HttpServletRequest req) {
+	public ModelAndView goUpdate(PolicyMainPage policyMainPage, HttpServletRequest request) {
+        SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			String draftId = policyMainPage.getDraftId();
-			req.setCharacterEncoding(UTF8);
+			request.setCharacterEncoding(UTF8);
 			//setCharacterEncoding(policyMainPage);
 			draftId = "402880ea6de38825016de38d8424000c";
 			policyMainPage = policyService.getPolicyMainPage(draftId);
+			Date startDate = policyMainPage.getStartDate();
+			Date endDate = policyMainPage.getEndDate();
+	        String start = sdfd.format(startDate);
+	        String end = sdfd.format(endDate);
+	        String max = sdfd.format(endDate);
+			request.setAttribute("start", start);
+			request.setAttribute("end", end);
+			request.setAttribute("max", max);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage());
 		}
-		req.setAttribute("policyMainPage", policyMainPage);
+		request.setAttribute("policyMainPage", policyMainPage);
 		return new ModelAndView("com/weibao/chaopei/policy/policyMainUpdate");
 	}
 	
@@ -193,8 +202,7 @@ public class PolicyMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
-	@ResponseBody
-	public AjaxJson doAdd(PolicyMainPage policyMainPage, HttpServletRequest request) {
+	public ModelAndView doAdd(PolicyMainPage policyMainPage, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		String message = "添加成功";
 		try{
@@ -207,6 +215,32 @@ public class PolicyMainController extends BaseController {
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
 			message = "保单主信息添加失败";
+			throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
+		return new ModelAndView("com/weibao/chaopei/policy/policyMainList");
+	}
+	
+	/**
+	 * 修改保单主信息
+	 * 
+	 * @param policyMainPage
+	 * @return
+	 */
+	@RequestMapping(params = "doUpdate")
+	@ResponseBody
+	public AjaxJson doUpdate(PolicyMainPage policyMainPage, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "修改成功";
+		try{
+			String userId = ResourceUtil.getSessionUser().getId();
+			policyMainPage.setUserId(userId);
+			policyService.addMain(policyMainPage);
+			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单主信息修改失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);

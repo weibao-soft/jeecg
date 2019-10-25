@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.util.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -149,20 +150,29 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			holderEntity.setUpdateTime(currDate);
 			draftEntity.setSaveTime(currDate);
 			draftEntity.setUpdateTime(currDate);
-			receiverEntity.setId("0");
+			holderEntity.setId(UUIDGenerator.generate());
+			insuredEntity.setId(UUIDGenerator.generate());
+			String recipientsId = "0";
 		
 			/**保存-保单关联信息，投保人、被投保人、收件人*/
-			this.saveOrUpdate(holderEntity);
-			this.saveOrUpdate(insuredEntity);
+			//this.saveOrUpdate(holderEntity);
+			//this.saveOrUpdate(insuredEntity);
+			policyMainDao.saveHolderEntity(holderEntity);
+			policyMainDao.saveInsuredEntity(insuredEntity);
 			if("3".equals(invoiceType)) {
-				this.saveOrUpdate(receiverEntity);
+				receiverEntity.setId(UUIDGenerator.generate());
+				//this.saveOrUpdate(receiverEntity);
+				policyMainDao.saveReceiverEntity(receiverEntity);
+				recipientsId = policyMainDao.getReceiverIdByTel(receiverEntity.getRecipientsTel());
 			}
+			String holderId = policyMainDao.getHolderIdByCode(holderEntity.getOrgCode());
+			String insuredId = policyMainDao.getInsuredIdByCode(insuredEntity.getOrgCode());
 			//外键设置
-			policyEntity.setHolderId(holderEntity.getId());
-			policyEntity.setInsuredId(insuredEntity.getId());
-			policyEntity.setRecipientsId(receiverEntity.getId());
-			draftEntity.setHolderId(holderEntity.getId());
-			draftEntity.setRecipientsId(receiverEntity.getId());
+			policyEntity.setHolderId(holderId);
+			policyEntity.setInsuredId(insuredId);
+			policyEntity.setRecipientsId(recipientsId);
+			draftEntity.setHolderId(holderId);
+			draftEntity.setRecipientsId(recipientsId);
 			draftEntity.setUserId(policyMainPage.getUserId());
 			draftEntity.setTruckNums(1);
 			//draftEntity.setStatus("1");
@@ -176,9 +186,9 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			draftRelationEntity.setDraftId(draftEntity.getId());
 			this.save(draftRelationEntity);
 			policyMainPage.setId(policyEntity.getId());
-			policyMainPage.setHolderId(holderEntity.getId());
-			policyMainPage.setInsuredId(insuredEntity.getId());
-			policyMainPage.setRecipientsId(receiverEntity.getId());
+			policyMainPage.setHolderId(holderId);
+			policyMainPage.setInsuredId(insuredId);
+			policyMainPage.setRecipientsId(recipientsId);
 			policyMainPage.setDraftId(draftEntity.getId());
 		} catch (IllegalAccessException e) {
 			logger.error(e.getMessage(), e);

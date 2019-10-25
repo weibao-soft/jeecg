@@ -26,6 +26,29 @@ $(document).ready(function(){
 	});
 });
 
+var neibuClickFlag = false;
+function jeecgFormFileCallBack(data){
+	if (data.success == true) {
+	} else {
+		if (data.responseText == '' || data.responseText == undefined) {
+			$.messager.alert('错误', data.msg);
+			$.Hidemsg();
+		} else {
+			try {
+				var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'), data.responseText.indexOf('错误信息'));
+				$.messager.alert('错误', emsg);
+				$.Hidemsg();
+			} catch(ex) {
+				$.messager.alert('错误', data.responseText + '');
+			}
+		}
+		return false;
+	}
+	if (!neibuClickFlag) {
+		var win = frameElement.api.opener;
+		win.reloadTable();
+	}
+}
 
 function editablePolicy() {
 	$("#compName").editableSelect({
