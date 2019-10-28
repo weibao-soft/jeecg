@@ -1,6 +1,8 @@
 package com.weibao.chaopei.page;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -10,6 +12,9 @@ import java.io.Serializable;
  */
 public class PolicyMainPage implements Serializable {
 	private static final long serialVersionUID = -724566306691255205L;
+	
+	//车辆信息
+	private List<PolicyVehiclePage> vehicles = new ArrayList<PolicyVehiclePage>();
 	//保单id
 	private java.lang.String id;
 	//保障方案id
@@ -79,6 +84,12 @@ public class PolicyMainPage implements Serializable {
 	//用户id
 	private java.lang.String userId;
 	
+	public List<PolicyVehiclePage> getVehicles() {
+		return vehicles;
+	}
+	public void setVehicles(List<PolicyVehiclePage> vehicles) {
+		this.vehicles = vehicles;
+	}
 	public java.lang.String getId() {
 		return id;
 	}

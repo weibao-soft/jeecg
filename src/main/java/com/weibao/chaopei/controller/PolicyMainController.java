@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,8 +28,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSONArray;
 import com.weibao.chaopei.entity.DraftEntity;
+import com.weibao.chaopei.entity.HolderEntity;
+import com.weibao.chaopei.entity.InsuredEntity;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.service.PolicyServiceI;
 
@@ -249,7 +251,7 @@ public class PolicyMainController extends BaseController {
 	}
 	
 	/**
-	 *  查询保单投保人
+	 *  查询保单投保人列表
 	 * 
 	 * @return
 	 */
@@ -257,12 +259,13 @@ public class PolicyMainController extends BaseController {
 	@ResponseBody
 	public JSONObject getHolders(HttpServletRequest request) {
 		JSONObject object = new JSONObject();
-		List<String> holders = new ArrayList<String>();
+		List<Map<String, String>> holders = new ArrayList<Map<String, String>>();
 		String message = "查询成功";
 		try{
 			holders = policyService.getPolicyHolders();
 			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(holders);
-			object.put("value", JSONArray.toJSONString(array));
+			//String value = JSONArray.toJSONString(array);
+			object.put("value", array);
 			object.put("code", 200);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
@@ -275,7 +278,7 @@ public class PolicyMainController extends BaseController {
 	}
 	
 	/**
-	 *  查询保单被投保人
+	 *  查询保单被保人列表
 	 * 
 	 * @return
 	 */
@@ -283,12 +286,40 @@ public class PolicyMainController extends BaseController {
 	@ResponseBody
 	public JSONObject getInsureds(HttpServletRequest request) {
 		JSONObject object = new JSONObject();
-		List<String> holders = new ArrayList<String>();
+		List<InsuredEntity> holders = new ArrayList<InsuredEntity>();
 		String message = "查询成功";
 		try{
 			holders = policyService.getPolicyInsureds();
 			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(holders);
-			object.put("value", JSONArray.toJSONString(array));
+			//String value = JSONArray.toJSONString(array);
+			object.put("value", array);
+			object.put("code", 200);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			object.put("code", 201);
+			message = "保单投保人查询失败";
+			throw new BusinessException(e.getMessage());
+		}
+		object.put("message", message);
+		return object;
+	}
+	
+	/**
+	 *  查询保单投保人
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "getHolderById")
+	@ResponseBody
+	public JSONObject getHolderById(String id, HttpServletRequest request) {
+		JSONObject object = new JSONObject();
+		HolderEntity holders = null;
+		String message = "查询成功";
+		try{
+			holders = policyService.getHolderById(id);
+			JSONObject obj = JSONObject.fromObject(holders);
+			//String value = obj.toString();
+			object.put("value", obj);
 			object.put("code", 200);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);

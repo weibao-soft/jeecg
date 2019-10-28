@@ -15,6 +15,7 @@
 $(document).ready(function(){
 	getHolders();
 	getInsureds();
+	//getHolderById("4028dc816e05c0a9016e05c0a9c30000");
     
 	/*$("#planId").editableSelect({
         bg_iframe: false,
@@ -27,7 +28,7 @@ $(document).ready(function(){
         }
     });*/
 
-    window.setTimeout(editablePolicy, 300);
+    window.setTimeout(editablePolicy, 500);
 });
 
 //提交表单数据
@@ -91,16 +92,41 @@ function insurance() {
 		 <td style="width:85%">
 			<table name="policy_tabel" id="policy_tabel">
 			<tbody>
-				<tr>
+		<c:if test="${fn:length(vehicles) <= 0 }">
+				<tr name='policytr'>
+				<input name="vehicles[0].id" type="hidden"/>
 				<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
-				<td><input type="text" name="plateNo" maxlength="8" value="未上牌"></td>
+				<td><input type="text" name="vehicles[0].plateNo" maxlength="8" value="未上牌"></td>
 				<td><span style="color: red;">*</span>车架号 </td>
-				<td><input type="text" name="frameNo" maxlength="17"></td>
+				<td><input type="text" name="vehicles[0].frameNo" maxlength="17"></td>
 				<td><span style="color: red;">*</span>发动机号 </td>
-				<td><input type="text" name="engineNo"></td>
+				<td><input type="text" name="vehicles[0].engineNo"></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 				style="height:30px;width:100px !important;border-radius:5px"/></td>
 				</tr>
+		</c:if>
+		<c:if test="${fn:length(vehicles) > 0 }">
+			<c:forEach items="${vehicles}" var="poVal" varStatus="stat">
+				<tr name='policytr'>
+				<td align="center"><div style="width: 25px;">${stat.index+1 }</div></td>
+				<input name="vehicles[${stat.index }].id" type="hidden" value="${poVal.id }"/>
+				<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
+				<td><input type="text" name="vehicles[${stat.index }].plateNo" maxlength="8" value="未上牌"></td>
+				<td><span style="color: red;">*</span>车架号 </td>
+				<td><input type="text" name="vehicles[${stat.index }].frameNo" maxlength="17" value="${poVal.frameNo}"></td>
+				<td><span style="color: red;">*</span>发动机号 </td>
+				<td><input type="text" name="vehicles[${stat.index }].engineNo" value="${poVal.engineNo}"></td>
+			<c:if test="${stat.index == 0 }">
+				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
+				style="height:30px;width:100px !important;border-radius:5px"/></td>
+			</c:if>
+			<c:if test="${stat.index > 0 }">
+				<td><input class="btn" type="button" value="删除" onclick="removePolicy(this);" 
+				style="height:30px;width:100px !important;border-radius:5px"/></td>
+			</c:if>
+	   			</tr>
+			</c:forEach>
+		</c:if>	
 			</tbody>
 			</table>
 			<span class="Validform_checktip"></span>

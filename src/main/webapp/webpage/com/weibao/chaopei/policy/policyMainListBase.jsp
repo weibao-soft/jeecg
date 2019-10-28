@@ -33,9 +33,10 @@
    <t:dgCol title="修改时间"  field="updateTime" queryMode="single" width="120"></t:dgCol>
    
    <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
+   <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
    <t:dgDelOpt title="删除" url="policyMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
       
-   <t:dgToolBar title="编辑" icon="icon-edit" url="policyMainController.do?goUpdate" funname="update" width="100%" height="100%"></t:dgToolBar>
+   <t:dgToolBar title="编辑" icon="icon-edit" url="" funname="addTab(id)" width="100%" height="100%"></t:dgToolBar>
    
   </t:datagrid>
   </div>
@@ -60,7 +61,7 @@ function getCustomerList(id){
 	parent.getCustomerList(id);
 }
 function addTab(ids) {	
-	addTabs({id:ids,title:'首页',close: true,url: 'loginController.do?hplushome'});	
+	addTabs({id:ids,title:'保单修改',close: true,url: 'policyMainController.do?goUpdate'});	
 }
 
  </script>

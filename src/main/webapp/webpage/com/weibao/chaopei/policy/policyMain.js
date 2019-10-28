@@ -57,8 +57,9 @@ function editablePolicy() {
         items_then_scroll: 10,
         isFilter:false,
         onSelect: function(list_item) {
-            var sele_val =  $(this).val();
-            //if(console) console.log("selected", sele_val);
+            var holderId=$(list_item[0]).attr("data-id");
+            //$("#orgCode").val(holderId);
+        	getHolderById(holderId);
         }
     });
 	$("#compName3").editableSelect({
@@ -67,6 +68,9 @@ function editablePolicy() {
         items_then_scroll: 10,
         isFilter:false,
         onSelect: function(list_item) {
+            console.log(list_item[0].getAttribute("data-code"));
+            var orgCode=$(list_item[0]).attr("data-code");
+            $("#orgCode3").val(orgCode);
         }
     });
 }
@@ -115,30 +119,63 @@ function getInsureds() {
 }
 function addHldOptions(items) {
     $.each(items,function(n,value) {
-        var htmlContent = $('<option value="'+value+'">'+value+'</option>');
+        var htmlContent = $('<option data-id="'+value.id+'" value="'+value.comp_name+'">'+value.comp_name+'</option>');
         $('#compName').append(htmlContent);
-        //$('#compName').editableSelect('add', function () {
-        //    $(this).val(value);
-        //    $(this).text(value);
-        //});
     });
 }
 function addIurOptions(items) {
     $.each(items,function(n,value) {
-        var htmlContent = $('<option value="'+value+'">'+value+'</option>');
+        var htmlContent = $('<option data-code="'+value.orgCode+'" value="'+value.compName+'">'+value.compName+'</option>');
         $('#compName3').append(htmlContent);
     });
 }
+function getHolderById(holderId) {
+	//根据id获取投保人，带出组织机构代码、单位性质、行业类别等
+    $.ajax({
+        url: "policyMainController.do?getHolderById",
+        type: "POST",
+        data: {id: holderId},
+        dataType: "json",
+        error: function () {
+            layer.alert("服务器异常");
+        },
+        success: function (data) {
+            if(console) console.log(data);
+            if (data.code == 200) {
+            	addHolder(data.value);
+                return false;
+            } else {
+                layer.alert(data.message);
+            }
+        }
+    });
+}
+function addHolder(item) {
+    $('#orgCode').val(item.orgCode);
+    $('#compNature').val(item.compNature);
+    $('#industryType').val(item.industryType);
+    $('#taxpayerNo2').val(item.taxpayerNo);
+    $('#receiverMobile').val(item.receiverMobile);
+    $('#taxpayerNop').val(item.taxpayerNo);
+    $('#compName2p').val(item.compName2);
+    $('#compAddressp').val(item.compAddress);
+    $('#compPhonep').val(item.compPhone);
+    $('#depositBankp').val(item.depositBank);
+    $('#bankAccountp').val(item.bankAccount);
+
+}
 
 
+var index = 0;
 function addPolicy() {
+	index++;
 	var trbody = "<tr name='policytr'>";
 	trbody += "<td><div style='text-align:right;width:140px;'>车牌号：<BR/>（新车填写：未上牌）</div></td>";
-	trbody += "<td><input type='text' name='plateNo' maxlength='8' value='未上牌'></td>";
+	trbody += "<td><input type='text' name='vehicles["+index+"].plateNo' maxlength='8' value='未上牌'></td>";
 	trbody += "<td><span style='color: red;'>*</span>车架号 </td>";
-	trbody += "<td><input type='text' name='frameNo'></td>";
+	trbody += "<td><input type='text' name='vehicles["+index+"].frameNo'></td>";
 	trbody += "<td><span style='color: red;'>*</span>发动机号 </td>";
-	trbody += "<td><input type='text' name='engineNo'></td>";
+	trbody += "<td><input type='text' name='vehicles["+index+"].engineNo'></td>";
 	trbody += "<td><input class='btn' type='button' value='删除' onclick='removePolicy(this);'";
 	trbody += " style='height:30px;width:100px !important;border-radius:5px'/></td>";
 	trbody += "</tr>";
@@ -147,6 +184,7 @@ function addPolicy() {
 }
 
 function removePolicy(obj) {
+	index--;
 	$(obj).parents("tr[name='policytr']").remove();
 }
 

@@ -26,7 +26,7 @@ public interface PolicyMainDao {
 	 */
 	@Arguments({"draftId"})
 	@ResultType(Map.class)
-	public Map<String, Object> getPolicyMainPage(String draftId);
+	public List<Map<String, Object>> getPolicyMainPage(String draftId);
 	
 	/**
 	 *  查询收件人信息
@@ -65,20 +65,30 @@ public interface PolicyMainDao {
 	public String getReceiverIdByTel(String recipientsTel);
 	
 	/**
+	 *  根据id查询投保人信息
+	 * @return
+	 */
+	@Arguments({"id"})
+	@Sql("select id,holder_nature,org_code,comp_name,comp_nature,industry_type,taxpayer_no,receiver_mobile,"
+			+ "comp_name2,comp_address,comp_phone,deposit_bank,bank_account,update_time from wb_policy_holder where id=:id")
+	@ResultType(HolderEntity.class)
+	public HolderEntity getHolderById(String id);
+	
+	/**
 	 *  查询投保人名称
 	 * @return
 	 */
-	@Sql("select comp_name from wb_policy_holder order by comp_name")
-	@ResultType(String.class)
-	public List<String> getPolicyHolders();
+	@Sql("select id,comp_name from wb_policy_holder order by comp_name")
+	@ResultType(Map.class)
+	public List<Map<String, String>> getPolicyHolders();
 	
 	/**
 	 *  查询被投保人名称
 	 * @return
 	 */
-	@Sql("select comp_name from wb_insured_info order by comp_name")
-	@ResultType(String.class)
-	public List<String> getPolicyInsureds();
+	@Sql("select id,comp_name,org_code from wb_insured_info order by comp_name")
+	@ResultType(InsuredEntity.class)
+	public List<InsuredEntity> getPolicyInsureds();
 	
 	/**
 	 * 查询用户所属的部门名称

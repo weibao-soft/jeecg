@@ -1,4 +1,4 @@
-	INSERT INTO wb_policy_holder(id, recipients, recipients_tel, reci_address, user_id)
+	INSERT INTO wb_invoice_receiver(id, recipients, recipients_tel, reci_address, user_id)
 	VALUES
 	(:receiver.id, :receiver.recipients, :receiver.recipientsTel, :receiver.reciAddress, :receiver.userId
 	)
