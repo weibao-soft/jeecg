@@ -30,7 +30,7 @@ public class PolicyEntity implements Serializable {
 	private java.lang.String prodId;
 	
 	/**保障方案id*/
-	@Column(name ="plan_id",nullable=true,length=32)
+	@Column(name ="plan_id",nullable=false,length=32)
 	private java.lang.String planId;
 	
 	/**车牌号*/
@@ -140,6 +140,14 @@ public class PolicyEntity implements Serializable {
 	/**用户id*/
 	@Column(name ="user_id",nullable=true,length=32)
 	private java.lang.String userId;
+	
+	/**支付状态*/
+	@Column(name ="pay_status",nullable=true,length=1)
+	private java.lang.String payStatus;
+	
+	/**支付时间*/
+	@Column(name ="pay_time",nullable=true)
+	private java.util.Date payTime;
 	
 	/**创建时间*/
 	@Column(name ="create_time",nullable=true)
@@ -387,6 +395,22 @@ public class PolicyEntity implements Serializable {
 
 	public void setUserId(java.lang.String userId) {
 		this.userId = userId;
+	}
+
+	public java.lang.String getPayStatus() {
+		return payStatus;
+	}
+
+	public void setPayStatus(java.lang.String payStatus) {
+		this.payStatus = payStatus;
+	}
+
+	public java.util.Date getPayTime() {
+		return payTime;
+	}
+
+	public void setPayTime(java.util.Date payTime) {
+		this.payTime = payTime;
 	}
 
 	public java.util.Date getCreateTime() {
