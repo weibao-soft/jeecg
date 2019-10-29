@@ -26,11 +26,11 @@
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
+   <t:dgCol title="方案保障"  field="planId" queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="单位名称"  field="compName"  queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="组织机构代码"  field="orgCode" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="联系人姓名"  field="contactName" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="状态"  field="status" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="修改时间"  field="updateTime" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="收件人"  field="recipients" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="投保车辆(台)"  field="truckNums" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="保存时间"  field="saveTime" queryMode="single" width="120"></t:dgCol>
    
    <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
    <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
@@ -61,7 +61,7 @@ function getCustomerList(id){
 	parent.getCustomerList(id);
 }
 function addTab(ids) {	
-	addTabs({id:ids,title:'保单修改',close: true,url: 'policyMainController.do?goUpdate'});	
+	addTabs({id:ids,title:'保单修改',close: true,url: 'policyMainController.do?goUpdate&draftId='+ids});	
 }
 
  </script>

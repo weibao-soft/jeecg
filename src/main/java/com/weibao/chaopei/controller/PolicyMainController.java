@@ -105,22 +105,29 @@ public class PolicyMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "goUpdate")
-	public ModelAndView goUpdate(PolicyMainPage policyMainPage, HttpServletRequest request) {
+	public ModelAndView goUpdate(String draftId, HttpServletRequest request) {
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
+        PolicyMainPage policyMainPage = null;
 		try {
-			String draftId = policyMainPage.getDraftId();
 			request.setCharacterEncoding(UTF8);
 			//setCharacterEncoding(policyMainPage);
-			draftId = "402880ea6de38825016de38d8424000c";
 			policyMainPage = policyService.getPolicyMainPage(draftId);
+			Calendar canlendar = Calendar.getInstance();
 			Date startDate = policyMainPage.getStartDate();
 			Date endDate = policyMainPage.getEndDate();
+			canlendar.setTime(startDate);
+			int startYear = canlendar.get(Calendar.YEAR);
+			canlendar.setTime(endDate);
+			int endYear = canlendar.get(Calendar.YEAR);
+			int year = endYear - startYear;
+			
 	        String start = sdfd.format(startDate);
 	        String end = sdfd.format(endDate);
 	        String max = sdfd.format(endDate);
 			request.setAttribute("start", start);
 			request.setAttribute("end", end);
 			request.setAttribute("max", max);
+			request.setAttribute("year", year);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage());
 		}

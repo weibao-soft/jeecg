@@ -419,18 +419,33 @@ function validData() {
 			return false;
 		}
 	}
+	var holderNature = $("#holderNature").val();
 	var holderCompName = $("#holderCompName").val();
 	var holderOrgCode = $("#holderOrgCode").val();
+	var holderCompNature = $("#holderCompNature").val();
+	var industryType = $("#industryType").val();
 	var contactName = $("#contactName").val();
 	var policyMobile = $("#policyMobile").val();
 	var insuredCompName = $("#insuredCompName").val();
 	var insuredOrgCode = $("#insuredOrgCode").val();
+	if(holderNature == null || holderNature == "") {
+		$.messager.alert('提示','投保人性质不能为空!','info');
+		return false;
+	}
 	if(holderCompName == null || holderCompName == "") {
 		$.messager.alert('提示','“投保人”单位名称不能为空!','info');
 		return false;
 	}
 	if(holderOrgCode == null || holderOrgCode == "") {
 		$.messager.alert('提示','“投保人”组织机构代码不能为空!','info');
+		return false;
+	}
+	if(holderCompNature == null || holderCompNature == "") {
+		$.messager.alert('提示','单位性质不能为空!','info');
+		return false;
+	}
+	if(industryType == null || industryType == "") {
+		$.messager.alert('提示','行业类别不能为空!','info');
 		return false;
 	}
 	if(contactName == null || contactName == "") {

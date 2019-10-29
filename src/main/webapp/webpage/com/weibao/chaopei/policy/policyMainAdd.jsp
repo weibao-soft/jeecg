@@ -28,6 +28,9 @@ $(document).ready(function(){
     });*/
 
     window.setTimeout(editablePolicy, 500);
+    $("#holderCompNature").css("width", "200px");
+    $("#industryType").css("width", "200px");
+    $("#holderNature").css("width", "200px");
 });
 
 //提交表单数据
@@ -91,7 +94,7 @@ function insurance() {
 		 <td style="width:85%">
 			<table name="policy_tabel" id="policy_tabel">
 			<tbody>
-			<c:if test="${fn:length(vehicles) <= 0 }">
+			<c:if test="${fn:length(policyMainPage.vehicles) <= 0 }">
 				<tr name='policytr'>
 				<input name="vehicles[0].id" type="hidden"/>
 				<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
@@ -104,8 +107,8 @@ function insurance() {
 				style="height:30px;width:100px !important;border-radius:5px"/></td>
 				</tr>
 			</c:if>
-			<c:if test="${fn:length(vehicles) > 0 }">
-				<c:forEach items="${vehicles}" var="poVal" varStatus="stat">
+			<c:if test="${fn:length(policyMainPage.vehicles) > 0 }">
+				<c:forEach items="${policyMainPage.vehicles}" var="poVal" varStatus="stat">
 					<tr name='policytr'>
 					<input name="vehicles[${stat.index }].id" type="hidden" value="${poVal.id }"/>
 					<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
@@ -149,9 +152,9 @@ function insurance() {
 		 <tr><td style="width:15%"><label class="Validform_label"> 投保人： </label></td>
 		 <td style="width:35%"></td><td style="width:15%"></td><td style="width:35%"></td></tr>
 		 <tr><td style="width:15%">投保人性质</td>
-		 <td style="width:35%"><select name="holderNature" id="holderNature" style="width:200px;">
-				<option value="1">团体投保</option>
-				</select><span class="Validform_checktip"></span></td>
+		 <td style="width:35%"><t:dictSelect field="holderNature" id="holderNature" type="list" divClass="dict_select" title=""
+						typeGroupCode="holdNature" defaultVal="1" hasLabel="false" ></t:dictSelect>
+						<span class="Validform_checktip"></span></td>
 		 <td style="width:15%"></td><td style="width:35%"></td></tr>
 		 <tr><td><span style="color: red;">*</span>单位名称</td>
 		 <td><select name="holderCompName" id="holderCompName" style="width:180px;" autocomplete="off">
@@ -160,19 +163,11 @@ function insurance() {
 		 <td><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码) </td>
 		 <td><input type="text" name="holderOrgCode" id="holderOrgCode" maxlength="18" style="width:200px;" /></td></tr>
 		 <tr><td><span style="color: red;">*</span>单位性质</td>
-		 <td><select name="holderCompNature" id="holderCompNature" style="width:200px;">
-				<option value="1">企业</option>
-				<option value="2">政府机关</option>
-				<option value="3">事业机关</option>
-				<option value="4">其他</option>
-				</select></td>
+		 <td><t:dictSelect field="holderCompNature" id="holderCompNature" type="list" divClass="dict_select" title=""
+						typeGroupCode="compNature" defaultVal="1" hasLabel="false" ></t:dictSelect></td>
 		 <td><span style="color: red;">*</span>行业类别</td>
-		 <td><select name="industryType" id="industryType" style="width:200px;">
-				<option value="1">交通运输设备制造业</option>
-				<option value="2">邮政业</option>
-				<option value="3">国家机构</option>
-				<option value="4">其他</option>
-				</select></td></tr>
+		 <td><t:dictSelect field="industryType" id="industryType" type="list" divClass="dict_select" title=""
+						typeGroupCode="industType" defaultVal="1" hasLabel="false" ></t:dictSelect></td></tr>
 		 <tr><td><span style="color: red;">*</span>联系人姓名</td>
 		 <td><input type="text" name="contactName" id="contactName" style="width:200px;" /></td>
 		 <td><span style="color: red;">*</span>手机</td>

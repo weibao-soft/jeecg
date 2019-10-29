@@ -64,6 +64,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			vehicle.setEngineNo((String)obj.get("engine_no"));
 			vehicles.add(vehicle);
 		}
+		policyMainPage.setVehicles(vehicles);
 		
 	}
 	
@@ -75,9 +76,6 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	private void setPolicyMainPage(Map<String, Object> obj, PolicyMainPage policyMainPage) {
 		//复制保单详情
 		policyMainPage.setPlanId((String)obj.get("plan_id"));
-		policyMainPage.setPlateNo((String)obj.get("plate_no"));
-		policyMainPage.setFrameNo((String)obj.get("frame_no"));
-		policyMainPage.setEngineNo((String)obj.get("engine_no"));
 		policyMainPage.setStartDate((Date)obj.get("start_date"));
 		policyMainPage.setEndDate((Date)obj.get("end_date"));
 		policyMainPage.setStatus((String)obj.get("status"));
@@ -106,8 +104,8 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setTruckNums((Integer)obj.get("truck_nums"));
 		//复制收件人
 		policyMainPage.setRecipients((String)obj.get("recipients"));
-		policyMainPage.setRecipientsTel((String)obj.get("recipientsTel"));
-		policyMainPage.setReciAddress((String)obj.get("reciAddress"));
+		policyMainPage.setRecipientsTel((String)obj.get("recipients_tel"));
+		policyMainPage.setReciAddress((String)obj.get("reci_address"));
 	}
 	
 	/**

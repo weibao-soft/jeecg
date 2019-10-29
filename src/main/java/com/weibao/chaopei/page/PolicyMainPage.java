@@ -19,12 +19,6 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String id;
 	//保障方案id
 	private java.lang.String planId;
-	//车牌号
-	private java.lang.String plateNo;
-	//车架号
-	private java.lang.String frameNo;
-	//发动机号
-	private java.lang.String engineNo;
 	//保险开始日期
 	private java.util.Date startDate;
 	//保险结束日期
@@ -95,24 +89,6 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setPlanId(java.lang.String planId) {
 		this.planId = planId;
-	}
-	public java.lang.String getPlateNo() {
-		return plateNo;
-	}
-	public void setPlateNo(java.lang.String plateNo) {
-		this.plateNo = plateNo;
-	}
-	public java.lang.String getFrameNo() {
-		return frameNo;
-	}
-	public void setFrameNo(java.lang.String frameNo) {
-		this.frameNo = frameNo;
-	}
-	public java.lang.String getEngineNo() {
-		return engineNo;
-	}
-	public void setEngineNo(java.lang.String engineNo) {
-		this.engineNo = engineNo;
 	}
 	public java.util.Date getStartDate() {
 		return startDate;
