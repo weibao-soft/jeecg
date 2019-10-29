@@ -151,31 +151,33 @@ function getHolderById(holderId) {
     });
 }
 function addHolder(item) {
-    $('#holderOrgCode').val(item.holderOrgCode);
-    $('#holderCompNature').val(item.holderCompNature);
-    $('#industryType').val(item.industryType);
-    $('#taxpayerNo2').val(item.taxpayerNo);
-    $('#receiverMobile').val(item.receiverMobile);
-    $('#taxpayerNop').val(item.taxpayerNo);
-    $('#compNamep').val(item.compName);
-    $('#compAddressp').val(item.compAddress);
-    $('#compPhonep').val(item.compPhone);
-    $('#depositBankp').val(item.depositBank);
-    $('#bankAccountp').val(item.bankAccount);
+	document.getElementById("holderOrgCode").value = item.holderOrgCode;
+	document.getElementById("holderCompNature").value = item.holderCompNature;
+	document.getElementById("industryType").value = item.industryType;
+	document.getElementById("taxpayerNo2").value = item.taxpayerNo;
+	document.getElementById("receiverMobile").value = item.receiverMobile;
+	document.getElementById("taxpayerNop").value = item.taxpayerNo;
+	document.getElementById("compNamep").value = item.compName;
+	document.getElementById("compAddressp").value = item.compAddress;
+	document.getElementById("compPhonep").value = item.compPhone;
+	document.getElementById("depositBankp").value = item.depositBank;
+	document.getElementById("bankAccountp").value = item.bankAccount;
 
 }
 
 
-var index = 0;
+var index1 = 0;
 function addPolicy() {
-	index++;
+	index1++;
+	var index = document.getElementById("policy_tabel").rows.length;
+	layer.msg(index);
 	var trbody = "<tr name='policytr'>";
 	trbody += "<td><div style='text-align:right;width:140px;'>车牌号：<BR/>（新车填写：未上牌）</div></td>";
-	trbody += "<td><input type='text' name='vehicles["+index+"].plateNo' maxlength='8' value='未上牌'></td>";
+	trbody += "<td><input type='text' name='vehicles["+index+"].plateNo' class='policy' title='plateNo' maxlength='8' value='未上牌'></td>";
 	trbody += "<td><span style='color: red;'>*</span>车架号 </td>";
-	trbody += "<td><input type='text' name='vehicles["+index+"].frameNo'></td>";
+	trbody += "<td><input type='text' name='vehicles["+index+"].frameNo' class='policy' title='frameNo' maxlength='17'></td>";
 	trbody += "<td><span style='color: red;'>*</span>发动机号 </td>";
-	trbody += "<td><input type='text' name='vehicles["+index+"].engineNo'></td>";
+	trbody += "<td><input type='text' name='vehicles["+index+"].engineNo' class='policy' title='engineNo'></td>";
 	trbody += "<td><input class='btn' type='button' value='删除' onclick='removePolicy(this);'";
 	trbody += " style='height:30px;width:100px !important;border-radius:5px'/></td>";
 	trbody += "</tr>";
@@ -184,7 +186,7 @@ function addPolicy() {
 }
 
 function removePolicy(obj) {
-	index--;
+	index1--;
 	$(obj).parents("tr[name='policytr']").remove();
 }
 
@@ -206,16 +208,16 @@ function calculateYear() {
 }
 
 function calculateMonths(obj) {
-	var year = $(obj).val();
+	var year = obj.value;
 	var months = Number(year * 12);
 	if(!isPositiveInteger(year)) {
-		$(obj).val(1);
+		obj.value = 1;
 		months = 12;
 		layer.msg("请输入正整数！", {icon:6});
 	}
 	
 	//layer.msg(isRealNum(year));
-	$("#month").text(months);
+	document.getElementById("month").innerText = months;
 	calculateYear();
 }
 
@@ -403,31 +405,36 @@ function validParam(param, iframe) {
 }
 //校验主页面上的数据
 function validData() {
-	var frameNos = $("[name=frameNo]");
-	var engineNos = $("[name=engineNo]");
+	var message = "";
+	var frameNos = $(".policy[title='frameNo']");
+	var engineNos = $(".policy[title='engineNo']");
+	//var frameNos = document.getElementsByName("vehicles[*].frameNo");
+	//var engineNos = document.getElementsByName("vehicles[*].engineNo");
 	for(var i = 0; i < frameNos.length; i++) {
-	    //if(window.console) console.log($(frameNos[i]).val());
+	    //if(window.console) console.log($(frameNos[i]).parent().html());
 		if($(frameNos[i]).val() == null || $(frameNos[i]).val() == "") {
-			$.messager.alert('提示','车架号不能为空!','info');
+			message = "第" + (i + 1) + "行，车架号不能为空!";
+			$.messager.alert('提示',message,'info');
 			return false;
 		}
 	}
 	for(var i = 0; i < engineNos.length; i++) {
 	    //if(window.console) console.log($(engineNos[i]).val());
 		if($(engineNos[i]).val() == null || $(engineNos[i]).val() == "") {
-			$.messager.alert('提示','发动机号不能为空!','info');
+			message = "第" + (i + 1) + "行，发动机号不能为空!";
+			$.messager.alert('提示',message,'info');
 			return false;
 		}
 	}
-	var holderNature = $("#holderNature").val();
-	var holderCompName = $("#holderCompName").val();
-	var holderOrgCode = $("#holderOrgCode").val();
-	var holderCompNature = $("#holderCompNature").val();
-	var industryType = $("#industryType").val();
-	var contactName = $("#contactName").val();
-	var policyMobile = $("#policyMobile").val();
-	var insuredCompName = $("#insuredCompName").val();
-	var insuredOrgCode = $("#insuredOrgCode").val();
+	var holderNature = document.getElementById("holderNature").value;
+	var holderCompName = document.getElementById("holderCompName").value;
+	var holderOrgCode = document.getElementById("holderOrgCode").value;
+	var holderCompNature = document.getElementById("holderCompNature").value;
+	var industryType = document.getElementById("industryType").value;
+	var contactName = document.getElementById("contactName").value;
+	var policyMobile = document.getElementById("policyMobile").value;
+	var insuredCompName = document.getElementById("insuredCompName").value;
+	var insuredOrgCode = document.getElementById("insuredOrgCode").value;
 	if(holderNature == null || holderNature == "") {
 		$.messager.alert('提示','投保人性质不能为空!','info');
 		return false;

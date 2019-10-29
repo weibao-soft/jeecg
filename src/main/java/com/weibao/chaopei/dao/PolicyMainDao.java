@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.jeecgframework.minidao.annotation.Arguments;
 import org.jeecgframework.minidao.annotation.MiniDao;
+import org.jeecgframework.minidao.annotation.Param;
 import org.jeecgframework.minidao.annotation.ResultType;
 import org.jeecgframework.minidao.annotation.Sql;
 import org.jeecgframework.minidao.pojo.MiniDaoPage;
@@ -120,4 +121,11 @@ public interface PolicyMainDao {
 	 */
 	@Arguments({"receiver"})
 	public void saveReceiverEntity(ReceiverEntity receiver);
+	
+	/**
+	 * 根据id删除不在列表里的保单
+	 * @param draftId
+	 * @param ids
+	 */
+	public int deletePolicys(@Param("draftId") String draftId, @Param("ids") String[] ids);
 }

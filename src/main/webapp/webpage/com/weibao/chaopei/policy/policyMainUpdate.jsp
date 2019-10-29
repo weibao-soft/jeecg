@@ -25,6 +25,7 @@ $(document).ready(function(){
 function customFunc() {
 	editablePolicy();
 	$("#holderCompName").val("${policyMainPage.holderCompName}");
+	$("#invoiceType").val("${policyMainPage.invoiceType}");
 }
 //提交表单数据
 function submitData() {
@@ -59,7 +60,7 @@ function insurance() {
  <legend>国任投保</legend>
  <table cellpadding="0" cellspacing="1" class="formtable" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
-	<input id="id" name="id" type="hidden" value="${policyMainPage.draftId }"/>
+	<input id="draftId" name="draftId" type="hidden" value="${policyMainPage.draftId }"/>
  
  <tr><td style="width:10%"></td><td style="width:90%">
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
@@ -92,11 +93,11 @@ function insurance() {
 				<tr name='policytr'>
 				<input name="vehicles[0].id" type="hidden"/>
 				<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
-				<td><input type="text" name="vehicles[0].plateNo" maxlength="8" value="未上牌"></td>
+				<td><input type="text" name="vehicles[0].plateNo" class="policy" title="plateNo" maxlength="8" value="未上牌"></td>
 				<td><span style="color: red;">*</span>车架号 </td>
-				<td><input type="text" name="vehicles[0].frameNo" maxlength="17"></td>
+				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17"></td>
 				<td><span style="color: red;">*</span>发动机号 </td>
-				<td><input type="text" name="vehicles[0].engineNo"></td>
+				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo"></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 				style="height:30px;width:100px !important;border-radius:5px"/></td>
 				</tr>
@@ -106,11 +107,11 @@ function insurance() {
 					<tr name='policytr'>
 					<input name="vehicles[${stat.index }].id" type="hidden" value="${poVal.id }"/>
 					<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
-					<td><input type="text" name="vehicles[${stat.index }].plateNo" maxlength="8" value="${poVal.plateNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].plateNo" class="policy" title="plateNo" maxlength="8" value="${poVal.plateNo}"></td>
 					<td><span style="color: red;">*</span>车架号 </td>
-					<td><input type="text" name="vehicles[${stat.index }].frameNo" maxlength="17" value="${poVal.frameNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" value="${poVal.frameNo}"></td>
 					<td><span style="color: red;">*</span>发动机号 </td>
-					<td><input type="text" name="vehicles[${stat.index }].engineNo" value="${poVal.engineNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" value="${poVal.engineNo}"></td>
 				<c:if test="${stat.index == 0 }">
 					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 					style="height:30px;width:100px !important;border-radius:5px"/></td>
@@ -167,7 +168,7 @@ function insurance() {
 		 <td><span style="color: red;">*</span>手机</td>
 		 <td><input type="text" name="policyMobile" id="policyMobile" maxlength="11" style="width:200px;" value="${policyMainPage.policyMobile}"/></td></tr>
 		 <tr><td style="color: red">发票类型</td><td>
-		 <select name="invoiceType" id="invoiceType" style="width:200px;" value="${policyMainPage.invoiceType}">
+		 <select name="invoiceType" id="invoiceType" style="width:200px;">
 				<option value="1">不开发票</option>
 				<option value="2">增值税普通发票</option>
 				<option value="3">增值税专用发票</option>
@@ -210,6 +211,7 @@ function insurance() {
 </fieldset>
 
 <input id="status" name="status" type="hidden" value="${policyMainPage.status}"/>
+<input id="userId" name="userId" type="hidden" value="${policyMainPage.userId}" />
 <input id="endDate" name="endDate" type="hidden" value="${end}" />
 <input id="invoiceObj" name="invoiceObj" type="hidden" />
 <input id="compNamep" name="compName" type="hidden" value="${policyMainPage.compName}"/>

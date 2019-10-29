@@ -29,6 +29,12 @@ public interface PolicyServiceI extends CommonService {
 	 */
 	public List<InsuredEntity> getPolicyInsureds();
 	/**
+	 * 根据id删除不在列表里的保单
+	 * @param draftId
+	 * @param ids
+	 */
+	public int deletePolicys(String draftId, String[] ids);
+	/**
 	 * 新增保存保单、投保人、被保人、收件人等信息
 	 */
 	public PolicyMainPage addMain(PolicyMainPage policyMainPage);

@@ -242,9 +242,9 @@ public class PolicyMainController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String message = "修改成功";
 		try{
-			String userId = ResourceUtil.getSessionUser().getId();
-			policyMainPage.setUserId(userId);
-			policyService.addMain(policyMainPage);
+			//String userId = ResourceUtil.getSessionUser().getId();
+			//policyMainPage.setUserId(userId);
+			policyService.updateMain(policyMainPage);
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);

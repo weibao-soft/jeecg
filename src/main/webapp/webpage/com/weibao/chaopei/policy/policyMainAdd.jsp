@@ -98,11 +98,11 @@ function insurance() {
 				<tr name='policytr'>
 				<input name="vehicles[0].id" type="hidden"/>
 				<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
-				<td><input type="text" name="vehicles[0].plateNo" maxlength="8" value="未上牌"></td>
+				<td><input type="text" name="vehicles[0].plateNo" class="policy" title="plateNo" maxlength="8" value="未上牌"></td>
 				<td><span style="color: red;">*</span>车架号 </td>
-				<td><input type="text" name="vehicles[0].frameNo" maxlength="17"></td>
+				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17"></td>
 				<td><span style="color: red;">*</span>发动机号 </td>
-				<td><input type="text" name="vehicles[0].engineNo"></td>
+				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo"></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 				style="height:30px;width:100px !important;border-radius:5px"/></td>
 				</tr>
@@ -112,11 +112,11 @@ function insurance() {
 					<tr name='policytr'>
 					<input name="vehicles[${stat.index }].id" type="hidden" value="${poVal.id }"/>
 					<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
-					<td><input type="text" name="vehicles[${stat.index }].plateNo" maxlength="8" value="${poVal.plateNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].plateNo" class="policy" title="plateNo" maxlength="8" value="${poVal.plateNo}"></td>
 					<td><span style="color: red;">*</span>车架号 </td>
-					<td><input type="text" name="vehicles[${stat.index }].frameNo" maxlength="17" value="${poVal.frameNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" value="${poVal.frameNo}"></td>
 					<td><span style="color: red;">*</span>发动机号 </td>
-					<td><input type="text" name="vehicles[${stat.index }].engineNo" value="${poVal.engineNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" value="${poVal.engineNo}"></td>
 				<c:if test="${stat.index == 0 }">
 					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 					style="height:30px;width:100px !important;border-radius:5px"/></td>

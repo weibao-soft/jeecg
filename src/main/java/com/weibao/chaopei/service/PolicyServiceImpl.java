@@ -130,6 +130,15 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	public List<InsuredEntity> getPolicyInsureds() {
 		return policyMainDao.getPolicyInsureds();
 	}
+	
+	/**
+	 * 根据id删除不在列表里的保单
+	 * @param draftId
+	 * @param ids
+	 */
+	public int deletePolicys(String draftId, String[] ids) {
+		return policyMainDao.deletePolicys(draftId, ids);
+	}
 
 	/**
 	 * 新增保存保单、投保人、被投保人、收件人等信息
@@ -226,7 +235,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		HolderEntity holderEntity = new HolderEntity(); 
 		ReceiverEntity receiverEntity = new ReceiverEntity();
 		DraftEntity draftEntity = new DraftEntity();
-		//DraftRelationEntity draftRelationEntity = new DraftRelationEntity();
+		DraftRelationEntity draftRelationEntity = null;
 		PolicyEntity policyEntity = null;
 		List<PolicyVehiclePage> vehicles = null;
 		String invoiceType = "1";
@@ -264,7 +273,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			draftEntity.setUserId(policyMainPage.getUserId());
 			draftEntity.setId(policyMainPage.getDraftId());
 			//draftEntity.setStatus("1");
-			this.save(draftEntity);
+			this.saveOrUpdate(draftEntity);
 
 			for(int i = 0; i < vehicles.size(); i++) {
 				PolicyVehiclePage vehicle = vehicles.get(i);
@@ -272,13 +281,21 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 
 				BeanUtils.copyProperties(policyEntity, policyMainPage);
 				BeanUtils.copyProperties(policyEntity, vehicle);
-				
-				policyEntity.setCreateTime(currDate);
+				//修改时间
 				policyEntity.setLastUpdateTime(currDate);
 				policyEntity.setId(vehicle.getId());
 				//policyEntity.setStatus("1");
 				//保存保单主要信息
-				this.save(policyEntity);
+				this.saveOrUpdate(policyEntity);
+				
+				if(vehicle.getId() == null) {
+					draftRelationEntity = new DraftRelationEntity();
+					//保存草稿和保单的关系
+					draftRelationEntity.setPolicyId(policyEntity.getId());
+					draftRelationEntity.setDraftId(draftEntity.getId());
+					this.save(draftRelationEntity);
+					vehicle.setId(policyEntity.getId());
+				}
 			}
 		} catch (IllegalAccessException e) {
 			logger.error(e.getMessage(), e);
