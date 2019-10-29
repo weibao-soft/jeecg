@@ -1,6 +1,6 @@
-	INSERT INTO wb_insured_info(id, org_code, comp_name)
+	INSERT INTO wb_insured_info(id, insured_org_code, insured_comp_name)
 	VALUES
-	(:insured.id, :insured.orgCode, :insured.compName
+	(:insured.id, :insured.insuredOrgCode, :insured.insuredCompName
 	)
 	ON DUPLICATE KEY UPDATE
-	comp_name = VALUES(comp_name)
+	insured_comp_name = VALUES(insured_comp_name)

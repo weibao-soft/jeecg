@@ -25,12 +25,12 @@ public class InsuredEntity implements Serializable {
 	private java.lang.String id;
 	
 	/**被投保单位组织机构代码*/
-	@Column(name ="org_code",nullable=true,length=20)
-	private java.lang.String orgCode;
+	@Column(name ="insured_org_code",nullable=true,length=24)
+	private java.lang.String insuredOrgCode;
 	
 	/**被投保单位名称*/
-	@Column(name ="comp_name",nullable=true,length=100)
-	private java.lang.String compName;
+	@Column(name ="insured_comp_name",nullable=true,length=100)
+	private java.lang.String insuredCompName;
 
 	public java.lang.String getId() {
 		return id;
@@ -40,20 +40,20 @@ public class InsuredEntity implements Serializable {
 		this.id = id;
 	}
 
-	public java.lang.String getOrgCode() {
-		return orgCode;
+	public java.lang.String getInsuredOrgCode() {
+		return insuredOrgCode;
 	}
 
-	public void setOrgCode(java.lang.String orgCode) {
-		this.orgCode = orgCode;
+	public void setInsuredOrgCode(java.lang.String insuredOrgCode) {
+		this.insuredOrgCode = insuredOrgCode;
 	}
 
-	public java.lang.String getCompName() {
-		return compName;
+	public java.lang.String getInsuredCompName() {
+		return insuredCompName;
 	}
 
-	public void setCompName(java.lang.String compName) {
-		this.compName = compName;
+	public void setInsuredCompName(java.lang.String insuredCompName) {
+		this.insuredCompName = insuredCompName;
 	}
 
 }

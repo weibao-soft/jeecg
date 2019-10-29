@@ -22,7 +22,7 @@ function closeDialog() {
 				<label class="Validform_label">公司名称:</label>
 			</td>
 			<td class="value">
-		     	<input id="compName2" name="compName2" type="text" style="width: 150px" class="inputxt" datatype="*" ignore="checked" value="${policyMainPage.compName2 }" />
+		     	<input id="compName" name="compName" type="text" style="width: 150px" class="inputxt" datatype="*" ignore="checked" value="${policyMainPage.compName }" />
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">公司名称</label>
 			</td>

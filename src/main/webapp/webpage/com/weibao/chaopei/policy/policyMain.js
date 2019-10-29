@@ -14,14 +14,14 @@ $(document).ready(function(){
 	    var value=$(this).is(':checked');
 	    //layer.msg($(this).attr("checked"));
 	    //console.log(value);
-    	var compName = $("#compName").val();
-    	var orgCode = $("#orgCode").val();
+    	var holderCompName = $("#holderCompName").val();
+    	var holderOrgCode = $("#holderOrgCode").val();
 	    if(value) {
-	    	$("#compName3").val(compName);
-	    	$("#orgCode3").val(orgCode);
+	    	$("#insuredCompName").val(holderCompName);
+	    	$("#insuredOrgCode").val(holderOrgCode);
 	    } else {
-	    	$("#compName3").val("");
-	    	$("#orgCode3").val("");
+	    	$("#insuredCompName").val("");
+	    	$("#insuredOrgCode").val("");
 	    }
 	});
 });
@@ -51,28 +51,28 @@ function jeecgFormFileCallBack(data){
 }
 
 function editablePolicy() {
-	$("#compName").editableSelect({
+	$("#holderCompName").editableSelect({
         bg_iframe: false,
         case_sensitive: false,
         items_then_scroll: 10,
         isFilter:false,
         onSelect: function(list_item) {
             var holderId=$(list_item[0]).attr("data-id");
-            //$("#orgCode").val(holderId);
+            //$("#holderOrgCode").val(holderId);
         	getHolderById(holderId);
         }
     });
-	$("#compName3").editableSelect({
+	/*$("#insuredCompName").editableSelect({
         bg_iframe: false,
         case_sensitive: false,
         items_then_scroll: 10,
         isFilter:false,
         onSelect: function(list_item) {
             console.log(list_item[0].getAttribute("data-code"));
-            var orgCode=$(list_item[0]).attr("data-code");
-            $("#orgCode3").val(orgCode);
+            var insuredOrgCode=$(list_item[0]).attr("data-code");
+            $("#insuredOrgCode").val(insuredOrgCode);
         }
-    });
+    });*/
 }
 
 function getHolders() {
@@ -119,14 +119,14 @@ function getInsureds() {
 }
 function addHldOptions(items) {
     $.each(items,function(n,value) {
-        var htmlContent = $('<option data-id="'+value.id+'" value="'+value.comp_name+'">'+value.comp_name+'</option>');
-        $('#compName').append(htmlContent);
+        var htmlContent = $('<option data-id="'+value.id+'" value="'+value.holder_comp_name+'">'+value.holder_comp_name+'</option>');
+        $('#holderCompName').append(htmlContent);
     });
 }
 function addIurOptions(items) {
     $.each(items,function(n,value) {
-        var htmlContent = $('<option data-code="'+value.orgCode+'" value="'+value.compName+'">'+value.compName+'</option>');
-        $('#compName3').append(htmlContent);
+        var htmlContent = $('<option data-code="'+value.insuredOrgCode+'" value="'+value.insuredCompName+'">'+value.insuredCompName+'</option>');
+        $('#insuredCompName').append(htmlContent);
     });
 }
 function getHolderById(holderId) {
@@ -151,13 +151,13 @@ function getHolderById(holderId) {
     });
 }
 function addHolder(item) {
-    $('#orgCode').val(item.orgCode);
-    $('#compNature').val(item.compNature);
+    $('#holderOrgCode').val(item.holderOrgCode);
+    $('#holderCompNature').val(item.holderCompNature);
     $('#industryType').val(item.industryType);
     $('#taxpayerNo2').val(item.taxpayerNo);
     $('#receiverMobile').val(item.receiverMobile);
     $('#taxpayerNop').val(item.taxpayerNo);
-    $('#compName2p').val(item.compName2);
+    $('#compNamep').val(item.compName);
     $('#compAddressp').val(item.compAddress);
     $('#compPhonep').val(item.compPhone);
     $('#depositBankp').val(item.depositBank);
@@ -284,7 +284,7 @@ function createwindowN(title,addurl,width,height) {
 function setChildUrl() {
 	var param = getParentParam();
 	var url = "";
-	url = url + "&compName2=" + param.compName2;
+	url = url + "&compName=" + param.compName;
 	url = url + "&taxpayerNo=" + param.taxpayerNo;
 	url = url + "&compAddress=" + param.compAddress;
 	url = url + "&compPhone=" + param.compPhone;
@@ -302,7 +302,7 @@ function setChildUrl() {
 function setChildData(iframe) {
 	var param = getParentParam();
     
-	$("#compName2", iframe.document).val(param.compName2);
+	$("#compName", iframe.document).val(param.compName);
 	$("#taxpayerNo", iframe.document).val(param.taxpayerNo);
 	$("#compAddress", iframe.document).val(param.compAddress);
 	$("#compPhone", iframe.document).val(param.compPhone);
@@ -314,7 +314,7 @@ function setChildData(iframe) {
 }
 function getParentParam() {
 	var param = {};
-	param.compName2 = $("#compName2p").val();
+	param.compName = $("#compNamep").val();
 	param.taxpayerNo = $("#taxpayerNop").val();
 	param.compAddress = $("#compAddressp").val();
 	param.compPhone = $("#compPhonep").val();
@@ -329,7 +329,7 @@ function getParentParam() {
 //把专票子页面上的数据写到父页面
 function setParentData(iframe) {
 	var param = {};
-	param.compName2 = $("#compName2", iframe.document).val();
+	param.compName = $("#compName", iframe.document).val();
 	param.taxpayerNo = $("#taxpayerNo", iframe.document).val();
 	param.compAddress = $("#compAddress", iframe.document).val();
 	param.compPhone = $("#compPhone", iframe.document).val();
@@ -349,7 +349,7 @@ function parseData(info) {
     //layer.msg(info);
     if (info) {
         info = JSON.parse(info);
-        $("#compName2p").val(info.compName2);
+        $("#compNamep").val(info.compName);
         $("#taxpayerNop").val(info.taxpayerNo);
         $("#compAddressp").val(info.compAddress);
         $("#compPhonep").val(info.compPhone);
@@ -363,7 +363,7 @@ function parseData(info) {
 
 //校验开具专用发票页面上的数据
 function validParam(param, iframe) {
-	if(param.compName2 == null || param.compName2 == "") {
+	if(param.compName == null || param.compName == "") {
 		iframe.$.messager.alert('提示','请填写公司名称!','info');
 		return false;
 	}
@@ -419,17 +419,17 @@ function validData() {
 			return false;
 		}
 	}
-	var compName = $("#compName").val();
-	var orgCode = $("#orgCode").val();
+	var holderCompName = $("#holderCompName").val();
+	var holderOrgCode = $("#holderOrgCode").val();
 	var contactName = $("#contactName").val();
 	var policyMobile = $("#policyMobile").val();
-	var compName3 = $("#compName3").val();
-	var orgCode3 = $("#orgCode3").val();
-	if(compName == null || compName == "") {
+	var insuredCompName = $("#insuredCompName").val();
+	var insuredOrgCode = $("#insuredOrgCode").val();
+	if(holderCompName == null || holderCompName == "") {
 		$.messager.alert('提示','“投保人”单位名称不能为空!','info');
 		return false;
 	}
-	if(orgCode == null || orgCode == "") {
+	if(holderOrgCode == null || holderOrgCode == "") {
 		$.messager.alert('提示','“投保人”组织机构代码不能为空!','info');
 		return false;
 	}
@@ -441,11 +441,11 @@ function validData() {
 		$.messager.alert('提示','手机不能为空!','info');
 		return false;
 	}
-	if(compName3 == null || compName3 == "") {
+	if(insuredCompName == null || insuredCompName == "") {
 		$.messager.alert('提示','“被投保人”单位名称不能为空!','info');
 		return false;
 	}
-	if(orgCode3 == null || orgCode3 == "") {
+	if(insuredOrgCode == null || insuredOrgCode == "") {
 		$.messager.alert('提示','“被投保人”组织机构代码不能为空!','info');
 		return false;
 	}

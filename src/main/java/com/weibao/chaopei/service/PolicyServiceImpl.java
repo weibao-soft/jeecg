@@ -45,26 +45,12 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				return policyMainPage;
 			}
 			Map<String, Object> obj = objs.get(0);
-			String recipientsId = (String)obj.get("recipients_id");
-			ReceiverEntity receiver = policyMainDao.getReceivers(recipientsId);
 			setVehiclePage(objs, policyMainPage);
 			setPolicyMainPage(obj, policyMainPage);
-			setRecipients(receiver, policyMainPage);
 		} catch(Exception e) {
 			logger.error(e.getMessage(), e);
 		}
 		return policyMainPage;
-	}
-	
-	/**
-	 * 复制收件人
-	 * @param receiver
-	 * @param policyMainPage
-	 */
-	private void setRecipients(ReceiverEntity receiver, PolicyMainPage policyMainPage) {
-		policyMainPage.setRecipients(receiver.getRecipients());
-		policyMainPage.setRecipientsTel(receiver.getRecipientsTel());
-		policyMainPage.setReciAddress(receiver.getReciAddress());
 	}
 	
 	private void setVehiclePage(List<Map<String, Object>> objs, PolicyMainPage policyMainPage) {
@@ -87,7 +73,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 * @param policyMainPage
 	 */
 	private void setPolicyMainPage(Map<String, Object> obj, PolicyMainPage policyMainPage) {
-		policyMainPage.setId((String)obj.get("id"));
+		//复制保单详情
 		policyMainPage.setPlanId((String)obj.get("plan_id"));
 		policyMainPage.setPlateNo((String)obj.get("plate_no"));
 		policyMainPage.setFrameNo((String)obj.get("frame_no"));
@@ -98,26 +84,30 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setContactName((String)obj.get("contact_name"));
 		policyMainPage.setPolicyMobile((String)obj.get("policy_mobile"));
 		policyMainPage.setInvoiceType((String)obj.get("invoice_type"));
-		policyMainPage.setHolderId((String)obj.get("holder_id"));
-		policyMainPage.setInsuredId((String)obj.get("insured_id"));
-		policyMainPage.setRecipientsId((String)obj.get("recipients_id"));
+		//草稿id、用户id
 		policyMainPage.setDraftId((String)obj.get("draft_id"));
 		policyMainPage.setUserId((String)obj.get("user_id"));
+		//复制投保人
 		policyMainPage.setHolderNature((String)obj.get("holder_nature"));
-		policyMainPage.setOrgCode((String)obj.get("org_code"));
-		policyMainPage.setCompName((String)obj.get("comp_name"));
-		policyMainPage.setCompNature((String)obj.get("comp_nature"));
+		policyMainPage.setHolderOrgCode((String)obj.get("holder_org_code"));
+		policyMainPage.setHolderCompName((String)obj.get("holder_comp_name"));
+		policyMainPage.setHolderCompNature((String)obj.get("holder_comp_nature"));
 		policyMainPage.setIndustryType((String)obj.get("industry_type"));
 		policyMainPage.setTaxpayerNo((String)obj.get("taxpayer_no"));
 		policyMainPage.setReceiverMobile((String)obj.get("receiver_mobile"));
-		policyMainPage.setCompName2((String)obj.get("comp_name2"));
+		policyMainPage.setCompName((String)obj.get("comp_name"));
 		policyMainPage.setCompAddress((String)obj.get("comp_address"));
 		policyMainPage.setCompPhone((String)obj.get("comp_phone"));
 		policyMainPage.setDepositBank((String)obj.get("deposit_bank"));
 		policyMainPage.setBankAccount((String)obj.get("bank_account"));
-		policyMainPage.setCompName3((String)obj.get("comp_name3"));
-		policyMainPage.setOrgCode3((String)obj.get("org_code3"));
+		//复制被保人
+		policyMainPage.setInsuredCompName((String)obj.get("insured_comp_name"));
+		policyMainPage.setInsuredOrgCode((String)obj.get("insured_org_code"));
 		policyMainPage.setTruckNums((Integer)obj.get("truck_nums"));
+		//复制收件人
+		policyMainPage.setRecipients((String)obj.get("recipients"));
+		policyMainPage.setRecipientsTel((String)obj.get("recipientsTel"));
+		policyMainPage.setReciAddress((String)obj.get("reciAddress"));
 	}
 	
 	/**
@@ -149,7 +139,6 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	@Override
 	public PolicyMainPage addMain(PolicyMainPage policyMainPage) {
 		HolderEntity holderEntity = new HolderEntity(); 
-		InsuredEntity insuredEntity = new InsuredEntity();
 		ReceiverEntity receiverEntity = new ReceiverEntity();
 		DraftEntity draftEntity = new DraftEntity();
 		DraftRelationEntity draftRelationEntity = null;
@@ -170,37 +159,31 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				policyMainPage.setReceiverMobile("");
 			}
 			vehicles = policyMainPage.getVehicles();
+			int truckNums = vehicles.size();
 			BeanUtils.copyProperties(holderEntity, policyMainPage);
 			BeanUtils.copyProperties(receiverEntity, policyMainPage);
 			BeanUtils.copyProperties(draftEntity, policyMainPage);
 			
-			insuredEntity.setOrgCode(policyMainPage.getOrgCode3());
-			insuredEntity.setCompName(policyMainPage.getCompName3());
-			holderEntity.setUpdateTime(currDate);
+			holderEntity.setLastUpdateTime(currDate);
 			draftEntity.setSaveTime(currDate);
-			draftEntity.setUpdateTime(currDate);
 			holderEntity.setId(UUIDGenerator.generate());
-			insuredEntity.setId(UUIDGenerator.generate());
-			String recipientsId = "0";
+			//String recipientsId = "0";
 		
 			/**保存-保单关联信息，投保人、被投保人、收件人*/
 			//this.saveOrUpdate(holderEntity);
-			//this.saveOrUpdate(insuredEntity);
 			policyMainDao.saveHolderEntity(holderEntity);
-			policyMainDao.saveInsuredEntity(insuredEntity);
+			//policyMainDao.saveInsuredEntity(insuredEntity);
 			if("3".equals(invoiceType)) {
 				receiverEntity.setId(UUIDGenerator.generate());
 				//this.saveOrUpdate(receiverEntity);
 				policyMainDao.saveReceiverEntity(receiverEntity);
-				recipientsId = policyMainDao.getReceiverIdByTel(receiverEntity.getRecipientsTel());
+				//recipientsId = policyMainDao.getReceiverIdByTel(receiverEntity.getRecipientsTel());
 			}
-			String holderId = policyMainDao.getHolderIdByCode(holderEntity.getOrgCode());
-			String insuredId = policyMainDao.getInsuredIdByCode(insuredEntity.getOrgCode());
-			//外键设置
-			draftEntity.setHolderId(holderId);
-			draftEntity.setRecipientsId(recipientsId);
+			//String holderId = policyMainDao.getHolderIdByCode(holderEntity.getHolderOrgCode());
+			
+			//创建人
 			draftEntity.setUserId(policyMainPage.getUserId());
-			draftEntity.setTruckNums(1);
+			draftEntity.setTruckNums(truckNums);
 			//draftEntity.setStatus("1");
 			//保存草稿
 			this.save(draftEntity);
@@ -212,12 +195,11 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 
 				BeanUtils.copyProperties(policyEntity, policyMainPage);
 				BeanUtils.copyProperties(policyEntity, vehicle);
+				//创建时间
 				policyEntity.setCreateTime(currDate);
-				policyEntity.setUpdateTime(currDate);
-				policyEntity.setHolderId(holderId);
-				policyEntity.setInsuredId(insuredId);
-				policyEntity.setRecipientsId(recipientsId);
+				policyEntity.setLastUpdateTime(currDate);
 				//policyEntity.setStatus("1");
+				
 				//保存保单主要信息
 				this.save(policyEntity);
 				//保存草稿和保单的关系
@@ -227,10 +209,6 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				vehicle.setId(policyEntity.getId());
 			}
 			
-			policyMainPage.setId(policyEntity.getId());
-			policyMainPage.setHolderId(holderId);
-			policyMainPage.setInsuredId(insuredId);
-			policyMainPage.setRecipientsId(recipientsId);
 			policyMainPage.setDraftId(draftEntity.getId());
 		} catch (IllegalAccessException e) {
 			logger.error(e.getMessage(), e);
@@ -247,12 +225,12 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 */
 	@Override
 	public PolicyMainPage updateMain(PolicyMainPage policyMainPage) {
-		PolicyEntity policyEntity = new PolicyEntity();
 		HolderEntity holderEntity = new HolderEntity(); 
-		InsuredEntity insuredEntity = new InsuredEntity();
 		ReceiverEntity receiverEntity = new ReceiverEntity();
 		DraftEntity draftEntity = new DraftEntity();
 		//DraftRelationEntity draftRelationEntity = new DraftRelationEntity();
+		PolicyEntity policyEntity = null;
+		List<PolicyVehiclePage> vehicles = null;
 		String invoiceType = "1";
 		
 		try {
@@ -267,48 +245,43 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			} else if("3".equals(invoiceType)) {
 				policyMainPage.setReceiverMobile("");
 			}
-			BeanUtils.copyProperties(policyEntity, policyMainPage);
+			vehicles = policyMainPage.getVehicles();
+			int truckNums = vehicles.size();
 			BeanUtils.copyProperties(holderEntity, policyMainPage);
 			BeanUtils.copyProperties(receiverEntity, policyMainPage);
 			BeanUtils.copyProperties(draftEntity, policyMainPage);
 			
-			insuredEntity.setOrgCode(policyMainPage.getOrgCode3());
-			insuredEntity.setCompName(policyMainPage.getCompName3());
-			policyEntity.setCreateTime(currDate);
-			policyEntity.setUpdateTime(currDate);
-			holderEntity.setUpdateTime(currDate);
+			holderEntity.setLastUpdateTime(currDate);
 			draftEntity.setSaveTime(currDate);
-			draftEntity.setUpdateTime(currDate);
-			String holderId = policyMainPage.getHolderId();
-			String insuredId = policyMainPage.getInsuredId();
-			String recipientsId = policyMainPage.getRecipientsId();
-
-			policyEntity.setId(policyMainPage.getId());
-			holderEntity.setId(policyMainPage.getHolderId());
-			insuredEntity.setId(policyMainPage.getInsuredId());
-			receiverEntity.setId(policyMainPage.getRecipientsId());
-			draftEntity.setId(policyMainPage.getDraftId());
 			
 			/**保存-保单关联信息，投保人、被投保人、收件人*/
 			policyMainDao.saveHolderEntity(holderEntity);
-			policyMainDao.saveInsuredEntity(insuredEntity);
+			//policyMainDao.saveInsuredEntity(insuredEntity);
 			if("3".equals(invoiceType)) {
 				policyMainDao.saveReceiverEntity(receiverEntity);
 			}
-			//外键设置
-			policyEntity.setHolderId(holderId);
-			policyEntity.setInsuredId(insuredId);
-			policyEntity.setRecipientsId(recipientsId);
-			draftEntity.setHolderId(holderId);
-			draftEntity.setRecipientsId(recipientsId);
+			//车辆台数
+			draftEntity.setTruckNums(truckNums);
+			//创建人
 			draftEntity.setUserId(policyMainPage.getUserId());
-			draftEntity.setTruckNums(1);
+			draftEntity.setId(policyMainPage.getDraftId());
 			//draftEntity.setStatus("1");
-			//policyEntity.setStatus("1");
-	
-			//保存保单主要信息
-			this.save(policyEntity);
 			this.save(draftEntity);
+
+			for(int i = 0; i < vehicles.size(); i++) {
+				PolicyVehiclePage vehicle = vehicles.get(i);
+				policyEntity = new PolicyEntity();
+
+				BeanUtils.copyProperties(policyEntity, policyMainPage);
+				BeanUtils.copyProperties(policyEntity, vehicle);
+				
+				policyEntity.setCreateTime(currDate);
+				policyEntity.setLastUpdateTime(currDate);
+				policyEntity.setId(vehicle.getId());
+				//policyEntity.setStatus("1");
+				//保存保单主要信息
+				this.save(policyEntity);
+			}
 		} catch (IllegalAccessException e) {
 			logger.error(e.getMessage(), e);
 		} catch (InvocationTargetException e) {
@@ -320,7 +293,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	}
 	
 	private void resetRecipients(PolicyMainPage policyMainPage) {
-		policyMainPage.setCompName2("");
+		policyMainPage.setCompName("");
 		policyMainPage.setCompAddress("");
 		policyMainPage.setCompPhone("");
 		policyMainPage.setDepositBank("");

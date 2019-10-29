@@ -69,17 +69,73 @@ public class PolicyEntity implements Serializable {
 	@Column(name ="invoice_type",nullable=true,length=1)
 	private java.lang.String invoiceType;
 	
-	/**投保人id*/
-	@Column(name ="holder_id",nullable=true,length=32)
-	private java.lang.String holderId;
+	/**投保人性质*/
+	@Column(name ="holder_nature",nullable=true,length=10)
+	private java.lang.String holderNature;
 	
-	/**被投保人id*/
-	@Column(name ="insured_id",nullable=true,length=32)
-	private java.lang.String insuredId;
+	/**投保单位组织机构代码*/
+	@Column(name ="holder_org_code",nullable=true,length=24)
+	private java.lang.String holderOrgCode;
 	
-	/**收件人id*/
-	@Column(name ="recipients_id",nullable=true,length=32)
-	private java.lang.String recipientsId;
+	/**投保单位名称*/
+	@Column(name ="holder_comp_name",nullable=true,length=100)
+	private java.lang.String holderCompName;
+	
+	/**投保单位性质*/
+	@Column(name ="holder_comp_nature",nullable=true,length=10)
+	private java.lang.String holderCompNature;
+	
+	/**行业类别*/
+	@Column(name ="industry_type",nullable=true,length=10)
+	private java.lang.String industryType;
+	
+	/**被保单位组织机构代码*/
+	@Column(name ="insured_org_code",nullable=true,length=24)
+	private java.lang.String insuredOrgCode;
+	
+	/**被保单位名称*/
+	@Column(name ="insured_comp_name",nullable=true,length=100)
+	private java.lang.String insuredCompName;
+	
+	/**纳税人识别号*/
+	@Column(name ="taxpayer_no",nullable=true,length=30)
+	private java.lang.String taxpayerNo;
+	
+	/**普票接收人手机*/
+	@Column(name ="receiver_mobile",nullable=true,length=20)
+	private java.lang.String receiverMobile;
+	
+	/**专票公司名称*/
+	@Column(name ="comp_name",nullable=true,length=100)
+	private java.lang.String compName;
+	
+	/**专票公司地址*/
+	@Column(name ="comp_address",nullable=true,length=200)
+	private java.lang.String compAddress;
+	
+	/**专票公司电话*/
+	@Column(name ="comp_phone",nullable=true,length=20)
+	private java.lang.String compPhone;
+	
+	/**开户行*/
+	@Column(name ="deposit_bank",nullable=true,length=30)
+	private java.lang.String depositBank;
+	
+	/**银行账号*/
+	@Column(name ="bank_account",nullable=true,length=30)
+	private java.lang.String bankAccount;
+	
+	/**专票收件人*/
+	@Column(name ="recipients",nullable=true,length=64)
+	private java.lang.String recipients;
+	
+	/**专票收件人电话*/
+	@Column(name ="recipients_tel",nullable=true,length=20)
+	private java.lang.String recipientsTel;
+	
+	/**专票收件地址*/
+	@Column(name ="reci_address",nullable=true,length=255)
+	private java.lang.String reciAddress;
 	
 	/**用户id*/
 	@Column(name ="user_id",nullable=true,length=32)
@@ -90,8 +146,8 @@ public class PolicyEntity implements Serializable {
 	private java.util.Date createTime;
 	
 	/**修改时间*/
-	@Column(name ="update_time",nullable=true)
-	private java.util.Date updateTime;
+	@Column(name ="last_update_time",nullable=true)
+	private java.util.Date lastUpdateTime;
 
 	public java.lang.String getId() {
 		return id;
@@ -189,28 +245,140 @@ public class PolicyEntity implements Serializable {
 		this.invoiceType = invoiceType;
 	}
 
-	public java.lang.String getHolderId() {
-		return holderId;
+	public java.lang.String getHolderNature() {
+		return holderNature;
 	}
 
-	public void setHolderId(java.lang.String holderId) {
-		this.holderId = holderId;
+	public void setHolderNature(java.lang.String holderNature) {
+		this.holderNature = holderNature;
 	}
 
-	public java.lang.String getInsuredId() {
-		return insuredId;
+	public java.lang.String getHolderOrgCode() {
+		return holderOrgCode;
 	}
 
-	public void setInsuredId(java.lang.String insuredId) {
-		this.insuredId = insuredId;
+	public void setHolderOrgCode(java.lang.String holderOrgCode) {
+		this.holderOrgCode = holderOrgCode;
 	}
 
-	public java.lang.String getRecipientsId() {
-		return recipientsId;
+	public java.lang.String getHolderCompName() {
+		return holderCompName;
 	}
 
-	public void setRecipientsId(java.lang.String recipientsId) {
-		this.recipientsId = recipientsId;
+	public void setHolderCompName(java.lang.String holderCompName) {
+		this.holderCompName = holderCompName;
+	}
+
+	public java.lang.String getHolderCompNature() {
+		return holderCompNature;
+	}
+
+	public void setHolderCompNature(java.lang.String holderCompNature) {
+		this.holderCompNature = holderCompNature;
+	}
+
+	public java.lang.String getInsuredOrgCode() {
+		return insuredOrgCode;
+	}
+
+	public void setInsuredOrgCode(java.lang.String insuredOrgCode) {
+		this.insuredOrgCode = insuredOrgCode;
+	}
+
+	public java.lang.String getInsuredCompName() {
+		return insuredCompName;
+	}
+
+	public void setInsuredCompName(java.lang.String insuredCompName) {
+		this.insuredCompName = insuredCompName;
+	}
+
+	public java.lang.String getIndustryType() {
+		return industryType;
+	}
+
+	public void setIndustryType(java.lang.String industryType) {
+		this.industryType = industryType;
+	}
+
+	public java.lang.String getTaxpayerNo() {
+		return taxpayerNo;
+	}
+
+	public void setTaxpayerNo(java.lang.String taxpayerNo) {
+		this.taxpayerNo = taxpayerNo;
+	}
+
+	public java.lang.String getReceiverMobile() {
+		return receiverMobile;
+	}
+
+	public void setReceiverMobile(java.lang.String receiverMobile) {
+		this.receiverMobile = receiverMobile;
+	}
+
+	public java.lang.String getCompName() {
+		return compName;
+	}
+
+	public void setCompName(java.lang.String compName) {
+		this.compName = compName;
+	}
+
+	public java.lang.String getCompAddress() {
+		return compAddress;
+	}
+
+	public void setCompAddress(java.lang.String compAddress) {
+		this.compAddress = compAddress;
+	}
+
+	public java.lang.String getCompPhone() {
+		return compPhone;
+	}
+
+	public void setCompPhone(java.lang.String compPhone) {
+		this.compPhone = compPhone;
+	}
+
+	public java.lang.String getDepositBank() {
+		return depositBank;
+	}
+
+	public void setDepositBank(java.lang.String depositBank) {
+		this.depositBank = depositBank;
+	}
+
+	public java.lang.String getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(java.lang.String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
+	public java.lang.String getRecipients() {
+		return recipients;
+	}
+
+	public void setRecipients(java.lang.String recipients) {
+		this.recipients = recipients;
+	}
+
+	public java.lang.String getRecipientsTel() {
+		return recipientsTel;
+	}
+
+	public void setRecipientsTel(java.lang.String recipientsTel) {
+		this.recipientsTel = recipientsTel;
+	}
+
+	public java.lang.String getReciAddress() {
+		return reciAddress;
+	}
+	
+	public void setReciAddress(java.lang.String reciAddress) {
+		this.reciAddress = reciAddress;
 	}
 
 	public java.lang.String getUserId() {
@@ -229,12 +397,12 @@ public class PolicyEntity implements Serializable {
 		this.createTime = createTime;
 	}
 
-	public java.util.Date getUpdateTime() {
-		return updateTime;
+	public java.util.Date getLastUpdateTime() {
+		return lastUpdateTime;
 	}
 
-	public void setUpdateTime(java.util.Date updateTime) {
-		this.updateTime = updateTime;
+	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
 	}
 
 }

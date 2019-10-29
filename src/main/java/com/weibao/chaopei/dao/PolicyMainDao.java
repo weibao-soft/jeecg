@@ -42,7 +42,7 @@ public interface PolicyMainDao {
 	 * @return
 	 */
 	@Arguments({"orgCode"})
-	@Sql("select id from wb_policy_holder where org_code=:orgCode")
+	@Sql("select id from wb_policy_holder where holder_org_code=:orgCode")
 	@ResultType(String.class)
 	public String getHolderIdByCode(String orgCode);
 	
@@ -51,7 +51,7 @@ public interface PolicyMainDao {
 	 * @return
 	 */
 	@Arguments({"orgCode"})
-	@Sql("select id from wb_insured_info where org_code=:orgCode")
+	@Sql("select id from wb_insured_info where insured_org_code=:orgCode")
 	@ResultType(String.class)
 	public String getInsuredIdByCode(String orgCode);
 	
@@ -69,8 +69,8 @@ public interface PolicyMainDao {
 	 * @return
 	 */
 	@Arguments({"id"})
-	@Sql("select id,holder_nature,org_code,comp_name,comp_nature,industry_type,taxpayer_no,receiver_mobile,"
-			+ "comp_name2,comp_address,comp_phone,deposit_bank,bank_account,update_time from wb_policy_holder where id=:id")
+	@Sql("select id,holder_nature,holder_org_code,holder_comp_name,holder_comp_nature,industry_type,taxpayer_no,receiver_mobile,"
+			+ "comp_name,comp_address,comp_phone,deposit_bank,bank_account,last_update_time from wb_policy_holder where id=:id")
 	@ResultType(HolderEntity.class)
 	public HolderEntity getHolderById(String id);
 	
@@ -78,7 +78,7 @@ public interface PolicyMainDao {
 	 *  查询投保人名称
 	 * @return
 	 */
-	@Sql("select id,comp_name from wb_policy_holder order by comp_name")
+	@Sql("select id,holder_comp_name from wb_policy_holder order by holder_comp_name")
 	@ResultType(Map.class)
 	public List<Map<String, String>> getPolicyHolders();
 	
@@ -86,7 +86,7 @@ public interface PolicyMainDao {
 	 *  查询被投保人名称
 	 * @return
 	 */
-	@Sql("select id,comp_name,org_code from wb_insured_info order by comp_name")
+	@Sql("select id,insured_comp_name,insured_org_code from wb_insured_info order by insured_comp_name")
 	@ResultType(InsuredEntity.class)
 	public List<InsuredEntity> getPolicyInsureds();
 	

@@ -15,7 +15,7 @@ public class PolicyMainPage implements Serializable {
 	
 	//车辆信息
 	private List<PolicyVehiclePage> vehicles = new ArrayList<PolicyVehiclePage>();
-	//保单id
+	//保单id(失效)
 	private java.lang.String id;
 	//保障方案id
 	private java.lang.String planId;
@@ -40,11 +40,11 @@ public class PolicyMainPage implements Serializable {
 	//投保人性质
 	private java.lang.String holderNature;
 	//投保单位组织机构代码
-	private java.lang.String orgCode;
+	private java.lang.String holderOrgCode;
 	//投保单位名称
-	private java.lang.String compName;
+	private java.lang.String holderCompName;
 	//投保单位性质
-	private java.lang.String compNature;
+	private java.lang.String holderCompNature;
 	//行业类别
 	private java.lang.String industryType;
 	//纳税人识别号
@@ -52,7 +52,7 @@ public class PolicyMainPage implements Serializable {
 	//普票接收人手机
 	private java.lang.String receiverMobile;
 	//专票公司名称
-	private java.lang.String compName2;
+	private java.lang.String compName;
 	//专票公司地址
 	private java.lang.String compAddress;
 	//专票公司电话
@@ -67,18 +67,12 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String recipientsTel;
 	//专票收件地址
 	private java.lang.String reciAddress;
-	//被投保单位组织机构代码
-	private java.lang.String orgCode3;
-	//被投保单位名称
-	private java.lang.String compName3;
+	//被保单位组织机构代码
+	private java.lang.String insuredOrgCode;
+	//被保单位名称
+	private java.lang.String insuredCompName;
 	//投保车辆(台)
 	private java.lang.Integer truckNums;
-	//投保人id
-	private java.lang.String holderId;
-	//被投保人id
-	private java.lang.String insuredId;
-	//收件人id
-	private java.lang.String recipientsId;
 	//草稿id
 	private java.lang.String draftId;
 	//用户id
@@ -162,23 +156,35 @@ public class PolicyMainPage implements Serializable {
 	public void setHolderNature(java.lang.String holderNature) {
 		this.holderNature = holderNature;
 	}
-	public java.lang.String getOrgCode() {
-		return orgCode;
+	public java.lang.String getHolderOrgCode() {
+		return holderOrgCode;
 	}
-	public void setOrgCode(java.lang.String orgCode) {
-		this.orgCode = orgCode;
+	public void setHolderOrgCode(java.lang.String holderOrgCode) {
+		this.holderOrgCode = holderOrgCode;
 	}
-	public java.lang.String getCompName() {
-		return compName;
+	public java.lang.String getHolderCompName() {
+		return holderCompName;
 	}
-	public void setCompName(java.lang.String compName) {
-		this.compName = compName;
+	public void setHolderCompName(java.lang.String holderCompName) {
+		this.holderCompName = holderCompName;
 	}
-	public java.lang.String getCompNature() {
-		return compNature;
+	public java.lang.String getHolderCompNature() {
+		return holderCompNature;
 	}
-	public void setCompNature(java.lang.String compNature) {
-		this.compNature = compNature;
+	public void setHolderCompNature(java.lang.String holderCompNature) {
+		this.holderCompNature = holderCompNature;
+	}
+	public java.lang.String getInsuredOrgCode() {
+		return insuredOrgCode;
+	}
+	public void setInsuredOrgCode(java.lang.String insuredOrgCode) {
+		this.insuredOrgCode = insuredOrgCode;
+	}
+	public java.lang.String getInsuredCompName() {
+		return insuredCompName;
+	}
+	public void setInsuredCompName(java.lang.String insuredCompName) {
+		this.insuredCompName = insuredCompName;
 	}
 	public java.lang.String getIndustryType() {
 		return industryType;
@@ -198,11 +204,11 @@ public class PolicyMainPage implements Serializable {
 	public void setReceiverMobile(java.lang.String receiverMobile) {
 		this.receiverMobile = receiverMobile;
 	}
-	public java.lang.String getCompName2() {
-		return compName2;
+	public java.lang.String getCompName() {
+		return compName;
 	}
-	public void setCompName2(java.lang.String compName2) {
-		this.compName2 = compName2;
+	public void setCompName(java.lang.String compName) {
+		this.compName = compName;
 	}
 	public java.lang.String getCompAddress() {
 		return compAddress;
@@ -246,41 +252,11 @@ public class PolicyMainPage implements Serializable {
 	public void setReciAddress(java.lang.String reciAddress) {
 		this.reciAddress = reciAddress;
 	}
-	public java.lang.String getOrgCode3() {
-		return orgCode3;
-	}
-	public void setOrgCode3(java.lang.String orgCode3) {
-		this.orgCode3 = orgCode3;
-	}
-	public java.lang.String getCompName3() {
-		return compName3;
-	}
-	public void setCompName3(java.lang.String compName3) {
-		this.compName3 = compName3;
-	}
 	public java.lang.Integer getTruckNums() {
 		return truckNums;
 	}
 	public void setTruckNums(java.lang.Integer truckNums) {
 		this.truckNums = truckNums;
-	}
-	public java.lang.String getHolderId() {
-		return holderId;
-	}
-	public void setHolderId(java.lang.String holderId) {
-		this.holderId = holderId;
-	}
-	public java.lang.String getInsuredId() {
-		return insuredId;
-	}
-	public void setInsuredId(java.lang.String insuredId) {
-		this.insuredId = insuredId;
-	}
-	public java.lang.String getRecipientsId() {
-		return recipientsId;
-	}
-	public void setRecipientsId(java.lang.String recipientsId) {
-		this.recipientsId = recipientsId;
 	}
 	public java.lang.String getDraftId() {
 		return draftId;

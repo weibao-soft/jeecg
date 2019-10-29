@@ -33,7 +33,7 @@ public class ReceiverEntity implements Serializable {
 	private java.lang.String recipientsTel;
 	
 	/**专票收件地址*/
-	@Column(name ="reci_address",nullable=true,length=200)
+	@Column(name ="reci_address",nullable=true,length=255)
 	private java.lang.String reciAddress;
 
 	/**用户id*/

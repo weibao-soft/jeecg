@@ -24,17 +24,17 @@ public class DraftEntity implements Serializable {
 	@Column(name ="id",nullable=false,length=32)
 	private java.lang.String id;
 	
-	/**投保人id*/
-	@Column(name ="holder_id",nullable=true,length=32)
-	private java.lang.String holderId;
-	
-	/**收件人id*/
-	@Column(name ="recipients_id",nullable=true,length=32)
-	private java.lang.String recipientsId;
+	/**保障方案id*/
+	@Column(name ="plan_id",nullable=true,length=32)
+	private java.lang.String planId;
 	
 	/**投保单位名称*/
 	@Column(name ="comp_name",nullable=true,length=100)
 	private java.lang.String compName;
+	
+	/**专票收件人*/
+	@Column(name ="recipients",nullable=true,length=64)
+	private java.lang.String recipients;
 	
 	/**投保车辆(台)*/
 	@Column(name ="truck_nums",nullable=true,length=5)
@@ -51,10 +51,6 @@ public class DraftEntity implements Serializable {
 	/**暂存时间*/
 	@Column(name ="save_time",nullable=true)
 	private java.util.Date saveTime;
-	
-	/**修改时间*/
-	@Column(name ="update_time",nullable=true)
-	private java.util.Date updateTime;
 
 	public java.lang.String getId() {
 		return id;
@@ -64,20 +60,20 @@ public class DraftEntity implements Serializable {
 		this.id = id;
 	}
 
-	public java.lang.String getHolderId() {
-		return holderId;
+	public java.lang.String getPlanId() {
+		return planId;
 	}
 
-	public void setHolderId(java.lang.String holderId) {
-		this.holderId = holderId;
+	public void setPlanId(java.lang.String planId) {
+		this.planId = planId;
 	}
 
-	public java.lang.String getRecipientsId() {
-		return recipientsId;
+	public java.lang.String getRecipients() {
+		return recipients;
 	}
 
-	public void setRecipientsId(java.lang.String recipientsId) {
-		this.recipientsId = recipientsId;
+	public void setRecipients(java.lang.String recipients) {
+		this.recipients = recipients;
 	}
 
 	public java.lang.String getCompName() {
@@ -118,14 +114,6 @@ public class DraftEntity implements Serializable {
 
 	public void setSaveTime(java.util.Date saveTime) {
 		this.saveTime = saveTime;
-	}
-
-	public java.util.Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(java.util.Date updateTime) {
-		this.updateTime = updateTime;
 	}
 
 }

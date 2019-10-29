@@ -154,17 +154,17 @@ public class PolicyMainController extends BaseController {
 	 */
 	private void setCharacterEncoding(PolicyMainPage policyMainPage) {
 		try {
-			String compName2 = policyMainPage.getCompName2();
+			String compName = policyMainPage.getCompName();
 			String compAddress = policyMainPage.getCompAddress();
 			String depositBank = policyMainPage.getDepositBank();
 			String recipients = policyMainPage.getRecipients();
 			String reciAddress = policyMainPage.getReciAddress();
-			compName2 = (compName2 != null) ? new String(compName2.getBytes(ISO8859), UTF8) : compName2;
+			compName = (compName != null) ? new String(compName.getBytes(ISO8859), UTF8) : compName;
 			compAddress = (compAddress != null) ? new String(compAddress.getBytes(ISO8859), UTF8) : compAddress;
 			depositBank = (depositBank != null) ? new String(depositBank.getBytes(ISO8859), UTF8) : depositBank;
 			recipients = (recipients != null) ? new String(recipients.getBytes(ISO8859), UTF8) : recipients;
 			reciAddress = (reciAddress != null) ? new String(reciAddress.getBytes(ISO8859), UTF8) : reciAddress;
-			policyMainPage.setCompName2(compName2);
+			policyMainPage.setCompName(compName);
 			policyMainPage.setCompAddress(compAddress);
 			policyMainPage.setDepositBank(depositBank);
 			policyMainPage.setRecipients(recipients);

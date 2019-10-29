@@ -14,9 +14,8 @@
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
 	getHolders();
-	getInsureds();
 
-    window.setTimeout(editablePolicy, 300);
+    window.setTimeout(editablePolicy, 500);
 });
 
 //提交表单数据
@@ -52,9 +51,6 @@ function insurance() {
  <legend>国任投保</legend>
  <table cellpadding="0" cellspacing="1" class="formtable" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
-	<input id="id" name="id" type="hidden" value="${policyMainPage.holderId }"/>
-	<input id="id" name="id" type="hidden" value="${policyMainPage.insuredId }"/>
-	<input id="id" name="id" type="hidden" value="${policyMainPage.recipientsId }"/>
 	<input id="id" name="id" type="hidden" value="${policyMainPage.draftId }"/>
  
  <tr><td style="width:10%"></td><td style="width:90%">
@@ -84,16 +80,41 @@ function insurance() {
 		 <td style="width:85%">
 			<table name="policy_tabel" id="policy_tabel">
 			<tbody>
-				<tr>
+			<c:if test="${fn:length(vehicles) <= 0 }">
+				<tr name='policytr'>
+				<input name="vehicles[0].id" type="hidden"/>
 				<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
-				<td><input type="text" name="plateNo" maxlength="8" value="未上牌"></td>
+				<td><input type="text" name="vehicles[0].plateNo" maxlength="8" value="未上牌"></td>
 				<td><span style="color: red;">*</span>车架号 </td>
-				<td><input type="text" name="frameNo" maxlength="17"></td>
+				<td><input type="text" name="vehicles[0].frameNo" maxlength="17"></td>
 				<td><span style="color: red;">*</span>发动机号 </td>
-				<td><input type="text" name="engineNo"></td>
+				<td><input type="text" name="vehicles[0].engineNo"></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 				style="height:30px;width:100px !important;border-radius:5px"/></td>
 				</tr>
+			</c:if>
+			<c:if test="${fn:length(vehicles) > 0 }">
+				<c:forEach items="${vehicles}" var="poVal" varStatus="stat">
+					<tr name='policytr'>
+					<td align="center"><div style="width: 25px;">${stat.index+1 }</div></td>
+					<input name="vehicles[${stat.index }].id" type="hidden" value="${poVal.id }"/>
+					<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
+					<td><input type="text" name="vehicles[${stat.index }].plateNo" maxlength="8" value="${poVal.plateNo}"></td>
+					<td><span style="color: red;">*</span>车架号 </td>
+					<td><input type="text" name="vehicles[${stat.index }].frameNo" maxlength="17" value="${poVal.frameNo}"></td>
+					<td><span style="color: red;">*</span>发动机号 </td>
+					<td><input type="text" name="vehicles[${stat.index }].engineNo" value="${poVal.engineNo}"></td>
+				<c:if test="${stat.index == 0 }">
+					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
+					style="height:30px;width:100px !important;border-radius:5px"/></td>
+				</c:if>
+				<c:if test="${stat.index > 0 }">
+					<td><input class="btn" type="button" value="删除" onclick="removePolicy(this);" 
+					style="height:30px;width:100px !important;border-radius:5px"/></td>
+				</c:if>
+		   			</tr>
+				</c:forEach>
+			</c:if>
 			</tbody>
 			</table>
 			<span class="Validform_checktip"></span>
@@ -123,13 +144,13 @@ function insurance() {
 				</select><span class="Validform_checktip"></span></td>
 		 <td style="width:15%"></td><td style="width:35%"></td></tr>
 		 <tr><td><span style="color: red;">*</span>单位名称</td>
-		 <td><select name="compName" id="compName" style="width:180px;" autocomplete="off" value="${policyMainPage.compName}">
+		 <td><select name="holderCompName" id="holderCompName" style="width:180px;" autocomplete="off" value="${policyMainPage.holderCompName}">
 				<option value=""></option>
 				</select></td>
 		 <td><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码) </td>
-		 <td><input type="text" name="orgCode" id="orgCode" maxlength="18" style="width:200px;" value="${policyMainPage.orgCode}"/></td></tr>
+		 <td><input type="text" name="holderOrgCode" id="holderOrgCode" maxlength="18" style="width:200px;" value="${policyMainPage.holderOrgCode}"/></td></tr>
 		 <tr><td><span style="color: red;">*</span>单位性质</td>
-		 <td><select name="compNature" id="compNature" style="width:200px;" value="${policyMainPage.compNature}">
+		 <td><select name="holderCompNature" id="holderCompNature" style="width:200px;" value="${policyMainPage.holderCompNature}">
 				<option value="1">企业</option>
 				<option value="2">政府机关</option>
 				<option value="3">事业机关</option>
@@ -169,11 +190,9 @@ function insurance() {
 		 </tr>
 		 <tr>
 		 <td><span style="color: red;">*</span>单位名称 </td>
-		 <td><select name="compName3" id="compName3" style="width:180px;" autocomplete="off" value="${policyMainPage.compName3}">
-				<option value=""></option>
-				</select></td>
+		 <td><input type="text" name="insuredCompName" id="insuredCompName" style="width:200px;" value="${policyMainPage.insuredCompName}" autocomplete="off"/></td>
 		 <td><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码)</td>
-		 <td><input type="text" name="orgCode3" id="orgCode3" maxlength="18" style="width:200px;" value="${policyMainPage.orgCode3}"/>
+		 <td><input type="text" name="insuredOrgCode" id="insuredOrgCode" maxlength="18" style="width:200px;" value="${policyMainPage.insuredOrgCode}"/>
 		 <span class="Validform_checktip"></span></td>
 		 </tr>
 	 </table>
@@ -194,7 +213,7 @@ function insurance() {
 <input id="status" name="status" type="hidden" value="${policyMainPage.status}"/>
 <input id="endDate" name="endDate" type="hidden" value="${end}" />
 <input id="invoiceObj" name="invoiceObj" type="hidden" />
-<input id="compName2p" name="compName2" type="hidden" value="${policyMainPage.compName2}"/>
+<input id="compNamep" name="compName" type="hidden" value="${policyMainPage.compName}"/>
 <input id="taxpayerNop" name="taxpayerNo" type="hidden" value="${policyMainPage.taxpayerNo}"/>
 <input id="compAddressp" name="compAddress" type="hidden" value="${policyMainPage.compAddress}"/>
 <input id="compPhonep" name="compPhone" type="hidden" value="${policyMainPage.compPhone}" />
