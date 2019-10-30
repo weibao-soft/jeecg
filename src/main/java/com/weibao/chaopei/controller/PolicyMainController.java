@@ -254,6 +254,7 @@ public class PolicyMainController extends BaseController {
 		}
 		j.setMsg(message);
 		j.setObj(policyMainPage);
+		request.setAttribute("policyMainPage", policyMainPage);
 		return j;
 	}
 	

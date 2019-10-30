@@ -4,4 +4,4 @@ p.industry_type,p.taxpayer_no,p.receiver_mobile,p.comp_name,p.comp_address,p.com
 p.insured_comp_name,p.insured_org_code,p.recipients,p.recipients_tel,p.reci_address,r.draft_id,d.truck_nums,d.save_time 
 from wb_insurance_policy p,wb_draft_relation r,wb_insurance_draft d
 where p.id=r.policy_id and d.id=r.draft_id 
-and d.id=:draftId;
+and d.id=:draftId

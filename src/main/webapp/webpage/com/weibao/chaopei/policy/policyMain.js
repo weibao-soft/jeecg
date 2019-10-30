@@ -406,10 +406,19 @@ function validParam(param, iframe) {
 //校验主页面上的数据
 function validData() {
 	var message = "";
-	var frameNos = $(".policy[title='frameNo']");
-	var engineNos = $(".policy[title='engineNo']");
+	var plateNos = $("[class='policy'][title='plateNo']");
+	var frameNos = $("[class='policy'][title='frameNo']");
+	var engineNos = $("[class='policy'][title='engineNo']");
 	//var frameNos = document.getElementsByName("vehicles[*].frameNo");
 	//var engineNos = document.getElementsByName("vehicles[*].engineNo");
+	for(var i = 0; i < plateNos.length; i++) {
+	    //if(window.console) console.log($(plateNos[i]).val());
+		if($(plateNos[i]).val() == null || $(plateNos[i]).val() == "") {
+			message = "第" + (i + 1) + "行，车牌号不能为空!";
+			$.messager.alert('提示',message,'info');
+			return false;
+		}
+	}
 	for(var i = 0; i < frameNos.length; i++) {
 	    //if(window.console) console.log($(frameNos[i]).parent().html());
 		if($(frameNos[i]).val() == null || $(frameNos[i]).val() == "") {

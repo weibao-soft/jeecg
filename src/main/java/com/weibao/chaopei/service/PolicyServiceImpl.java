@@ -141,6 +141,15 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	}
 
 	/**
+	 * 根据id删除关系表保单id不在列表里的行
+	 * @param draftId
+	 * @param ids
+	 */
+	public int deleteRelations(String draftId, String[] ids) {
+		return policyMainDao.deleteRelations(draftId, ids);
+	}
+
+	/**
 	 * 新增保存保单、投保人、被投保人、收件人等信息
 	 */
 	@Override
@@ -191,7 +200,6 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			//创建人
 			draftEntity.setUserId(policyMainPage.getUserId());
 			draftEntity.setTruckNums(truckNums);
-			//draftEntity.setStatus("1");
 			//保存草稿
 			this.save(draftEntity);
 
@@ -213,10 +221,10 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				draftRelationEntity.setPolicyId(policyEntity.getId());
 				draftRelationEntity.setDraftId(draftEntity.getId());
 				this.save(draftRelationEntity);
-				vehicle.setId(policyEntity.getId());
+				//vehicle.setId(policyEntity.getId());
 			}
 			
-			policyMainPage.setDraftId(draftEntity.getId());
+			//policyMainPage.setDraftId(draftEntity.getId());
 		} catch (IllegalAccessException e) {
 			logger.error(e.getMessage(), e);
 		} catch (InvocationTargetException e) {
@@ -238,10 +246,13 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		DraftRelationEntity draftRelationEntity = null;
 		PolicyEntity policyEntity = null;
 		List<PolicyVehiclePage> vehicles = null;
+		List<String> delIds = null;
+		String draftId = null;
 		String invoiceType = "1";
 		
 		try {
 			Date currDate = Calendar.getInstance().getTime();
+			draftId = policyMainPage.getDraftId();
 			invoiceType = policyMainPage.getInvoiceType();
 			if("1".equals(invoiceType)) {
 				resetRecipients(policyMainPage);
@@ -271,14 +282,18 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			draftEntity.setTruckNums(truckNums);
 			//创建人
 			draftEntity.setUserId(policyMainPage.getUserId());
-			draftEntity.setId(policyMainPage.getDraftId());
+			draftEntity.setId(draftId);
 			//draftEntity.setStatus("1");
 			this.saveOrUpdate(draftEntity);
 
+			delIds = new ArrayList<String>();
 			for(int i = 0; i < vehicles.size(); i++) {
 				PolicyVehiclePage vehicle = vehicles.get(i);
 				policyEntity = new PolicyEntity();
 
+				if(vehicle.getPlateNo() == null) {
+					continue;
+				}
 				BeanUtils.copyProperties(policyEntity, policyMainPage);
 				BeanUtils.copyProperties(policyEntity, vehicle);
 				//修改时间
@@ -295,7 +310,17 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 					draftRelationEntity.setDraftId(draftEntity.getId());
 					this.save(draftRelationEntity);
 					vehicle.setId(policyEntity.getId());
+				} else {
+					delIds.add(vehicle.getId());
 				}
+				
+			}
+			//草稿中删除的保单，同时也从数据库删除
+			if(!delIds.isEmpty()) {
+				int size = delIds.size();
+				String[] ids = delIds.toArray(new String[size]);
+				policyMainDao.deletePolicys(draftId, ids);
+				policyMainDao.deleteRelations(draftId, ids);
 			}
 		} catch (IllegalAccessException e) {
 			logger.error(e.getMessage(), e);

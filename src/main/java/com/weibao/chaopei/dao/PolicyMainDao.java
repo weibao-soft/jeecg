@@ -123,9 +123,16 @@ public interface PolicyMainDao {
 	public void saveReceiverEntity(ReceiverEntity receiver);
 	
 	/**
-	 * 根据id删除不在列表里的保单
+	 * 根据id删除保单表id不在列表里的行
 	 * @param draftId
 	 * @param ids
 	 */
 	public int deletePolicys(@Param("draftId") String draftId, @Param("ids") String[] ids);
+	
+	/**
+	 * 根据id删除关系表保单id不在列表里的行
+	 * @param draftId
+	 * @param ids
+	 */
+	public int deleteRelations(@Param("draftId") String draftId, @Param("ids") String[] ids);
 }
