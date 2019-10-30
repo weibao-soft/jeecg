@@ -29,8 +29,8 @@ public class DraftEntity implements Serializable {
 	private java.lang.String planId;
 	
 	/**投保单位名称*/
-	@Column(name ="comp_name",nullable=true,length=100)
-	private java.lang.String compName;
+	@Column(name ="holder_comp_name",nullable=true,length=100)
+	private java.lang.String holderCompName;
 	
 	/**专票收件人*/
 	@Column(name ="recipients",nullable=true,length=64)
@@ -76,12 +76,12 @@ public class DraftEntity implements Serializable {
 		this.recipients = recipients;
 	}
 
-	public java.lang.String getCompName() {
-		return compName;
+	public java.lang.String getHolderCompName() {
+		return holderCompName;
 	}
 
-	public void setCompName(java.lang.String compName) {
-		this.compName = compName;
+	public void setHolderCompName(java.lang.String holderCompName) {
+		this.holderCompName = holderCompName;
 	}
 
 	public java.lang.Integer getTruckNums() {

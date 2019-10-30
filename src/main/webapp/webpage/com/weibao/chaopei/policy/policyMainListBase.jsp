@@ -27,7 +27,7 @@
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
    <t:dgCol title="方案保障"  field="planId" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="单位名称"  field="compName"  queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="投保单位名称"  field="holderCompName"  queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="收件人"  field="recipients" queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="投保车辆(台)"  field="truckNums" queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="保存时间"  field="saveTime" queryMode="single" width="120"></t:dgCol>
