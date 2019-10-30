@@ -26,7 +26,7 @@
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
-   <t:dgCol title="方案保障"  field="planId" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="方案保障"  field="productDetailEntity.prodPlan" queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="投保单位名称"  field="holderCompName"  queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="收件人"  field="recipients" queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="投保车辆(台)"  field="truckNums" queryMode="single" width="120"></t:dgCol>

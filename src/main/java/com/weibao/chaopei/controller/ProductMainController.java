@@ -173,7 +173,7 @@ public class ProductMainController extends BaseController {
 	public void productDetailDatagrid(ProductDetailEntity productDetailEntity,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(ProductDetailEntity.class, dataGrid);
 		
-		if(productDetailEntity.getProductId() == null || "".equals(productDetailEntity.getProductId())){		
+		if(productDetailEntity.getProdId() == null || "".equals(productDetailEntity.getProdId())){		
 			//	查询条件组装器
 		}else{
 			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, productDetailEntity);

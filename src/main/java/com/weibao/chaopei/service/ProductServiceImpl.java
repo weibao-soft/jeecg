@@ -30,7 +30,7 @@ public class ProductServiceImpl extends CommonServiceImpl implements ProductServ
 		/**保存-产品方案信息*/
 		for(ProductDetailEntity productDetail : productDetailsList){
 			//外键设置
-			productDetail.setProductId(productEntity.getId());
+			productDetail.setProdId(productEntity.getId());
 			this.save(productDetail);
 		}				
 	}

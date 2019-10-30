@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "product_detail", schema = "")
+@Table(name = "wb_product_detail", schema = "")
 @SuppressWarnings("serial")
 public class ProductDetailEntity implements java.io.Serializable {
 	
@@ -20,64 +20,60 @@ public class ProductDetailEntity implements java.io.Serializable {
 	@Column(name ="id",nullable=false,length=32)
 	private java.lang.String id;
 	
-	/**产品计划*/    
-	@Column(name ="product_plan",nullable=true,length=100)
-	private java.lang.String productPlan;
+	/**产品ID*/    
+	@Column(name ="prod_id",nullable=true,length=32)
+	private java.lang.String prodId;
+	
+	/**产品方案计划*/
+	@Column(name ="prod_plan",nullable=true,length=100)
+	private java.lang.String prodPlan;
 	
 	/**营运性质*/
-	@Column(name ="type",nullable=true,length=100)
-	private java.lang.String type;
+	@Column(name ="plan_type",nullable=true,length=30)
+	private java.lang.String planType;
 	
 	/**保费*/
 	@Column(name ="price",nullable=true,scale=2,length=10)	
-	private java.lang.String price;
-	
-	/**产品ID*/    
-	@Column(name ="product_id",nullable=true,length=32)
-	private java.lang.String productId;
+	private java.lang.Double price;
 	
 	
 	public java.lang.String getId(){
 		return this.id;
 	}
 
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  主键
-	 */
 	public void setId(java.lang.String id){
 		this.id = id;
 	}
 
-	public java.lang.String getProductPlan() {
-		return productPlan;
+	public java.lang.String getProdId() {
+		return prodId;
 	}
 
-	public void setProductPlan(java.lang.String productPlan) {
-		this.productPlan = productPlan;
+	public void setProdId(java.lang.String prodId) {
+		this.prodId = prodId;
 	}
 
-	public java.lang.String getType() {
-		return type;
+	public java.lang.String getProdPlan() {
+		return prodPlan;
 	}
 
-	public void setType(java.lang.String type) {
-		this.type = type;
+	public void setProdPlan(java.lang.String prodPlan) {
+		this.prodPlan = prodPlan;
 	}
 
-	public java.lang.String getPrice() {
+	public java.lang.String getPlanType() {
+		return planType;
+	}
+
+	public void setPlanType(java.lang.String planType) {
+		this.planType = planType;
+	}
+
+	public java.lang.Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(java.lang.String price) {
+	public void setPrice(java.lang.Double price) {
 		this.price = price;
-	}
-
-	public java.lang.String getProductId() {
-		return productId;
-	}
-
-	public void setProductId(java.lang.String productId) {
-		this.productId = productId;
 	}
 }

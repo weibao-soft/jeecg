@@ -21,6 +21,7 @@ import com.weibao.chaopei.entity.DraftRelationEntity;
 import com.weibao.chaopei.entity.HolderEntity;
 import com.weibao.chaopei.entity.InsuredEntity;
 import com.weibao.chaopei.entity.PolicyEntity;
+import com.weibao.chaopei.entity.ProductDetailEntity;
 import com.weibao.chaopei.entity.ReceiverEntity;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.page.PolicyVehiclePage;
@@ -156,6 +157,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	public PolicyMainPage addMain(PolicyMainPage policyMainPage) {
 		HolderEntity holderEntity = new HolderEntity(); 
 		ReceiverEntity receiverEntity = new ReceiverEntity();
+		ProductDetailEntity detailEntity = new ProductDetailEntity();
 		DraftEntity draftEntity = new DraftEntity();
 		DraftRelationEntity draftRelationEntity = null;
 		PolicyEntity policyEntity = null;
@@ -196,10 +198,14 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				//recipientsId = policyMainDao.getReceiverIdByTel(receiverEntity.getRecipientsTel());
 			}
 			//String holderId = policyMainDao.getHolderIdByCode(holderEntity.getHolderOrgCode());
-			
+
+			//草稿关联产品方案
+			detailEntity.setId(policyMainPage.getPlanId());
+			draftEntity.setProductDetailEntity(detailEntity);
+			//车辆台数
+			draftEntity.setTruckNums(truckNums);
 			//创建人
 			draftEntity.setUserId(policyMainPage.getUserId());
-			draftEntity.setTruckNums(truckNums);
 			//保存草稿
 			this.save(draftEntity);
 
@@ -242,6 +248,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	public PolicyMainPage updateMain(PolicyMainPage policyMainPage) {
 		HolderEntity holderEntity = new HolderEntity(); 
 		ReceiverEntity receiverEntity = new ReceiverEntity();
+		ProductDetailEntity detailEntity = new ProductDetailEntity();
 		DraftEntity draftEntity = new DraftEntity();
 		DraftRelationEntity draftRelationEntity = null;
 		PolicyEntity policyEntity = null;
@@ -278,6 +285,10 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			if("3".equals(invoiceType)) {
 				policyMainDao.saveReceiverEntity(receiverEntity);
 			}
+			
+			//草稿关联产品方案
+			detailEntity.setId(policyMainPage.getPlanId());
+			draftEntity.setProductDetailEntity(detailEntity);
 			//车辆台数
 			draftEntity.setTruckNums(truckNums);
 			//创建人

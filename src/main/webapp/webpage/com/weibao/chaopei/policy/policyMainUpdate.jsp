@@ -24,6 +24,7 @@ $(document).ready(function(){
 
 function customFunc() {
 	editablePolicy();
+	$("#planId").val("${policyMainPage.planId}");
 	$("#holderCompName").val("${policyMainPage.holderCompName}");
 	$("#invoiceType").val("${policyMainPage.invoiceType}");
 }

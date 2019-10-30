@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -25,8 +28,11 @@ public class DraftEntity implements Serializable {
 	private java.lang.String id;
 	
 	/**保障方案id*/
-	@Column(name ="plan_id",nullable=true,length=32)
-	private java.lang.String planId;
+	@ManyToOne(fetch = FetchType.LAZY, optional=true)
+	@JoinColumn(name = "plan_id")
+	private ProductDetailEntity productDetailEntity;
+	//@Column(name ="plan_id",nullable=true,length=32)
+	//private java.lang.String planId;
 	
 	/**投保单位名称*/
 	@Column(name ="holder_comp_name",nullable=true,length=100)
@@ -60,12 +66,12 @@ public class DraftEntity implements Serializable {
 		this.id = id;
 	}
 
-	public java.lang.String getPlanId() {
-		return planId;
+	public ProductDetailEntity getProductDetailEntity() {
+		return productDetailEntity;
 	}
 
-	public void setPlanId(java.lang.String planId) {
-		this.planId = planId;
+	public void setProductDetailEntity(ProductDetailEntity productDetailEntity) {
+		this.productDetailEntity = productDetailEntity;
 	}
 
 	public java.lang.String getRecipients() {
