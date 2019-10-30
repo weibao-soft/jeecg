@@ -1,5 +1,5 @@
 select 
-	prod.product_plan productPlan, sub.depart_user departid,  
+	prod.prod_plan productPlan, sub.depart_user departid,  
 	parent.product_plan_id productPlanId, parent.period, 
 	parent.rate parentRate, sub.id, sub.rate 
 from 
@@ -10,5 +10,5 @@ from
 	(select * from wb_commission_conf conf1 where conf1.depart_user=:departId)
 	sub 
 	on parent.product_plan_id = sub.product_plan_id
-	join product_detail prod 
+	join wb_product_detail prod 
 	on parent.product_plan_id = prod.id
