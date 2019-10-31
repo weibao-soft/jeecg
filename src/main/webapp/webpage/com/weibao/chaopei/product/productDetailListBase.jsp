@@ -52,7 +52,7 @@
  });
 function getCustomerList(id){	
 	$('#productDetailList').datagrid('load',{
-		productId : id
+		prodId : id
 	});
 }
 //打开选择框

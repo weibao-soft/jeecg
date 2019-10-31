@@ -19,10 +19,10 @@ import com.weibao.chaopei.dao.PolicyMainDao;
 import com.weibao.chaopei.entity.DraftEntity;
 import com.weibao.chaopei.entity.DraftRelationEntity;
 import com.weibao.chaopei.entity.HolderEntity;
-import com.weibao.chaopei.entity.InsuredEntity;
 import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.entity.ProductDetailEntity;
 import com.weibao.chaopei.entity.ReceiverEntity;
+import com.weibao.chaopei.page.CommonBean;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.page.PolicyVehiclePage;
 
@@ -113,7 +113,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 *  查询产品方案信息
 	 * @return
 	 */
-	public List<Map<String, String>> getProductPlan(String prodId) {
+	public List<CommonBean> getProductPlan(String prodId) {
 		return policyMainDao.getProductPlan(prodId);
 	}
 	
@@ -129,14 +129,14 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	/**
 	 *  查询投保人名称
 	 */
-	public List<Map<String, String>> getPolicyHolders() {
+	public List<CommonBean> getPolicyHolders() {
 		return policyMainDao.getPolicyHolders();
 	}
 	
 	/**
 	 *  查询被投保人名称
 	 */
-	public List<InsuredEntity> getPolicyInsureds() {
+	public List<CommonBean> getPolicyInsureds() {
 		return policyMainDao.getPolicyInsureds();
 	}
 	

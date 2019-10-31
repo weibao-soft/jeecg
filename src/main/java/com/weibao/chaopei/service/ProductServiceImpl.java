@@ -36,6 +36,11 @@ public class ProductServiceImpl extends CommonServiceImpl implements ProductServ
 	}
 
 	@Override
+	public void updateMain(ProductEntity productEntity, List<ProductDetailEntity> productDetailsList) {
+		//保存主产品信息	
+	}
+
+	@Override
 	public void udpateAssignProd(String depart_id, List<DepartProductRefEntity> entityList, List<String> removeIds) {
 		//	先修改所有未选中产品的状态为0
 		if(removeIds !=null && removeIds.size() > 0) {

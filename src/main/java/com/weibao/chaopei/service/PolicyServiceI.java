@@ -1,12 +1,11 @@
 package com.weibao.chaopei.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.jeecgframework.core.common.service.CommonService;
 
 import com.weibao.chaopei.entity.HolderEntity;
-import com.weibao.chaopei.entity.InsuredEntity;
+import com.weibao.chaopei.page.CommonBean;
 import com.weibao.chaopei.page.PolicyMainPage;
 
 public interface PolicyServiceI extends CommonService {
@@ -18,7 +17,7 @@ public interface PolicyServiceI extends CommonService {
 	 *  查询产品方案信息
 	 * @return
 	 */
-	public List<Map<String, String>> getProductPlan(String prodId);
+	public List<CommonBean> getProductPlan(String prodId);
 	/**
 	 *  根据id查询投保人信息
 	 * @param id
@@ -28,11 +27,11 @@ public interface PolicyServiceI extends CommonService {
 	/**
 	 *  查询投保人名称
 	 */
-	public List<Map<String, String>> getPolicyHolders();
+	public List<CommonBean> getPolicyHolders();
 	/**
 	 *  查询被保人名称
 	 */
-	public List<InsuredEntity> getPolicyInsureds();
+	public List<CommonBean> getPolicyInsureds();
 	/**
 	 * 新增保存保单、投保人、被保人、收件人等信息
 	 */

@@ -88,6 +88,20 @@ public class ProductMainController extends BaseController {
 		return new ModelAndView("com/weibao/chaopei/product/productMain-add");
 	}
 	
+	/**
+	 * 产品主信息编辑页面跳转
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "goUpdate")
+	public ModelAndView goUpdate(ProductEntity productEntity, HttpServletRequest req) {
+		if (StringUtil.isNotEmpty(productEntity.getId())) {
+			productEntity = productService.getEntity(ProductEntity.class, productEntity.getId());
+			req.setAttribute("productEntityPage", productEntity);
+		}
+		return new ModelAndView("com/weibao/chaopei/product/productMain-update");
+	}
+	
 	
 	/**
 	 *跳转到分配产品的页面
@@ -201,7 +215,7 @@ public class ProductMainController extends BaseController {
 		Object id0 = productEntity.getId();
 		//===================================================================================
 		//查询-JformOrderMain子表
-	    String hql0 = "from ProductDetailEntity where 1 = 1 AND productId = ? ";
+	    String hql0 = "from ProductDetailEntity where 1 = 1 AND prodId = ? ";
 	    try{
 	    	List<ProductDetailEntity> productDetailEntityList = systemService.findHql(hql0,id0);
 			req.setAttribute("productDetailEntityList", productDetailEntityList);
@@ -228,7 +242,31 @@ public class ProductMainController extends BaseController {
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "订单主信息添加失败";
+			message = "产品主信息添加失败";
+			throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
+		return j;
+	}
+	
+	/**
+	 * 更新产品主信息
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping(params = "doUpdate")
+	@ResponseBody
+	public AjaxJson doUpdate(ProductEntity productEntity,ProductMainPage productMainPage, HttpServletRequest request) {
+		List<ProductDetailEntity> productDetailsList =  productMainPage.getProductDetailsList();
+		AjaxJson j = new AjaxJson();
+		String message = "更新成功";
+		try{
+			productService.updateMain(productEntity, productDetailsList);
+			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			e.printStackTrace();
+			message = "产品主信息更新失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);

@@ -30,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.weibao.chaopei.entity.DraftEntity;
 import com.weibao.chaopei.entity.HolderEntity;
-import com.weibao.chaopei.entity.InsuredEntity;
+import com.weibao.chaopei.page.CommonBean;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.service.PolicyServiceI;
 
@@ -269,7 +269,7 @@ public class PolicyMainController extends BaseController {
 	@ResponseBody
 	public JSONObject getHolders(HttpServletRequest request) {
 		JSONObject object = new JSONObject();
-		List<Map<String, String>> holders = new ArrayList<Map<String, String>>();
+		List<CommonBean> holders = new ArrayList<CommonBean>();
 		String message = "查询成功";
 		try{
 			holders = policyService.getPolicyHolders();
@@ -296,7 +296,7 @@ public class PolicyMainController extends BaseController {
 	@ResponseBody
 	public JSONObject getInsureds(HttpServletRequest request) {
 		JSONObject object = new JSONObject();
-		List<InsuredEntity> holders = new ArrayList<InsuredEntity>();
+		List<CommonBean> holders = new ArrayList<CommonBean>();
 		String message = "查询成功";
 		try{
 			holders = policyService.getPolicyInsureds();
@@ -348,12 +348,12 @@ public class PolicyMainController extends BaseController {
 	 */
 	@RequestMapping(params = "getProductPlan")
 	@ResponseBody
-	public JSONObject getProductPlan(String prodId, HttpServletRequest request) {
+	public JSONObject getProductPlan(String paramId, HttpServletRequest request) {
 		JSONObject object = new JSONObject();
-		List<Map<String, String>> holders = null;
+		List<CommonBean> holders = null;
 		String message = "查询成功";
 		try{
-			holders = policyService.getProductPlan(prodId);
+			holders = policyService.getProductPlan(paramId);
 			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(holders);
 			object.put("value", array);
 			object.put("code", 200);

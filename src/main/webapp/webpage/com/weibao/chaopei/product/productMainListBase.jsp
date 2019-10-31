@@ -36,7 +36,7 @@
    <t:dgDelOpt title="删除" url="jformOrderMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
       
    <t:dgToolBar title="新增" icon="icon-add" url="productMainController.do?goAdd" funname="add" width="50%" height="50%"></t:dgToolBar>
-   <t:dgToolBar title="编辑" icon="icon-edit" url="jformOrderMainController.do?goUpdate" funname="update" width="100%" height="100%"></t:dgToolBar>
+   <t:dgToolBar title="编辑" icon="icon-edit" url="productMainController.do?goUpdate" funname="update" width="50%" height="50%"></t:dgToolBar>
    <t:dgToolBar title="批量删除"  icon="icon-remove" url="jformOrderMainController.do?doBatchDel" operationCode="" funname="deleteALLSelect"></t:dgToolBar>
    <t:dgToolBar title="导入数据" icon="icon-put" funname="ImportXls"></t:dgToolBar>
    <t:dgToolBar title="导出数据" icon="icon-putout" funname="ExportXls"></t:dgToolBar>

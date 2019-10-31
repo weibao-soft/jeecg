@@ -11,7 +11,9 @@ import com.weibao.chaopei.entity.ProductEntity;
 
 public interface ProductServiceI extends CommonService {
 	
-	public void addMain(ProductEntity productEntity,List<ProductDetailEntity> productDetailsList);
+	public void addMain(ProductEntity productEntity, List<ProductDetailEntity> productDetailsList);
+	
+	public void updateMain(ProductEntity productEntity, List<ProductDetailEntity> productDetailsList);
 	
 	public void udpateAssignProd(String depart_id, List<DepartProductRefEntity> entityList, List<String> removeIds);
 	

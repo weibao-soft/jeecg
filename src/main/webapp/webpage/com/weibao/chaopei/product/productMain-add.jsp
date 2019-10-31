@@ -98,7 +98,7 @@
 			 <td align="center"><div style="width: 25px;" name="xh"></div></td>
 			 <td align="center"><input style="width:20px;" type="checkbox" name="ck"/></td>
 			  <td align="left">
-				       	<input name="productDetailsList[#index#].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:120px;" ignore="ignore" />
+				       	<input name="productDetailsList[#index#].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:320px;" ignore="ignore" />
 				  <label class="Validform_label" style="display: none;">产品计划</label>
 			  </td>
 			  <td align="left">

@@ -75,25 +75,34 @@ function editablePolicy() {
     });*/
 }
 
-function getProdPlans(prodId) {
-	//获取产品方案下拉框的数据
+//公共函数：参数 params为 Json类型，可以传空参数，如:  {}
+function getCommonSelect(selectId, url, params) {
+	//获取下拉框的数据
     $.ajax({
-        url: "policyMainController.do?getProductPlan",
+        url: url,
         type: "POST",
-        data: {prodId: prodId},
+        data: params,
         dataType: "json",
         error: function () {
             layer.alert("服务器异常");
         },
         success: function (data) {
-            if(console) console.log(data);
+            //if(console) console.log("getCommonSelect == ", data);
             if (data.code == 200) {
-                addPlanOptions(data.value);
+            	//拼接下拉框的Option
+                addOptions(data.value, selectId);
                 return false;
             } else {
                 layer.alert(data.message);
             }
         }
+    });
+}
+function addOptions(items, selectId) {
+    $.each(items,function(n,item) {
+    	//拼接下拉框的Option
+        var htmlContent = $('<option value="'+item.id+'">'+item.name+'</option>');
+        $('#'+selectId).append(htmlContent);
     });
 }
 function getHolders() {
@@ -137,21 +146,15 @@ function getInsureds() {
         }
     });
 }
-function addPlanOptions(items) {
-    $.each(items,function(n,value) {
-        var htmlContent = $('<option value="'+value.id+'">'+value.prod_plan+'</option>');
-        $('#planId').append(htmlContent);
-    });
-}
 function addHldOptions(items) {
     $.each(items,function(n,value) {
-        var htmlContent = $('<option data-id="'+value.id+'" value="'+value.holder_comp_name+'">'+value.holder_comp_name+'</option>');
+        var htmlContent = $('<option data-id="'+value.id+'" value="'+value.name+'">'+value.name+'</option>');
         $('#holderCompName').append(htmlContent);
     });
 }
 function addIurOptions(items) {
     $.each(items,function(n,value) {
-        var htmlContent = $('<option data-code="'+value.insuredOrgCode+'" value="'+value.insuredCompName+'">'+value.insuredCompName+'</option>');
+        var htmlContent = $('<option data-code="'+value.code+'" value="'+value.name+'">'+value.name+'</option>');
         $('#insuredCompName').append(htmlContent);
     });
 }

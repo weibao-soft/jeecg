@@ -13,6 +13,7 @@ import org.jeecgframework.minidao.pojo.MiniDaoPage;
 import com.weibao.chaopei.entity.HolderEntity;
 import com.weibao.chaopei.entity.InsuredEntity;
 import com.weibao.chaopei.entity.ReceiverEntity;
+import com.weibao.chaopei.page.CommonBean;
 
 @MiniDao
 public interface PolicyMainDao {
@@ -33,9 +34,9 @@ public interface PolicyMainDao {
 	 *  查询产品方案信息
 	 * @return
 	 */
-	@Sql("select id,prod_plan from wb_product_detail where prod_id=:prodId")
-	@ResultType(Map.class)
-	public List<Map<String, String>> getProductPlan(@Param("prodId") String prodId);
+	@Sql("select id,prod_plan name from wb_product_detail where prod_id=:prodId")
+	@ResultType(CommonBean.class)
+	public List<CommonBean> getProductPlan(@Param("prodId") String prodId);
 	
 	/**
 	 *  查询收件人信息
@@ -87,17 +88,17 @@ public interface PolicyMainDao {
 	 *  查询投保人名称
 	 * @return
 	 */
-	@Sql("select id,holder_comp_name from wb_policy_holder order by holder_comp_name")
-	@ResultType(Map.class)
-	public List<Map<String, String>> getPolicyHolders();
+	@Sql("select id,holder_comp_name name from wb_policy_holder order by holder_comp_name")
+	@ResultType(CommonBean.class)
+	public List<CommonBean> getPolicyHolders();
 	
 	/**
 	 *  查询被投保人名称
 	 * @return
 	 */
-	@Sql("select id,insured_comp_name,insured_org_code from wb_insured_info order by insured_comp_name")
-	@ResultType(InsuredEntity.class)
-	public List<InsuredEntity> getPolicyInsureds();
+	@Sql("select id,insured_comp_name name,insured_org_code code from wb_insured_info order by insured_comp_name")
+	@ResultType(CommonBean.class)
+	public List<CommonBean> getPolicyInsureds();
 	
 	/**
 	 * 查询用户所属的部门名称

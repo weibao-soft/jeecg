@@ -14,9 +14,11 @@ dict_select{width:200px;}
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
-	var id="402880ea6e1c6fad016e1c830134000d";
+	var params = {};
+	params.paramId = "402880ea6e1c6fad016e1c830134000d";
+	var url = "policyMainController.do?getProductPlan";
 	getHolders();
-	//getProdPlans(id);
+	//getCommonSelect("planId", url, params);
 
     window.setTimeout(customFunc, 500);
     $("#holderCompNature").css("width", "200px");

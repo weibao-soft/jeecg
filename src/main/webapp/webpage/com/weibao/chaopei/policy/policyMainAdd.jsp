@@ -13,10 +13,11 @@
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
-	var id="402880ea6e1c6fad016e1c830134000d";
+	var params = {};
+	params.paramId = "402880ea6e1c6fad016e1c830134000d";
+	var url = "policyMainController.do?getProductPlan";
 	getHolders();
-	//getHolderById("4028dc816e05c0a9016e05c0a9c30000");
-	getProdPlans(id);
+	getCommonSelect("planId", url, params);
     
 	/*$("#planId").editableSelect({
         bg_iframe: false,

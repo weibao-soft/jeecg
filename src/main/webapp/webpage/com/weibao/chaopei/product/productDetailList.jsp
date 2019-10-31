@@ -34,7 +34,7 @@
 	<tr bgcolor="#E6E6E6">
 		<td align="center" bgcolor="#EEEEEE" style="width: 25px;">序号</td>
 		<td align="center" bgcolor="#EEEEEE" style="width: 25px;">操作</td>
-				  <td align="left" bgcolor="#EEEEEE" style="width: 126px;">
+				  <td align="left" bgcolor="#EEEEEE" style="width: 326px;">
 						产品计划
 				  </td>
 				  <td align="left" bgcolor="#EEEEEE" style="width: 126px;">
@@ -52,7 +52,7 @@
 				<input name="productDetailsList[0].id" type="hidden"/>
 				<input name="productDetailsList[0].prodId" type="hidden"/>
 			<td align="left">
-				<input name="productDetailsList[0].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:120px;"  ignore="ignore"  >
+				<input name="productDetailsList[0].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:320px;"  ignore="ignore"  >
 			  	<label class="Validform_label" style="display: none;">产品计划</label>
 			</td>
 			<td align="left">
@@ -73,7 +73,7 @@
 						<input name="productDetailsList[${stuts.index }].id" type="hidden" value="${poVal.id }"/>
 						<input name="productDetailsList[${stuts.index }].prodId" type="hidden" value="${poVal.prodId }"/>
 			   <td align="left">
-				       	<input name="productDetailsList[${stuts.index }].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:120px;"  ignore="ignore"  value="${poVal.prodPlan }"/>
+				       	<input name="productDetailsList[${stuts.index }].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:320px;"  ignore="ignore"  value="${poVal.prodPlan }"/>
 				  <label class="Validform_label" style="display: none;">产品计划</label>
 			   </td>
 			   <td align="left">
