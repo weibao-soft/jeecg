@@ -196,6 +196,8 @@ public class PolicyMainController extends BaseController {
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, draftEntity);
 		try{
 		//自定义追加查询条件
+			String status = "1";
+			draftEntity.setStatus(status);
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
@@ -333,6 +335,32 @@ public class PolicyMainController extends BaseController {
 			logger.info(e.getMessage(), e);
 			object.put("code", 201);
 			message = "保单投保人查询失败";
+			throw new BusinessException(e.getMessage());
+		}
+		object.put("message", message);
+		return object;
+	}
+	
+	/**
+	 *  查询保单投保人
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "getProductPlan")
+	@ResponseBody
+	public JSONObject getProductPlan(String prodId, HttpServletRequest request) {
+		JSONObject object = new JSONObject();
+		List<Map<String, String>> holders = null;
+		String message = "查询成功";
+		try{
+			holders = policyService.getProductPlan(prodId);
+			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(holders);
+			object.put("value", array);
+			object.put("code", 200);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			object.put("code", 201);
+			message = "产品方案查询失败";
 			throw new BusinessException(e.getMessage());
 		}
 		object.put("message", message);

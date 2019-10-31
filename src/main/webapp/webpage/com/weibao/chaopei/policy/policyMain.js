@@ -75,6 +75,27 @@ function editablePolicy() {
     });*/
 }
 
+function getProdPlans(prodId) {
+	//获取产品方案下拉框的数据
+    $.ajax({
+        url: "policyMainController.do?getProductPlan",
+        type: "POST",
+        data: {prodId: prodId},
+        dataType: "json",
+        error: function () {
+            layer.alert("服务器异常");
+        },
+        success: function (data) {
+            if(console) console.log(data);
+            if (data.code == 200) {
+                addPlanOptions(data.value);
+                return false;
+            } else {
+                layer.alert(data.message);
+            }
+        }
+    });
+}
 function getHolders() {
 	//获取投保人单位名称下拉框的数据
     $.ajax({
@@ -86,7 +107,7 @@ function getHolders() {
             layer.alert("服务器异常");
         },
         success: function (data) {
-            if(console) console.log(data);
+            //if(console) console.log(data);
             if (data.code == 200) {
                 addHldOptions(data.value);
                 return false;
@@ -107,7 +128,6 @@ function getInsureds() {
             layer.alert("服务器异常");
         },
         success: function (data) {
-            if(console) console.log(data);
             if (data.code == 200) {
             	addIurOptions(data.value);
                 return false;
@@ -115,6 +135,12 @@ function getInsureds() {
                 layer.alert(data.message);
             }
         }
+    });
+}
+function addPlanOptions(items) {
+    $.each(items,function(n,value) {
+        var htmlContent = $('<option value="'+value.id+'">'+value.prod_plan+'</option>');
+        $('#planId').append(htmlContent);
     });
 }
 function addHldOptions(items) {
@@ -140,9 +166,10 @@ function getHolderById(holderId) {
             layer.alert("服务器异常");
         },
         success: function (data) {
-            if(console) console.log(data);
+            //if(console) console.log(data);
             if (data.code == 200) {
             	addHolder(data.value);
+        		//tip($.i18n.prop('common.opt.success'));
                 return false;
             } else {
                 layer.alert(data.message);
@@ -151,6 +178,7 @@ function getHolderById(holderId) {
     });
 }
 function addHolder(item) {
+	//tip(item.holderOrgCode);
 	document.getElementById("holderOrgCode").value = item.holderOrgCode;
 	document.getElementById("holderCompNature").value = item.holderCompNature;
 	document.getElementById("industryType").value = item.industryType;

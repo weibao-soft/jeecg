@@ -50,17 +50,17 @@
 				<label class="Validform_label">产品名称:</label>
 			</td>
 			<td class="value">
-		     	<input id="name" name="name" type="text" style="width: 150px" class="inputxt"  datatype="*"  ignore="checked" />
+		     	<input id="prodName" name="prodName" type="text" style="width: 150px" class="inputxt"  datatype="*"  ignore="checked" />
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">产品名称</label>
 			</td>
 			<td align="right">
-				<label class="Validform_label">产品标题:</label>
+				<label class="Validform_label">产品类型:</label>
 			</td>
 			<td class="value">
-				<input id="title" name="title" type="text" style="width: 150px"  class="inputxt" datatype="*" ignore="checked"  />
+				<input id="prodType" name="prodType" type="text" style="width: 150px"  class="inputxt" datatype="*" ignore="checked"  />
 				<span class="Validform_checktip"></span>
-				<label class="Validform_label" style="display: none;">产品标题</label>
+				<label class="Validform_label" style="display: none;">产品类型</label>
 			</td>
 		</tr>
 		<tr>
@@ -76,7 +76,7 @@
 				<label class="Validform_label">保险公司:</label>
 			</td>
 			<td class="value">
-				  <t:dictSelect field="company" type="list" 
+				  <t:dictSelect field="compName" type="list" 
 						typeGroupCode="ins_comp" defaultVal="N" hasLabel="false"  title="保险公司" ></t:dictSelect>     
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">保险公司</label>
@@ -98,11 +98,11 @@
 			 <td align="center"><div style="width: 25px;" name="xh"></div></td>
 			 <td align="center"><input style="width:20px;" type="checkbox" name="ck"/></td>
 			  <td align="left">
-				       	<input name="productDetailsList[#index#].productPlan" maxlength="100" type="text" class="inputxt"  style="width:120px;" ignore="ignore" />
+				       	<input name="productDetailsList[#index#].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:120px;" ignore="ignore" />
 				  <label class="Validform_label" style="display: none;">产品计划</label>
 			  </td>
 			  <td align="left">
-				  	<input name="productDetailsList[#index#].type" maxlength="10" type="text" class="inputxt"  style="width:120px;"  ignore="ignore" />
+				  	<input name="productDetailsList[#index#].planType" maxlength="10" type="text" class="inputxt"  style="width:120px;"  ignore="ignore" />
 				  <label class="Validform_label" style="display: none;">营运性质</label>
 			  </td>			  
 			  <td align="left">

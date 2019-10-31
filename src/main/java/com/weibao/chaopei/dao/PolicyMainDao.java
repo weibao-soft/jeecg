@@ -28,6 +28,14 @@ public interface PolicyMainDao {
 	@Arguments({"draftId"})
 	@ResultType(Map.class)
 	public List<Map<String, Object>> getPolicyMainPage(String draftId);
+
+	/**
+	 *  查询产品方案信息
+	 * @return
+	 */
+	@Sql("select id,prod_plan from wb_product_detail where prod_id=:prodId")
+	@ResultType(Map.class)
+	public List<Map<String, String>> getProductPlan(@Param("prodId") String prodId);
 	
 	/**
 	 *  查询收件人信息

@@ -110,6 +110,14 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	}
 	
 	/**
+	 *  查询产品方案信息
+	 * @return
+	 */
+	public List<Map<String, String>> getProductPlan(String prodId) {
+		return policyMainDao.getProductPlan(prodId);
+	}
+	
+	/**
 	 *  根据id查询投保人信息
 	 * @param id
 	 * @return
@@ -214,6 +222,9 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				policyEntity = new PolicyEntity();
 				draftRelationEntity = new DraftRelationEntity();
 
+				if(vehicle.getPlateNo() == null) {
+					continue;
+				}
 				BeanUtils.copyProperties(policyEntity, policyMainPage);
 				BeanUtils.copyProperties(policyEntity, vehicle);
 				//创建时间

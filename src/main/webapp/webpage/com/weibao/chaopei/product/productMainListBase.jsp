@@ -26,10 +26,10 @@
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
-   <t:dgCol title="产品名称"  field="name"  queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="标题"  field="title" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="产品名称"  field="prodName"  queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="产品类型"  field="prodType" queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="期限"  field="period"  queryMode="single"  width="120"></t:dgCol>
-   <t:dgCol title="保险公司"  field="company" dictionary="ins_comp"  queryMode="single" width="120"></t:dgCol>   
+   <t:dgCol title="保险公司"  field="compName" dictionary="ins_comp"  queryMode="single" width="120"></t:dgCol>   
    
    <t:dgCol title="操作" field="opt" width="100"></t:dgCol>      
    <t:dgFunOpt title="立即投保"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />

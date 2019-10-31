@@ -13,8 +13,10 @@
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
+	var id="402880ea6e1c6fad016e1c830134000d";
 	getHolders();
 	//getHolderById("4028dc816e05c0a9016e05c0a9c30000");
+	getProdPlans(id);
     
 	/*$("#planId").editableSelect({
         bg_iframe: false,
@@ -72,14 +74,6 @@ function insurance() {
 	 <tr><td style="width:15%">方案保障</td>
 	 <td style="width:85%">
 		<select name="planId" id="planId" style="width:400px;">
-			<option value="1">保障：累计600万，每次限额200万 保费:1000元</option>
-			<option value="2">保障：累计600万，每次限额300万 保费:1300元</option>
-			<option value="3">保障：累计200万，每次限额200万 保费:900元</option>
-			<option value="4">保障：累计300万，每次限额300万 保费:1200元</option>
-			<option value="5">保障：累计600万，每次限额200万，计划B 保费:1200元</option>
-			<option value="6">保障：累计600万，每次限额300万，计划B 保费:1500元</option>
-			<option value="7">保障：累计200万，每次限额200万,计划B 保费:1100元</option>
-			<option value="8">保障：累计300万，每次限额300万，计划B 保费:1400元</option>
 		</select>
 		<span class="Validform_checktip"></span></td></tr>
 	 </table>

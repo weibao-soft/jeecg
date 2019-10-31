@@ -50,13 +50,13 @@
 			<td align="center"><div style="width: 25px;" name="xh">1</div></td>
 			<td align="center"><input style="width:20px;"  type="checkbox" name="ck"/></td>
 				<input name="productDetailsList[0].id" type="hidden"/>
-				<input name="productDetailsList[0].productId" type="hidden"/>
+				<input name="productDetailsList[0].prodId" type="hidden"/>
 			<td align="left">
-				<input name="productDetailsList[0].productPlan" maxlength="100" type="text" class="inputxt"  style="width:120px;"  ignore="ignore"  >
+				<input name="productDetailsList[0].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:120px;"  ignore="ignore"  >
 			  	<label class="Validform_label" style="display: none;">产品计划</label>
 			</td>
 			<td align="left">
-				<input name="productDetailsList[0].type" maxlength="10" type="text" class="inputxt"  style="width:120px;"  ignore="ignore" >
+				<input name="productDetailsList[0].planType" maxlength="10" type="text" class="inputxt"  style="width:120px;"  ignore="ignore" >
 				<label class="Validform_label" style="display: none;">营运性质</label>
 			</td>			
 			<td align="left">
@@ -71,13 +71,13 @@
 				<td align="center"><div style="width: 25px;" name="xh">${stuts.index+1 }</div></td>
 				<td align="center"><input style="width:20px;"  type="checkbox" name="ck" /></td>
 						<input name="productDetailsList[${stuts.index }].id" type="hidden" value="${poVal.id }"/>
-						<input name="productDetailsList[${stuts.index }].productId" type="hidden" value="${poVal.productId }"/>
+						<input name="productDetailsList[${stuts.index }].prodId" type="hidden" value="${poVal.prodId }"/>
 			   <td align="left">
-				       	<input name="productDetailsList[${stuts.index }].productPlan" maxlength="100" type="text" class="inputxt"  style="width:120px;"  ignore="ignore"  value="${poVal.productPlan }"/>
+				       	<input name="productDetailsList[${stuts.index }].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:120px;"  ignore="ignore"  value="${poVal.prodPlan }"/>
 				  <label class="Validform_label" style="display: none;">产品计划</label>
 			   </td>
 			   <td align="left">
-				  	<input name="productDetailsList[${stuts.index }].type" maxlength="10" type="text" class="inputxt"  style="width:120px;"  ignore="ignore"  value="${poVal.type }"/>
+				  	<input name="productDetailsList[${stuts.index }].planType" maxlength="10" type="text" class="inputxt"  style="width:120px;"  ignore="ignore"  value="${poVal.planType }"/>
 				  <label class="Validform_label" style="display: none;">营运性质</label>
 			   </td>
 			   <td align="left">

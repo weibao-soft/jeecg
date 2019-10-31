@@ -66,7 +66,7 @@ function closeDialog() {
 				<label class="Validform_label">银行账号:</label>
 			</td>
 			<td class="value">
-				<input id="bankAccount" name="bankAccount" type="text" style="width: 150px"  class="inputxt" datatype="d" ignore="checked" value="${policyMainPage.bankAccount }" />
+				<input id="bankAccount" name="bankAccount" type="text" style="width: 150px"  class="inputxt" datatype="*" ignore="checked" value="${policyMainPage.bankAccount }" />
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">银行账号</label>
 			</td>

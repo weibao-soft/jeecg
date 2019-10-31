@@ -22,7 +22,7 @@
 <%@include file="/context/layui.jsp"%>
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="policyMainList" checkbox="false" fitColumns="true" title="保单列表" actionUrl="policyMainController.do?datagrid" 
+  <t:datagrid name="policyMainList" checkbox="false" fitColumns="true" title="草稿列表" actionUrl="policyMainController.do?datagrid" 
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
@@ -36,7 +36,7 @@
    <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
    <t:dgDelOpt title="删除" url="policyMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
       
-   <t:dgToolBar title="编辑" icon="icon-edit" url="" funname="addTab(id)" width="100%" height="100%"></t:dgToolBar>
+   <t:dgToolBar title="测试" icon="icon-edit" url="" funname="" width="100%" height="100%"></t:dgToolBar>
    
   </t:datagrid>
   </div>

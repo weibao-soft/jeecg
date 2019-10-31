@@ -4,11 +4,10 @@
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="productDetailList" checkbox="false" fitColumns="true" title="" actionUrl="productMainController.do?productDetailDatagrid" 
-  	idField="id" fit="true" queryMode="
-  	group" collapsible="true">
+  	idField="id" fit="true" queryMode="group" collapsible="true">
    <t:dgCol title="主键"  field="id"  hidden="true"  queryMode="single"  width="0"></t:dgCol>   
-   <t:dgCol title="名称"  field="productPlan"  extendParams="editor:'text'" queryMode="single"  width="100"></t:dgCol>
-   <t:dgCol title="营运性质"  field="type" extendParams="editor:'numberbox'"  queryMode="single"  width="50"></t:dgCol>
+   <t:dgCol title="产品计划"  field="prodPlan"  extendParams="editor:'text'" queryMode="single"  width="100"></t:dgCol>
+   <t:dgCol title="营运性质"  field="planType" extendParams="editor:'numberbox'"  queryMode="single"  width="50"></t:dgCol>
    <t:dgCol title="保费"  field="price"  queryMode="single"  width="120"></t:dgCol>
    
    <%--  

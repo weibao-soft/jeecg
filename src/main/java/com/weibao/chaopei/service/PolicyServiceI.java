@@ -15,6 +15,11 @@ public interface PolicyServiceI extends CommonService {
 	 */
 	public PolicyMainPage getPolicyMainPage(String draftId);
 	/**
+	 *  查询产品方案信息
+	 * @return
+	 */
+	public List<Map<String, String>> getProductPlan(String prodId);
+	/**
 	 *  根据id查询投保人信息
 	 * @param id
 	 * @return
@@ -29,6 +34,14 @@ public interface PolicyServiceI extends CommonService {
 	 */
 	public List<InsuredEntity> getPolicyInsureds();
 	/**
+	 * 新增保存保单、投保人、被保人、收件人等信息
+	 */
+	public PolicyMainPage addMain(PolicyMainPage policyMainPage);
+	/**
+	 * 修改保存保单、投保人、被保人、收件人等信息
+	 */
+	public PolicyMainPage updateMain(PolicyMainPage policyMainPage);
+	/**
 	 * 根据id删除保单表id不在列表里的行
 	 * @param draftId
 	 * @param ids
@@ -40,12 +53,4 @@ public interface PolicyServiceI extends CommonService {
 	 * @param ids
 	 */
 	public int deleteRelations(String draftId, String[] ids);
-	/**
-	 * 新增保存保单、投保人、被保人、收件人等信息
-	 */
-	public PolicyMainPage addMain(PolicyMainPage policyMainPage);
-	/**
-	 * 修改保存保单、投保人、被保人、收件人等信息
-	 */
-	public PolicyMainPage updateMain(PolicyMainPage policyMainPage);
 }
