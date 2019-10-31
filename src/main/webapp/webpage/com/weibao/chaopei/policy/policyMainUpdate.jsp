@@ -18,7 +18,7 @@ $(document).ready(function(){
 	params.paramId = "402880ea6e1c6fad016e1c830134000d";
 	var url = "policyMainController.do?getProductPlan";
 	getHolders();
-	//getCommonSelect("planId", url, params);
+	getCommonSelect("planId", url, params);
 
     window.setTimeout(customFunc, 500);
     $("#holderCompNature").css("width", "200px");
@@ -30,7 +30,7 @@ function customFunc() {
 	editablePolicy();
 	$("#planId").val("${policyMainPage.planId}");
 	$("#holderCompName").val("${policyMainPage.holderCompName}");
-	$("#invoiceType").val("${policyMainPage.invoiceType}");
+	$("#invoiceType").val("${policyMainPage.invoiceType}").trigger('change');
 }
 //提交表单数据
 function submitData() {
@@ -71,15 +71,7 @@ function insurance() {
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
 	 <tr><td style="width:15%">方案保障</td>
 	 <td style="width:85%">
-			<select name="planId" id="planId" style="width:400px;" value="${policyMainPage.planId}">                                                                                                   
-			<option value="1">保障：累计600万，每次限额200万 保费:1000元</option>
-			<option value="2">保障：累计600万，每次限额300万 保费:1300元</option>
-			<option value="3">保障：累计200万，每次限额200万 保费:900元</option>
-			<option value="4">保障：累计300万，每次限额300万 保费:1200元</option>
-			<option value="5">保障：累计600万，每次限额200万，计划B 保费:1200元</option>
-			<option value="6">保障：累计600万，每次限额300万，计划B 保费:1500元</option>
-			<option value="7">保障：累计200万，每次限额200万,计划B 保费:1100元</option>
-			<option value="8">保障：累计300万，每次限额300万，计划B 保费:1400元</option>
+			<select name="planId" id="planId" style="width:400px;" value="${policyMainPage.planId}">
 			</select>
 			<span class="Validform_checktip"></span></td></tr>
 	 </table>
@@ -93,7 +85,7 @@ function insurance() {
 		 <tr><td style="width:15%">车辆信息：</td>
 		 <td style="width:85%">
 			<table name="policy_tabel" id="policy_tabel">
-			<tbody>
+			<tbody id="add_policy_tabel">
 			<c:if test="${fn:length(policyMainPage.vehicles) <= 0 }">
 				<tr name='policytr'>
 				<input name="vehicles[0].id" type="hidden"/>

@@ -263,7 +263,7 @@ public class ProductMainController extends BaseController {
 		String message = "更新成功";
 		try{
 			productService.updateMain(productEntity, productDetailsList);
-			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			systemService.addLog(message+":", Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "产品主信息更新失败";

@@ -49,6 +49,35 @@ function jeecgFormFileCallBack(data){
 		win.reloadTable();
 	}
 }
+//初始化下标
+function resetTrNum(tableId) {
+	$tbody = $("#"+tableId+"");
+	$tbody.find('>tr').each(function(i){
+		$(':input, select,button,a', this).each(function(){
+			var $this = $(this), name = $this.attr('name'),id = $this.attr('id');
+			if(name!=null){
+				if (name.indexOf("#index#") >= 0){
+					$this.attr("name",name.replace('#index#',i));
+				}else{
+					var s = name.indexOf("[");
+					var e = name.indexOf("]");
+					var new_name = name.substring(s+1,e);
+					$this.attr("name",name.replace(new_name,i));
+				}
+			}
+			if(id!=null){
+				if (id.indexOf("#index#") >= 0){
+					$this.attr("id",id.replace('#index#',i));
+				}else{
+					var s = id.indexOf("[");
+					var e = id.indexOf("]");
+					var new_id = id.substring(s+1,e);
+					$this.attr("id",id.replace(new_id,i));
+				}
+			}
+		});
+	});
+}
 
 function editablePolicy() {
 	$("#holderCompName").editableSelect({
@@ -201,7 +230,7 @@ var index1 = 0;
 function addPolicy() {
 	index1++;
 	var index = document.getElementById("policy_tabel").rows.length;
-	layer.msg(index);
+	//layer.msg(index);
 	var trbody = "<tr name='policytr'>";
 	trbody += "<td><div style='text-align:right;width:140px;'>车牌号：<BR/>（新车填写：未上牌）</div></td>";
 	trbody += "<td><input type='text' name='vehicles["+index+"].plateNo' class='policy' title='plateNo' maxlength='8' value='未上牌'></td>";
@@ -214,11 +243,13 @@ function addPolicy() {
 	trbody += "</tr>";
 	$("#policy_tabel").find("tbody").append(trbody);
 	//$("#policy_tabel").find("tbody").replaceWith(trbody);
+	resetTrNum("add_policy_tabel");
 }
 
 function removePolicy(obj) {
 	index1--;
 	$(obj).parents("tr[name='policytr']").remove();
+	resetTrNum("add_policy_tabel");
 }
 
 function calculateYear() {

@@ -88,7 +88,7 @@ function insurance() {
 		 <tr><td style="width:15%">车辆信息：</td>
 		 <td style="width:85%">
 			<table name="policy_tabel" id="policy_tabel">
-			<tbody>
+			<tbody id="add_policy_tabel">
 			<c:if test="${fn:length(policyMainPage.vehicles) <= 0 }">
 				<tr name='policytr'>
 				<input name="vehicles[0].id" type="hidden"/>
