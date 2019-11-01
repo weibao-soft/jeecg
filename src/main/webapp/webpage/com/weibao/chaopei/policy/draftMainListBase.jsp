@@ -22,23 +22,19 @@
 <%@include file="/context/layui.jsp"%>
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="policyMainList" checkbox="false" fitColumns="true" title="草稿列表" actionUrl="policyMainController.do?datagrid" 
+  <t:datagrid name="draftMainList" checkbox="false" fitColumns="true" title="草稿列表" actionUrl="policyDraftController.do?datagrid" 
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
-   <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
+   <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
-   <t:dgCol title="保单号"  field="planId" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="创建日期"  field="createTime" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="保单状态"  field="status" queryMode="single" width="50"></t:dgCol>
-   <t:dgCol title="投保人"  field="holderCompName"  queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="车牌号/被保人"  field="plateNo" queryMode="single" width="50"></t:dgCol>
-   <t:dgCol title="车架号"  field="frameNo" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="保费"  field="truckNums" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="用户姓名"  field="userId" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="最后修改时间"  field="lastUpdateTime" queryMode="single" width="80"></t:dgCol>
+   <t:dgCol title="方案保障"  field="productDetailEntity.prodPlan" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="投保单位名称"  field="holderCompName"  queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="收件人"  field="recipients" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="投保车辆(台)"  field="truckNums" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="保存时间"  field="saveTime" queryMode="single" width="120"></t:dgCol>
    
    <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
    <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
-   <t:dgDelOpt title="删除" url="policyMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
+   <t:dgDelOpt title="删除" url="policyDraftController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
       
    <t:dgToolBar title="测试" icon="icon-edit" url="" funname="" width="100%" height="100%"></t:dgToolBar>
    
@@ -52,9 +48,9 @@ $(document).ready(function (){
 	$("#lywidth_demo").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
 	
 	/*//为了给产品列表的行添加鼠标点击事件
-	//该鼠标点击事件触发父页面：policyMainList.jsp（包含当前iframe的页面）的getCustomerList
+	//该鼠标点击事件触发父页面：draftMainList.jsp（包含当前iframe的页面）的getCustomerList
 	//再由父页面内触发另一个
-	$("#policyMainList").datagrid({		
+	$("#draftMainList").datagrid({		
 		onClickRow: function (index, row) {
 			//getCustomerList(row.id);
 		}
@@ -65,9 +61,9 @@ $(document).ready(function (){
 function getCustomerList(id){
 	parent.getCustomerList(id);
 }
-function addTab(ids) {	
-    //if(console) console.log(ids);
-	//addTabs({id:ids,title:'保单修改',close: true,url: 'policyMainController.do?goUpdate&draftId='+ids});	
-}
 
+function addTab(ids) {	
+    if(console) console.log(ids);
+	addTabs({id:ids,title:'保单修改',close: true,url: 'policyMainController.do?goUpdate&draftId='+ids});	
+}
  </script>

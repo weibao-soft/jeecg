@@ -230,7 +230,6 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				//创建时间
 				policyEntity.setCreateTime(currDate);
 				policyEntity.setLastUpdateTime(currDate);
-				//policyEntity.setStatus("1");
 				
 				//保存保单主要信息
 				this.save(policyEntity);
@@ -305,7 +304,6 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			//创建人
 			draftEntity.setUserId(policyMainPage.getUserId());
 			draftEntity.setId(draftId);
-			//draftEntity.setStatus("1");
 			this.saveOrUpdate(draftEntity);
 
 			delIds = new ArrayList<String>();
@@ -321,7 +319,6 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				//修改时间
 				policyEntity.setLastUpdateTime(currDate);
 				policyEntity.setId(vehicle.getId());
-				//policyEntity.setStatus("1");
 				//保存保单主要信息
 				this.saveOrUpdate(policyEntity);
 				
