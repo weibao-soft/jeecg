@@ -81,6 +81,7 @@ function resetTrNum(tableId) {
 
 function editablePolicy() {
 	$("#holderCompName").editableSelect({
+        effects: 'slide',
         bg_iframe: false,
         case_sensitive: false,
         items_then_scroll: 10,

@@ -1,5 +1,6 @@
 package com.weibao.chaopei.service;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,10 +8,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
+import org.jeecgframework.core.common.exception.BusinessException;
+import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.UUIDGenerator;
+import org.jeecgframework.p3.core.utils.common.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +28,7 @@ import com.weibao.chaopei.entity.DraftRelationEntity;
 import com.weibao.chaopei.entity.HolderEntity;
 import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.entity.ProductDetailEntity;
+import com.weibao.chaopei.entity.ProductEntity;
 import com.weibao.chaopei.entity.ReceiverEntity;
 import com.weibao.chaopei.page.CommonBean;
 import com.weibao.chaopei.page.PolicyMainPage;
@@ -107,6 +115,93 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setRecipients((String)obj.get("recipients"));
 		policyMainPage.setRecipientsTel((String)obj.get("recipients_tel"));
 		policyMainPage.setReciAddress((String)obj.get("reci_address"));
+	}
+	
+	/**
+	 * 从结果Map中取值放入保单PageBean中
+	 * @param obj
+	 * @param policyMainPage
+	 */
+	private void setPolicyOther(Map<String, Object> obj, PolicyMainPage policyMainPage) {
+		policyMainPage.setId((String)obj.get("id"));
+		//复制车辆信息
+		policyMainPage.setPlateNo((String)obj.get("plate_no"));
+		policyMainPage.setFrameNo((String)obj.get("frame_no"));
+		policyMainPage.setEngineNo((String)obj.get("engine_no"));
+		//复制保单详情
+		policyMainPage.setProdName((String)obj.get("prod_name"));
+		policyMainPage.setProdCode((String)obj.get("prod_code"));
+		policyMainPage.setInsurCompName((String)obj.get("insur_comp_name"));
+		policyMainPage.setProdPlan((String)obj.get("prod_plan"));
+		policyMainPage.setPermium((Double)obj.get("permium"));
+		policyMainPage.setUserName((String)obj.get("username"));
+		policyMainPage.setCreateTime((Date)obj.get("create_time"));
+		policyMainPage.setLastUpdateTime((Date)obj.get("last_update_time"));
+	}
+
+	/**
+	 *  查询保单列表
+	 * @return
+	 */
+	public List<PolicyMainPage> getPolicyList(PolicyMainPage policy, DataGrid dataGrid) {
+		List<Map<String, Object>> objs = null;
+		List<PolicyMainPage> policyList = new ArrayList<PolicyMainPage>();
+		StringBuffer stbSql = new StringBuffer();
+		stbSql.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, ");
+		stbSql.append("a.plate_no, a.frame_no, a.user_id, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.comp_name insur_comp_name ");
+		stbSql.append("from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu ");
+		stbSql.append("where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id");
+		
+		try {
+			List<Object> objList = new ArrayList<Object>();
+			Object param1 = null;
+			Object param2 = null;
+			Object param3 = null;
+			Object param4 = null;
+			int page = dataGrid.getPage();
+			int rows = dataGrid.getRows();
+			PolicyMainPage policyMainPage = null;
+			if(StringUtils.isNotBlank(policy.getHolderCompName())) {
+				stbSql.append(" and a.holder_comp_name like ?");
+				param1 = new String("%" + policy.getHolderCompName() + "%");
+				objList.add(param1);
+			}
+			if(StringUtils.isNotBlank(policy.getPlateNo())) {
+				stbSql.append(" and a.plate_no like ?");
+				param2 = new String("%" + policy.getPlateNo() + "%");
+				objList.add(param2);
+			}
+			if(StringUtils.isNotBlank(policy.getFrameNo())) {
+				stbSql.append(" and a.frame_no like ?");
+				param3 = new String("%" + policy.getFrameNo() + "%");
+				objList.add(param3);
+			}
+			if(StringUtils.isNotBlank(policy.getProdName())) {
+				stbSql.append(" and b.prod_name like ?");
+				param4 = new String("%" + policy.getProdName() + "%");
+				objList.add(param4);
+			}
+			
+			if(objList.isEmpty()) {
+				objs = findForJdbcParam(stbSql.toString(), page, rows);
+			} else {
+				Object[] objss = objList.toArray();
+				objs = findForJdbcParam(stbSql.toString(), page, rows, objss);
+			}
+			
+			
+			for(int i = 0; i < objs.size(); i++) {
+				Map<String, Object> obj = objs.get(i);
+				policyMainPage = new PolicyMainPage();
+
+				setPolicyMainPage(obj, policyMainPage);
+				setPolicyOther(obj, policyMainPage);
+				policyList.add(policyMainPage);
+			}
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return policyList;
 	}
 	
 	/**
@@ -360,5 +455,66 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setRecipients("");
 		policyMainPage.setRecipientsTel("");
 		policyMainPage.setReciAddress("");
+	}
+	
+	protected String getQuerySql(PolicyEntity policyEntity, DataGrid dataGrid) {
+		StringBuffer stbSql = new StringBuffer();
+		
+		try{
+			//自定义追加查询条件
+			Table table = PolicyEntity.class.getAnnotation(Table.class);
+			String table1 = table.name();
+			String alias1 = "a";
+			table = ProductEntity.class.getAnnotation(Table.class);
+			String table2 = table.name();
+			String alias2 = "b";
+			String column1 = null;
+
+			/*Field[] fields = PolicyEntity.class.getDeclaredFields();
+			for(int i = 1; i < fields.length; i++) {
+				Column column = fields[i].getAnnotation(Column.class);
+				System.out.println(column.name());
+			}*/
+
+			stbSql.append("select ");
+			System.out.println(dataGrid.getField());
+			String[] sfields = dataGrid.getField().split(",");
+			for(int j = 0; j < sfields.length; j++) {
+				boolean hasField = false;
+				try {
+					Field field = PolicyEntity.class.getDeclaredField(sfields[j]);
+					Column column = field.getAnnotation(Column.class);
+					column1 = column.name();
+					stbSql.append(" ").append(alias1).append(".").append(column1).append(",");
+					hasField = true;
+				} catch (NoSuchFieldException e) {
+					//logger.error(e);
+				}
+				try {
+					if(!hasField) {
+						Field field = ProductEntity.class.getDeclaredField(sfields[j]);
+						Column column = field.getAnnotation(Column.class);
+						column1 = column.name();
+						stbSql.append(" ").append(alias2).append(".").append(column1).append(",");
+						hasField = true;
+					}
+				} catch (NoSuchFieldException e) {
+					logger.error(e);
+				}
+			}
+			stbSql.deleteCharAt(stbSql.length() - 1);
+			stbSql.append(" from ").append(table1).append(" ").append(alias1).append(",")
+							.append(table2).append(" ").append(alias2);
+			stbSql.append(" where ").append(alias1).append(".prod_id=").append(alias2).append(".id");
+			//查询条件组装器
+			
+		} catch (SecurityException e) {
+			logger.error(e);
+			throw new BusinessException(e.getMessage());
+		} catch (Exception e) {
+			logger.error(e);
+			throw new BusinessException(e.getMessage());
+		}
+		return stbSql.toString();
 	}
 }

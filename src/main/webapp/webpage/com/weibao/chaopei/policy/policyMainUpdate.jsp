@@ -18,6 +18,7 @@ $(document).ready(function(){
 	var params = {};
 	params.paramId = "402880ea6e1c6fad016e1c830134000d";
 	var url = "policyMainController.do?getProductPlan";
+	$("#prodId").val(params.paramId);
 	getHolders();
 	getCommonSelect("planId", url, params);
 
@@ -72,6 +73,7 @@ function closeWin() {
  <legend>国任投保</legend>
  <table cellpadding="0" cellspacing="1" class="formtable" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
+	<input id="prodId" name="prodId" type="hidden" value="${policyMainPage.prodId }"/>
 	<input id="draftId" name="draftId" type="hidden" value="${policyMainPage.draftId }"/>
  
  <tr><td style="width:10%"></td><td style="width:90%">

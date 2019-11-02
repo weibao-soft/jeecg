@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
-import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.weibao.chaopei.entity.HolderEntity;
-import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.page.CommonBean;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.service.PolicyServiceI;
@@ -189,17 +187,19 @@ public class PolicyMainController extends BaseController {
 	 * @param user
 	 */
 	@RequestMapping(params = "datagrid")
-	public void datagrid(PolicyEntity policyEntity,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(PolicyEntity.class, dataGrid);
+	public void datagrid(PolicyMainPage policy, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		
 		try{
-			//自定义追加查询条件
+			List<PolicyMainPage> policyList = policyService.getPolicyList(policy, dataGrid);
+			dataGrid.setResults(policyList);
 			//查询条件组装器
-			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, policyEntity);
-		}catch (Exception e) {
+		} catch (SecurityException e) {
+			logger.error(e);
+			throw new BusinessException(e.getMessage());
+		} catch (Exception e) {
+			logger.error(e);
 			throw new BusinessException(e.getMessage());
 		}
-		cq.add();
-		this.policyService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
 	

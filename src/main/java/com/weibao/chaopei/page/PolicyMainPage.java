@@ -17,8 +17,24 @@ public class PolicyMainPage implements Serializable {
 	private List<PolicyVehiclePage> vehicles = new ArrayList<PolicyVehiclePage>();
 	//保单id(失效)
 	private java.lang.String id;
+	//产品id
+	private java.lang.String prodId;
+	//产品代码
+	private java.lang.String prodCode;
+	//产品名称
+	private java.lang.String prodName;
+	//保险公司名称
+	private java.lang.String insurCompName;
 	//保障方案id
 	private java.lang.String planId;
+	//产品方案计划
+	private java.lang.String prodPlan;
+	//车牌号
+	private java.lang.String plateNo;
+	//车架号
+	private java.lang.String frameNo;
+	//发动机号
+	private java.lang.String engineNo;
 	//保险开始日期
 	private java.util.Date startDate;
 	//保险结束日期
@@ -71,6 +87,14 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String draftId;
 	//用户id
 	private java.lang.String userId;
+	//用户姓名
+	private java.lang.String userName;
+	//保费
+	private java.lang.Double permium;
+	//创建时间
+	private java.util.Date createTime;
+	//最后修改时间
+	private java.util.Date lastUpdateTime;
 	
 	public List<PolicyVehiclePage> getVehicles() {
 		return vehicles;
@@ -84,11 +108,59 @@ public class PolicyMainPage implements Serializable {
 	public void setId(java.lang.String id) {
 		this.id = id;
 	}
+	public java.lang.String getProdId() {
+		return prodId;
+	}
+	public void setProdId(java.lang.String prodId) {
+		this.prodId = prodId;
+	}
 	public java.lang.String getPlanId() {
 		return planId;
 	}
 	public void setPlanId(java.lang.String planId) {
 		this.planId = planId;
+	}
+	public java.lang.String getProdCode() {
+		return prodCode;
+	}
+	public void setProdCode(java.lang.String prodCode) {
+		this.prodCode = prodCode;
+	}
+	public java.lang.String getProdName() {
+		return prodName;
+	}
+	public void setProdName(java.lang.String prodName) {
+		this.prodName = prodName;
+	}
+	public java.lang.String getInsurCompName() {
+		return insurCompName;
+	}
+	public void setInsurCompName(java.lang.String insurCompName) {
+		this.insurCompName = insurCompName;
+	}
+	public java.lang.String getProdPlan() {
+		return prodPlan;
+	}
+	public void setProdPlan(java.lang.String prodPlan) {
+		this.prodPlan = prodPlan;
+	}
+	public java.lang.String getPlateNo() {
+		return plateNo;
+	}
+	public void setPlateNo(java.lang.String plateNo) {
+		this.plateNo = plateNo;
+	}
+	public java.lang.String getFrameNo() {
+		return frameNo;
+	}
+	public void setFrameNo(java.lang.String frameNo) {
+		this.frameNo = frameNo;
+	}
+	public java.lang.String getEngineNo() {
+		return engineNo;
+	}
+	public void setEngineNo(java.lang.String engineNo) {
+		this.engineNo = engineNo;
 	}
 	public java.util.Date getStartDate() {
 		return startDate;
@@ -245,6 +317,30 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setUserId(java.lang.String userId) {
 		this.userId = userId;
+	}
+	public java.lang.String getUserName() {
+		return userName;
+	}
+	public void setUserName(java.lang.String userName) {
+		this.userName = userName;
+	}
+	public java.lang.Double getPermium() {
+		return permium;
+	}
+	public void setPermium(java.lang.Double permium) {
+		this.permium = permium;
+	}
+	public java.util.Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(java.util.Date createTime) {
+		this.createTime = createTime;
+	}
+	public java.util.Date getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
 	}
 	
 	

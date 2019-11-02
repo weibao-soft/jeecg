@@ -1,42 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
-<t:base type="jquery,easyui,tools,DatePicker"></t:base>
+<t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 <script src="plug-in/ace/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="plug-in/ace/assets/js/bootstrap.min.js"></script>
 <script src="plug-in/ace/assets/js/typeahead-bs2.min.js"></script>
-
-<!-- page specific plugin scripts -->
-
-<!--[if lte IE 8]>
-  <script src="plug-in/ace/assets/js/excanvas.min.js"></script>
-<![endif]-->
-<!-- ace scripts -->
-<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
 <script src="plug-in/ace/assets/js/ace-elements.min.js"></script>
 <script src="plug-in/ace/assets/js/ace.min.js"></script>
+<script src="plug-in/ace/js/bootbox.js"></script>
+
+<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
 <script src="plug-in/jquery/jquery.contextmenu.js"></script>
 <script src="plug-in/layer/layer.js"></script>
-<script src="plug-in/ace/js/bootbox.js"></script>
 <!--add-start--Author:wangkun Date:20160813 for:内部聊天修改-->
 <%@include file="/context/layui.jsp"%>
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="policyMainList" checkbox="false" fitColumns="true" title="草稿列表" actionUrl="policyMainController.do?datagrid" 
+  <t:datagrid name="policyMainList" checkbox="false" pagination="true" fitColumns="true" title="草稿列表" actionUrl="policyMainController.do?datagrid" 
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
    
-   <t:dgCol title="保单号"  field="planId" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="创建日期"  field="createTime" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="保单状态"  field="status" queryMode="single" width="50"></t:dgCol>
-   <t:dgCol title="投保人"  field="holderCompName"  queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="车牌号/被保人"  field="plateNo" queryMode="single" width="50"></t:dgCol>
-   <t:dgCol title="车架号"  field="frameNo" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="保费"  field="truckNums" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="用户姓名"  field="userId" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="最后修改时间"  field="lastUpdateTime" queryMode="single" width="80"></t:dgCol>
+   <t:dgCol title="保单号"  field="planId" query="false" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="100"></t:dgCol>
+   <t:dgCol title="最后修改时间"  field="lastUpdateTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="100"></t:dgCol>
+   <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" width="50"></t:dgCol>
+   <t:dgCol title="支付状态"  field="payStatus" queryMode="single" width="50"></t:dgCol>
+   <t:dgCol title="投保人"  field="holderCompName" query="true" queryMode="single" width="80"></t:dgCol>
+   <t:dgCol title="车牌号/被保人"  field="plateNo" query="true" queryMode="single" width="50"></t:dgCol>
+   <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" width="80"></t:dgCol>
+   <t:dgCol title="保费"  field="price" queryMode="single" width="80"></t:dgCol>
+   <t:dgCol title="用户姓名"  field="userName" queryMode="group" width="120"></t:dgCol>
+   <t:dgCol title="产品名称"  field="prodName" query="true" queryMode="single" width="80"></t:dgCol>
+   <t:dgCol title="产品代码"  field="prodCode" queryMode="single" width="80"></t:dgCol>
+   <t:dgCol title="保险公司"  field="insurCompName" query="true" queryMode="single" width="80"></t:dgCol>
    
-   <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
+   <t:dgCol title="操作" field="opt" width="120"></t:dgCol>
    <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
    <t:dgDelOpt title="删除" url="policyMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
       

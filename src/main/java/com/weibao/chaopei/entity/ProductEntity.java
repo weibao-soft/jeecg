@@ -8,6 +8,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * 产品信息表
+ */
 @Entity
 @Table(name = "wb_insurance_product", schema = "")
 @SuppressWarnings("serial")
@@ -19,6 +22,10 @@ public class ProductEntity implements java.io.Serializable {
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")	
 	@Column(name ="id",nullable=false,length=32)
 	private java.lang.String id;
+	
+	/**产品代码*/    
+	@Column(name ="prod_code",nullable=true,length=32)
+	private java.lang.String prodCode;
 	
 	/**产品名称*/    
 	@Column(name ="prod_name",nullable=true,length=100)
@@ -42,6 +49,14 @@ public class ProductEntity implements java.io.Serializable {
 
 	public void setId(java.lang.String id){
 		this.id = id;
+	}
+
+	public java.lang.String getProdCode() {
+		return prodCode;
+	}
+
+	public void setProdCode(java.lang.String prodCode) {
+		this.prodCode = prodCode;
 	}
 
 	public java.lang.String getProdName() {

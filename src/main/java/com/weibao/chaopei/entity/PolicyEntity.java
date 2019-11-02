@@ -141,6 +141,10 @@ public class PolicyEntity implements Serializable {
 	@Column(name ="user_id",nullable=true,length=32)
 	private java.lang.String userId;
 	
+	/**保费*/
+	@Column(name ="permium",nullable=true,scale=2,length=10)
+	private java.lang.Double permium;
+	
 	/**支付状态*/
 	@Column(name ="pay_status",nullable=true,length=1)
 	private java.lang.String payStatus;
@@ -149,11 +153,19 @@ public class PolicyEntity implements Serializable {
 	@Column(name ="pay_time",nullable=true)
 	private java.util.Date payTime;
 	
+	/**分润状态*/
+	@Column(name ="reward_status",nullable=true,length=1)
+	private java.lang.String rewardStatus;
+	
+	/**分润时间*/
+	@Column(name ="reward_time",nullable=true)
+	private java.util.Date rewardTime;
+	
 	/**创建时间*/
 	@Column(name ="create_time",nullable=true)
 	private java.util.Date createTime;
 	
-	/**修改时间*/
+	/**最后修改时间*/
 	@Column(name ="last_update_time",nullable=true)
 	private java.util.Date lastUpdateTime;
 
@@ -413,6 +425,22 @@ public class PolicyEntity implements Serializable {
 		this.payTime = payTime;
 	}
 
+	public java.lang.String getRewardStatus() {
+		return rewardStatus;
+	}
+
+	public void setRewardStatus(java.lang.String rewardStatus) {
+		this.rewardStatus = rewardStatus;
+	}
+
+	public java.util.Date getRewardTime() {
+		return rewardTime;
+	}
+
+	public void setRewardTime(java.util.Date rewardTime) {
+		this.rewardTime = rewardTime;
+	}
+
 	public java.util.Date getCreateTime() {
 		return createTime;
 	}
@@ -427,6 +455,14 @@ public class PolicyEntity implements Serializable {
 
 	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
+	}
+
+	public java.lang.Double getPermium() {
+		return permium;
+	}
+
+	public void setPermium(java.lang.Double permium) {
+		this.permium = permium;
 	}
 
 }

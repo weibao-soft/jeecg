@@ -2,6 +2,7 @@ package com.weibao.chaopei.service;
 
 import java.util.List;
 
+import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.CommonService;
 
 import com.weibao.chaopei.entity.HolderEntity;
@@ -13,6 +14,11 @@ public interface PolicyServiceI extends CommonService {
 	 *  查询保单信息
 	 */
 	public PolicyMainPage getPolicyMainPage(String draftId);
+	/**
+	 *  查询保单列表
+	 * @return
+	 */
+	public List<PolicyMainPage> getPolicyList(PolicyMainPage policy, DataGrid dataGrid);
 	/**
 	 *  查询产品方案信息
 	 * @return

@@ -8,6 +8,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * 产品详情表
+ */
 @Entity
 @Table(name = "wb_product_detail", schema = "")
 @SuppressWarnings("serial")
@@ -24,6 +27,10 @@ public class ProductDetailEntity implements java.io.Serializable {
 	@Column(name ="prod_id",nullable=true,length=32)
 	private java.lang.String prodId;
 	
+	/**方案代码*/
+	@Column(name ="plan_code",nullable=true,length=32)
+	private java.lang.String planCode;
+	
 	/**产品方案计划*/
 	@Column(name ="prod_plan",nullable=true,length=100)
 	private java.lang.String prodPlan;
@@ -33,7 +40,7 @@ public class ProductDetailEntity implements java.io.Serializable {
 	private java.lang.String planType;
 	
 	/**保费*/
-	@Column(name ="price",nullable=true,scale=2,length=10)	
+	@Column(name ="price",nullable=true,scale=2,length=10)
 	private java.lang.Double price;
 	
 	
@@ -51,6 +58,14 @@ public class ProductDetailEntity implements java.io.Serializable {
 
 	public void setProdId(java.lang.String prodId) {
 		this.prodId = prodId;
+	}
+
+	public java.lang.String getPlanCode() {
+		return planCode;
+	}
+
+	public void setPlanCode(java.lang.String planCode) {
+		this.planCode = planCode;
 	}
 
 	public java.lang.String getProdPlan() {
