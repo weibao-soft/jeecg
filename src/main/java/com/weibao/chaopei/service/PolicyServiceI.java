@@ -18,7 +18,7 @@ public interface PolicyServiceI extends CommonService {
 	 *  查询保单列表
 	 * @return
 	 */
-	public List<PolicyMainPage> getPolicyList(PolicyMainPage policy, DataGrid dataGrid);
+	public DataGrid getPolicyList(PolicyMainPage policy, DataGrid dataGrid);
 	/**
 	 *  查询产品方案信息
 	 * @return

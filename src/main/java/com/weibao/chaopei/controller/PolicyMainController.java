@@ -190,8 +190,7 @@ public class PolicyMainController extends BaseController {
 	public void datagrid(PolicyMainPage policy, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		
 		try{
-			List<PolicyMainPage> policyList = policyService.getPolicyList(policy, dataGrid);
-			dataGrid.setResults(policyList);
+			policyService.getPolicyList(policy, dataGrid);
 			//查询条件组装器
 		} catch (SecurityException e) {
 			logger.error(e);

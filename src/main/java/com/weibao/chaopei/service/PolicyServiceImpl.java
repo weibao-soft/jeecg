@@ -143,21 +143,27 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 *  查询保单列表
 	 * @return
 	 */
-	public List<PolicyMainPage> getPolicyList(PolicyMainPage policy, DataGrid dataGrid) {
+	public DataGrid getPolicyList(PolicyMainPage policy, DataGrid dataGrid) {
+		Long total = 0L;
 		List<Map<String, Object>> objs = null;
 		List<PolicyMainPage> policyList = new ArrayList<PolicyMainPage>();
 		StringBuffer stbSql = new StringBuffer();
-		stbSql.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, ");
-		stbSql.append("a.plate_no, a.frame_no, a.user_id, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.comp_name insur_comp_name ");
-		stbSql.append("from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu ");
-		stbSql.append("where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id");
+		StringBuffer stbHeadSql1 = new StringBuffer();
+		StringBuffer stbHeadSql2 = new StringBuffer();
+		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, ");
+		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.comp_name insur_comp_name ");
+		stbHeadSql2.append("select count(1) ");
+		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu ");
+		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id");
 		
 		try {
-			List<Object> objList = new ArrayList<Object>();
 			Object param1 = null;
 			Object param2 = null;
 			Object param3 = null;
 			Object param4 = null;
+			Object param5 = null;
+			Object param6 = null;
+			List<Object> objList = new ArrayList<Object>();
 			int page = dataGrid.getPage();
 			int rows = dataGrid.getRows();
 			PolicyMainPage policyMainPage = null;
@@ -181,12 +187,26 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				param4 = new String("%" + policy.getProdName() + "%");
 				objList.add(param4);
 			}
+			if(StringUtils.isNotBlank(policy.getInsurCompName())) {
+				stbSql.append(" and b.comp_name like ?");
+				param5 = new String("%" + policy.getInsurCompName() + "%");
+				objList.add(param5);
+			}
+			if(StringUtils.isNotBlank(policy.getStatus())) {
+				stbSql.append(" and a.`status` = ?");
+				param6 = new String(policy.getStatus());
+				objList.add(param6);
+			}
 			
+			stbHeadSql1.append(stbSql);
+			stbHeadSql2.append(stbSql);
 			if(objList.isEmpty()) {
-				objs = findForJdbcParam(stbSql.toString(), page, rows);
+				total = getCountForJdbc(stbHeadSql2.toString());
+				objs = findForJdbc(stbHeadSql1.toString(), page, rows);
 			} else {
 				Object[] objss = objList.toArray();
-				objs = findForJdbcParam(stbSql.toString(), page, rows, objss);
+				total = getCountForJdbcParam(stbHeadSql2.toString(), objss);
+				objs = findForJdbcParam(stbHeadSql1.toString(), page, rows, objss);
 			}
 			
 			
@@ -198,10 +218,12 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				setPolicyOther(obj, policyMainPage);
 				policyList.add(policyMainPage);
 			}
+			dataGrid.setResults(policyList);
+			dataGrid.setTotal(total.intValue());
 		} catch(Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		return policyList;
+		return dataGrid;
 	}
 	
 	/**
@@ -457,6 +479,12 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setReciAddress("");
 	}
 	
+	/**
+	 * 根据DataGrid中的查询结果列生成查询sql
+	 * @param policyEntity
+	 * @param dataGrid
+	 * @return
+	 */
 	protected String getQuerySql(PolicyEntity policyEntity, DataGrid dataGrid) {
 		StringBuffer stbSql = new StringBuffer();
 		

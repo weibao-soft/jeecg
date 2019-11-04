@@ -12,32 +12,31 @@
 <script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
 <script src="plug-in/jquery/jquery.contextmenu.js"></script>
 <script src="plug-in/layer/layer.js"></script>
-<!--add-start--Author:wangkun Date:20160813 for:内部聊天修改-->
-<%@include file="/context/layui.jsp"%>
+
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="policyMainList" checkbox="false" pagination="true" fitColumns="true" title="草稿列表" actionUrl="policyMainController.do?datagrid" 
-  		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
-   <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
-   
-   <t:dgCol title="保单号"  field="planId" query="false" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="100"></t:dgCol>
-   <t:dgCol title="最后修改时间"  field="lastUpdateTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="100"></t:dgCol>
-   <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" width="50"></t:dgCol>
-   <t:dgCol title="支付状态"  field="payStatus" queryMode="single" width="50"></t:dgCol>
-   <t:dgCol title="投保人"  field="holderCompName" query="true" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="车牌号/被保人"  field="plateNo" query="true" queryMode="single" width="50"></t:dgCol>
-   <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="保费"  field="price" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="用户姓名"  field="userName" queryMode="group" width="120"></t:dgCol>
-   <t:dgCol title="产品名称"  field="prodName" query="true" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="产品代码"  field="prodCode" queryMode="single" width="80"></t:dgCol>
-   <t:dgCol title="保险公司"  field="insurCompName" query="true" queryMode="single" width="80"></t:dgCol>
-   
-   <t:dgCol title="操作" field="opt" width="120"></t:dgCol>
+  <t:datagrid name="policyMainList" checkbox="false" pagination="true" fitColumns="false" title="草稿列表" actionUrl="policyMainController.do?datagrid" 
+  		idField="id" fit="true" collapsible="false" queryMode="group" superQuery="true" filter="true" >
+   <t:dgCol title="操作" frozenColumn="true"  field="opt" width="180"></t:dgCol>
    <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
    <t:dgDelOpt title="删除" url="policyMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
       
+   <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
+   
+   <t:dgCol title="保单号"  field="planId" query="false" queryMode="single" width="200"></t:dgCol>
+   <t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="150"></t:dgCol>
+   <t:dgCol title="投保时间"  field="lastUpdateTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="150"></t:dgCol>
+   <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" dictionary="poliStatus" width="100"></t:dgCol>
+   <t:dgCol title="支付状态"  field="payStatus" queryMode="single" defaultVal='N' dictionary="payStatus" width="100"></t:dgCol>
+   <t:dgCol title="投保人"  field="holderCompName" query="true" queryMode="single" width="100"></t:dgCol>
+   <t:dgCol title="车牌号/被保人"  field="plateNo" query="true" queryMode="single" width="100"></t:dgCol>
+   <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" width="200"></t:dgCol>
+   <t:dgCol title="保费"  field="price" queryMode="single" width="100"></t:dgCol>
+   <t:dgCol title="用户姓名"  field="userName" queryMode="group" width="120"></t:dgCol>
+   <t:dgCol title="产品名称"  field="prodName" query="true" queryMode="single" width="150"></t:dgCol>
+   <t:dgCol title="产品代码"  field="prodCode" queryMode="single" width="100"></t:dgCol>
+   <t:dgCol title="保险公司"  field="insurCompName" query="true" queryMode="single" defaultVal='N' dictionary="ins_comp" width="100"></t:dgCol>
+   
    <t:dgToolBar title="测试" icon="icon-edit" url="" funname="" width="100%" height="100%"></t:dgToolBar>
    
   </t:datagrid>
