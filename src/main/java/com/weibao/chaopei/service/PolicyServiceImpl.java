@@ -151,7 +151,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
 		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, ");
-		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.comp_name insur_comp_name ");
+		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.insur_comp_name ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu ");
 		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id");
@@ -166,6 +166,8 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			List<Object> objList = new ArrayList<Object>();
 			int page = dataGrid.getPage();
 			int rows = dataGrid.getRows();
+			String sort = dataGrid.getSort();
+			String order = dataGrid.getOrder();
 			PolicyMainPage policyMainPage = null;
 			if(StringUtils.isNotBlank(policy.getHolderCompName())) {
 				stbSql.append(" and a.holder_comp_name like ?");
@@ -188,7 +190,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				objList.add(param4);
 			}
 			if(StringUtils.isNotBlank(policy.getInsurCompName())) {
-				stbSql.append(" and b.comp_name like ?");
+				stbSql.append(" and b.insur_comp_name like ?");
 				param5 = new String("%" + policy.getInsurCompName() + "%");
 				objList.add(param5);
 			}
@@ -196,6 +198,12 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				stbSql.append(" and a.`status` = ?");
 				param6 = new String(policy.getStatus());
 				objList.add(param6);
+			}
+			if(StringUtils.isNotBlank(sort)) {
+				String column = getColumnName(sort);
+				if(StringUtils.isNotBlank(column)) {
+					stbSql.append(" order by " + column + " " + order);
+				}
 			}
 			
 			stbHeadSql1.append(stbSql);
@@ -477,6 +485,48 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setRecipients("");
 		policyMainPage.setRecipientsTel("");
 		policyMainPage.setReciAddress("");
+	}
+	
+	/**
+	 * 根据实体Beande的属性名获取字段名称
+	 * @param propName
+	 * @return
+	 */
+	private String getColumnName(String propName) {
+		String column1 = null;
+		boolean hasField = false;
+		try {
+			Field field = PolicyEntity.class.getDeclaredField(propName);
+			Column column = field.getAnnotation(Column.class);
+			column1 = column.name();
+			hasField = true;
+		} catch (NoSuchFieldException e) {
+			//logger.error(e);
+		}
+		try {
+			if(!hasField) {
+				Field field = ProductEntity.class.getDeclaredField(propName);
+				Column column = field.getAnnotation(Column.class);
+				column1 = column.name();
+				hasField = true;
+			}
+		} catch (NoSuchFieldException e) {
+			//logger.error(e);
+		}
+		try {
+			if(!hasField) {
+				Field field = ProductDetailEntity.class.getDeclaredField(propName);
+				Column column = field.getAnnotation(Column.class);
+				column1 = column.name();
+				hasField = true;
+			}
+		} catch (NoSuchFieldException e) {
+			logger.error(e);
+		}
+		if(!hasField && "userName".equals(propName)) {
+			column1 = "realname";
+		}
+		return column1;
 	}
 	
 	/**

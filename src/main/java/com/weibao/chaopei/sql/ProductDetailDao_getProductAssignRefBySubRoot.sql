@@ -1,5 +1,5 @@
 select 
-	sub.id, det.id productPlanId, prod.id productId, prod.comp_name company, 
+	sub.id, det.id productPlanId, prod.id productId, prod.insur_comp_name company, 
 	det.prod_plan productPlan, sub.assign_status assignStatus 	 
 from 
 	(select * from wb_depart_product_rel a where a.depart_id = :parentdepartId and a.assign_status='1') pp left join

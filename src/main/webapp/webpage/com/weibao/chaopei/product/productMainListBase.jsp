@@ -29,7 +29,7 @@
    <t:dgCol title="产品名称"  field="prodName"  queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="产品类型"  field="prodType" queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="期限"  field="period"  queryMode="single"  width="120"></t:dgCol>
-   <t:dgCol title="保险公司"  field="compName" dictionary="ins_comp"  queryMode="single" width="120"></t:dgCol>   
+   <t:dgCol title="保险公司"  field="insurCompName" dictionary="ins_comp"  queryMode="single" width="120"></t:dgCol>   
    
    <t:dgCol title="操作" field="opt" width="100"></t:dgCol>      
    <t:dgFunOpt title="立即投保"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />

@@ -23,7 +23,7 @@
       
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
    
-   <t:dgCol title="保单号"  field="planId" query="false" queryMode="single" width="200"></t:dgCol>
+   <t:dgCol title="保单号"  field="policyNo" query="false" queryMode="single" width="200"></t:dgCol>
    <t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="150"></t:dgCol>
    <t:dgCol title="投保时间"  field="lastUpdateTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="150"></t:dgCol>
    <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" dictionary="poliStatus" width="100"></t:dgCol>

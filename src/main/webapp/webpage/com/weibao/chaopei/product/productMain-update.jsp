@@ -76,8 +76,8 @@
 				<label class="Validform_label">保险公司:</label>
 			</td>
 			<td class="value">
-				  <t:dictSelect field="compName" type="list" 
-						typeGroupCode="ins_comp" defaultVal="${productEntityPage.compName }" hasLabel="false"  title="保险公司" ></t:dictSelect>     
+				  <t:dictSelect field="insurCompName" type="list" 
+						typeGroupCode="ins_comp" defaultVal="${productEntityPage.insurCompName }" hasLabel="false"  title="保险公司" ></t:dictSelect>     
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">保险公司</label>
 			</td>

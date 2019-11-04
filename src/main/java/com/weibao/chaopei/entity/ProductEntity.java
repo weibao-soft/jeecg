@@ -40,8 +40,8 @@ public class ProductEntity implements java.io.Serializable {
 	private java.lang.String period;
 	
 	/**保险公司名称*/    
-	@Column(name ="comp_name",nullable=true,length=100)
-	private java.lang.String compName;
+	@Column(name ="insur_comp_name",nullable=true,length=100)
+	private java.lang.String insurCompName;
 	
 	public java.lang.String getId(){
 		return this.id;
@@ -75,12 +75,12 @@ public class ProductEntity implements java.io.Serializable {
 		this.prodType = prodType;
 	}
 
-	public java.lang.String getCompName() {
-		return compName;
+	public java.lang.String getInsurCompName() {
+		return insurCompName;
 	}
 
-	public void setCompName(java.lang.String compName) {
-		this.compName = compName;
+	public void setInsurCompName(java.lang.String insurCompName) {
+		this.insurCompName = insurCompName;
 	}
 
 	public java.lang.String getPeriod() {
