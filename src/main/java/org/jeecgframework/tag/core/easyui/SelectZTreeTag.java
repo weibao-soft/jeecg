@@ -146,13 +146,17 @@ public class SelectZTreeTag extends TagSupport {
 		+ "function onCheck(e, treeId, treeNode) {"
 		+ "		var zTree = $.fn.zTree.getZTreeObj('treeDemo'),"
 		+ "		nodes = zTree.getCheckedNodes(true),"
-		+ "		v = '';"
+		+ "		v = '',id = '';"
 		+ "		for (var i=0, l=nodes.length; i<l; i++) {"
 		+ "			v += nodes[i].name + ',';"
+		+ "			id += nodes[i].id + ',';"
 		+ "		}"
 		+ "		if (v.length > 0 ) v = v.substring(0, v.length-1);"
+		+ "		if (id.length > 0 ) id = id.substring(0, id.length-1);"
 		+ "		var cityObj = $('#"+id+"');"
+		+ "		var cityIdObj = $('#"+id+"ids');"
 		+ "		cityObj.attr('value', v);"
+		+ "		cityIdObj.attr('value', id);"
 		+ "} "
 		+ " function showMenu() {"
 		+ "		var cityObj = $('#"+id+"');"
@@ -221,6 +225,7 @@ public class SelectZTreeTag extends TagSupport {
 		+ "</script>");
 
 		sb.append("		   <input id=\""+id+"\" name=\""+id+"\"  type=\"text\" readonly value=\"\" style=\"width:"+windowWidth+";height:"+windowHeight+"\" class=\"form-control\" onclick=\"showMenu();\" />");
+		sb.append("		   <input id=\""+id+"ids\" name=\""+id+"ids\"  type=\"hidden\" value=\"\" />");
 		sb.append("<div id=\"menuContent\" class=\"menuContent\" style=\"display:none; position: absolute;\" >");
 		sb.append("		<ul id=\"treeDemo\" class=\"ztree\" style=\"margin-top:0; width:100%;background-color:#f9f9f9\"></ul>");
 		sb.append("</div>");

@@ -89,6 +89,8 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String userId;
 	//用户姓名
 	private java.lang.String userName;
+	//部门id
+	private java.lang.String departId;
 	//保费
 	private java.lang.Double permium;
 	//创建时间
@@ -323,6 +325,12 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setUserName(java.lang.String userName) {
 		this.userName = userName;
+	}
+	public java.lang.String getDepartId() {
+		return departId;
+	}
+	public void setDepartId(java.lang.String departId) {
+		this.departId = departId;
 	}
 	public java.lang.Double getPermium() {
 		return permium;

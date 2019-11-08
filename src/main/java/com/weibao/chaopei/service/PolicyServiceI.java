@@ -20,6 +20,17 @@ public interface PolicyServiceI extends CommonService {
 	 */
 	public DataGrid getPolicyList(PolicyMainPage policy, DataGrid dataGrid);
 	/**
+	 *  查询下级机构的保单列表
+	 * @return
+	 */
+	public DataGrid getPolicyList(PolicyMainPage policy, DataGrid dataGrid, List<String> userIdList);
+	/**
+	 * 根据部门id获取用户列表
+	 * @param departIds
+	 * @return
+	 */
+	public List<String> getDepartUserIds(List<String> departIds);
+	/**
 	 *  查询产品方案信息
 	 * @return
 	 */
@@ -38,6 +49,18 @@ public interface PolicyServiceI extends CommonService {
 	 *  查询被保人名称
 	 */
 	public List<CommonBean> getPolicyInsureds();
+	/**
+	 * 查询该部门所有子部门的ID
+	 * @param userid
+	 * @return
+	 */
+	public List<String> getChildDepartIds(String parentId);
+	/**
+	 * 查询用户所属的部门ID
+	 * @param userid
+	 * @return
+	 */
+	public List<String> getDepartIdByUser(String userid);
 	/**
 	 * 新增保存保单、投保人、被保人、收件人等信息
 	 */

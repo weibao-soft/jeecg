@@ -2,20 +2,10 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
-<script src="plug-in/ace/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
-<script src="plug-in/ace/assets/js/bootstrap.min.js"></script>
-<script src="plug-in/ace/assets/js/typeahead-bs2.min.js"></script>
-<script src="plug-in/ace/assets/js/ace-elements.min.js"></script>
-<script src="plug-in/ace/assets/js/ace.min.js"></script>
-<script src="plug-in/ace/js/bootbox.js"></script>
-
-<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
-<script src="plug-in/jquery/jquery.contextmenu.js"></script>
-<script src="plug-in/layer/layer.js"></script>
 
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="policyMainList" checkbox="false" pagination="true" fitColumns="false" title="草稿列表" actionUrl="policyMainController.do?datagrid" 
+  <t:datagrid name="policyMainList" checkbox="false" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
   		idField="id" fit="true" collapsible="false" queryMode="group" superQuery="true" filter="true" >
    <t:dgCol title="操作" frozenColumn="true"  field="opt" width="180"></t:dgCol>
    <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />

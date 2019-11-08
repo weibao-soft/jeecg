@@ -187,7 +187,8 @@ public class PolicyMainController extends BaseController {
 	 * @param user
 	 */
 	@RequestMapping(params = "datagrid")
-	public void datagrid(PolicyMainPage policy, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+	public void datagrid(PolicyMainPage policy, HttpServletRequest request, 
+			HttpServletResponse response, DataGrid dataGrid) {
 		
 		try{
 			policyService.getPolicyList(policy, dataGrid);

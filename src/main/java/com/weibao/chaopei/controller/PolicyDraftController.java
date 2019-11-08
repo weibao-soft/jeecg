@@ -8,7 +8,6 @@ import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +26,6 @@ public class PolicyDraftController extends BaseController {
 	
 	@Autowired
 	private PolicyServiceI  policyService;
-	@Autowired
-	private SystemService systemService;
 
 	/**
 	 * 保单主信息列表 页面跳转
@@ -59,7 +56,8 @@ public class PolicyDraftController extends BaseController {
 	 * @param user
 	 */
 	@RequestMapping(params = "datagrid")
-	public void datagrid(DraftEntity draftEntity,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+	public void datagrid(DraftEntity draftEntity, HttpServletRequest request, 
+			HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(DraftEntity.class, dataGrid);
 		try{
 			//自定义追加查询条件

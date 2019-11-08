@@ -101,14 +101,34 @@ public interface PolicyMainDao {
 	public List<CommonBean> getPolicyInsureds();
 	
 	/**
+	 * 查询该部门所有子部门的ID
+	 * @param userid
+	 * @return
+	 */
+	@Arguments({"parentId"})
+	@Sql("select id from t_s_depart where parentdepartid =:parentId")
+	@ResultType(String.class)
+	public List<String> getChildDepartIds(String parentId);
+	
+	/**
+	 * 查询用户所属的部门ID
+	 * @param userid
+	 * @return
+	 */
+	@Arguments({"userId"})
+	@Sql("select id from t_s_depart where id in (select org_id from t_s_user_org where user_id =:userId)")
+	@ResultType(String.class)
+	public List<String> getUserDepartIds(String userId);
+	
+	/**
 	 * 查询用户所属的部门名称
 	 * @param userid
 	 * @return
 	 */
 	@Arguments({"userId"})
-	@Sql("select departname from t_s_depart where id in (select org_id from t_s_user_org where user_id =:userid)")
+	@Sql("select departname from t_s_depart where id in (select org_id from t_s_user_org where user_id =:userId)")
 	@ResultType(String.class)
-	public List<String> getUserDepartNames(String userid);
+	public List<String> getUserDepartNames(String userId);
 	
 	/**
 	 * 保存投保人

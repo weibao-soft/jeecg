@@ -58,6 +58,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			setPolicyMainPage(obj, policyMainPage);
 		} catch(Exception e) {
 			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
 		}
 		return policyMainPage;
 	}
@@ -157,47 +158,92 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id");
 		
 		try {
-			Object param1 = null;
-			Object param2 = null;
-			Object param3 = null;
-			Object param4 = null;
-			Object param5 = null;
-			Object param6 = null;
 			List<Object> objList = new ArrayList<Object>();
 			int page = dataGrid.getPage();
 			int rows = dataGrid.getRows();
 			String sort = dataGrid.getSort();
 			String order = dataGrid.getOrder();
 			PolicyMainPage policyMainPage = null;
-			if(StringUtils.isNotBlank(policy.getHolderCompName())) {
-				stbSql.append(" and a.holder_comp_name like ?");
-				param1 = new String("%" + policy.getHolderCompName() + "%");
-				objList.add(param1);
+			
+			getQueryConditions(policy, stbSql, objList);
+			if(StringUtils.isNotBlank(sort)) {
+				String column = getColumnName(sort);
+				if(StringUtils.isNotBlank(column)) {
+					stbSql.append(" order by " + column + " " + order);
+				}
 			}
-			if(StringUtils.isNotBlank(policy.getPlateNo())) {
-				stbSql.append(" and a.plate_no like ?");
-				param2 = new String("%" + policy.getPlateNo() + "%");
-				objList.add(param2);
+			
+			stbHeadSql1.append(stbSql);
+			stbHeadSql2.append(stbSql);
+			if(objList.isEmpty()) {
+				total = getCountForJdbc(stbHeadSql2.toString());
+				objs = findForJdbc(stbHeadSql1.toString(), page, rows);
+			} else {
+				Object[] objss = objList.toArray();
+				total = getCountForJdbcParam(stbHeadSql2.toString(), objss);
+				objs = findForJdbcParam(stbHeadSql1.toString(), page, rows, objss);
 			}
-			if(StringUtils.isNotBlank(policy.getFrameNo())) {
-				stbSql.append(" and a.frame_no like ?");
-				param3 = new String("%" + policy.getFrameNo() + "%");
-				objList.add(param3);
+			
+			for(int i = 0; i < objs.size(); i++) {
+				Map<String, Object> obj = objs.get(i);
+				policyMainPage = new PolicyMainPage();
+
+				setPolicyMainPage(obj, policyMainPage);
+				setPolicyOther(obj, policyMainPage);
+				policyList.add(policyMainPage);
 			}
-			if(StringUtils.isNotBlank(policy.getProdName())) {
-				stbSql.append(" and b.prod_name like ?");
-				param4 = new String("%" + policy.getProdName() + "%");
-				objList.add(param4);
-			}
-			if(StringUtils.isNotBlank(policy.getInsurCompName())) {
-				stbSql.append(" and b.insur_comp_name like ?");
-				param5 = new String("%" + policy.getInsurCompName() + "%");
-				objList.add(param5);
-			}
-			if(StringUtils.isNotBlank(policy.getStatus())) {
-				stbSql.append(" and a.`status` = ?");
-				param6 = new String(policy.getStatus());
-				objList.add(param6);
+			dataGrid.setResults(policyList);
+			dataGrid.setTotal(total.intValue());
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
+		return dataGrid;
+	}
+
+	/**
+	 *  查询下级机构的保单列表
+	 * @return
+	 */
+	public DataGrid getPolicyList(PolicyMainPage policy, DataGrid dataGrid, List<String> userIdList) {
+		Long total = 0L;
+		List<Map<String, Object>> objs = null;
+		List<PolicyMainPage> policyList = new ArrayList<PolicyMainPage>();
+		StringBuffer stbSql = new StringBuffer();
+		StringBuffer stbHeadSql1 = new StringBuffer();
+		StringBuffer stbHeadSql2 = new StringBuffer();
+		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, ");
+		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, ");
+		stbHeadSql1.append("b.insur_comp_name, d.id depart_id ");
+		stbHeadSql2.append("select count(1) ");
+		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d ");
+		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id");
+		
+		try {
+			List<Object> objList = new ArrayList<Object>();
+			int page = dataGrid.getPage();
+			int rows = dataGrid.getRows();
+			String sort = dataGrid.getSort();
+			String order = dataGrid.getOrder();
+			PolicyMainPage policyMainPage = null;
+			
+			getQueryConditions(policy, stbSql, objList);
+			if(userIdList != null && !userIdList.isEmpty()) {
+				stbSql.append(" and a.user_id in(");
+				for(int i = 0; i < userIdList.size(); i++) {
+					String userId = userIdList.get(i);
+					if(i != 0) {
+						stbSql.append(",");
+					}
+					stbSql.append(" ?");
+					Object param = (Object)userId;
+					objList.add(param);
+				}
+				stbSql.append(" )");
+			} else if(userIdList != null && userIdList.isEmpty()) {
+				dataGrid.setResults(policyList);
+				dataGrid.setTotal(0);
+				return dataGrid;
 			}
 			if(StringUtils.isNotBlank(sort)) {
 				String column = getColumnName(sort);
@@ -217,22 +263,108 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				objs = findForJdbcParam(stbHeadSql1.toString(), page, rows, objss);
 			}
 			
-			
 			for(int i = 0; i < objs.size(); i++) {
 				Map<String, Object> obj = objs.get(i);
 				policyMainPage = new PolicyMainPage();
 
 				setPolicyMainPage(obj, policyMainPage);
 				setPolicyOther(obj, policyMainPage);
+				policyMainPage.setDepartId((String)obj.get("depart_id"));
 				policyList.add(policyMainPage);
 			}
 			dataGrid.setResults(policyList);
 			dataGrid.setTotal(total.intValue());
 		} catch(Exception e) {
 			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
 		}
 		return dataGrid;
 	}
+	
+	/**
+	 * 根据页面传入的查询条件生成SQL条件语句
+	 * @param policy
+	 * @param stbSql
+	 * @param objList
+	 */
+	private void getQueryConditions(PolicyMainPage policy, StringBuffer stbSql, List<Object> objList) {
+		Object param = null;
+		if(StringUtils.isNotBlank(policy.getHolderCompName())) {
+			stbSql.append(" and a.holder_comp_name like ?");
+			param = new String("%" + policy.getHolderCompName() + "%");
+			objList.add(param);
+		}
+		if(StringUtils.isNotBlank(policy.getPlateNo())) {
+			stbSql.append(" and a.plate_no like ?");
+			param = new String("%" + policy.getPlateNo() + "%");
+			objList.add(param);
+		}
+		if(StringUtils.isNotBlank(policy.getFrameNo())) {
+			stbSql.append(" and a.frame_no like ?");
+			param = new String("%" + policy.getFrameNo() + "%");
+			objList.add(param);
+		}
+		if(StringUtils.isNotBlank(policy.getProdName())) {
+			stbSql.append(" and b.prod_name like ?");
+			param = new String("%" + policy.getProdName() + "%");
+			objList.add(param);
+		}
+		if(StringUtils.isNotBlank(policy.getInsurCompName())) {
+			stbSql.append(" and b.insur_comp_name like ?");
+			param = new String("%" + policy.getInsurCompName() + "%");
+			objList.add(param);
+		}
+		if(StringUtils.isNotBlank(policy.getStatus())) {
+			stbSql.append(" and a.`status` = ?");
+			param = new String(policy.getStatus());
+			objList.add(param);
+		}
+	}
+	
+	/**
+	 * 根据部门id获取用户列表
+	 * @param departIds
+	 * @return
+	 */
+	public List<String> getDepartUserIds(List<String> departIds) {
+		StringBuffer stbSql = new StringBuffer();
+		List<String> idList = new ArrayList<String>();
+		List<Object> objList = new ArrayList<Object>();
+		List<Map<String, Object>> objs = null;
+		
+		try {
+			String departId = "";
+			stbSql.append("select bu.id,bu.realname from t_s_depart d, t_s_base_user bu, t_s_user_org uo ");
+			stbSql.append(" where bu.ID=uo.user_id and uo.org_id=d.id ");
+			stbSql.append(" and d.id in(");
+			for(int i = 0; i < departIds.size(); i++) {
+				departId = departIds.get(i);
+				if(i != 0) {
+					stbSql.append(",");
+				}
+				stbSql.append(" ?");
+				Object param = (Object)departId;
+				objList.add(param);
+			}
+			stbSql.append(" )");
+			if(!objList.isEmpty()) {
+				Object[] objss = objList.toArray();
+				objs = findForJdbc(stbSql.toString(), objss);
+				
+				for(int j = 0; j < objs.size(); j++) {
+					Map<String, Object> obj = objs.get(j);
+					String id = (String)obj.get("id");
+					idList.add(id);
+				}
+			}
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
+		
+		return idList;
+	}
+	
 	
 	/**
 	 *  查询产品方案信息
@@ -263,6 +395,24 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 */
 	public List<CommonBean> getPolicyInsureds() {
 		return policyMainDao.getPolicyInsureds();
+	}
+
+	/**
+	 * 查询该部门所有子部门的ID
+	 * @param userid
+	 * @return
+	 */
+	public List<String> getChildDepartIds(String parentId) {
+		return policyMainDao.getChildDepartIds(parentId);
+	}
+
+	/**
+	 * 查询用户所属的部门ID
+	 * @param userid
+	 * @return
+	 */
+	public List<String> getDepartIdByUser(String userId) {
+		return policyMainDao.getUserDepartIds(userId);
 	}
 	
 	/**
@@ -372,6 +522,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
 		}
 		return policyMainPage;
 	}
@@ -472,6 +623,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
 		}
 		return policyMainPage;
 	}
