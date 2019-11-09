@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.weibao.chaopei.entity.CommissionConfEntity;
 import com.weibao.chaopei.entity.DepartProductRefEntity;
 import com.weibao.chaopei.entity.ProductDetailEntity;
 import com.weibao.chaopei.entity.ProductEntity;
@@ -110,12 +109,6 @@ public class ProductServiceImpl extends CommonServiceImpl implements ProductServ
 		}
 		//	再保存选中的产品		
 		this.batchSave(entityList);		
-	}
-	
-	public void batchSaveOrUpdate(List<CommissionConfEntity> commConfList) {		
-		for (CommissionConfEntity commissionConfEntity : commConfList) {
-			super.saveOrUpdate(commissionConfEntity);			
-		}		
 	}
 
 }

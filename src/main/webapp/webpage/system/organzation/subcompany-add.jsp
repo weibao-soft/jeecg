@@ -15,33 +15,21 @@
 					<input id="cc" type="hidden" name="TSPDepart.id" value="${pid }">
 		<table style="width: 100%;" cellpadding="0" cellspacing="1" class="formtable">
 				<tr>
-					<td align="right">
+					<td align="right" width="200">
 						<label class="Validform_label">
-							公司名称:
+							机构名称:
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="departname" name="departname" type="text" style="width: 150px" class="inputxt"  ignore="ignore" />
+					     	 <input id="departname" name="departname" type="text" style="width: 250px" class="inputxt" datatype="*" ignore="checked" placeholder="请输入机构名称" />
 							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">公司名称</label>
+							<label class="Validform_label" style="display: none;">机构名称</label>
 						</td>
-				</tr>
+				</tr>				
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							公司描述:
-						</label>
-					</td>
-					<td class="value">
-					     	 <textarea id="description" name="description" rows="5" cols="80"></textarea>
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">公司描述</label>
-						</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label class="Validform_label">
-							机构类型:
+							机构类型:							
 						</label>
 					</td>
 					<td class="value">
@@ -50,46 +38,58 @@
 					                 <option value="2" <c:if test="${orgType=='2'}">selected="selected"</c:if>>部门</option> 
 					                 <option value="3" <c:if test="${orgType=='3'}">selected="selected"</c:if>>岗位</option>
 					         </select> --%>
-					         <input name="orgType" id="orgType" type="radio" value="1" checked="checked"/> 公司 
+					         <input name="orgType" id="orgType" type="radio" value="1" checked="checked"/> 机构 
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">机构类型</label>
 						</td>
 				</tr>
 				<tr>
-					<td align="right">
-						<label class="Validform_label">
-							电话:
-						</label>
-					</td>
-					<td class="value">
-					     	 <input id="mobile" name="mobile" type="text" style="width: 150px" class="inputxt"  ignore="ignore" />
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">电话</label>
-						</td>
+					<td colspan="2">机构管理员信息</td>
 				</tr>
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							传真:
+							登录账号:
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="fax" name="fax" type="text" style="width: 150px" class="inputxt"  ignore="ignore" />
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">传真</label>
-						</td>
+						<input id="userName" name="userName" type="text" style="width: 250px" class="inputxt"  datatype="s2-18" validType="t_s_base_user,userName,id" ignore="checked" placeholder="英文开头或加数字组成，例如：abcd1234"  />													
+						<span class="Validform_checktip"> <t:mutiLang langKey="username.rang2to18"/></span>
+					</td>
 				</tr>
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
-							地址:
+							登录密码:
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="address" name="address" type="text" style="width: 150px" class="inputxt"  ignore="ignore" />
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">地址</label>
-						</td>
+						<input type="password" class="inputxt" value="" name="password" plugin="passwordStrength" datatype="*6-18" errormsg="" />
+                    	<span class="passwordStrength" style="display: none;">
+	                    <span><t:mutiLang langKey="common.weak"/></span>
+                        <span><t:mutiLang langKey="common.middle"/></span>
+                        <span class="last"><t:mutiLang langKey="common.strong"/></span>
+                    </span>
+                    <span class="Validform_checktip"> <t:mutiLang langKey="password.rang6to18"/></span>
+                </td>
+				</tr>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">
+							密码确认:
+						</label>
+					</td>
+					<td class="value">
+					    <input id="repassword" class="inputxt" type="password" recheck="password" datatype="*6-18" errormsg="两次输入的密码不一致！"/>
+                    	<span class="Validform_checktip"><t:mutiLang langKey="common.repeat.password"/></span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" ><label class="Validform_label"> <t:mutiLang langKey="common.real.name"/>: </label></td>
+					<td class="value">
+		                <input id="realName" class="inputxt" name="realName" value="${user.realName }" datatype="s2-10"/>
+		                <span class="Validform_checktip"><t:mutiLang langKey="fill.realname"/></span>
+		            </td>
 				</tr>
 				<tr>
 					<td align="right">

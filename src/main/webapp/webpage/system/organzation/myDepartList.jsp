@@ -298,7 +298,7 @@ function addSubJob() {
 function closeAllTab(){
 	var tabs = $('#tt').tabs("tabs");
 	var length = tabs.length;
-	debugger
+	
     for(var i=0; i<length; i++){
     	var onetab = tabs[0];
         var title = onetab.panel('options').tab.text();
@@ -365,7 +365,7 @@ function delNode() {
 };
 //选择资源节点。
 function getSelectNode() {
-	debugger
+	
 	orgTree = $.fn.zTree.getZTreeObj("orgTree");
 	var nodes = orgTree.getSelectedNodes();
 	var node = nodes[0];

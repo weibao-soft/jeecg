@@ -194,7 +194,7 @@
                 <span class="Validform_checktip"><t:mutiLang langKey="please.muti.department"/></span>
             </td>
 		</tr> --%>
-		<%-- <tr>
+		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.role"/>: </label></td>
 			<td class="value" nowrap>
                 <input id="roleid" name="roleid" type="hidden" value="${id}"/>
@@ -202,7 +202,8 @@
                 <t:choose hiddenName="roleid" hiddenid="id" textname="roleName" url="userController.do?roles" name="roleList" icon="icon-search" title="common.role.list" isclear="true" isInit="true"></t:choose>
                 <span class="Validform_checktip"><t:mutiLang langKey="role.muti.select"/></span>
             </td>
-		</tr> --%>
+		</tr>
+		<%-- 
 		<tr>
 			<td align="right" nowrap><label class="Validform_label">  <t:mutiLang langKey="common.phone"/>: </label></td>
 			<td class="value">
@@ -210,6 +211,7 @@
                 <span class="Validform_checktip"></span>
             </td>
 		</tr>
+		--%>
 		<%-- 
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.tel"/>: </label></td>
@@ -248,7 +250,7 @@
                 <span class="Validform_checktip">填写邮编</span>
             </td>
 		</tr>
-		--%>
+		
 		<tr>
 			<td align="right" width="10%" nowrap><label class="Validform_label">备注: </label></td>
 			<td class="value" width="10%">
@@ -256,6 +258,7 @@
                 <span class="Validform_checktip">填写备注</span>
             </td>
 		</tr>
+		--%>
         <%-- <tr>
             <td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.common.dev"/>: </label></td>
             <td class="value">

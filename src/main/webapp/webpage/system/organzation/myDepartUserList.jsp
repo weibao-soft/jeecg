@@ -142,7 +142,7 @@ function GetAuthNode() {
 </head>
 <body>
 <div id="divUserList" class="easyui-layout" fit="true" >
-    <div data-options="region:'center'" style="padding:0px;border:0px">
+    <div data-options="region:'center'" style="padding:0px;border:0px">    
 	<t:datagrid name="departUserList" title="当前组织机构:${departname}"
 	            actionUrl="organzationController.do?userDatagrid&departid=${departid}" fit="true" fitColumns="true" idField="id" queryMode="group">
 		<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
@@ -152,20 +152,23 @@ function GetAuthNode() {
 		<t:dgCol title="common.position.name" sortable="false" field="positionName" query="false" width="30"></t:dgCol>
 		<t:dgCol title="common.status" sortable="true" width="20" field="status" replace="common.active_1,common.inactive_0,super.admin_-1"></t:dgCol>
 		<t:dgCol title="common.operation" field="opt" width="130"></t:dgCol>
+		<%--
 		<t:dgDelOpt title="解除机构关系" url="organzationController.do?delUserOrg&userid={id}&departid=${departid}" urlclass="ace_button"  urlfont="fa-trash-o"/>
+		 
 		<t:dgFunOpt funname="setUsersCompanyPosition(id)" title="分配职务" urlclass="ace_button"  urlfont="fa-user"></t:dgFunOpt>
+		 --%>
 		<t:dgToolBar title="创建用户" width="800" height="500" langArg="common.user" icon="icon-add" url="userController.do?addorupdateMyOrgUser&departid=${departid}" funname="add"></t:dgToolBar>
 		<t:dgToolBar title="common.edit.param" width="800" height="500"  langArg="common.user" icon="icon-edit" url="userController.do?addorupdateMyOrgUser&departid=${departid}" funname="update"></t:dgToolBar>
 		<t:dgToolBar title="添加已有用户" icon="icon-add" url="organzationController.do?goAddMyOrgUserToOrg&orgId=${departid}" funname="add" width="650"></t:dgToolBar>
-	    <t:dgFunOpt funname="openAuthorizeSet(id)" title="分配部门角色" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#18a689;"></t:dgFunOpt>
+	    <t:dgFunOpt funname="openAuthorizeSet(id)" title="授权部门角色" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#18a689;"></t:dgFunOpt>
 	</t:datagrid>
  </div>
 </div>
-<%-- 
-<div region="east" title="分配职务" style="width: 300px;" split="true" id="functionListPanel">
+ 
+<div region="east" title="授权部门角色" style="width: 300px;" split="true" id="functionListPanel">
 	<div id="orgTree" class="ztree"></div>
 </div>
---%>
+
 </body>
 <script type="text/javascript">
 	var divHeight = $(window).height();

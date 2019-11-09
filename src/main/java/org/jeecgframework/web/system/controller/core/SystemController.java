@@ -71,6 +71,8 @@ import org.jeecgframework.web.system.pojo.base.TSRole;
 import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
 import org.jeecgframework.web.system.pojo.base.TSType;
 import org.jeecgframework.web.system.pojo.base.TSTypegroup;
+import org.jeecgframework.web.system.pojo.base.TSUser;
+import org.jeecgframework.web.system.pojo.base.TSUserOrg;
 import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
@@ -721,8 +723,9 @@ public class SystemController extends BaseController {
 	 */
 	@RequestMapping(params = "saveDepart")
 	@ResponseBody
-	public AjaxJson saveDepart(TSDepart depart, HttpServletRequest request) {
+	public AjaxJson saveDepart(TSDepart depart, TSUser user, HttpServletRequest request) {
 		String message = null;
+		
 		// 设置上级部门
 		String pid = request.getParameter("TSPDepart.id");
 		if (pid.equals("")) {
@@ -735,9 +738,9 @@ public class SystemController extends BaseController {
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 
 		} else {
-
-//			String orgCode = systemService.generateOrgCode(depart.getId(), pid);
-//			depart.setOrgCode(orgCode);
+			//创建新的机构
+			String orgCode = systemService.generateOrgCode(depart.getId(), pid);
+			depart.setOrgCode(orgCode);
 			if(oConvertUtils.isNotEmpty(pid)){
 				TSDepart paretDept = systemService.findUniqueByProperty(TSDepart.class, "id", pid);
 				String localMaxCode  = getMaxLocalCode(paretDept.getOrgCode());
@@ -746,8 +749,17 @@ public class SystemController extends BaseController {
 				String localMaxCode  = getMaxLocalCode(null);
 				depart.setOrgCode(YouBianCodeUtil.getNextYouBianCode(localMaxCode));
 			}
-
-			userService.save(depart);
+			
+			try {
+				userService.createDepartUser(depart, user);
+			} catch (Exception e) {
+				message = e.getMessage();
+				j.setMsg(message);
+				return j;
+			}
+			
+//			userService.save(depart);
+			
             message = MutiLangUtil.paramAddSuccess("common.department");
             systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 

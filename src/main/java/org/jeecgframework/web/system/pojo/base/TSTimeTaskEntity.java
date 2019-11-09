@@ -51,6 +51,8 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 
 	/**任务类名**/
 	private java.lang.String className;
+	/** Spring容器管理的服务名 */
+	private String serviceName;
 	/**运行任务的服务器IP**/
 	private java.lang.String runServerIp;
 	/**远程主机（域名/IP+项目路径）**/
@@ -60,6 +62,17 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	public java.lang.String getRunServer() {
 		return runServer;
 	}
+	
+	@Column(name ="SERVICE_NAME",nullable=false,length=100)
+	public String getServiceName() {
+		return serviceName;
+	}
+
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
+
 
 	public void setRunServer(java.lang.String runServer) {
 		this.runServer = runServer;

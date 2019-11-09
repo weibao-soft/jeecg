@@ -20,9 +20,12 @@
 		</div>
 		<div data-options="region:'center'" title="">
     <!-- <iframe width="100%" height="100%" id="center"  src="" style="border:1px #fff solid; background:#fff;"></iframe> -->
-		<div id="tt" tabPosition="top" border=flase style="width:95%;height:100%;margin:0px;padding:0px;overflow-x:hidden;width:auto;" class="easyui-tabs" fit="true"></div>
+			<div id="tt" tabPosition="top" border=flase style="width:95%;height:100%;margin:0px;padding:0px;overflow-x:hidden;width:auto;" class="easyui-tabs" fit="true"></div>
         </div>
+        
+        
 	</div>
+	
 </body>
 </html>
 <script>
@@ -91,7 +94,7 @@ function loadTreeNodes() {
 	debugger
 	var ztreeCreator = new ZtreeCreator('orgTree',"","")
 	
- 			.setCallback({onClick:zTreeOnLeftClick,onDblClick:zTreeOnDblClick,beforeDblClick:beforeDbl,onAsyncSuccess:showIndex})
+ 			.setCallback({onClick:zTreeOnLeftClick,onRightClick:zTreeOnRightClick,onDblClick:zTreeOnDblClick,beforeDblClick:beforeDbl,onAsyncSuccess:showIndex})
  			
  			.setAsync({
                 enable: true,
@@ -170,6 +173,40 @@ function zTreeOnDblClick(event, treeId, treeNode) {
 	//var url = "autoFormController/af/employee_leave_form/goAddPage.do";
 	//addtt('基本信息', url, '1','icon-search', 'false');
 }
+
+/**
+ * 树右击事件
+ */
+function zTreeOnRightClick(e, treeId, treeNode) {	
+	
+	if (treeNode) {
+		currOrgId = treeNode.id;
+		orgTree.selectNode(treeNode);
+		curSelectNode=treeNode;
+		var isfolder = treeNode.isFolder;
+		var h = $(window).height();
+		var w = $(window).width();
+		var menuWidth = 120;
+		var menuHeight = 75;
+		var menu = null;
+		if (treeNode != null) {
+			var orgType = treeNode.orgType;			
+			menu = $('#orgMenu');			
+		}
+		var x = e.pageX, y = e.pageY;
+		if (e.pageY + menuHeight > h) {
+			y = e.pageY - menuHeight;
+		}
+		if (e.pageX + menuWidth > w) {
+			x = e.pageX - menuWidth;
+		}
+		menu.menu('show', {
+			left : x,
+			top : y
+		});
+	}
+	
+};
 
 function refreshNode() {
 	loadTreeNodes();

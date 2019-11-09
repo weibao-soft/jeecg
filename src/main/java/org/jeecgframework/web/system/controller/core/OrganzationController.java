@@ -59,6 +59,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.weibao.chaopei.entity.CompanyAccountEntity;
 
 
 /**
@@ -111,7 +112,7 @@ public class OrganzationController extends BaseController {
 	@RequestMapping(params = "myDepart")
 	public ModelAndView myDepart(HttpServletRequest request) {
 		TSUser user = clientManager.getClient().getUser();
-		TSDepart currentDepart = user.getCurrentDepart();
+		TSDepart currentDepart = user.getCurrentDepart();		
 		if("admin".equals(user.getUserName())){
 			request.setAttribute("isAdmin", true);
 		}else {
@@ -221,6 +222,20 @@ public class OrganzationController extends BaseController {
 		if (StringUtil.isNotEmpty(depart.getId())) {
 			depart = systemService.getEntity(TSDepart.class, depart.getId());
 			req.setAttribute("depart", depart);
+			//账户信息查询出来			
+			List<CompanyAccountEntity> comAcctList = systemService.findByProperty(CompanyAccountEntity.class, "departId", depart.getId());
+			if(comAcctList != null && comAcctList.size() > 0) {
+				req.setAttribute("companyAcct", comAcctList.get(0));
+			}
+			//机构管理员信息查询出来	
+			TSUser orgAdmin = new TSUser();
+			orgAdmin.setRealName("sssss");
+			req.setAttribute("orgAdmin", orgAdmin);
+			//判断当前用户所属机构与选择的机构是否一致，如果一致，则返回修改页面，不一致，则返回详情页面
+			TSUser user = clientManager.getClient().getUser();
+			TSDepart currentDepart = user.getCurrentDepart();
+			viewName = "system/organzation/subcompany-detail";
+			/*
 			if("1".equals(depart.getOrgType())){
 				viewName = "system/organzation/subcompany-detail";
 			}else if("2".equals(depart.getOrgType())){
@@ -228,6 +243,7 @@ public class OrganzationController extends BaseController {
 			}else if("3".equals(depart.getOrgType())){
 				viewName = "system/organzation/subjob-detail";
 			}
+			*/
 		}
 		mv.setViewName(viewName);
 		return mv;

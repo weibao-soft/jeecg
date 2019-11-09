@@ -11,6 +11,7 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.timer.DynamicTask;
+import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.core.util.HttpRequest;
 import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
@@ -19,6 +20,7 @@ import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.TSTimeTaskEntity;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.TimeTaskServiceI;
+import org.quartz.Job;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.weibao.chaopei.task.BasicTask;
 
 
 /**   
@@ -182,6 +185,7 @@ public class TimeTaskController extends BaseController {
 	@ResponseBody
 	public AjaxJson startOrStopTask(TSTimeTaskEntity timeTask, HttpServletRequest request) {
 		
+		//根据
 		AjaxJson j = new AjaxJson();
 		boolean isStart = timeTask.getIsStart().equals("1");
 		timeTask = timeTaskService.get(TSTimeTaskEntity.class, timeTask.getId());		
@@ -221,6 +225,21 @@ public class TimeTaskController extends BaseController {
 		return j;
 	}
 	
+	/**
+	 *	手工启动一次定时任务
+	 */
+	@RequestMapping(params = "startManualOnce")
+	@ResponseBody
+	public AjaxJson startManualOnce(TSTimeTaskEntity timeTask, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		
+		timeTask = timeTaskService.get(TSTimeTaskEntity.class, timeTask.getId());
+		String serviceName = timeTask.getServiceName();
+		BasicTask task = (BasicTask)ApplicationContextUtil.getContext().getBean(serviceName);
+		task.run();
+		j.setMsg("手动启动任务成功");
+		return j;		
+	}
 	
 	/**
 	 * 远程启动或者停止任务

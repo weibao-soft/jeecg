@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jeecgframework.core.common.service.CommonService;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
 import org.jeecgframework.web.system.pojo.base.TSUser;
 /**
@@ -27,6 +28,8 @@ public interface UserService extends CommonService{
 	 *@return
 	 */
 	public int getUsersOfThisRole(String id);
+	
+	public void createDepartUser(TSDepart depart, TSUser user) throws Exception ;
 	
 	/**
 	 * 物理删除用户

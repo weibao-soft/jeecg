@@ -595,11 +595,19 @@ public class DateUtils extends PropertyEditorSupport {
 		long millisDiff = getMillis(calSrc) - getMillis(calDes);
 
 		if (flag == 'y') {
-			return (calSrc.get(calSrc.YEAR) - calDes.get(calDes.YEAR));
+			return (calSrc.get(Calendar.YEAR) - calDes.get(Calendar.YEAR));
 		}
 
 		if (flag == 'd') {
-			return (int) (millisDiff / DAY_IN_MILLIS);
+			//	如果是用天判断，昨天的与今天的要做判断，昨天的都当做是相差1
+			int diff = (int) (millisDiff / DAY_IN_MILLIS);
+			if(diff ==0){
+				if(calSrc.get(Calendar.DAY_OF_MONTH) > calDes.get(Calendar.DAY_OF_MONTH)) {
+					return 1;
+				}
+			}
+			
+			return diff;
 		}
 
 		if (flag == 'h') {
@@ -615,6 +623,17 @@ public class DateUtils extends PropertyEditorSupport {
 		}
 
 		return 0;
+	}
+	
+	public static void main(String[] args) {
+		Date now = new Date(2019-190,9,30);
+		Calendar current = new GregorianCalendar();
+		current.setTime(now);
+		System.out.println(current.getTime());
+		current.add(Calendar.DAY_OF_MONTH, 1);
+		System.out.println(current.getTime());
+		current.add(Calendar.DATE, 1);
+		System.out.println(current.getTime());
 	}
     /**
      * String类型 转换为Date,
