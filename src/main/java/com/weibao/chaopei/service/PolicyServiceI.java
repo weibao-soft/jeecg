@@ -34,7 +34,7 @@ public interface PolicyServiceI extends CommonService {
 	 *  查询产品方案信息
 	 * @return
 	 */
-	public List<CommonBean> getProductPlan(String prodId);
+	public List<CommonBean> getProductPlan(String departId);
 	/**
 	 *  根据id查询投保人信息
 	 * @param id

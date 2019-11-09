@@ -7,7 +7,7 @@
 		<title><t:mutiLang langKey="jeect.platform"/></title>
 		<meta name="keywords" content="<t:mutiLang langKey="jeect.platform"/>" />
 		<meta name="description" content="<t:mutiLang langKey="jeect.platform"/>" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />		
 		<link rel="stylesheet" href="plug-in/jquery/jquery.contextmenu.css"/>
 		<link rel="shortcut icon" href="images/favicon.ico">
 		<!-- basic styles -->
@@ -66,7 +66,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<i class="icon-leaf"></i>
-							微保超市
+							微保通
 						</small>
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->
@@ -237,6 +237,7 @@
 										 <t:mutiLang langKey="common.ssms.getSysInfos"/>
 									</a>
 								</li>
+								<%-- 
 								<li>
 									<a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,270)">
 										<i class="icon-cog"></i>
@@ -250,6 +251,7 @@
 										 JEECG官网
 									</a>
 								</li>
+								--%>
 								
 								<li>
 									<a href="javascript:clearLocalstorage()">
@@ -287,13 +289,16 @@
 					<script type="text/javascript">
 						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 					</script>
-
+					
+					
 					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+						
 						<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+							
 							<button class="btn btn-success">
 								<i class="icon-signal"></i>
 							</button>
-
+							
 							<button class="btn btn-info">
 								<i class="icon-pencil"></i>
 							</button>
@@ -305,8 +310,10 @@
 							<button class="btn btn-danger">
 								<i class="icon-cogs"></i>
 							</button>
+							
 						</div>
-
+						
+						
 						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
 							<span class="btn btn-success"></span>
 
@@ -316,8 +323,9 @@
 
 							<span class="btn btn-danger"></span>
 						</div>
+						
 					</div><!-- #sidebar-shortcuts -->
-
+						
 					<ul class="nav nav-list">
 						<li class="active">
 							<a  href="javascript:addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?hplushome'});">
@@ -339,7 +347,7 @@
 
 				<div class="main-content">
 					<div class="page-content">
-						<div class="row">
+						<div class="row" >
 							<div class="col-xs-12" style="width: 99%;padding-left:2px;padding-right: 2px;" id="tabs">
 	                            <ul class="nav nav-tabs" role="tablist">
 	                                <!-- <li class="active"><a href="#Index" role="tab" data-toggle="tab">首页</a></li> -->
@@ -484,7 +492,9 @@
 		<script src="plug-in/layer/layer.js"></script>
 	    <script src="plug-in/ace/js/bootbox.js"></script>
 		<!--add-start--Author:wangkun Date:20160813 for:内部聊天修改-->
+		<%-- 
 		<%@include file="/context/layui.jsp"%>
+		--%>
 		<!--add-end--Author:wangkun Date:20160813 for:内部聊天修改-->
 		<!-- inline scripts related to this page -->
 		<script>

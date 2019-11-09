@@ -19,7 +19,6 @@
 <script src="plug-in/layer/layer.js"></script>
 <script src="plug-in/ace/js/bootbox.js"></script>
 <!--add-start--Author:wangkun Date:20160813 for:内部聊天修改-->
-<%@include file="/context/layui.jsp"%>
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="productMainList" checkbox="false" fitColumns="true" title="产品列表" actionUrl="productMainController.do?datagrid" 
@@ -65,7 +64,8 @@ function getCustomerList(id){
 	parent.getCustomerList(id);
 }
 function addTab(ids) {	
-	addTabs({id:ids,title:'首页',close: true,url: 'loginController.do?hplushome'});	
+	debugger;
+	addTabs({id:ids,title:'保单投保',close: true,url: 'policyMainController.do?add'});	
 }
 
 /**
