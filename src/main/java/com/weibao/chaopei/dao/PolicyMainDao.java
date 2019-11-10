@@ -35,7 +35,7 @@ public interface PolicyMainDao {
 	 * @return
 	 */
 	@Sql("select det.id, det.prod_plan name from wb_depart_product_rel rel, wb_product_detail det "
-			+ "where rel.product_detail_id=det.id and rel.assign_status=1 and rel.depart_id=:departId and and det.prod_id=:prodId")
+			+ "where rel.product_detail_id=det.id and rel.assign_status=1 and rel.depart_id=:departId and det.prod_id=:prodId")
 	@ResultType(CommonBean.class)
 	public List<CommonBean> getProductPlan(@Param("departId") String departId, @Param("prodId") String prodId);
 	
