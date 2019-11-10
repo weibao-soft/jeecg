@@ -204,7 +204,7 @@ function insurance() {
  </td></tr>
  </table>
  
-<div style="text-align:right;width:1200px;padding-top:10px;">
+<div style="text-align:center;width:99%;padding-top:10px;">
 <input class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input class="btn" type="button" value="在线支付" onclick=";" style="height:30px;width:100px !important;border-radius:5px"/>
