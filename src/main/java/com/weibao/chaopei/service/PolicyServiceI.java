@@ -62,14 +62,6 @@ public interface PolicyServiceI extends CommonService {
 	 */
 	public List<String> getDepartIdByUser(String userid);
 	/**
-	 * 新增保存保单、投保人、被保人、收件人等信息
-	 */
-	public PolicyMainPage addMain(PolicyMainPage policyMainPage);
-	/**
-	 * 修改保存保单、投保人、被保人、收件人等信息
-	 */
-	public PolicyMainPage updateMain(PolicyMainPage policyMainPage);
-	/**
 	 * 根据id删除保单表id不在列表里的行
 	 * @param draftId
 	 * @param ids

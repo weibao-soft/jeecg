@@ -215,7 +215,7 @@ function getHolderById(holderId) {
     });
 }
 function addHolder(item) {
-	//tip(item.holderOrgCode);
+	//tip(item.taxpayerNo);
 	document.getElementById("holderOrgCode").value = item.holderOrgCode;
 	document.getElementById("holderCompNature").value = item.holderCompNature;
 	document.getElementById("industryType").value = item.industryType;

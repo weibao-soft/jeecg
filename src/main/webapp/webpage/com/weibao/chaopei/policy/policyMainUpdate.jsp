@@ -35,10 +35,10 @@ function customFunc() {
 	$("#holderCompName").val("${policyMainPage.holderCompName}");
 	if(invoiceType == "3") {
 		$("#invoiceType").val(invoiceType);
-		$("taxpayerNo2").val("");
+		$("#taxpayerNo2").val("");
 	} else {
 		$("#invoiceType").val(invoiceType).trigger('change');
-		$("taxpayerNop").val("");
+		$("#taxpayerNop").val("");
 	}
 }
 //提交表单数据
@@ -75,7 +75,7 @@ function closeWin() {
 </head>
 <body>
 
-<t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyMainController.do?doUpdate" callback="jeecgFormFileCallBack@Override">
+<t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyDraftController.do?doUpdate" callback="jeecgFormFileCallBack@Override">
 <fieldset class="step" style="width:100%;padding-bottom: 20px;">
  <legend>国任投保</legend>
  <table cellpadding="0" cellspacing="1" class="formtable" width="1200">
