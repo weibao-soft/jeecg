@@ -14,16 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
-import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSUser;
-import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,9 +47,7 @@ public class PolicyMainController extends BaseController {
 	private ClientManager clientManager;
 	
 	@Autowired
-	private PolicyServiceI  policyService;
-	@Autowired
-	private SystemService systemService;
+	private PolicyServiceI policyService;
 
 	/**
 	 * 保单主信息列表 页面跳转
@@ -198,6 +193,8 @@ public class PolicyMainController extends BaseController {
 			HttpServletResponse response, DataGrid dataGrid) {
 		
 		try{
+			String userId = ResourceUtil.getSessionUser().getId();
+			policy.setUserId(userId);
 			policyService.getPolicyList(policy, dataGrid);
 			//查询条件组装器
 		} catch (SecurityException e) {
@@ -208,60 +205,6 @@ public class PolicyMainController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		TagUtil.datagrid(response, dataGrid);
-	}
-	
-	/**
-	 * 添加保单主信息
-	 * 
-	 * @param policyMainPage
-	 * @return
-	 */
-	@RequestMapping(params = "doAdd")
-	public ModelAndView doAdd(PolicyMainPage policyMainPage, HttpServletRequest request) {
-		AjaxJson j = new AjaxJson();
-		String message = "添加成功";
-		try{
-			//String userId = request.getParameter("userId");
-			String userId = ResourceUtil.getSessionUser().getId();
-			policyMainPage.setUserId(userId);
-			policyService.addMain(policyMainPage);
-			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
-		}catch(Exception e){
-			logger.info(e.getMessage(), e);
-			j.setSuccess(false);
-			message = "保单主信息添加失败";
-			throw new BusinessException(e.getMessage());
-		}
-		j.setMsg(message);
-		return new ModelAndView("com/weibao/chaopei/policy/policyMainList");
-	}
-	
-	/**
-	 * 修改保单主信息
-	 * 
-	 * @param policyMainPage
-	 * @return
-	 */
-	@RequestMapping(params = "doUpdate")
-	@ResponseBody
-	public AjaxJson doUpdate(PolicyMainPage policyMainPage, HttpServletRequest request) {
-		AjaxJson j = new AjaxJson();
-		String message = "修改成功";
-		try{
-			//String userId = ResourceUtil.getSessionUser().getId();
-			//policyMainPage.setUserId(userId);
-			policyService.updateMain(policyMainPage);
-			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
-		}catch(Exception e){
-			logger.info(e.getMessage(), e);
-			j.setSuccess(false);
-			message = "保单主信息修改失败";
-			throw new BusinessException(e.getMessage());
-		}
-		j.setMsg(message);
-		j.setObj(policyMainPage);
-		request.setAttribute("policyMainPage", policyMainPage);
-		return j;
 	}
 	
 	/**
@@ -354,12 +297,12 @@ public class PolicyMainController extends BaseController {
 	@ResponseBody
 	public JSONObject getProductPlan(String paramId, HttpServletRequest request) {
 		JSONObject object = new JSONObject();
-		//获取当前用户的所属机构
-		TSUser user = clientManager.getClient().getUser();
-		TSDepart currentDepart = user.getCurrentDepart();
 		List<CommonBean> holders = null;
 		String message = "查询成功";
 		try{
+			//获取当前用户的所属机构
+			TSUser user = clientManager.getClient().getUser();
+			TSDepart currentDepart = user.getCurrentDepart();
 			holders = policyService.getProductPlan(currentDepart.getId());
 			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(holders);
 			object.put("value", array);

@@ -65,7 +65,7 @@ function insurance() {
 </head>
 <body>
 
-<t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyMainController.do?doAdd" callback="jeecgFormFileCallBack@Override">
+<t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyDraftController.do?doAdd" callback="jeecgFormFileCallBack@Override">
 <fieldset class="step" style="width:100%;padding-bottom: 20px;">
  <legend>国任投保</legend>
  <table cellpadding="0" cellspacing="1" class="formtable" width="1200">
