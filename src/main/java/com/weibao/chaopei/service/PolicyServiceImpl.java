@@ -88,6 +88,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setPlanId((String)obj.get("plan_id"));
 		policyMainPage.setStartDate((Date)obj.get("start_date"));
 		policyMainPage.setEndDate((Date)obj.get("end_date"));
+		policyMainPage.setCreateTime((Date)obj.get("create_time"));
 		policyMainPage.setStatus((String)obj.get("status"));
 		policyMainPage.setContactName((String)obj.get("contact_name"));
 		policyMainPage.setPolicyMobile((String)obj.get("policy_mobile"));
@@ -116,6 +117,9 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setRecipients((String)obj.get("recipients"));
 		policyMainPage.setRecipientsTel((String)obj.get("recipients_tel"));
 		policyMainPage.setReciAddress((String)obj.get("reci_address"));
+		//复制支付状态、分润状态
+		policyMainPage.setPayStatus((String)obj.get("pay_status"));
+		policyMainPage.setRewardStatus((String)obj.get("reward_status"));
 	}
 	
 	/**
@@ -164,8 +168,14 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			String sort = dataGrid.getSort();
 			String order = dataGrid.getOrder();
 			PolicyMainPage policyMainPage = null;
+			Object param = null;
 			
 			getQueryConditions(policy, stbSql, objList);
+			if(StringUtils.isNotBlank(policy.getUserId())) {
+				stbSql.append(" and a.user_id = ?");
+				param = new String(policy.getUserId());
+				objList.add(param);
+			}
 			if(StringUtils.isNotBlank(sort)) {
 				String column = getColumnName(sort);
 				if(StringUtils.isNotBlank(column)) {
@@ -497,11 +507,13 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				policyEntity = new PolicyEntity();
 				draftRelationEntity = new DraftRelationEntity();
 
-				if(vehicle.getPlateNo() == null) {
+				if(vehicle.getFrameNo() == null) {
 					continue;
 				}
 				BeanUtils.copyProperties(policyEntity, policyMainPage);
 				BeanUtils.copyProperties(policyEntity, vehicle);
+				policyEntity.setPayStatus("0");
+				policyEntity.setRewardStatus("0");
 				//创建时间
 				policyEntity.setCreateTime(currDate);
 				policyEntity.setLastUpdateTime(currDate);
@@ -587,7 +599,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				PolicyVehiclePage vehicle = vehicles.get(i);
 				policyEntity = new PolicyEntity();
 
-				if(vehicle.getPlateNo() == null) {
+				if(vehicle.getFrameNo() == null) {
 					continue;
 				}
 				BeanUtils.copyProperties(policyEntity, policyMainPage);

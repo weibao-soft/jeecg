@@ -26,9 +26,13 @@ $(document).ready(function(){
 	});
 });
 
+function formCallBack(data){
+	return false;
+}
 var neibuClickFlag = false;
 function jeecgFormFileCallBack(data){
 	if (data.success == true) {
+		neibuClickFlag = true; 
 	} else {
 		if (data.responseText == '' || data.responseText == undefined) {
 			$.messager.alert('错误', data.msg);
@@ -261,9 +265,12 @@ function calculateYear() {
 	var time = Date.parse(start.replace(/-/g, "/"));
 	time += (oneYear * year);
 	var myDate = new Date(time);
-	var str = myDate.getFullYear() + "-";
-	str = str + (myDate.getMonth() + 1) + "-";
-	str = str + myDate.getDate();
+	var fullYear = myDate.getFullYear();
+	var month = myDate.getMonth() + 1;
+	var day = myDate.getDate();
+	var str = fullYear + "-";
+	str = str + (month < 10 ? ("0" + month) : month) + "-";
+	str = str + (day < 10 ? ("0" + day) : day);
 	$("#end").val(str);
 	$("#endDate").val(str);
 	//layer.msg(str);

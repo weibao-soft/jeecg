@@ -191,6 +191,8 @@ public class PolicyMainController extends BaseController {
 			HttpServletResponse response, DataGrid dataGrid) {
 		
 		try{
+			String userId = ResourceUtil.getSessionUser().getId();
+			policy.setUserId(userId);
 			policyService.getPolicyList(policy, dataGrid);
 			//查询条件组装器
 		} catch (SecurityException e) {
@@ -226,7 +228,7 @@ public class PolicyMainController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return new ModelAndView("com/weibao/chaopei/policy/policyMainList");
+		return new ModelAndView("com/weibao/chaopei/policy/draftMainList");
 	}
 	
 	/**
@@ -236,8 +238,7 @@ public class PolicyMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
-	@ResponseBody
-	public AjaxJson doUpdate(PolicyMainPage policyMainPage, HttpServletRequest request) {
+	public ModelAndView doUpdate(PolicyMainPage policyMainPage, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		String message = "修改成功";
 		try{
@@ -252,9 +253,8 @@ public class PolicyMainController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		j.setObj(policyMainPage);
 		request.setAttribute("policyMainPage", policyMainPage);
-		return j;
+		return new ModelAndView("com/weibao/chaopei/policy/draftMainList");
 	}
 	
 	/**

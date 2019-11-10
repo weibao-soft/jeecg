@@ -29,10 +29,17 @@ $(document).ready(function(){
 });
 
 function customFunc() {
+	var invoiceType = "${policyMainPage.invoiceType}";
 	editablePolicy();
 	$("#planId").val("${policyMainPage.planId}");
 	$("#holderCompName").val("${policyMainPage.holderCompName}");
-	$("#invoiceType").val("${policyMainPage.invoiceType}").trigger('change');
+	if(invoiceType == "3") {
+		$("#invoiceType").val(invoiceType);
+		$("taxpayerNo2").val("");
+	} else {
+		$("#invoiceType").val(invoiceType).trigger('change');
+		$("taxpayerNop").val("");
+	}
 }
 //提交表单数据
 function submitData() {
@@ -68,7 +75,7 @@ function closeWin() {
 </head>
 <body>
 
-<t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyMainController.do?doUpdate">
+<t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyMainController.do?doUpdate" callback="jeecgFormFileCallBack@Override">
 <fieldset class="step" style="width:100%;padding-bottom: 20px;">
  <legend>国任投保</legend>
  <table cellpadding="0" cellspacing="1" class="formtable" width="1200">
@@ -218,6 +225,9 @@ function closeWin() {
 
 <input id="status" name="status" type="hidden" value="${policyMainPage.status}"/>
 <input id="userId" name="userId" type="hidden" value="${policyMainPage.userId}" />
+<input id="payStatus" name="payStatus" type="hidden" value="${policyMainPage.payStatus }"/>
+<input id="rewardStatus" name="rewardStatus" type="hidden" value="${policyMainPage.rewardStatus }"/>
+<input id="createTime" name="createTime" type="hidden" value="${policyMainPage.createTime }"/>
 <input id="endDate" name="endDate" type="hidden" value="${end}" />
 <input id="invoiceObj" name="invoiceObj" type="hidden" />
 <input id="compNamep" name="compName" type="hidden" value="${policyMainPage.compName}"/>

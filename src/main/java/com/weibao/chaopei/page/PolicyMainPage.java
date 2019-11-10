@@ -93,6 +93,10 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String departId;
 	//保费
 	private java.lang.Double permium;
+	//支付状态
+	private java.lang.String payStatus;
+	//分润状态
+	private java.lang.String rewardStatus;
 	//创建时间
 	private java.util.Date createTime;
 	//最后修改时间
@@ -337,6 +341,18 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setPermium(java.lang.Double permium) {
 		this.permium = permium;
+	}
+	public java.lang.String getPayStatus() {
+		return payStatus;
+	}
+	public void setPayStatus(java.lang.String payStatus) {
+		this.payStatus = payStatus;
+	}
+	public java.lang.String getRewardStatus() {
+		return rewardStatus;
+	}
+	public void setRewardStatus(java.lang.String rewardStatus) {
+		this.rewardStatus = rewardStatus;
 	}
 	public java.util.Date getCreateTime() {
 		return createTime;
