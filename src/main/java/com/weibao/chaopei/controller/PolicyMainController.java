@@ -75,7 +75,7 @@ public class PolicyMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "add")
-	public ModelAndView add(HttpServletRequest request) {
+	public ModelAndView add(String paramId, HttpServletRequest request) {
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar canlendar = Calendar.getInstance();
 		canlendar.add(Calendar.DATE, 1);
@@ -95,6 +95,7 @@ public class PolicyMainController extends BaseController {
 		request.setAttribute("start", start);
 		request.setAttribute("end", end);
 		request.setAttribute("max", max);
+		request.setAttribute("prodId", paramId);
 		return new ModelAndView("com/weibao/chaopei/policy/policyMainAdd");
 	}
 	
@@ -164,16 +165,19 @@ public class PolicyMainController extends BaseController {
 			String compAddress = policyMainPage.getCompAddress();
 			String depositBank = policyMainPage.getDepositBank();
 			String recipients = policyMainPage.getRecipients();
+			String recipientsTel = policyMainPage.getRecipientsTel();
 			String reciAddress = policyMainPage.getReciAddress();
 			compName = (compName != null) ? new String(compName.getBytes(ISO8859), UTF8) : compName;
 			compAddress = (compAddress != null) ? new String(compAddress.getBytes(ISO8859), UTF8) : compAddress;
 			depositBank = (depositBank != null) ? new String(depositBank.getBytes(ISO8859), UTF8) : depositBank;
 			recipients = (recipients != null) ? new String(recipients.getBytes(ISO8859), UTF8) : recipients;
+			recipientsTel = (recipientsTel != null) ? new String(recipientsTel.getBytes(ISO8859), UTF8) : recipientsTel;
 			reciAddress = (reciAddress != null) ? new String(reciAddress.getBytes(ISO8859), UTF8) : reciAddress;
 			policyMainPage.setCompName(compName);
 			policyMainPage.setCompAddress(compAddress);
 			policyMainPage.setDepositBank(depositBank);
 			policyMainPage.setRecipients(recipients);
+			policyMainPage.setRecipientsTel(recipientsTel);
 			policyMainPage.setReciAddress(reciAddress);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage());
@@ -303,7 +307,7 @@ public class PolicyMainController extends BaseController {
 			//获取当前用户的所属机构
 			TSUser user = clientManager.getClient().getUser();
 			TSDepart currentDepart = user.getCurrentDepart();
-			holders = policyService.getProductPlan(currentDepart.getId());
+			holders = policyService.getProductPlan(currentDepart.getId(), paramId);
 			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(holders);
 			object.put("value", array);
 			object.put("code", 200);

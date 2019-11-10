@@ -14,7 +14,8 @@
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
 	var params = {};
-	params.paramId = "402880ea6e1c6fad016e1c830134000d";
+	params.paramId = "${prodId}";
+	//params.paramId = "402880ea6e1c6fad016e1c830134000d";
 	var url = "policyMainController.do?getProductPlan";
 	$("#prodId").val(params.paramId);
 	getHolders();
