@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.weibao.chaopei.entity.DraftEntity;
 import com.weibao.chaopei.page.PolicyMainPage;
-import com.weibao.chaopei.service.DraftServiceImpl;
+import com.weibao.chaopei.service.DraftServiceI;
 
 @Controller
 @RequestMapping("/policyDraftController")
@@ -32,7 +32,7 @@ public class PolicyDraftController extends BaseController {
 	private static final String UTF8 = "UTF-8";
 	
 	@Autowired
-	private DraftServiceImpl  draftService;
+	private DraftServiceI draftService;
 	
 	@Autowired
 	private SystemService systemService;

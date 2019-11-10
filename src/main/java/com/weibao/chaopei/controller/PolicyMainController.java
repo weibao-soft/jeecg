@@ -47,7 +47,7 @@ public class PolicyMainController extends BaseController {
 	private ClientManager clientManager;
 	
 	@Autowired
-	private PolicyServiceI  policyService;
+	private PolicyServiceI policyService;
 
 	/**
 	 * 保单主信息列表 页面跳转
