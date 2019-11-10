@@ -1,5 +1,6 @@
 package org.jeecgframework.web.system.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +26,7 @@ import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.NumberComparator;
+import org.jeecgframework.core.util.PasswordUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
@@ -42,6 +44,9 @@ import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.weibao.chaopei.entity.CompanyAccountEntity;
+import com.weibao.chaopei.entity.PersonalAccountEntity;
 
 /**
  * 
@@ -83,6 +88,8 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 				Projections.rowCount()).uniqueResult()).intValue();
 		return allCounts;
 	}
+	
+	
 	
 	@Override
 	public String trueDel(TSUser user) {
@@ -148,6 +155,12 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 			commonDao.deleteAllEntitie(ru);
 		}else{
 			this.commonDao.save(user);
+			//创建个人账户
+			PersonalAccountEntity pAcct = new PersonalAccountEntity();
+			pAcct.setUserId(user.getId());
+			pAcct.setUnreceivedBalance(new BigDecimal(0));
+			pAcct.setReceivedBalance(new BigDecimal(0));
+			this.commonDao.save(pAcct);
 		}
 		saveUserOrgList(user,orgIds);
 		saveRoleUser(user,roleIds);
@@ -195,8 +208,51 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 			}
 		}
 	}
-
-
+	
+	public void createUser(TSUser user) {
+		PersonalAccountEntity pAcct = new PersonalAccountEntity();
+		
+	}
+	
+	public void createDepartUser(TSDepart depart, TSUser user) throws Exception {
+		//1. 创建公司机构
+		this.save(depart);
+		
+		//2. 创建该机构下的管理员用户			
+		if(user !=null && StringUtil.isNotEmpty(user.getUserName())){
+			TSUser usersExists = findUniqueByProperty(TSUser.class, "userName",user.getUserName());
+			if (usersExists != null) 
+				throw new Exception("用户: " + usersExists.getUserName() + "已经存在");
+			
+			user.setDepartid(depart.getId());
+			user.setPassword(PasswordUtil.encrypt(user.getUserName(), oConvertUtils.getString(user.getPassword()), PasswordUtil.getStaticSalt()));
+			user.setDevFlag("0");			
+			user.setStatus(Globals.User_Normal);
+			user.setDeleteFlag(Globals.Delete_Normal);
+			//默认添加为系统用户
+			user.setUserType(Globals.USER_TYPE_SYSTEM);
+			this.save(user);
+			//3. 创建管理员的个人账户		
+			PersonalAccountEntity pAcct = new PersonalAccountEntity();
+			pAcct.setUserId(user.getId());
+			pAcct.setReceivedBalance(new BigDecimal(0));
+			pAcct.setUnreceivedBalance(new BigDecimal(0));
+			this.save(pAcct);
+			//4. 该管理员归属到新创建的机构下
+			TSUserOrg uo = new TSUserOrg();
+			uo.setTsDepart(depart);
+			uo.setTsUser(user);
+			this.save(uo);
+			//5. 设置管理员的角色
+		}	
+		//6. 创建公司账户
+		CompanyAccountEntity cAcct  = new CompanyAccountEntity();
+		cAcct.setDepartId(depart.getId());
+		cAcct.setReceivedBalance(new BigDecimal(0));
+		cAcct.setUnreceivedBalance(new BigDecimal(0));
+		this.save(cAcct);
+	}
+	
 	/**
 	 * 获取用户菜单列表
 	 * 

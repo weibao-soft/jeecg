@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
+import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
@@ -79,7 +80,7 @@ public class CommissionManagerController extends BaseController {
 					//	不是admin，查询所属的机构作为根节点
 					sql = "select org.ID id, org.parentdepartid parent, org.departname orgname, 0 orgType from t_s_depart org, t_s_user_org uo where org.ID=uo.org_id and uo.user_id=?";
 					id = currentUser.getId();
-					List<Map<String, Object>> orgList = productService.findForJdbc(sql, id);			
+					List<Map<String, Object>> orgList = productService.findForJdbc(sql, id);	
 					populateTree(orgList,dataList, parentId);
 				}
 			}else {
@@ -87,7 +88,9 @@ public class CommissionManagerController extends BaseController {
 				sql = "select org.ID id, org.parentdepartid parent, org.departname orgname, 0 orgType from t_s_depart org where org.parentdepartid=? order by org.depart_order asc";
 				List<Map<String, Object>> orgList = productService.findForJdbc(sql, id);		
 				//	查询该节点下属的所有人员
-				String subsql = "select us.ID id, uo.org_id parent, us.username orgname, 1 orgType from t_s_user_org uo, t_s_base_user us where uo.user_id=us.ID and uo.org_id = ?";
+				String subsql = "select us.ID id, uo.org_id parent, us.username orgname, 1 orgType from t_s_user_org uo, "
+						+ "t_s_base_user us where uo.user_id=us.ID and uo.org_id = ? "
+						+ "and us.status in ('"+Globals.User_Normal+"', '"+Globals.User_ADMIN+"')";
 				
 				List<Map<String, Object>> orgSubList = productService.findForJdbc(subsql, id);
 				orgList.addAll(orgSubList);
@@ -119,16 +122,26 @@ public class CommissionManagerController extends BaseController {
 
 				//	判断是否有子节点
 				if(StringUtil.isEmpty(parentId)) {
+					//admin才会进这里
 					String sql = "select count(*) from t_s_depart where parentdepartid = ?";
 					Long count = this.productService.getCountForJdbcParam(sql, org.get("id"));
 					
 					if(count>0){
 						map.put("isParent", true);
-					}else{
+					}else{						
 						map.put("isParent", false);
 					}
 				}else {
-					map.put("isParent", false);
+					//非admin的情况下判断下级机构下是否有人员
+					String sql = "select count(1) from t_s_user_org uo, "
+							+ "t_s_base_user us where uo.user_id=us.ID and uo.org_id = ? "
+							+ "and us.status in ('"+Globals.User_Normal+"', '"+Globals.User_ADMIN+"')";
+					Long count = this.productService.getCountForJdbcParam(sql, org.get("id"));
+					if(count>0){
+						map.put("isParent", true);
+					}else{						
+						map.put("isParent", false);
+					}					
 				}
 				
 				if("0".equals(String.valueOf(org.get("orgType")))) {
@@ -138,7 +151,7 @@ public class CommissionManagerController extends BaseController {
 				}
 				
 				if(null == org.get("parent")) {				
-					map.put("parentId","0");
+					map.put("parentId","0");// admin是没有parent的
 				}else{
 					map.put("parentId", org.get("parent"));
 				}

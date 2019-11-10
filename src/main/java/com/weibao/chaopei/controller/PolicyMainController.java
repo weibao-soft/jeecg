@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +20,9 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.web.system.manager.ClientManager;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,6 +45,9 @@ public class PolicyMainController extends BaseController {
 	private static final String ISO8859 = "ISO8859-1";
 	
 	private static final String UTF8 = "UTF-8";
+	
+	@Resource
+	private ClientManager clientManager;
 	
 	@Autowired
 	private PolicyServiceI  policyService;
@@ -339,7 +346,7 @@ public class PolicyMainController extends BaseController {
 	}
 	
 	/**
-	 *  查询保单投保人
+	 *  查询可用的投保方案
 	 * 
 	 * @return
 	 */
@@ -347,10 +354,13 @@ public class PolicyMainController extends BaseController {
 	@ResponseBody
 	public JSONObject getProductPlan(String paramId, HttpServletRequest request) {
 		JSONObject object = new JSONObject();
+		//获取当前用户的所属机构
+		TSUser user = clientManager.getClient().getUser();
+		TSDepart currentDepart = user.getCurrentDepart();
 		List<CommonBean> holders = null;
 		String message = "查询成功";
 		try{
-			holders = policyService.getProductPlan(paramId);
+			holders = policyService.getProductPlan(currentDepart.getId());
 			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(holders);
 			object.put("value", array);
 			object.put("code", 200);

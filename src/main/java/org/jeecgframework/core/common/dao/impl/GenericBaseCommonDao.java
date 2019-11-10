@@ -204,7 +204,19 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		getSession().flush();
 		getSession().clear();
 	}
-
+	
+	public <T> void batchSaveOrUpdate(List<T> entitys) {
+		for(int i=0; i<entitys.size(); i++) {
+			getSession().saveOrUpdate(entitys.get(i));
+			if( i % 1000 == 0) {
+				getSession().flush();
+				getSession().clear();
+			}
+		}
+		getSession().flush();
+		getSession().clear();
+	}
+	
 	/**
 	 * 根据传入的实体添加或更新对象
 	 *
@@ -866,7 +878,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public List<Map<String, Object>> findForJdbc(String sql, int page, int rows) {
 		// 封装分页SQL
-		sql = JdbcDao.jeecgCreatePageSql(sql, page, rows);
+		sql = JdbcDao.jeecgCreatePageSql(sql, page, rows);		
 		return this.jdbcTemplate.queryForList(sql);
 	}
 

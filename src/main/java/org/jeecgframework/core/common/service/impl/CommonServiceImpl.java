@@ -63,6 +63,10 @@ public class CommonServiceImpl implements CommonService {
 		commonDao.saveOrUpdate(entity);
 
 	}
+	
+	public <T> void batchSaveOrUpdate(List<T> entitys) {
+		commonDao.batchSaveOrUpdate(entitys);
+	}
 
 	
 	public <T> void delete(T entity) {

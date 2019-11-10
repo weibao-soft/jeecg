@@ -37,6 +37,11 @@
 		<span class="Validform_checktip"></span>
 	</div>
 	<div class="form">
+		<label class="Validform_label">服务名:</label> 
+		<input class="inputxt" id="serviceName" name="serviceName" value="${timeTaskPage.serviceName}" datatype="*" style="width:50%" /> 
+		<span class="Validform_checktip"></span>
+	</div>
+	<div class="form">
 		<label class="Validform_label"><t:mutiLang langKey="common.task.runServerIp"/>:</label> 
 		<input class="inputxt" id="runServerIp" name="runServerIp" value="${empty timeTaskPage.runServerIp ? '本地' : timeTaskPage.runServerIp}" datatype="*" style="width:50%"/> 
 		<span class="Validform_checktip"></span>

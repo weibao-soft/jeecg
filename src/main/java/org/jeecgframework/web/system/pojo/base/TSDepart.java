@@ -11,11 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.jeecgframework.core.common.controller.CustomJsonDateDeserializer;
 import org.jeecgframework.core.common.entity.IdEntity;
 import org.jeecgframework.poi.excel.annotation.Excel;
+
+import com.weibao.chaopei.entity.CompanyAccountEntity;
 
 /**
  * 部门机构表
@@ -58,6 +61,19 @@ public class TSDepart extends IdEntity implements java.io.Serializable {
 	private java.lang.String sysCompanyCode;
 	
 	private List<TSDepart> TSDeparts = new ArrayList<TSDepart>();//下属部门
+	
+	@Transient
+	private CompanyAccountEntity companyAcct;// 账户数据
+	
+	@Transient
+    public CompanyAccountEntity getCompanyAcct() {
+        return companyAcct;
+    }
+
+    public void setCompanyAcct(CompanyAccountEntity companyAcct) {
+        this.companyAcct = companyAcct;
+    }
+    
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parentdepartid")

@@ -60,24 +60,11 @@
 				<tr>
 					<td align="right" style="height:30px">
 						<label class="Validform_label">
-							公司描述:
-						</label>
-					</td>
-					<td class="value">
-					         ${depart.description }
-					     	<%--  <textarea id="description" name="description" rows="5" cols="80">${depart.description }</textarea>
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">公司描述</label> --%>
-						</td>
-				</tr>
-				<tr>
-					<td align="right" style="height:30px">
-						<label class="Validform_label">
 							机构类型:
 						</label>
 					</td>
 					<td class="value">
-					         公司
+					         机构
 					     	<%--  <select name="orgType" id="orgType"> 
 					                 <option value="1" >公司</option> 
 					                 <option value="2" >部门</option> 
@@ -87,44 +74,63 @@
 							<label class="Validform_label" style="display: none;">机构类型</label> --%>
 						</td>
 				</tr>
+								
 				<tr>
-					<td align="right" style="height:30px">
-						<label class="Validform_label">
-							电话:
-						</label>
-					</td>
-					<td class="value" style="height:30px">
-					 		${depart.mobile }
-					     	<%--  <input id="mobile" name="mobile" value="${depart.mobile }" type="text" style="width: 150px" class="inputxt"  ignore="ignore" />
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">电话</label> --%>
-						</td>
+					<td colspan="2">机构管理员信息</td>
 				</tr>
 				<tr>
-					<td align="right" style="height:30px">
+					<td align="right">
 						<label class="Validform_label">
-							传真:
+							登录账号:
 						</label>
 					</td>
 					<td class="value">
-							${depart.fax }
-					     	<%--  <input id="fax" name="fax" type="text" value="${depart.fax }" style="width: 150px" class="inputxt"  ignore="ignore" />
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">传真</label> --%>
-						</td>
+						${orgAdmin.userName }						
+					</td>
 				</tr>
 				<tr>
-					<td align="right" style="height:30px">
+					<td align="right">
 						<label class="Validform_label">
-							地址:
+							真实姓名:
 						</label>
 					</td>
 					<td class="value">
-							${depart.address }
-					     	 <%-- <input id="address" name="address" value="${depart.address }" type="text" style="width: 150px" class="inputxt"  ignore="ignore" />
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">地址</label> --%>
-						</td>
+						${orgAdmin.realName }
+                	</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2">提现账户信息</td>
+				</tr>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">
+							银行户名:
+						</label>
+					</td>
+					<td class="value">
+						${ empty companyAcct.bankAcctName ? "未绑定" : companyAcct.bankAcctName}						
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">
+							银行账号:
+						</label>
+					</td>
+					<td class="value">
+						${empty companyAcct.bankNo ? "未绑定" :  companyAcct.bankNo}						
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">
+							开户银行信息:
+						</label>
+					</td>
+					<td class="value">
+						${empty companyAcct.bankInfo ? "未绑定" : companyAcct.bankNo}						
+					</td>
 				</tr>
 			</table>
 		</t:formvalid>

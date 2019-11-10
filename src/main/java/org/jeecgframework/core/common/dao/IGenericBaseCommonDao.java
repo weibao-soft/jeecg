@@ -38,6 +38,8 @@ public interface IGenericBaseCommonDao {
 	public <T> void batchSave(List<T> entitys);
 
 	public <T> void saveOrUpdate(T entity);
+	
+	public <T> void batchSaveOrUpdate(List<T> entitys);
 
 	/**
 	 * 删除实体

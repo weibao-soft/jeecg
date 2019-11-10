@@ -34,9 +34,9 @@ public interface PolicyMainDao {
 	 *  查询产品方案信息
 	 * @return
 	 */
-	@Sql("select id,prod_plan name from wb_product_detail where prod_id=:prodId")
+	@Sql("select det.id, det.prod_plan name from wb_depart_product_rel rel, wb_product_detail det where rel.product_detail_id=det.id and rel.assign_status=1 and rel.depart_id=:departId")
 	@ResultType(CommonBean.class)
-	public List<CommonBean> getProductPlan(@Param("prodId") String prodId);
+	public List<CommonBean> getProductPlan(@Param("departId") String departId);
 	
 	/**
 	 *  查询收件人信息

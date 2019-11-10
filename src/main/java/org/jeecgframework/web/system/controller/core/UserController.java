@@ -729,8 +729,11 @@ public class UserController extends BaseController {
 				user.setStatus(Globals.User_Normal);
 				user.setDeleteFlag(Globals.Delete_Normal);
 				//默认添加为系统用户
-				user.setUserType(Globals.USER_TYPE_SYSTEM);
-				this.userService.saveOrUpdate(user, orgid.split(","), roleid.split(","));				
+				//添加用户之后，再创建个人分润账户
+				user.setUserType(Globals.USER_TYPE_SYSTEM);				
+				
+				this.userService.saveOrUpdate(user, orgid.split(","), roleid.split(","));
+				
 				message = "用户: " + user.getUserName() + "添加成功";
 				logType=Globals.Log_Type_INSERT;
 			}

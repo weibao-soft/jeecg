@@ -13,6 +13,7 @@
   <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" callback="@Override callbackOrg" action="systemController.do?saveDepart" >
 					<input id="id" name="id" type="hidden" value="${depart.id }"/>
 					<input id="cc" type="hidden" name="TSPDepart.id" value="${depart.TSPDepart.id }">
+					<input id="companyAcct.id" type="hidden" name="companyAcct.id" value="${companyAcct.id }"/>
 		<table style="width: 100%;" cellpadding="0" cellspacing="1" class="formtable">
 		        <tr>
 					<td align="right" style="width: 30%;height:30px">
@@ -52,23 +53,11 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="departname" name="departname" value="${depart.departname }" type="text" style="width: 150px" class="inputxt"  ignore="ignore" />
+					     	 <input id="departname" name="departname" readonly="readonly" value="${depart.departname }" type="text" style="width: 150px" class="inputxt"  ignore="ignore" />
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">公司名称</label>
 						</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label class="Validform_label">
-							公司描述:
-						</label>
-					</td>
-					<td class="value">
-					     	 <textarea id="description" name="description" rows="5" cols="80">${depart.description }</textarea>
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">公司描述</label>
-						</td>
-				</tr>
+				</tr>				
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
@@ -81,45 +70,9 @@
 					                 <option value="2" >部门</option> 
 					                 <option value="3" >岗位</option>
 					         </select> --%>
-					        <input name="orgType" id="orgType" type="radio" value="1" checked="checked"/> 公司 
+					        <input name="orgType" id="orgType" type="radio" value="1" checked="checked"/> 机构
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">机构类型</label>
-						</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label class="Validform_label">
-							电话:
-						</label>
-					</td>
-					<td class="value">
-					     	 <input id="mobile" name="mobile" type="text" value="${depart.mobile }" style="width: 150px" class="inputxt"  ignore="ignore" />
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">电话</label>
-						</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label class="Validform_label">
-							传真:
-						</label>
-					</td>
-					<td class="value">
-					     	 <input id="fax" name="fax" type="text" value="${depart.fax }" style="width: 150px" class="inputxt"  ignore="ignore" />
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">传真</label>
-						</td>
-				</tr>
-				<tr>
-					<td align="right">
-						<label class="Validform_label">
-							地址:
-						</label>
-					</td>
-					<td class="value">
-					     	 <input id="address" name="address" value="${depart.address }" type="text" style="width: 150px" class="inputxt"  ignore="ignore" />
-							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">地址</label>
 						</td>
 				</tr>
 				<tr>

@@ -15,7 +15,6 @@ import org.jeecgframework.core.common.hibernate.qbc.PageList;
 import org.jeecgframework.core.common.model.common.DBTable;
 import org.jeecgframework.core.common.model.common.UploadFile;
 import org.jeecgframework.core.common.model.json.ComboTree;
-import org.jeecgframework.core.common.model.json.DataGridReturn;
 import org.jeecgframework.core.common.model.json.ImportFile;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.tag.vo.datatable.DataTableReturn;
@@ -38,6 +37,8 @@ public interface CommonService {
 	public <T> Serializable save(T entity);
 
 	public <T> void saveOrUpdate(T entity);
+	
+	public <T> void batchSaveOrUpdate(List<T> entitys);
 
 	public <T> void delete(T entity);
 

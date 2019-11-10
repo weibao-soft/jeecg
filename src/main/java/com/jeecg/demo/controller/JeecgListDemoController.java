@@ -1,9 +1,4 @@
 package com.jeecg.demo.controller;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import net.sf.json.JSONObject;
-
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
@@ -57,7 +52,6 @@ import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
-import org.jeecgframework.web.system.controller.core.LoginController;
 import org.jeecgframework.web.system.enums.InterfaceEnum;
 import org.jeecgframework.web.system.pojo.base.InterfaceRuleDto;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
@@ -88,6 +82,12 @@ import com.jeecg.demo.entity.JeecgDemoEntity;
 import com.jeecg.demo.entity.JeecgDemoPage;
 import com.jeecg.demo.entity.JeecgLogReport;
 import com.jeecg.demo.service.JeecgDemoServiceI;
+import com.weibao.chaopei.entity.ProductDetailEntity;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import net.sf.json.JSONObject;
 
 /**   
  * @Title: Controller  
@@ -652,6 +652,20 @@ public class JeecgListDemoController extends BaseController {
 
 	@RequestMapping(params = "datagrid")
 	public void datagrid(JeecgDemoEntity jeecgDemo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		
+		
+		javax.persistence.Table table = ProductDetailEntity.class.getAnnotation(javax.persistence.Table.class);
+		table.name();
+		try {
+			javax.persistence.Column column1 = ProductDetailEntity.class.getDeclaredField("prodPlan").getAnnotation(javax.persistence.Column.class);
+			System.out.println();
+		} catch (NoSuchFieldException e1) {
+			e1.printStackTrace();
+		} catch (SecurityException e1) {
+			e1.printStackTrace();
+		}
+		javax.persistence.Column column = ProductDetailEntity.class.getDeclaredFields()[1].getAnnotation(javax.persistence.Column.class);
+		column.name();
 		CriteriaQuery cq = new CriteriaQuery(JeecgDemoEntity.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, jeecgDemo, request.getParameterMap());
