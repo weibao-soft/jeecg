@@ -65,7 +65,7 @@ function getCustomerList(id){
 }
 function addTab(ids) {	
 	debugger;
-	addTabs({id:ids,title:'保单投保',close: true,url: 'policyMainController.do?add'});	
+	addTabs({id:ids,title:'保单投保',close: true,url: 'policyMainController.do?add&prodId='+ids});	
 }
 
 /**
