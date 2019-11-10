@@ -19,21 +19,20 @@
 </style>
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="draftMainList" checkbox="false" fitColumns="true" title="草稿列表" actionUrl="policyDraftController.do?datagrid" 
-  		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
-   <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
-   <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
-   <t:dgDelOpt title="删除" url="policyDraftController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
-
+  <t:datagrid name="draftMainList" checkbox="false" fitColumns="false" title="草稿列表" actionUrl="policyDraftController.do?datagrid" 
+  		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true">
+   <t:dgCol title="操作" field="opt" width="200"></t:dgCol>
+   <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
+   <t:dgDelOpt title="删除" url="policyDraftController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
    <t:dgToolBar title="测试" icon="icon-edit" url="" funname="" width="100%" height="100%"></t:dgToolBar>
   		
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
-   <t:dgCol title="方案保障"  field="productDetailEntity.prodPlan" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="投保单位名称"  field="holderCompName"  queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="收件人"  field="recipients" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="投保车辆(台)"  field="truckNums" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="保存时间"  field="saveTime" queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="方案保障"  field="productDetailEntity.prodPlan" queryMode="single" width="450"></t:dgCol>
+   <t:dgCol title="投保单位名称"  field="holderCompName"  queryMode="single" width="300"></t:dgCol>
+   <t:dgCol title="收件人"  field="recipients" queryMode="single" width="200"></t:dgCol>
+   <t:dgCol title="投保车辆(台)"  field="truckNums" queryMode="single" width="150"></t:dgCol>
+   <t:dgCol title="保存时间"  field="saveTime" queryMode="single" width="200"></t:dgCol>
    
   </t:datagrid>
   </div>
