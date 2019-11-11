@@ -87,7 +87,7 @@ public class WaitRewardCalcTask extends BasicTask{
 			for (PolicyEntity policy : policyList) {
 				String user_id =  policy.getUserId();
 				String plan_id = policy.getPlanId();
-				String policy_id = policy.getId();;
+				String policy_id = policy.getId();
 				String departUser = "";
 				BigDecimal permium_big =  policy.getPremium();				
 				Date pay_time = policy.getPayTime();
