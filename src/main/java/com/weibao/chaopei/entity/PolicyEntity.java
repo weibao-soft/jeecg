@@ -33,6 +33,14 @@ public class PolicyEntity implements Serializable {
 	@Column(name ="plan_id",nullable=false,length=32)
 	private java.lang.String planId;
 	
+	/**保单号*/
+	@Column(name ="policy_no",nullable=true,length=32)
+	private java.lang.String policyNo;
+	
+	/**批改申请单号*/
+	@Column(name ="batch_no",nullable=true,length=32)
+	private java.lang.String batchNo;
+	
 	/**车牌号*/
 	@Column(name ="plate_no",nullable=true,length=20)
 	private java.lang.String plateNo;
@@ -191,6 +199,22 @@ public class PolicyEntity implements Serializable {
 
 	public void setPlanId(java.lang.String planId) {
 		this.planId = planId;
+	}
+
+	public java.lang.String getPolicyNo() {
+		return policyNo;
+	}
+
+	public void setPolicyNo(java.lang.String policyNo) {
+		this.policyNo = policyNo;
+	}
+
+	public java.lang.String getBatchNo() {
+		return batchNo;
+	}
+
+	public void setBatchNo(java.lang.String batchNo) {
+		this.batchNo = batchNo;
 	}
 
 	public java.lang.String getPlateNo() {
