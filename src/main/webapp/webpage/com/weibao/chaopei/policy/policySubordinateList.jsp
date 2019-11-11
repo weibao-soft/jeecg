@@ -19,7 +19,7 @@
    <t:dgCol title="部门"  field="departId" hidden="true" query="true" queryMode="single" dictionary="t_s_depart,id,departname" dictCondition="where parentdepartid='${parentId }'" width="120"></t:dgCol>
    <t:dgCol title="出单机构"  field="departName" queryMode="group" width="120"></t:dgCol>
    <t:dgCol title="保单号"  field="policyNo" query="false" queryMode="single" width="200"></t:dgCol>
-   <t:dgCol title="保费"  field="price" queryMode="single" width="100"></t:dgCol>
+   <t:dgCol title="保费"  field="premium" queryMode="single" width="100"></t:dgCol>
    <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" dictionary="poliStatus" width="100"></t:dgCol>
    <t:dgCol title="支付状态"  field="payStatus" queryMode="single" defaultVal='N' dictionary="payStatus" width="100"></t:dgCol>
    <t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>

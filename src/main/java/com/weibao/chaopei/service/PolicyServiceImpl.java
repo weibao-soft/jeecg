@@ -84,11 +84,16 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setStartDate((Date)obj.get("start_date"));
 		policyMainPage.setEndDate((Date)obj.get("end_date"));
 		policyMainPage.setCreateTime((Date)obj.get("create_time"));
-		policyMainPage.setPremium(new BigDecimal((Float)obj.get("premium")));
 		policyMainPage.setStatus((String)obj.get("status"));
 		policyMainPage.setContactName((String)obj.get("contact_name"));
 		policyMainPage.setPolicyMobile((String)obj.get("policy_mobile"));
 		policyMainPage.setInvoiceType((String)obj.get("invoice_type"));
+		//保费
+		Float premium = (Float)obj.get("premium");
+		if(premium == null) {
+			premium = 0F;
+		}
+		policyMainPage.setPremium(new BigDecimal(premium));
 		//草稿id、用户id
 		policyMainPage.setDraftId((String)obj.get("draft_id"));
 		policyMainPage.setUserId((String)obj.get("user_id"));
@@ -151,7 +156,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbSql = new StringBuffer();
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
-		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, ");
+		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
 		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.insur_comp_name ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu ");
@@ -218,7 +223,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbSql = new StringBuffer();
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
-		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, ");
+		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
 		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, ");
 		stbHeadSql1.append("b.insur_comp_name, d.id depart_id, d.departname ");
 		stbHeadSql2.append("select count(1) ");
