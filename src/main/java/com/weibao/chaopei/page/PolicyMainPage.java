@@ -87,12 +87,16 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String draftId;
 	//用户id
 	private java.lang.String userId;
+	//用户账号
+	private java.lang.String userNo;
 	//用户姓名
 	private java.lang.String userName;
 	//部门id
 	private java.lang.String departId;
+	//部门名称
+	private java.lang.String departName;
 	//保费
-	private java.lang.Double permium;
+	private java.math.BigDecimal premium;
 	//支付状态
 	private java.lang.String payStatus;
 	//分润状态
@@ -324,6 +328,12 @@ public class PolicyMainPage implements Serializable {
 	public void setUserId(java.lang.String userId) {
 		this.userId = userId;
 	}
+	public java.lang.String getUserNo() {
+		return userNo;
+	}
+	public void setUserNo(java.lang.String userNo) {
+		this.userNo = userNo;
+	}
 	public java.lang.String getUserName() {
 		return userName;
 	}
@@ -336,11 +346,17 @@ public class PolicyMainPage implements Serializable {
 	public void setDepartId(java.lang.String departId) {
 		this.departId = departId;
 	}
-	public java.lang.Double getPermium() {
-		return permium;
+	public java.lang.String getDepartName() {
+		return departName;
 	}
-	public void setPermium(java.lang.Double permium) {
-		this.permium = permium;
+	public void setDepartName(java.lang.String departName) {
+		this.departName = departName;
+	}
+	public java.math.BigDecimal getPremium() {
+		return premium;
+	}
+	public void setPremium(java.math.BigDecimal premium) {
+		this.premium = premium;
 	}
 	public java.lang.String getPayStatus() {
 		return payStatus;

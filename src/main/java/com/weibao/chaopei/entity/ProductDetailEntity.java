@@ -40,7 +40,7 @@ public class ProductDetailEntity implements java.io.Serializable {
 	private java.lang.String planType;
 	
 	/**保费*/
-	@Column(name ="price",nullable=true,scale=2,length=10)
+	@Column(name ="premium",nullable=true,scale=2,length=10)
 	private java.lang.Double price;
 	
 	

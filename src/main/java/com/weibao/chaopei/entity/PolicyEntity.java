@@ -61,6 +61,10 @@ public class PolicyEntity implements Serializable {
 	@Column(name ="end_date",nullable=true)
 	private java.util.Date endDate;
 	
+	/**保费*/
+	@Column(name ="permium",nullable=true,scale=2,length=10)
+	private java.math.BigDecimal premium;
+	
 	/**保单状态*/
 	@Column(name ="status",nullable=true,length=1)
 	private java.lang.String status;
@@ -148,10 +152,6 @@ public class PolicyEntity implements Serializable {
 	/**用户id*/
 	@Column(name ="user_id",nullable=true,length=32)
 	private java.lang.String userId;
-	
-	/**保费*/
-	@Column(name ="permium",nullable=true,scale=2,length=10)
-	private java.lang.Double permium;
 	
 	/**支付状态*/
 	@Column(name ="pay_status",nullable=true,length=1)
@@ -481,12 +481,12 @@ public class PolicyEntity implements Serializable {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
-	public java.lang.Double getPermium() {
-		return permium;
+	public java.math.BigDecimal getPremium() {
+		return premium;
 	}
 
-	public void setPermium(java.lang.Double permium) {
-		this.permium = permium;
+	public void setPremium(java.math.BigDecimal premium) {
+		this.premium = premium;
 	}
 
 }
