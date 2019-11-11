@@ -89,8 +89,7 @@ public class WaitRewardCalcTask extends BasicTask{
 				String plan_id = policy.getPlanId();
 				String policy_id = policy.getId();;
 				String departUser = "";
-				Double permium =  policy.getPermium();
-				BigDecimal permium_big = new BigDecimal (permium.toString());
+				BigDecimal permium_big =  policy.getPremium();				
 				Date pay_time = policy.getPayTime();
 				
 				List<PersonalUnrewardedDetailEntity> pRwdEtyList = new ArrayList<PersonalUnrewardedDetailEntity>();
