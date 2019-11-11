@@ -41,7 +41,7 @@ public class ProductDetailEntity implements java.io.Serializable {
 	
 	/**保费*/
 	@Column(name ="premium",nullable=true,scale=2,length=10)
-	private java.lang.Double price;
+	private java.math.BigDecimal price;
 	
 	
 	public java.lang.String getId(){
@@ -84,11 +84,11 @@ public class ProductDetailEntity implements java.io.Serializable {
 		this.planType = planType;
 	}
 
-	public java.lang.Double getPrice() {
+	public java.math.BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(java.lang.Double price) {
+	public void setPrice(java.math.BigDecimal price) {
 		this.price = price;
 	}
 }
