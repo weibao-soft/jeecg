@@ -28,8 +28,9 @@ $(document).ready(function(){
 });
 
 function customFunc() {
-	var invoiceType = "${policyMainPage.invoiceType}";
 	editablePolicy();
+	
+	var invoiceType = "${policyMainPage.invoiceType}";
 	$("#planId").val("${policyMainPage.planId}");
 	$("#holderCompName").val("${policyMainPage.holderCompName}");
 	if(invoiceType == "3") {
@@ -81,6 +82,7 @@ function closeWin() {
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
 	<input id="prodId" name="prodId" type="hidden" value="${policyMainPage.prodId }"/>
 	<input id="draftId" name="draftId" type="hidden" value="${policyMainPage.draftId }"/>
+	<input id="premium" name="premium" type="hidden" value="${policyMainPage.premium }"/>
  
  <tr><td style="width:10%"></td><td style="width:90%">
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">

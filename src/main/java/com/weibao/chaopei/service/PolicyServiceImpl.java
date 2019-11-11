@@ -84,6 +84,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setStartDate((Date)obj.get("start_date"));
 		policyMainPage.setEndDate((Date)obj.get("end_date"));
 		policyMainPage.setCreateTime((Date)obj.get("create_time"));
+		policyMainPage.setPremium(new BigDecimal((Float)obj.get("premium")));
 		policyMainPage.setStatus((String)obj.get("status"));
 		policyMainPage.setContactName((String)obj.get("contact_name"));
 		policyMainPage.setPolicyMobile((String)obj.get("policy_mobile"));
@@ -133,7 +134,6 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setProdCode((String)obj.get("prod_code"));
 		policyMainPage.setInsurCompName((String)obj.get("insur_comp_name"));
 		policyMainPage.setProdPlan((String)obj.get("prod_plan"));
-		policyMainPage.setPremium((BigDecimal)obj.get("permium"));
 		policyMainPage.setUserNo((String)obj.get("user_no"));
 		policyMainPage.setUserName((String)obj.get("username"));
 		policyMainPage.setCreateTime((Date)obj.get("create_time"));

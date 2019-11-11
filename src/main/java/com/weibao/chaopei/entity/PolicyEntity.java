@@ -62,7 +62,7 @@ public class PolicyEntity implements Serializable {
 	private java.util.Date endDate;
 	
 	/**保费*/
-	@Column(name ="permium",nullable=true,scale=2,length=10)
+	@Column(name ="premium",nullable=true,scale=2,length=10)
 	private java.math.BigDecimal premium;
 	
 	/**保单状态*/

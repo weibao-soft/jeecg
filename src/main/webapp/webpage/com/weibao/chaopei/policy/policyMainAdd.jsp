@@ -32,12 +32,18 @@ $(document).ready(function(){
         }
     });*/
 
-    window.setTimeout(editablePolicy, 500);
+    window.setTimeout(customFunc, 500);
     $("#holderCompNature").css("width", "200px");
     $("#industryType").css("width", "200px");
     $("#holderNature").css("width", "200px");
 });
 
+function customFunc() {
+	editablePolicy();
+	
+    var code=$('#planId option:first').attr("data-code");
+	$("#premium").val(code);
+}
 //提交表单数据
 function submitData() {
 	if(!validData()) {
@@ -71,7 +77,8 @@ function insurance() {
  <legend>国任投保</legend>
  <table cellpadding="0" cellspacing="1" class="formtable" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
-	<input id="prodId" name="prodId" type="hidden" value="${policyMainPage.prodId }"/>
+	<input id="prodId" name="prodId" type="hidden"/>
+	<input id="premium" name="premium" type="hidden"/>
  
  <tr><td style="width:10%"></td><td style="width:90%">
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">

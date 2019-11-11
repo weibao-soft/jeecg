@@ -1,6 +1,10 @@
-$(document).ready(function(){
-　　　$("#invoiceType").change(function() {
-　　　　　　var value=$(this).children('option:selected').val();
+$(document).ready(function() {
+	$("#planId").change(function() {
+		var code=$(this).children('option:selected').attr("data-code");
+		$("#premium").val(code);
+	});
+	$("#invoiceType").change(function() {
+		var value=$(this).children('option:selected').val();
         if(value=='3') {
         	$("#invoiceTr").css("display", "none");
         	add("开具增值税专用发票","policyMainController.do?addSpe");
@@ -9,11 +13,10 @@ $(document).ready(function(){
         } else if(value=='1') {
         	$("#invoiceTr").css("display", "none");
         }
-　　　});
+	});
+
 	$("#check1").click(function() {
 	    var value=$(this).is(':checked');
-	    //layer.msg($(this).attr("checked"));
-	    //console.log(value);
     	var holderCompName = $("#holderCompName").val();
     	var holderOrgCode = $("#holderOrgCode").val();
 	    if(value) {
@@ -24,6 +27,7 @@ $(document).ready(function(){
 	    	$("#insuredOrgCode").val("");
 	    }
 	});
+
 });
 
 function formCallBack(data){
@@ -135,7 +139,7 @@ function getCommonSelect(selectId, url, params) {
 function addOptions(items, selectId) {
     $.each(items,function(n,item) {
     	//拼接下拉框的Option
-        var htmlContent = $('<option value="'+item.id+'">'+item.name+'</option>');
+        var htmlContent = $('<option data-code="'+item.code+'" value="'+item.id+'">'+item.name+'</option>');
         $('#'+selectId).append(htmlContent);
     });
 }

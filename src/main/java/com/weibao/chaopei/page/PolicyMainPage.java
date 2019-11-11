@@ -39,6 +39,8 @@ public class PolicyMainPage implements Serializable {
 	private java.util.Date startDate;
 	//保险结束日期
 	private java.util.Date endDate;
+	//保费
+	private java.math.BigDecimal premium;
 	//保单状态
 	private java.lang.String status;
 	//投保联系人
@@ -95,8 +97,6 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String departId;
 	//部门名称
 	private java.lang.String departName;
-	//保费
-	private java.math.BigDecimal premium;
 	//支付状态
 	private java.lang.String payStatus;
 	//分润状态
