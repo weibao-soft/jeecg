@@ -32,7 +32,6 @@ dd, dt {
 }
 
     .nav-container {
-        background: url(../../assets/images/footer-bg.png) no-repeat 0px bottom;
         background-size: 100% 345px;
         position: absolute;
         left: 0px;
@@ -43,7 +42,7 @@ dd, dt {
 
     .nav-header {
         width: 760px;
-        margin: 8% auto 40px;
+        margin: 5% auto 40px;
         text-align: center;
         position: relative;
     }
@@ -172,7 +171,7 @@ dd, dt {
 <div style="width:100%;">
   <div id="demoapp" class="nav-container">
   <div class="nav-header" style="width:760px;">
-	  	<img style="width:100%;vertical-align: middle;" src="plug-in/accordion/images/account.png">
+	  	<img style="width:100%;vertical-align: middle;overflow:hidden;" src="plug-in/accordion/images/account.png">
 	  	<div class="nav-header-grzh">
 	  		<div class="label1"><h4>可提现</h4></div>
 	  		<dl class="label2">
@@ -181,7 +180,7 @@ dd, dt {
 	  			</dd>
 	  		</dl>
 	  		
-	  		<div class="label3">提现</div>
+	  		<div class="label3" onclick="getAcctBalanceList('${companyAcct.id}')">明细</div>
 	  		 
 	  	</div>
 	  	
