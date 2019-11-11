@@ -1,6 +1,7 @@
 package com.weibao.chaopei.service;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -132,7 +133,8 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setProdCode((String)obj.get("prod_code"));
 		policyMainPage.setInsurCompName((String)obj.get("insur_comp_name"));
 		policyMainPage.setProdPlan((String)obj.get("prod_plan"));
-		policyMainPage.setPermium((Double)obj.get("permium"));
+		policyMainPage.setPremium((BigDecimal)obj.get("permium"));
+		policyMainPage.setUserNo((String)obj.get("user_no"));
 		policyMainPage.setUserName((String)obj.get("username"));
 		policyMainPage.setCreateTime((Date)obj.get("create_time"));
 		policyMainPage.setLastUpdateTime((Date)obj.get("last_update_time"));
@@ -150,7 +152,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
 		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, ");
-		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.insur_comp_name ");
+		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.insur_comp_name ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu ");
 		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id");
@@ -217,8 +219,8 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
 		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, ");
-		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, ");
-		stbHeadSql1.append("b.insur_comp_name, d.id depart_id ");
+		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, ");
+		stbHeadSql1.append("b.insur_comp_name, d.id depart_id, d.departname ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d ");
 		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id");
@@ -274,6 +276,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				setPolicyMainPage(obj, policyMainPage);
 				setPolicyOther(obj, policyMainPage);
 				policyMainPage.setDepartId((String)obj.get("depart_id"));
+				policyMainPage.setDepartName((String)obj.get("departname"));
 				policyList.add(policyMainPage);
 			}
 			dataGrid.setResults(policyList);
