@@ -4,7 +4,7 @@
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="acctUnreceiveDetailList" checkbox="false" fitColumns="true" title="" actionUrl="companyAcctController.do?acctUnreceiveDetailDatagrid" 
-  	idField="id" fit="true" queryMode="group" collapsible="true">
+  	idField="id" fit="true" queryMode="group" collapsible="true" pageSize="100" extendParams="view:scrollview">
    <t:dgCol title="主键" hidden="true" field="id"  queryMode="single"  width="0"></t:dgCol>   
    
    <t:dgCol title="保单号"  field="policyNo"  width="200"></t:dgCol>
@@ -15,7 +15,6 @@
    <t:dgCol title="出单员"  field="userName"  width="100"></t:dgCol>
    <t:dgCol title="待分润金额"  field="amount" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="分润到账时间"  field="rewardTime" formatter="yyyy-MM-dd hh:mm:ss" width="150"></t:dgCol>
-   <t:dgCol title="结算状态"  field="rewardStatus" sortable="false" width="100"></t:dgCol>
    <%--  
 	<t:dgToolBar  title="编辑" icon="icon-edit"  funname="editRow"></t:dgToolBar>
 	<t:dgToolBar  title="保存" icon="icon-save" url="jformOrderMainController.do?saveRows" funname="saveData"></t:dgToolBar>

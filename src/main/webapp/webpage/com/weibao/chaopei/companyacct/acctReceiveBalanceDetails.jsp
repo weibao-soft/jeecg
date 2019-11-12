@@ -4,7 +4,7 @@
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="acctReceiveDetailList" checkbox="false" fitColumns="true" title="" actionUrl="companyAcctController.do?acctReceiveDetailDatagrid" 
-  	idField="id" fit="true" queryMode="group" collapsible="true">
+  	idField="id" fit="true" queryMode="group" collapsible="true" pageSize="100" extendParams="view:scrollview">
    <t:dgCol title="主键" hidden="true" field="id"  queryMode="single"  width="0"></t:dgCol>   
    
    <t:dgCol title="保单号"  field="policyNo"  width="200"></t:dgCol>
