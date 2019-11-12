@@ -380,10 +380,21 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	
 	/**
 	 *  查询产品方案信息
+	 *  方案保障 ('保障：' + det.prod_plan + ' 保费:' + det.premium)
 	 * @return
 	 */
 	public List<CommonBean> getProductPlan(String departId, String prodId) {
-		return policyMainDao.getProductPlan(departId, prodId);
+		List<CommonBean> list = policyMainDao.getProductPlan(departId, prodId);
+		for(int i = 0; i < list.size(); i++) {
+			CommonBean bean = list.get(i);
+			String name = bean.getName();
+			String code = bean.getCode();
+			int length = code.length();
+			String num = code.substring(0, length - 3);
+			String value = "保障:" + name + " 保费:" + num;
+			bean.setName(value);
+		}
+		return list;
 	}
 	
 	/**
