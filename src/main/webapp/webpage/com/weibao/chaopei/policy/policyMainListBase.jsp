@@ -17,17 +17,17 @@
    
    <t:dgCol title="投保人"  frozenColumn="true" field="holderCompName" query="true" queryMode="single" width="220"></t:dgCol>
    <t:dgCol title="车牌号/被保人"  frozenColumn="true" field="plateNo" query="true" queryMode="single" width="100"></t:dgCol>
-   <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" width="200"></t:dgCol>
-   <t:dgCol title="保费"  field="premium" queryMode="single" width="100"></t:dgCol>
+   <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" sortable="false" width="200"></t:dgCol>
+   <t:dgCol title="保费"  field="premium" queryMode="single" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="保单号"  field="policyNo" query="false" queryMode="single" width="200"></t:dgCol>
-   <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" showMode="radio" dictionary="qpolStatus" width="100"></t:dgCol>
-   <t:dgCol title="支付状态"  field="payStatus" queryMode="single" defaultVal='N' dictionary="payStatus" width="100"></t:dgCol>
+   <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" sortable="false" showMode="radio" dictionary="qpolStatus" width="100"></t:dgCol>
+   <t:dgCol title="支付状态"  field="payStatus" queryMode="single" sortable="false" defaultVal='N' dictionary="payStatus" width="100"></t:dgCol>
    <t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>
    <t:dgCol title="投保时间"  field="lastUpdateTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>
-   <t:dgCol title="用户姓名"  field="userName" queryMode="group" width="120"></t:dgCol>
+   <t:dgCol title="用户姓名"  field="userName" queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="产品名称"  field="prodName" query="true" queryMode="single" width="150"></t:dgCol>
-   <t:dgCol title="产品代码"  field="prodCode" queryMode="single" width="100"></t:dgCol>
-   <t:dgCol title="保险公司"  field="insurCompName" query="true" queryMode="single" defaultVal='N' dictionary="ins_comp" width="100"></t:dgCol>
+   <t:dgCol title="产品代码"  field="prodCode" queryMode="single" sortable="false" width="100"></t:dgCol>
+   <t:dgCol title="保险公司"  field="insurCompName" query="true" queryMode="single" sortable="false" defaultVal='N' dictionary="ins_comp" width="100"></t:dgCol>
    
    <t:dgToolBar title="测试" icon="icon-edit" url="" funname="" width="100%" height="100%"></t:dgToolBar>
    <t:dgToolBar title="查看" icon="icon-search" url="jeecgListDemoController.do?goUpdate" funname="" width="770" height="500"></t:dgToolBar>

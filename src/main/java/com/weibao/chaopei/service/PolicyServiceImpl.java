@@ -22,11 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.weibao.chaopei.dao.PolicyMainDao;
 import com.weibao.chaopei.entity.HolderEntity;
 import com.weibao.chaopei.entity.PolicyEntity;
-import com.weibao.chaopei.entity.ProductDetailEntity;
 import com.weibao.chaopei.entity.ProductEntity;
 import com.weibao.chaopei.page.CommonBean;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.page.PolicyVehiclePage;
+import com.weibao.chaopei.util.PolicyUtil;
 
 @Service("policyService")
 @Transactional
@@ -178,7 +178,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				objList.add(param);
 			}
 			if(StringUtils.isNotBlank(sort)) {
-				String column = getColumnName(sort);
+				String column = PolicyUtil.getColumnName(sort);
 				if(StringUtils.isNotBlank(column)) {
 					stbSql.append(" order by " + column + " " + order);
 				}
@@ -257,7 +257,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				return dataGrid;
 			}
 			if(StringUtils.isNotBlank(sort)) {
-				String column = getColumnName(sort);
+				String column = PolicyUtil.getColumnName(sort);
 				if(StringUtils.isNotBlank(column)) {
 					stbSql.append(" order by " + column + " " + order);
 				}
@@ -443,48 +443,6 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 */
 	public int deleteRelations(String draftId, String[] ids) {
 		return policyMainDao.deleteRelations(draftId, ids);
-	}
-	
-	/**
-	 * 根据实体Beande的属性名获取字段名称
-	 * @param propName
-	 * @return
-	 */
-	private String getColumnName(String propName) {
-		String column1 = null;
-		boolean hasField = false;
-		try {
-			Field field = PolicyEntity.class.getDeclaredField(propName);
-			Column column = field.getAnnotation(Column.class);
-			column1 = column.name();
-			hasField = true;
-		} catch (NoSuchFieldException e) {
-			//logger.error(e);
-		}
-		try {
-			if(!hasField) {
-				Field field = ProductEntity.class.getDeclaredField(propName);
-				Column column = field.getAnnotation(Column.class);
-				column1 = column.name();
-				hasField = true;
-			}
-		} catch (NoSuchFieldException e) {
-			//logger.error(e);
-		}
-		try {
-			if(!hasField) {
-				Field field = ProductDetailEntity.class.getDeclaredField(propName);
-				Column column = field.getAnnotation(Column.class);
-				column1 = column.name();
-				hasField = true;
-			}
-		} catch (NoSuchFieldException e) {
-			logger.error(e);
-		}
-		if(!hasField && "userName".equals(propName)) {
-			column1 = "realname";
-		}
-		return column1;
 	}
 	
 	/**

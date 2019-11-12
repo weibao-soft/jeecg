@@ -199,8 +199,8 @@ public class PolicyMainController extends BaseController {
 		try{
 			String userId = ResourceUtil.getSessionUser().getId();
 			policy.setUserId(userId);
+			//组装查询条件
 			policyService.getPolicyList(policy, dataGrid);
-			//查询条件组装器
 		} catch (SecurityException e) {
 			logger.error(e);
 			throw new BusinessException(e.getMessage());
