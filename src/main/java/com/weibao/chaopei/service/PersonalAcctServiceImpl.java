@@ -14,15 +14,15 @@ import org.jeecgframework.p3.core.utils.common.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.weibao.chaopei.entity.CompanyRewardedDetailEntity;
-import com.weibao.chaopei.entity.CompanyUnrewardedDetailEntity;
+import com.weibao.chaopei.entity.PersonalRewardedDetailEntity;
+import com.weibao.chaopei.entity.PersonalUnrewardedDetailEntity;
 import com.weibao.chaopei.page.RewardDetailPage;
 import com.weibao.chaopei.util.PolicyUtil;
 
-@Service("companyAcctService")
+@Service("personalAcctService")
 @Transactional
-public class CompanyAcctServiceImpl extends CommonServiceImpl implements CompanyAcctServiceI {
-	private static final Logger logger = Logger.getLogger(CompanyAcctServiceImpl.class);
+public class PersonalAcctServiceImpl extends CommonServiceImpl implements PersonalAcctServiceI {
+	private static final Logger logger = Logger.getLogger(PersonalAcctServiceImpl.class);
 	
 	/**
 	 * 从结果Map中取值放入保单PageBean中
@@ -67,8 +67,8 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		stbHeadSql2.append("select count(1) ");
 		
 		try {
-			if(StringUtils.isBlank(rewardDetail.getCompanyAccountId()) 
-					|| StringUtils.isBlank(rewardDetail.getDepartId())) {
+			if(StringUtils.isBlank(rewardDetail.getPersonalAccountId()) 
+					|| StringUtils.isBlank(rewardDetail.getUserId())) {
 				dataGrid.setResults(rewardList);
 				dataGrid.setTotal(0);
 				return dataGrid;
@@ -82,16 +82,16 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 			RewardDetailPage rewardDetailPage = null;
 			Object param = null;
 
-			stbSql.append(" and d.company_account_id = ? and d.depart_id = ?");
+			stbSql.append(" and d.personal_account_id = ? and d.user_id = ?");
 			if(StringUtils.isNotBlank(sort)) {
 				String column = PolicyUtil.getColumnName(sort);
 				if(StringUtils.isNotBlank(column)) {
 					stbSql.append(" order by " + column + " " + order);
 				}
 			}
-			param = new String(rewardDetail.getCompanyAccountId());
+			param = new String(rewardDetail.getPersonalAccountId());
 			objList.add(param);
-			param = new String(rewardDetail.getDepartId());
+			param = new String(rewardDetail.getUserId());
 			objList.add(param);
 			
 			stbHeadSql1.append(stbSql);
@@ -121,18 +121,18 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 	 *  查询分润明细
 	 * @return
 	 */
-	public DataGrid getReceiveDetailList(CompanyRewardedDetailEntity rewardDetail, DataGrid dataGrid) {
+	public DataGrid getReceiveDetailList(PersonalRewardedDetailEntity rewardDetail, DataGrid dataGrid) {
 		StringBuffer stbSql = new StringBuffer();
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		RewardDetailPage rewardPage = new RewardDetailPage();
-		rewardPage.setCompanyAccountId(rewardDetail.getCompanyAccountId());
-		rewardPage.setDepartId(rewardDetail.getDepartId());
+		rewardPage.setPersonalAccountId(rewardDetail.getPersonalAccountId());
+		rewardPage.setUserId(rewardDetail.getUserId());
 		
 		stbHeadSql1.append("select a.id, a.plan_id, a.last_update_time, a.pay_time, a.holder_comp_name, d.`status` reward_status, ");
 		stbHeadSql1.append("a.policy_no, a.plate_no, a.user_id, bu.username user_no, bu.realname username, ");
 		stbHeadSql1.append("dp.id depart_id, dp.departname, d.amount, d.divide_time, b.prod_name, c.prod_plan ");
 		
-		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,wb_company_rewarded_detail d,");
+		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,wb_personal_rewarded_detail d,");
 		stbSql.append(" t_s_base_user bu,t_s_user_org uo,t_s_depart dp ");
 		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and a.id=d.policy_id and bu.id=uo.user_id and dp.ID=uo.org_id");
 		getRewardDetailList(rewardPage, dataGrid, stbHeadSql1, stbSql);
@@ -143,18 +143,18 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 	 *  查询未分润明细
 	 * @return
 	 */
-	public DataGrid getUnreceiveDetailList(CompanyUnrewardedDetailEntity unrewardDetail, DataGrid dataGrid) {
+	public DataGrid getUnreceiveDetailList(PersonalUnrewardedDetailEntity unrewardDetail, DataGrid dataGrid) {
 		StringBuffer stbSql = new StringBuffer();
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		RewardDetailPage rewardPage = new RewardDetailPage();
-		rewardPage.setCompanyAccountId(unrewardDetail.getCompanyAccountId());
-		rewardPage.setDepartId(unrewardDetail.getDepartId());
+		rewardPage.setPersonalAccountId(unrewardDetail.getPersonalAccountId());
+		rewardPage.setUserId(unrewardDetail.getUserId());
 		
 		stbHeadSql1.append("select a.id, a.plan_id, a.last_update_time, a.pay_time, a.holder_comp_name, ");
 		stbHeadSql1.append("a.policy_no, a.plate_no, a.user_id, bu.username user_no, bu.realname username, ");
 		stbHeadSql1.append("dp.id depart_id, dp.departname, d.amount, d.reward_time, b.prod_name, c.prod_plan ");
-		
-		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,wb_company_unreward_detail d,");
+
+		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,wb_personal_unreward_detail d,");
 		stbSql.append(" t_s_base_user bu,t_s_user_org uo,t_s_depart dp ");
 		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and a.id=d.policy_id and bu.id=uo.user_id and dp.ID=uo.org_id");
 		getRewardDetailList(rewardPage, dataGrid, stbHeadSql1, stbSql);

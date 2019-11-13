@@ -18,7 +18,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "wb_company_account")
 public class CompanyAccountEntity implements java.io.Serializable {
-
 	private static final long serialVersionUID = 1996017651694351173L;
 	
 	/**主键*/
@@ -27,14 +26,27 @@ public class CompanyAccountEntity implements java.io.Serializable {
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")	
 	@Column(name ="id",nullable=false,length=32)
 	private java.lang.String id;
+	
 	@Column(name ="depart_id",nullable=true,length=32)
 	private String departId;
+	
 	@Column(name ="bank_acct_name",nullable=true,length=32)
 	private String bankAcctName;
+	
 	@Column(name ="bank_no",nullable=true,length=32)
 	private String bankNo;
+	
 	@Column(name ="bank_info",nullable=true,length=32)
 	private String bankInfo;
+	
+	@Column(name ="real_name",nullable=true,length=32)
+	private String realName;
+	
+	@Column(name ="certi_no",nullable=true,length=32)
+	private String certiNo;
+	
+	@Column(name ="withdraw_passwd",nullable=true,length=32)
+	private String withdrawPasswd;
 	
 	@Column(name ="received_balance")
 	private BigDecimal receivedBalance;
@@ -71,6 +83,24 @@ public class CompanyAccountEntity implements java.io.Serializable {
 	}
 	public void setBankInfo(String bankInfo) {
 		this.bankInfo = bankInfo;
+	}
+	public String getRealName() {
+		return realName;
+	}
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+	public String getCertiNo() {
+		return certiNo;
+	}
+	public void setCertiNo(String certiNo) {
+		this.certiNo = certiNo;
+	}
+	public String getWithdrawPasswd() {
+		return withdrawPasswd;
+	}
+	public void setWithdrawPasswd(String withdrawPasswd) {
+		this.withdrawPasswd = withdrawPasswd;
 	}
 	public BigDecimal getReceivedBalance() {
 		return receivedBalance;

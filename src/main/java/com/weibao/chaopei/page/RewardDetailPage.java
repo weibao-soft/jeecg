@@ -43,6 +43,8 @@ public class RewardDetailPage implements Serializable {
 	private java.lang.String rewardStatus;
 	//公司账户ID
 	private String companyAccountId;
+	//个人账户ID
+	private String personalAccountId;
 	//分润金额
 	private BigDecimal amount;
 	//分润时间
@@ -161,6 +163,12 @@ public class RewardDetailPage implements Serializable {
 	}
 	public void setCompanyAccountId(String companyAccountId) {
 		this.companyAccountId = companyAccountId;
+	}
+	public String getPersonalAccountId() {
+		return personalAccountId;
+	}
+	public void setPersonalAccountId(String personalAccountId) {
+		this.personalAccountId = personalAccountId;
 	}
 	public BigDecimal getAmount() {
 		return amount;
