@@ -134,7 +134,7 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,wb_company_rewarded_detail d,");
 		stbSql.append(" t_s_base_user bu,t_s_user_org uo,t_s_depart dp ");
-		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and a.id=d.policy_id and bu.id=uo.user_id and dp.ID=uo.org_id");
+		stbSql.append(" where d.status='0' and a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and a.id=d.policy_id and bu.id=uo.user_id and dp.ID=uo.org_id");
 		getRewardDetailList(rewardPage, dataGrid, stbHeadSql1, stbSql);
 		return dataGrid;
 	}
