@@ -16,6 +16,7 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.weibao.chaopei.entity.DraftEntity;
@@ -133,5 +134,60 @@ public class PolicyDraftController extends BaseController {
 		j.setMsg(message);
 		request.setAttribute("policyMainPage", policyMainPage);
 		return new ModelAndView("com/weibao/chaopei/policy/draftMainList");
+	}
+	
+	/**
+	 * 添加保单主信息
+	 * 
+	 * @param policyMainPage
+	 * @return
+	 */
+	@RequestMapping(params = "ajaxAdd")
+	@ResponseBody
+	public AjaxJson ajaxAdd(PolicyMainPage policyMainPage, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "添加成功";
+		try{
+			//String userId = request.getParameter("userId");
+			String userId = ResourceUtil.getSessionUser().getId();
+			policyMainPage.setUserId(userId);
+			draftService.addMain(policyMainPage);
+			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单主信息添加失败";
+			throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
+		request.setAttribute("policyMainPage", policyMainPage);
+		return j;
+	}
+	
+	/**
+	 * 修改保单主信息
+	 * 
+	 * @param policyMainPage
+	 * @return
+	 */
+	@RequestMapping(params = "ajaxUpdate")
+	@ResponseBody
+	public AjaxJson ajaxUpdate(PolicyMainPage policyMainPage, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "修改成功";
+		try{
+			//String userId = ResourceUtil.getSessionUser().getId();
+			//policyMainPage.setUserId(userId);
+			draftService.updateMain(policyMainPage);
+			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单主信息修改失败";
+			throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
+		request.setAttribute("policyMainPage", policyMainPage);
+		return j;
 	}
 }

@@ -166,11 +166,13 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			
 			holderEntity.setLastUpdateTime(currDate);
 			draftEntity.setSaveTime(currDate);
+			holderEntity.setId(UUIDGenerator.generate());
 			
 			/**保存-保单关联信息，投保人、被投保人、收件人*/
 			policyMainDao.saveHolderEntity(holderEntity);
 			//policyMainDao.saveInsuredEntity(insuredEntity);
 			if("3".equals(invoiceType)) {
+				receiverEntity.setId(UUIDGenerator.generate());
 				policyMainDao.saveReceiverEntity(receiverEntity);
 			}
 			
@@ -191,6 +193,9 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 
 				if(vehicle.getFrameNo() == null) {
 					continue;
+				}
+				if("".equals(vehicle.getId())) {
+					vehicle.setId(null);
 				}
 				BeanUtils.copyProperties(policyEntity, policyMainPage);
 				BeanUtils.copyProperties(policyEntity, vehicle);

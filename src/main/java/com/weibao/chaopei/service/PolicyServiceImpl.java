@@ -160,7 +160,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.insur_comp_name ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu ");
-		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id");
+		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and (a.`status`='2' or a.`status`='3')");
 		
 		try {
 			List<Object> objList = new ArrayList<Object>();
