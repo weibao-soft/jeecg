@@ -240,7 +240,7 @@ function addPolicy() {
 	index1++;
 	var index = document.getElementById("policy_tabel").rows.length;
 	//layer.msg(index);
-	var trbody = "<tr name='policytr'>";
+	var trbody = "<tr name='policytr'><input name='vehicles["+index+"].id' type='hidden'/>";
 	trbody += "<td><div style='text-align:right;width:140px;'>车牌号：<BR/>（新车填写：未上牌）</div></td>";
 	trbody += "<td><input type='text' name='vehicles["+index+"].plateNo' class='policy' title='plateNo' maxlength='8' value='未上牌'></td>";
 	trbody += "<td><span style='color: red;'>*</span>车架号 </td>";
@@ -435,6 +435,96 @@ function parseData(info) {
         $("#recipientsTelp").val(info.recipientsTel);
         $("#reciAddressp").val(info.reciAddress);
     }
+}
+
+//公共提交表单函数：参数 params为 Json类型，可以传空参数，如:  {}
+function ajaxSubmitForm(url, params) {
+  $.ajax({
+      url: url,
+      type: "POST",
+      data: params,
+      dataType: "json",
+      error: function () {
+          layer.alert("服务器异常");
+      },
+      success: function (data) {
+          if(console) console.log("submitForm == ", data);
+          if (data.success) {
+  			  layer.msg(data.msg, {icon:6});
+              return false;
+          } else {
+              layer.alert(data.msg);
+          }
+      }
+  });
+}
+function getSubmitParam() {
+	var param = {};
+	
+	param.prodId = document.getElementById("prodId").value;
+	param.premium = document.getElementById("premium").value;
+	param.planId = document.getElementById("planId").value;
+	param.startDate = document.getElementById("start").value;
+	param.endDate = document.getElementById("end").value;
+	param.holderNature = document.getElementById("holderNature").value;
+	param.holderCompName = document.getElementById("holderCompName").value;
+	param.holderOrgCode = document.getElementById("holderOrgCode").value;
+	param.holderCompNature = document.getElementById("holderCompNature").value;
+	param.industryType = document.getElementById("industryType").value;
+	param.contactName = document.getElementById("contactName").value;
+	param.policyMobile = document.getElementById("policyMobile").value;
+	param.insuredCompName = document.getElementById("insuredCompName").value;
+	param.insuredOrgCode = document.getElementById("insuredOrgCode").value;
+	param.status = document.getElementById("status").value;
+	param.invoiceType = document.getElementById("invoiceType").value;
+	if(param.invoiceType == '3') {
+		param.taxpayerNo = document.getElementById("taxpayerNop").value;
+		param.compName = document.getElementById("compNamep").value;
+		param.compAddress = document.getElementById("compAddressp").value;
+		param.compPhone = document.getElementById("compPhonep").value;
+		param.depositBank = document.getElementById("depositBankp").value;
+		param.bankAccount = document.getElementById("bankAccountp").value;
+		param.recipients = document.getElementById("recipientsp").value;
+		param.recipientsTel = document.getElementById("recipientsTelp").value;
+		param.reciAddress = document.getElementById("reciAddressp").value;
+	} else if(param.invoiceType == '2') {
+		param.taxpayerNo = document.getElementById("taxpayerNo2").value;
+		param.receiverMobile = document.getElementById("receiverMobile").value;
+	}
+	var plateNos = $("[class='policy'][title='plateNo']");
+	var length = plateNos.length;
+	var vehicles = [];
+	for(var i = 0; i < length; i++) {
+		var vehicle = {};
+		vehicle.plateNo = document.getElementsByName("vehicles["+i+"].plateNo")[0].value;
+		vehicle.frameNo = document.getElementsByName("vehicles["+i+"].frameNo")[0].value;
+		vehicle.engineNo = document.getElementsByName("vehicles["+i+"].engineNo")[0].value;
+		param["vehicles["+i+"].plateNo"] = vehicle.plateNo;
+		param["vehicles["+i+"].frameNo"] = vehicle.frameNo;
+		param["vehicles["+i+"].engineNo"] = vehicle.engineNo;
+		vehicles[i] = vehicle;
+	}
+	//param.vehicles = vehicles;
+    if(console) console.log("param == ", param);
+	
+	return param;
+}
+function getUpdateParam(param) {
+	//param.id = document.getElementById("id").value;
+	param.draftId = document.getElementById("draftId").value;
+	param.userId = document.getElementById("userId").value;
+	param.payStatus = document.getElementById("payStatus").value;
+	param.rewardStatus = document.getElementById("rewardStatus").value;
+	param.createTime = document.getElementById("createTime").value;
+	var plateNos = $("[class='policy'][title='plateNo']");
+	var length = plateNos.length;
+	for(var i = 0; i < length; i++) {
+		var vehicle = {};
+		vehicle.id = document.getElementsByName("vehicles["+i+"].id")[0].value;
+		param["vehicles["+i+"].id"] = vehicle.id;
+	}
+	
+	return param;
 }
 
 //校验开具专用发票页面上的数据

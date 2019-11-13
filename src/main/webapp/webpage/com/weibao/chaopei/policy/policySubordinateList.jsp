@@ -14,7 +14,7 @@
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
    
    <t:dgCol title="投保人"  frozenColumn="true" field="holderCompName" query="true" queryMode="single" width="220"></t:dgCol>
-   <t:dgCol title="车牌号/被保人"  frozenColumn="true" field="plateNo" query="true" queryMode="single" width="100"></t:dgCol>
+   <t:dgCol title="车牌号"  frozenColumn="true" field="plateNo" query="true" queryMode="single" width="100"></t:dgCol>
    <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" sortable="false" width="200"></t:dgCol>
    <t:dgCol title="部门"  field="departId" hidden="true" query="true" queryMode="single" sortable="false" dictionary="t_s_depart,id,departname" dictCondition="where parentdepartid='${parentId }'" width="120"></t:dgCol>
    <t:dgCol title="出单机构"  field="departName" queryMode="group" width="120"></t:dgCol>

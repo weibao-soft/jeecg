@@ -58,6 +58,24 @@ function submitData() {
 	
 	$("#formobj").submit();
 }
+//Ajax方式提交表单数据
+function submitForm() {
+	if(!validData()) {
+		return false;
+	}
+	$("#save").attr("disabled", true);
+	$("#insur").attr("disabled", true);
+
+	var invoice=$("#invoiceType").val();
+	if(invoice=='2') {
+		var taxpayerNo = $("#taxpayerNo2").val();
+        $("#taxpayerNop").val(taxpayerNo);
+	}
+	
+	var url = "policyDraftController.do?ajaxAdd";
+	var params = getSubmitParam();
+	ajaxSubmitForm(url, params);
+}
 //存草稿
 function saveDraft() {
 	$("#status").val("1");
@@ -66,7 +84,7 @@ function saveDraft() {
 //提交核保
 function insurance() {
 	$("#status").val("2");
-	submitData();
+	submitForm();
 }
 </SCRIPT>
 </head>
@@ -154,8 +172,7 @@ function insurance() {
 	 
 	 <tr><td>
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
-		 <tr><td style="width:15%"><label class="Validform_label"> 投保人： </label></td>
-		 <td style="width:35%"></td><td style="width:15%"></td><td style="width:35%"></td></tr>
+		 <tr><td style="width:100%" colspan="4"><label class="Validform_label"> 投保人： </label></td></tr>
 		 <tr><td style="width:15%">投保人性质</td>
 		 <td style="width:35%"><t:dictSelect field="holderNature" id="holderNature" type="list" divClass="dict_select" title=""
 						typeGroupCode="holdNature" defaultVal="1" hasLabel="false" ></t:dictSelect>
@@ -195,14 +212,13 @@ function insurance() {
 	 <tr><td>
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
 		 <tr>
-		 <td style="width:15%"><label class="Validform_label">被保人：</label><input id="check1" type="checkbox" />同投保人</td>
-		 <td style="width:35%"></td><td style="width:15%"></td><td style="width:35%"></td>
+		 <td style="width:100%" colspan="4"><label class="Validform_label">被保人：</label><input id="check1" type="checkbox" />同投保人</td>
 		 </tr>
 		 <tr>
-		 <td><span style="color: red;">*</span>单位名称 </td>
-		 <td><input type="text" name="insuredCompName" id="insuredCompName" style="width:200px;" autocomplete="off"/></td>
-		 <td><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码)</td>
-		 <td><input type="text" name="insuredOrgCode" id="insuredOrgCode" maxlength="18" style="width:200px;" />
+		 <td style="width:15%"><span style="color: red;">*</span>单位名称 </td>
+		 <td style="width:35%"><input type="text" name="insuredCompName" id="insuredCompName" style="width:200px;" autocomplete="off"/></td>
+		 <td style="width:15%"><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码)</td>
+		 <td style="width:35%"><input type="text" name="insuredOrgCode" id="insuredOrgCode" maxlength="18" style="width:200px;" />
 		 <span class="Validform_checktip"></span></td>
 		 </tr>
 	 </table>
@@ -213,10 +229,10 @@ function insurance() {
  </table>
  
 <div style="text-align:center;width:99%;padding-top:10px;">
-<input class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input class="btn" type="button" value="在线支付" onclick=";" style="height:30px;width:100px !important;border-radius:5px"/>
-<input class="btn" type="button" value="返回" onclick=";" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="pay" class="btn" type="button" value="在线支付" onclick=";" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="back" class="btn" type="button" value="返回" onclick=";" style="height:30px;width:100px !important;border-radius:5px"/>
 </div>
 </fieldset>
 
