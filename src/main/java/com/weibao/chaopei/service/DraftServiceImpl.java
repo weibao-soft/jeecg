@@ -37,7 +37,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 	 * 新增保存保单、投保人、被投保人、收件人等信息
 	 */
 	@Override
-	public PolicyMainPage addMain(PolicyMainPage policyMainPage) {
+	public List<PolicyEntity> addMain(PolicyMainPage policyMainPage) {
 		HolderEntity holderEntity = new HolderEntity(); 
 		ReceiverEntity receiverEntity = new ReceiverEntity();
 		ProductDetailEntity detailEntity = new ProductDetailEntity();
@@ -45,6 +45,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 		DraftRelationEntity draftRelationEntity = null;
 		PolicyEntity policyEntity = null;
 		List<PolicyVehiclePage> vehicles = null;
+		List<PolicyEntity> policys = null;
 		String invoiceType = "1";
 		
 		try {
@@ -92,6 +93,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			//保存草稿
 			this.save(draftEntity);
 
+			policys = new ArrayList<PolicyEntity>();
 			for(int i = 0; i < vehicles.size(); i++) {
 				PolicyVehiclePage vehicle = vehicles.get(i);
 				policyEntity = new PolicyEntity();
@@ -114,10 +116,11 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				draftRelationEntity.setPolicyId(policyEntity.getId());
 				draftRelationEntity.setDraftId(draftEntity.getId());
 				this.save(draftRelationEntity);
-				//vehicle.setId(policyEntity.getId());
+				vehicle.setId(policyEntity.getId());
+				policys.add(policyEntity);
 			}
 			
-			//policyMainPage.setDraftId(draftEntity.getId());
+			policyMainPage.setDraftId(draftEntity.getId());
 		} catch (IllegalAccessException e) {
 			logger.error(e.getMessage(), e);
 		} catch (InvocationTargetException e) {
@@ -126,14 +129,14 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			logger.error(e.getMessage(), e);
 			throw new BusinessException(e.getMessage());
 		}
-		return policyMainPage;
+		return policys;
 	}
 
 	/**
 	 * 修改保存保单、投保人、被投保人、收件人等信息
 	 */
 	@Override
-	public PolicyMainPage updateMain(PolicyMainPage policyMainPage) {
+	public List<PolicyEntity> updateMain(PolicyMainPage policyMainPage) {
 		HolderEntity holderEntity = new HolderEntity(); 
 		ReceiverEntity receiverEntity = new ReceiverEntity();
 		ProductDetailEntity detailEntity = new ProductDetailEntity();
@@ -141,6 +144,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 		DraftRelationEntity draftRelationEntity = null;
 		PolicyEntity policyEntity = null;
 		List<PolicyVehiclePage> vehicles = null;
+		List<PolicyEntity> policys = null;
 		List<String> delIds = null;
 		String draftId = null;
 		String invoiceType = "1";
@@ -186,6 +190,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			draftEntity.setId(draftId);
 			this.saveOrUpdate(draftEntity);
 
+			policys = new ArrayList<PolicyEntity>();
 			delIds = new ArrayList<String>();
 			for(int i = 0; i < vehicles.size(); i++) {
 				PolicyVehiclePage vehicle = vehicles.get(i);
@@ -215,6 +220,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				} else {
 					delIds.add(vehicle.getId());
 				}
+				policys.add(policyEntity);
 				
 			}
 			//草稿中删除的保单，同时也从数据库删除
@@ -232,7 +238,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			logger.error(e.getMessage(), e);
 			throw new BusinessException(e.getMessage());
 		}
-		return policyMainPage;
+		return policys;
 	}
 	
 	/**
