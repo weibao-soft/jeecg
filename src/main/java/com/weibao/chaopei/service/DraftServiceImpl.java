@@ -106,7 +106,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				BeanUtils.copyProperties(policyEntity, policyMainPage);
 				BeanUtils.copyProperties(policyEntity, vehicle);
 				policyEntity.setPayStatus("0");
-				policyEntity.setRewardStatus("0");
+				policyEntity.setRewardStatus("0");						
 				//创建时间
 				policyEntity.setCreateTime(currDate);
 				policyEntity.setLastUpdateTime(currDate);

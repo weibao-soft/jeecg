@@ -1,5 +1,8 @@
 package com.weibao.chaopei.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,8 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.weibao.chaopei.entity.DraftEntity;
+import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.service.DraftServiceI;
+import com.weibao.chaopei.service.GuorenApiServiceI;
 import com.weibao.chaopei.service.PolicyServiceI;
 
 @Controller
@@ -41,6 +46,9 @@ public class PolicyDraftController extends BaseController {
 	
 	@Autowired
 	private SystemService systemService;
+	
+	@Autowired
+	private GuorenApiServiceI guorenApiService;
 
 	/**
 	 * 保单主信息列表 页面跳转
@@ -167,8 +175,7 @@ public class PolicyDraftController extends BaseController {
 	}
 	
 	/**
-	 * 添加保单主信息
-	 * 
+	 * 主保单在未保存草稿之前，直接提交核保
 	 * @param policyMainPage
 	 * @return
 	 */
@@ -181,7 +188,12 @@ public class PolicyDraftController extends BaseController {
 			//String userId = request.getParameter("userId");
 			String userId = ResourceUtil.getSessionUser().getId();
 			policyMainPage.setUserId(userId);
-			draftService.addMain(policyMainPage);
+			//1.先将草稿单、保单、投保人等信息写进数据库，保单状态为草稿
+			List<PolicyEntity> list = draftService.addMain(policyMainPage);
+			//2.调用核保接口
+			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
+			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
+			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？			
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
@@ -208,7 +220,13 @@ public class PolicyDraftController extends BaseController {
 		try{
 			//String userId = ResourceUtil.getSessionUser().getId();
 			//policyMainPage.setUserId(userId);
-			draftService.updateMain(policyMainPage);
+			
+			//1.先修改草稿单、保单、投保人等信息，保单状态为草稿
+			List<PolicyEntity> list = draftService.updateMain(policyMainPage);
+			//2.调用核保接口
+			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
+			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
+			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？			
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
