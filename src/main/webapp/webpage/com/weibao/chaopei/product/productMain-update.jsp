@@ -97,18 +97,30 @@
 		<tr>
 			 <td align="center"><div style="width: 25px;" name="xh"></div></td>
 			 <td align="center"><input style="width:20px;" type="checkbox" name="ck"/></td>
+			 <td align="left">
+			 	<input name="productDetailsList[#index#].planCode" maxlength="100" type="text" class="inputxt"  style="width:80px;" ignore="ignore" />
+				<label class="Validform_label" style="display: none;">方案代码</label>
+			 </td>
 			  <td align="left">
-				       	<input name="productDetailsList[#index#].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:320px;" ignore="ignore" />
+				       	<input name="productDetailsList[#index#].planName" maxlength="100" type="text" class="inputxt"  style="width:220px;" ignore="ignore" />
+				  <label class="Validform_label" style="display: none;">方案名称</label>
+			  </td>
+			  <td align="left">
+				       	<input name="productDetailsList[#index#].prodPlan" maxlength="100" type="text" class="inputxt"  style="width:350px;" ignore="ignore" />
 				  <label class="Validform_label" style="display: none;">产品计划</label>
 			  </td>
 			  <td align="left">
-				  	<input name="productDetailsList[#index#].planType" maxlength="10" type="text" class="inputxt"  style="width:120px;"  ignore="ignore" />
+				  	<input name="productDetailsList[#index#].planType" maxlength="10" type="text" class="inputxt"  style="width:80px;"  ignore="ignore" />
 				  <label class="Validform_label" style="display: none;">营运性质</label>
 			  </td>			  
 			  <td align="left">
-				<input name="productDetailsList[#index#].price" maxlength="10" type="text" class="inputxt"  style="width:120px;"  datatype="d"  ignore="ignore" >
+				<input name="productDetailsList[#index#].premium" maxlength="10" type="text" class="inputxt"  style="width:80px;"  datatype="d"  ignore="ignore" >
 				<label class="Validform_label" style="display: none;">保费</label>
 			  </td>
+			  <td align="left">
+				<input name="productDetailsList[#index#].sortNo" maxlength="10" type="text" class="inputxt"  style="width:20px;"  datatype="d"  ignore="ignore" >
+				<label class="Validform_label" style="display: none;">排序</label>
+			  </td>		
 		</tr>
 	</tbody>	
 	</table>

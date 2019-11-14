@@ -37,6 +37,9 @@ public class DateUtils extends PropertyEditorSupport {
 			"HH:mm");
 	public static final  SimpleDateFormat datetimeFormat = new SimpleDateFormat(
 	"yyyy-MM-dd HH:mm:ss");
+	
+	public static final  SimpleDateFormat datetimeFormatSSSS = new SimpleDateFormat(
+			"yyyy-MM-dd HH:mm:ss:SSSS");
 	// 以毫秒表示的时间
 	private static final long DAY_IN_MILLIS = 24 * 3600 * 1000;
 	private static final long HOUR_IN_MILLIS = 3600 * 1000;
@@ -335,6 +338,10 @@ public class DateUtils extends PropertyEditorSupport {
 	public static String formatDateTime() {
 		return datetimeFormat.format(getCalendar().getTime());
 	}
+	
+	public static String datetimeFormatSSSS(Date date) {
+		return datetimeFormatSSSS.format(date);
+	}
 	/**
 	 * 获取时间字符串
 	 */
@@ -626,14 +633,9 @@ public class DateUtils extends PropertyEditorSupport {
 	}
 	
 	public static void main(String[] args) {
-		Date now = new Date(2019-190,9,30);
-		Calendar current = new GregorianCalendar();
-		current.setTime(now);
-		System.out.println(current.getTime());
-		current.add(Calendar.DAY_OF_MONTH, 1);
-		System.out.println(current.getTime());
-		current.add(Calendar.DATE, 1);
-		System.out.println(current.getTime());
+		Date date = new Date();
+		
+		System.out.println(datetimeFormatSSSS(date));		
 	}
     /**
      * String类型 转换为Date,

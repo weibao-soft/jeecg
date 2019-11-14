@@ -11,7 +11,7 @@
 		http://cxf.apache.org/jaxws 
    		http://cxf.apache.org/schemas/jaxws.xsd">
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
-	<!-- 加载controller的时候,不加载service,因为此时事物并未生效,若此时加载了service,那么事物无法对service进行拦截 -->
+	<!-- 加载controller的时候,不加载service,因为此时事务并未生效,若此时加载了service,那么事物无法对service进行拦截 -->
 	<context:component-scan base-package="org.jeecgframework.web.*,com.jeecg.*,com.weibao.*, org.jeecgframework.jwt.*">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
@@ -138,7 +138,8 @@
 				</property>
 				<property name="excludeContainUrls">
 					<list>
-						<value>/rest/tokens</value>
+						<value>/rest/tokens</value>					
+						<value>/rest/guoren/payback</value><!-- 	暂时先屏蔽国任的支付回调接口	 -->
 					</list>
 				</property>
 			</bean>

@@ -60,12 +60,15 @@ public class RestAuthTokenInterceptor implements  HandlerInterceptor {
 		if (oConvertUtils.isEmpty(username)) {
             throw new ServletException("Invalid X-AUTH-TOKEN Subject no exist username.");
         }
-		TokenModel model = manager.getToken(authHeader,username.toString());
-		if (manager.checkToken(model)) {
+		
+		//TODO: 取消掉redis TokenModel model = manager.getToken(authHeader,username.toString());
+		//if (manager.checkToken(model)) {
+		if("admin".equals(username.toString())) {
 			//如果token验证成功，将对象传递给下一个请求
             request.setAttribute(JwtConstants.CURRENT_TOKEN_CLAIMS, claims);
 			//如果token验证成功，将token对应的用户id存在request中，便于之后注入
-			request.setAttribute(JwtConstants.CURRENT_USER_NAME, model.getUsername());
+//			request.setAttribute(JwtConstants.CURRENT_USER_NAME, model.getUsername());
+			request.setAttribute(JwtConstants.CURRENT_USER_NAME, username.toString());
 			return true;
 		} else {
 			// 如果验证token失败，则返回401错误

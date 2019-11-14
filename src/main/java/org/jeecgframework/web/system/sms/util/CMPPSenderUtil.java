@@ -9,10 +9,9 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.jeecgframework.web.system.sms.util.msg.util.MsgContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.jeecgframework.web.system.sms.util.msg.util.MsgContainer;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -44,11 +43,13 @@ public class CMPPSenderUtil {
 			HttpClient httpClient = new HttpClient();
 
 			httpClient.getParams().setAuthenticationPreemptive(true);
+			
 			// 创建POST方法的实例
 			PostMethod postMethod = new PostMethod(url);
 			// 使用系统提供的默认的恢复策略
 			postMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
 					new DefaultHttpMethodRetryHandler());
+			
 			String result = null;// 初始化返回结果（String类型）
 			byte[] responseBody = null;// 初始化返回结果（byte[]类型）
 			try {
@@ -188,10 +189,9 @@ public class CMPPSenderUtil {
 	public static String sendMessage(String phone, String content, String exCode) {
 		try {
 			String msg = URLEncoder.encode(content, "utf-8");
-		
+			
 			String url = "";//csp0短信地址
 			HttpClient httpClient = new HttpClient();
-
 			httpClient.getParams().setAuthenticationPreemptive(true);
 			// 创建POST方法的实例
 			PostMethod postMethod = new PostMethod(url);

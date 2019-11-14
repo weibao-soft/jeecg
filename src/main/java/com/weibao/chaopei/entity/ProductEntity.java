@@ -23,6 +23,10 @@ public class ProductEntity implements java.io.Serializable {
 	@Column(name ="id",nullable=false,length=32)
 	private java.lang.String id;
 	
+	/**商品代码*/    
+	@Column(name ="good_code",nullable=true,length=32)
+	private java.lang.String goodCode;
+	
 	/**产品代码*/    
 	@Column(name ="prod_code",nullable=true,length=32)
 	private java.lang.String prodCode;
@@ -89,5 +93,13 @@ public class ProductEntity implements java.io.Serializable {
 
 	public void setPeriod(java.lang.String period) {
 		this.period = period;
+	}
+
+	public java.lang.String getGoodCode() {
+		return goodCode;
+	}
+
+	public void setGoodCode(java.lang.String goodCode) {
+		this.goodCode = goodCode;
 	}
 }
