@@ -68,6 +68,7 @@ function upload(curform) {
  * @param addurl//目标页面地址
  */
 function add(title,addurl,gname,width,height) {
+	debugger
 	gridname=gname;
 	createwindow(title, addurl,width,height);
 }
@@ -336,8 +337,7 @@ function editfs(title,url) {
 
 }
 // 删除调用函数
-function delObj(url,name) {
-	alert('ssss');
+function delObj(url,name) {	
 	gridname=name;
 	createdialog($.i18n.prop('del.confirm.title'), $.i18n.prop('del.this.confirm.msg'), url,name);
 }
@@ -503,6 +503,7 @@ function isRealNum(val){
  * @param saveurl
  */
 function createwindow(title, addurl,width,height) {
+	debugger
 	//--author：zhoujf---------date：20180718---------for：弹出窗口大小控制问题
 	if(width=="100%" || height=="100%"){
 		width = window.top.document.body.offsetWidth;
