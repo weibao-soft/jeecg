@@ -9,7 +9,7 @@
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="policyMainList" checkbox="false" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
-  		idField="id" fit="true" collapsible="false" queryMode="group" superQuery="true" filter="true" >
+  		idField="id" fit="true" collapsible="false" queryMode="group" superQuery="true" filter="true" pageSize="20">
    <t:dgCol title="操作" frozenColumn="true" field="opt" width="180"></t:dgCol>
    <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
       
@@ -29,7 +29,6 @@
    <t:dgCol title="产品代码"  field="prodCode" queryMode="single" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="保险公司"  field="insurCompName" query="true" queryMode="single" sortable="false" dictionary="ins_comp" width="100"></t:dgCol>
    
-   <t:dgToolBar title="测试" icon="icon-edit" url="" funname="" width="100%" height="100%"></t:dgToolBar>
    <t:dgToolBar title="查看" icon="icon-search" url="jeecgListDemoController.do?goUpdate" funname="" width="770" height="500"></t:dgToolBar>
    
   </t:datagrid>

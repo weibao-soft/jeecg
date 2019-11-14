@@ -8,7 +8,7 @@
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
 
-  <t:datagrid name="policySubordList" checkbox="false" sortName="frameNo" pagination="true" fitColumns="false" title="保单列表" 
+  <t:datagrid name="policySubordList" checkbox="false" sortName="frameNo" pagination="true" fitColumns="false" title="保单列表" pageSize="20"
   	  superQuery="true" actionUrl="policySubordController.do?datagrid&parentIds=${parentIds}" idField="id" fit="true" queryMode="group" filter="true">
 
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>

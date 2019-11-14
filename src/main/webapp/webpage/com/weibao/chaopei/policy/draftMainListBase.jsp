@@ -20,11 +20,10 @@
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="draftMainList" checkbox="false" fitColumns="false" title="草稿列表" actionUrl="policyDraftController.do?datagrid" 
-  		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true">
+  		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" pageSize="20">
    <t:dgCol title="操作" field="opt" width="200"></t:dgCol>
    <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
    <t:dgDelOpt title="删除" url="policyDraftController.do?doDel&draftId={id}"  urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
-   <t:dgToolBar title="测试" icon="icon-edit" url="" funname="" width="100%" height="100%"></t:dgToolBar>
   		
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
