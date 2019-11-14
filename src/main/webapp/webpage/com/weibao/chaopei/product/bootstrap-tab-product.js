@@ -38,8 +38,7 @@ var addTabs = function (options) {
     }
     //激活TAB
     parent.parent.$("#tab_" + id).addClass('active');
-    parent.parent.$("#" + id).addClass("active");
-    debugger
+    parent.parent.$("#" + id).addClass("active");    
     var last = parent.parent.$("#tabs>ul>li:last");
     /*$(".contextMenuPlugin").mouseout(function(){
      $(".contextMenuPlugin").remove();
