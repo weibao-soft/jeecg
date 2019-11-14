@@ -51,6 +51,7 @@ public class ProductMainController extends BaseController {
 	 */
 	@RequestMapping(params = "list")
 	public ModelAndView list(HttpServletRequest request) {
+		logger.info("log4j in productMainList....");
 		return new ModelAndView("com/weibao/chaopei/product/productMainList");
 	}
 	

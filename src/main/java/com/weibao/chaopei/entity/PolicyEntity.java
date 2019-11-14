@@ -176,6 +176,8 @@ public class PolicyEntity implements Serializable {
 	/**最后修改时间*/
 	@Column(name ="last_update_time",nullable=true)
 	private java.util.Date lastUpdateTime;
+	
+	
 
 	public java.lang.String getId() {
 		return id;

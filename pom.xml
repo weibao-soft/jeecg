@@ -137,6 +137,19 @@
 	<dependencies>
 
 		<!-- 自定义的依赖包  begin -->
+		
+		<!-- httpclient pooling -->
+		<dependency>
+		   <groupId>org.apache.httpcomponents</groupId>
+		   <artifactId>httpcore</artifactId>
+		   <version>4.4.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient-cache</artifactId>
+		    <version>4.5.10</version>
+		</dependency>
+		
 		<!-- codegenerate -->
 		<dependency>
 			<groupId>org.jeecgframework</groupId>
@@ -427,6 +440,7 @@
 		    <artifactId>commons-httpclient</artifactId>
 		    <version>3.0.1</version>
 		</dependency>
+		
 		<!-- commons-net-ftp -->
 		<dependency>
 		    <groupId>commons-net</groupId>

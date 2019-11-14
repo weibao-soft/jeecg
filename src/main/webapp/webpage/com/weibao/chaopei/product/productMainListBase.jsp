@@ -21,26 +21,26 @@
 <!--add-start--Author:wangkun Date:20160813 for:内部聊天修改-->
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="productMainList" checkbox="false" fitColumns="true" title="产品列表" actionUrl="productMainController.do?datagrid" 
+  <t:datagrid name="productMainList" checkbox="false" fitColumns="false" title="产品列表" actionUrl="productMainController.do?datagrid" 
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
+  	<t:dgCol title="操作" field="opt" width="100"  ></t:dgCol>
+  	<t:dgFunOpt title="立即投保" funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
+  	      
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
-   <t:dgCol title="产品名称"  field="prodName"  queryMode="single" width="120"></t:dgCol>
+   <t:dgCol title="产品名称"  field="prodName"  queryMode="single" width="160"></t:dgCol>
    <t:dgCol title="产品类型"  field="prodType" queryMode="single" width="120"></t:dgCol>
    <t:dgCol title="期限"  field="period"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="保险公司"  field="insurCompName" dictionary="ins_comp"  queryMode="single" width="120"></t:dgCol>   
-   
-   <t:dgCol title="操作" field="opt" width="100"></t:dgCol>      
-   <t:dgFunOpt title="立即投保"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
-   <t:dgDelOpt title="删除" url="jformOrderMainController.do?doDel&id={id}"  urlclass="ace_button" urlfont="fa-trash-o"/>
-      
-   <t:dgToolBar title="新增" icon="icon-add" url="productMainController.do?goAdd" funname="add" width="50%" height="50%"></t:dgToolBar>
-   <t:dgToolBar title="编辑" icon="icon-edit" url="productMainController.do?goUpdate" funname="update" width="50%" height="50%"></t:dgToolBar>
+   <t:hasPermission code="addProduct">
+   <t:dgToolBar title="新增" icon="icon-add" url="productMainController.do?goAdd" funname="add" width="980" height="500"></t:dgToolBar>
+   </t:hasPermission>
+   <t:hasPermission code="editProduct">
+   <t:dgToolBar title="编辑" icon="icon-edit" url="productMainController.do?goUpdate" funname="update" width="980" height="500"></t:dgToolBar>
+   </t:hasPermission>
+   <t:hasPermission code="batchDelProduct">
    <t:dgToolBar title="批量删除"  icon="icon-remove" url="jformOrderMainController.do?doBatchDel" operationCode="" funname="deleteALLSelect"></t:dgToolBar>
-   <t:dgToolBar title="导入数据" icon="icon-put" funname="ImportXls"></t:dgToolBar>
-   <t:dgToolBar title="导出数据" icon="icon-putout" funname="ExportXls"></t:dgToolBar>
-   <t:dgToolBar title="模板下载" icon="icon-putout" funname="ExportXlsByT"></t:dgToolBar>
-   
+   </t:hasPermission>
   </t:datagrid>
   </div>
  </div>

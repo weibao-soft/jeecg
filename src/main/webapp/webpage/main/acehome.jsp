@@ -10,7 +10,7 @@
     <!--360浏览器优先以webkit内核解析-->
 
 
-    <title>Jeecg 微云快速开发平台</title>
+    <title>微保通</title>
 
     <link rel="shortcut icon" href="images/favicon.ico">
     <link href="plug-in/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">

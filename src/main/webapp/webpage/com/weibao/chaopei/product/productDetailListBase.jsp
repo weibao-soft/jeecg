@@ -3,12 +3,14 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="productDetailList" checkbox="false" fitColumns="true" title="" actionUrl="productMainController.do?productDetailDatagrid" 
+  <t:datagrid name="productDetailList" checkbox="false" fitColumns="false" title="" actionUrl="productMainController.do?productDetailDatagrid" 
   	idField="id" fit="true" queryMode="group" collapsible="true">
-   <t:dgCol title="主键"  field="id"  hidden="true"  queryMode="single"  width="0"></t:dgCol>   
-   <t:dgCol title="产品计划"  field="prodPlan"  extendParams="editor:'text'" queryMode="single"  width="100"></t:dgCol>
-   <t:dgCol title="营运性质"  field="planType" extendParams="editor:'numberbox'"  queryMode="single"  width="50"></t:dgCol>
-   <t:dgCol title="保费"  field="price"  queryMode="single"  width="120"></t:dgCol>
+   <t:dgCol title="主键"  field="id"  hidden="true"  queryMode="single"  width="0"></t:dgCol>
+   <t:dgCol title="方案代码"  field="planCode"  extendParams="editor:'text'" queryMode="single"  width="80"></t:dgCol>
+   <t:dgCol title="方案名称"  field="planName"  extendParams="editor:'text'" queryMode="single"  width="220"></t:dgCol>   
+   <t:dgCol title="产品计划"  field="prodPlan"  extendParams="editor:'text'" queryMode="single"  width="380"></t:dgCol>
+   <t:dgCol title="营运性质"  field="planType" extendParams="editor:'numberbox'"  queryMode="single"  width="80"></t:dgCol>
+   <t:dgCol title="保费"  field="price"  queryMode="single"  width="60"></t:dgCol>
    
    <%--  
 	<t:dgToolBar  title="编辑" icon="icon-edit"  funname="editRow"></t:dgToolBar>
