@@ -26,7 +26,7 @@ import com.weibao.chaopei.entity.DraftEntity;
 import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.service.DraftServiceI;
-import com.weibao.chaopei.service.GuorenApiService;
+import com.weibao.chaopei.service.GuorenApiServiceI;
 import com.weibao.chaopei.service.PolicyServiceI;
 
 @Controller
@@ -48,7 +48,7 @@ public class PolicyDraftController extends BaseController {
 	private SystemService systemService;
 	
 	@Autowired
-	private GuorenApiService apiService;
+	private GuorenApiServiceI guorenApiService;
 
 	/**
 	 * 保单主信息列表 页面跳转
@@ -191,7 +191,7 @@ public class PolicyDraftController extends BaseController {
 			//1.先将草稿单、保单、投保人等信息写进数据库，保单状态为草稿
 			List<PolicyEntity> list = draftService.addMain(policyMainPage);
 			//2.调用核保接口
-			List<Map<String, String>> insRsList = apiService.insuredService(list);
+			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
 			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？			
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);

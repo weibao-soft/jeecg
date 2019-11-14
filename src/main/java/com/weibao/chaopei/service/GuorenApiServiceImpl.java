@@ -27,7 +27,7 @@ import com.weibao.chaopei.util.http.RelFieldName;
 
 @Service("guorenApiService")
 @Transactional
-public class GuorenApiService extends CommonServiceImpl  {
+public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApiServiceI   {
 	@Autowired
 	GuorenApiConfig apiConfig;
 	
