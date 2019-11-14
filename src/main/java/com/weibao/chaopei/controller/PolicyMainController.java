@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.weibao.chaopei.entity.HolderEntity;
+import com.weibao.chaopei.entity.ReceiverEntity;
 import com.weibao.chaopei.page.CommonBean;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.service.PolicyServiceI;
@@ -259,6 +260,34 @@ public class PolicyMainController extends BaseController {
 			logger.info(e.getMessage(), e);
 			object.put("code", 201);
 			message = "保单投保人查询失败";
+			throw new BusinessException(e.getMessage());
+		}
+		object.put("message", message);
+		return object;
+	}
+	
+	/**
+	 *  查询保单收件人列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "getReceivers")
+	@ResponseBody
+	public JSONObject getReceivers(HttpServletRequest request) {
+		JSONObject object = new JSONObject();
+		List<ReceiverEntity> holders = new ArrayList<ReceiverEntity>();
+		String message = "查询成功";
+		try{
+			String userId = ResourceUtil.getSessionUser().getId();
+			holders = policyService.getPolicyReceivers(userId);
+			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(holders);
+			//String value = JSONArray.toJSONString(array);
+			object.put("value", array);
+			object.put("code", 200);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			object.put("code", 201);
+			message = "保单收件人查询失败";
 			throw new BusinessException(e.getMessage());
 		}
 		object.put("message", message);

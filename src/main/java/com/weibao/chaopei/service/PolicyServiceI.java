@@ -6,6 +6,7 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.CommonService;
 
 import com.weibao.chaopei.entity.HolderEntity;
+import com.weibao.chaopei.entity.ReceiverEntity;
 import com.weibao.chaopei.page.CommonBean;
 import com.weibao.chaopei.page.PolicyMainPage;
 
@@ -49,6 +50,10 @@ public interface PolicyServiceI extends CommonService {
 	 *  查询被保人名称
 	 */
 	public List<CommonBean> getPolicyInsureds();
+	/**
+	 *  查询收件人信息
+	 */
+	public List<ReceiverEntity> getPolicyReceivers(String userId);
 	/**
 	 * 查询该部门所有子部门的ID
 	 * @param userid

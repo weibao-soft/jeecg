@@ -46,7 +46,7 @@ public interface PolicyMainDao {
 	@Arguments({"recipientsId"})
 	@Sql("select id,recipients,recipients_tel,reci_address,user_id from wb_invoice_receiver where id=:recipientsId")
 	@ResultType(ReceiverEntity.class)
-	public ReceiverEntity getReceivers(String recipientsId);
+	public ReceiverEntity getReceiver(String recipientsId);
 	
 	/**
 	 *  查询投保人id
@@ -100,6 +100,15 @@ public interface PolicyMainDao {
 	@Sql("select id,insured_comp_name name,insured_org_code code from wb_insured_info order by insured_comp_name")
 	@ResultType(CommonBean.class)
 	public List<CommonBean> getPolicyInsureds();
+	
+	/**
+	 *  查询收件人信息
+	 * @return
+	 */
+	@Arguments({"userId"})
+	@Sql("select id,recipients,recipients_tel,reci_address from wb_invoice_receiver where user_id=:userId")
+	@ResultType(ReceiverEntity.class)
+	public List<ReceiverEntity> getPolicyReceivers(String userId);
 	
 	/**
 	 * 查询该部门所有子部门的ID

@@ -184,6 +184,26 @@ function getInsureds() {
         }
     });
 }
+function getReceivers() {
+	//获取专用发票收件人下拉框的数据
+    $.ajax({
+        url: "policyMainController.do?getReceivers",
+        type: "POST",
+        data: {},
+        dataType: "json",
+        error: function () {
+            layer.alert("服务器异常");
+        },
+        success: function (data) {
+            if (data.code == 200) {
+            	addRceOptions(data.value);
+                return false;
+            } else {
+                layer.alert(data.message);
+            }
+        }
+    });
+}
 function addHldOptions(items) {
     $.each(items,function(n,value) {
         var htmlContent = $('<option data-id="'+value.id+'" value="'+value.name+'">'+value.name+'</option>');
@@ -194,6 +214,12 @@ function addIurOptions(items) {
     $.each(items,function(n,value) {
         var htmlContent = $('<option data-code="'+value.code+'" value="'+value.name+'">'+value.name+'</option>');
         $('#insuredCompName').append(htmlContent);
+    });
+}
+function addRceOptions(items) {
+    $.each(items,function(n,value) {
+        var htmlContent = $('<option data-num="'+value.recipientsTel+'" data-text="'+value.reciAddress+'" value="'+value.recipients+'">'+value.recipients+'</option>');
+        $('#recipients').append(htmlContent);
     });
 }
 function getHolderById(holderId) {

@@ -23,6 +23,7 @@ import com.weibao.chaopei.dao.PolicyMainDao;
 import com.weibao.chaopei.entity.HolderEntity;
 import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.entity.ProductEntity;
+import com.weibao.chaopei.entity.ReceiverEntity;
 import com.weibao.chaopei.page.CommonBean;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.page.PolicyVehiclePage;
@@ -418,6 +419,13 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 */
 	public List<CommonBean> getPolicyInsureds() {
 		return policyMainDao.getPolicyInsureds();
+	}
+	
+	/**
+	 *  查询收件人信息
+	 */
+	public List<ReceiverEntity> getPolicyReceivers(String userId) {
+		return policyMainDao.getPolicyReceivers(userId);
 	}
 
 	/**
