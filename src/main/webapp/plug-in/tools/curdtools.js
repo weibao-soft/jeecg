@@ -68,7 +68,6 @@ function upload(curform) {
  * @param addurl//目标页面地址
  */
 function add(title,addurl,gname,width,height) {
-	debugger
 	gridname=gname;
 	createwindow(title, addurl,width,height);
 }
@@ -505,7 +504,6 @@ function isRealNum(val){
  * @param saveurl
  */
 function createwindow(title, addurl,width,height) {
-	debugger
 	//--author：zhoujf---------date：20180718---------for：弹出窗口大小控制问题
 	if(width=="100%" || height=="100%"){
 		width = window.top.document.body.offsetWidth;
