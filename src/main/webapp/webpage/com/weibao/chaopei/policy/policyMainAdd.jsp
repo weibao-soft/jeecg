@@ -72,7 +72,7 @@ function submitForm() {
         $("#taxpayerNop").val(taxpayerNo);
 	}
 	
-	var url = "policyDraftController.do?ajaxAdd";
+	var url = "policyDraftController.do?insuranceAdd";
 	var params = getSubmitParam();
 	ajaxSubmitForm(url, params);
 }
@@ -83,7 +83,7 @@ function saveDraft() {
 }
 //提交核保
 function insurance() {
-	$("#status").val("2");
+	$("#status").val("1");
 	submitForm();
 }
 </SCRIPT>

@@ -142,9 +142,9 @@ public class PolicyDraftController extends BaseController {
 	 * @param policyMainPage
 	 * @return
 	 */
-	@RequestMapping(params = "ajaxAdd")
+	@RequestMapping(params = "insuranceAdd")
 	@ResponseBody
-	public AjaxJson ajaxAdd(PolicyMainPage policyMainPage, HttpServletRequest request) {
+	public AjaxJson insuranceAdd(PolicyMainPage policyMainPage, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		String message = "添加成功";
 		try{
@@ -170,9 +170,9 @@ public class PolicyDraftController extends BaseController {
 	 * @param policyMainPage
 	 * @return
 	 */
-	@RequestMapping(params = "ajaxUpdate")
+	@RequestMapping(params = "insuranceUpdate")
 	@ResponseBody
-	public AjaxJson ajaxUpdate(PolicyMainPage policyMainPage, HttpServletRequest request) {
+	public AjaxJson insuranceUpdate(PolicyMainPage policyMainPage, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		String message = "修改成功";
 		try{
