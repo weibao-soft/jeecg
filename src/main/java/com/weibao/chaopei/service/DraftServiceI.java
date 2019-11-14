@@ -16,5 +16,8 @@ public interface DraftServiceI extends CommonService {
 	 * 修改保存保单、投保人、被保人、收件人等信息
 	 */
 	public List<PolicyEntity> updateMain(PolicyMainPage policyMainPage);
-
+	/**
+	 * 删除保单、草稿信息
+	 */
+	public void delMain(PolicyMainPage policyMainPage);
 }

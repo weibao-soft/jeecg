@@ -153,6 +153,13 @@ public interface PolicyMainDao {
 	public void saveReceiverEntity(ReceiverEntity receiver);
 	
 	/**
+	 *  根据草稿id删除草稿保单关系表
+	 * @return
+	 */
+	@Sql("delete from wb_draft_relation where draft_id =:draftId")
+	public int deleteRelation(@Param("draftId") String draftId);
+	
+	/**
 	 * 根据id删除保单表id不在列表里的行
 	 * @param draftId
 	 * @param ids

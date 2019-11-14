@@ -204,6 +204,7 @@ $(function(){
  * @param id//主键字段
  */
 function detail(title,url, id,width,height) {
+    if(window.console) console.log("查看详情调用 - ", title);
 	var rowsData = $('#'+id).datagrid('getSelections');
 //	if (rowData.id == '') {
 //		tip('请选择查看项目');
@@ -337,7 +338,7 @@ function editfs(title,url) {
 }
 // 删除调用函数
 function delObj(url,name) {
-	alert('ssss');
+    if(window.console) console.log("删除调用 - ", name);
 	gridname=name;
 	createdialog($.i18n.prop('del.confirm.title'), $.i18n.prop('del.this.confirm.msg'), url,name);
 }

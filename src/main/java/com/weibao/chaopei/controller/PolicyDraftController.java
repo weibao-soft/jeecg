@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.weibao.chaopei.entity.DraftEntity;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.service.DraftServiceI;
+import com.weibao.chaopei.service.PolicyServiceI;
 
 @Controller
 @RequestMapping("/policyDraftController")
@@ -31,6 +32,9 @@ public class PolicyDraftController extends BaseController {
 	private static final String ISO8859 = "ISO8859-1";
 	
 	private static final String UTF8 = "UTF-8";
+	
+	@Autowired
+	private PolicyServiceI policyService;
 	
 	@Autowired
 	private DraftServiceI draftService;
@@ -124,7 +128,7 @@ public class PolicyDraftController extends BaseController {
 			//String userId = ResourceUtil.getSessionUser().getId();
 			//policyMainPage.setUserId(userId);
 			draftService.updateMain(policyMainPage);
-			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			systemService.addLog(message+":", Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
@@ -134,6 +138,32 @@ public class PolicyDraftController extends BaseController {
 		j.setMsg(message);
 		request.setAttribute("policyMainPage", policyMainPage);
 		return new ModelAndView("com/weibao/chaopei/policy/draftMainList");
+	}
+	
+	/**
+	 * 删除草稿状态的保单
+	 * 
+	 * @param policyMainPage
+	 * @return
+	 */
+	@RequestMapping(params = "doDel")
+	@ResponseBody
+	public AjaxJson doDel(String draftId, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "删除成功";
+        PolicyMainPage policyMainPage = null;
+		try{
+			policyMainPage = policyService.getPolicyMainPage(draftId);
+			draftService.delMain(policyMainPage);
+			systemService.addLog(message+":", Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单主信息删除失败";
+			throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
+		return j;
 	}
 	
 	/**

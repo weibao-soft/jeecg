@@ -527,6 +527,16 @@ function getUpdateParam(param) {
 	return param;
 }
 
+//校验数组中是否有重复的项
+function isRepeat(ary) {
+    let s = ary.join(",") + ",";
+    for (let i = 0; i < ary.length; i++) {
+        if (s.replace(ary[i] + ",", "").indexOf(ary[i] + ",") > -1) {
+            return false;
+        }
+    }
+    return true;
+}
 //校验开具专用发票页面上的数据
 function validParam(param, iframe) {
 	if(param.compName == null || param.compName == "") {
@@ -570,35 +580,51 @@ function validParam(param, iframe) {
 //校验主页面上的数据
 function validData() {
 	var message = "";
+    var aryFrameNo = new Array();
+    var aryEngineNo = new Array();
 	var plateNos = $("[class='policy'][title='plateNo']");
 	var frameNos = $("[class='policy'][title='frameNo']");
 	var engineNos = $("[class='policy'][title='engineNo']");
 	//var frameNos = document.getElementsByName("vehicles[*].frameNo");
 	//var engineNos = document.getElementsByName("vehicles[*].engineNo");
 	for(var i = 0; i < plateNos.length; i++) {
-	    //if(window.console) console.log($(plateNos[i]).val());
-		if($(plateNos[i]).val() == null || $(plateNos[i]).val() == "") {
+		var plateNo = $(plateNos[i]).val();
+	    //if(window.console) console.log(plateNo);
+		if(plateNo == null || plateNo == "") {
 			message = "第" + (i + 1) + "行，车牌号不能为空!";
 			$.messager.alert('提示',message,'info');
 			return false;
 		}
 	}
 	for(var i = 0; i < frameNos.length; i++) {
+		var frameNo = $(frameNos[i]).val();
 	    //if(window.console) console.log($(frameNos[i]).parent().html());
-		if($(frameNos[i]).val() == null || $(frameNos[i]).val() == "") {
+		if(frameNo == null || frameNo == "") {
 			message = "第" + (i + 1) + "行，车架号不能为空!";
 			$.messager.alert('提示',message,'info');
 			return false;
 		}
+		aryFrameNo.push(frameNo);
 	}
 	for(var i = 0; i < engineNos.length; i++) {
-	    //if(window.console) console.log($(engineNos[i]).val());
-		if($(engineNos[i]).val() == null || $(engineNos[i]).val() == "") {
+		var engineNo = $(engineNos[i]).val();
+	    //if(window.console) console.log(engineNo);
+		if(engineNo == null || engineNo == "") {
 			message = "第" + (i + 1) + "行，发动机号不能为空!";
 			$.messager.alert('提示',message,'info');
 			return false;
 		}
+		aryEngineNo.push(engineNo);
 	}
+	if (!isRepeat(aryFrameNo)) {
+		message = "车架号重复!请输入正确的车架号!";
+		$.messager.alert('提示',message,'info');
+        return false;
+    } else if (!isRepeat(aryEngineNo)) {
+		message = "发动机号重复!请输入正确的发动机号!";
+		$.messager.alert('提示',message,'info');
+        return false;
+    }
 	var holderNature = document.getElementById("holderNature").value;
 	var holderCompName = document.getElementById("holderCompName").value;
 	var holderOrgCode = document.getElementById("holderOrgCode").value;
