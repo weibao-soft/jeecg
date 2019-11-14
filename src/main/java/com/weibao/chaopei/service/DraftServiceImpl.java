@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
@@ -37,7 +38,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 	 * 新增保存保单、投保人、被投保人、收件人等信息
 	 */
 	@Override
-	public PolicyMainPage addMain(PolicyMainPage policyMainPage) {
+	public List<PolicyEntity> addMain(PolicyMainPage policyMainPage) {
 		HolderEntity holderEntity = new HolderEntity(); 
 		ReceiverEntity receiverEntity = new ReceiverEntity();
 		ProductDetailEntity detailEntity = new ProductDetailEntity();
@@ -45,6 +46,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 		DraftRelationEntity draftRelationEntity = null;
 		PolicyEntity policyEntity = null;
 		List<PolicyVehiclePage> vehicles = null;
+		List<PolicyEntity> policys = null;
 		String invoiceType = "1";
 		
 		try {
@@ -92,6 +94,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			//保存草稿
 			this.save(draftEntity);
 
+			policys = new ArrayList<PolicyEntity>();
 			for(int i = 0; i < vehicles.size(); i++) {
 				PolicyVehiclePage vehicle = vehicles.get(i);
 				policyEntity = new PolicyEntity();
@@ -114,10 +117,11 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				draftRelationEntity.setPolicyId(policyEntity.getId());
 				draftRelationEntity.setDraftId(draftEntity.getId());
 				this.save(draftRelationEntity);
-				//vehicle.setId(policyEntity.getId());
+				vehicle.setId(policyEntity.getId());
+				policys.add(policyEntity);
 			}
 			
-			//policyMainPage.setDraftId(draftEntity.getId());
+			policyMainPage.setDraftId(draftEntity.getId());
 		} catch (IllegalAccessException e) {
 			logger.error(e.getMessage(), e);
 		} catch (InvocationTargetException e) {
@@ -126,14 +130,14 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			logger.error(e.getMessage(), e);
 			throw new BusinessException(e.getMessage());
 		}
-		return policyMainPage;
+		return policys;
 	}
 
 	/**
 	 * 修改保存保单、投保人、被投保人、收件人等信息
 	 */
 	@Override
-	public PolicyMainPage updateMain(PolicyMainPage policyMainPage) {
+	public List<PolicyEntity> updateMain(PolicyMainPage policyMainPage) {
 		HolderEntity holderEntity = new HolderEntity(); 
 		ReceiverEntity receiverEntity = new ReceiverEntity();
 		ProductDetailEntity detailEntity = new ProductDetailEntity();
@@ -141,6 +145,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 		DraftRelationEntity draftRelationEntity = null;
 		PolicyEntity policyEntity = null;
 		List<PolicyVehiclePage> vehicles = null;
+		List<PolicyEntity> policys = null;
 		List<String> delIds = null;
 		String draftId = null;
 		String invoiceType = "1";
@@ -184,8 +189,10 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			//创建人
 			draftEntity.setUserId(policyMainPage.getUserId());
 			draftEntity.setId(draftId);
+			//保存草稿
 			this.saveOrUpdate(draftEntity);
 
+			policys = new ArrayList<PolicyEntity>();
 			delIds = new ArrayList<String>();
 			for(int i = 0; i < vehicles.size(); i++) {
 				PolicyVehiclePage vehicle = vehicles.get(i);
@@ -215,6 +222,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				} else {
 					delIds.add(vehicle.getId());
 				}
+				policys.add(policyEntity);
 				
 			}
 			//草稿中删除的保单，同时也从数据库删除
@@ -232,7 +240,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			logger.error(e.getMessage(), e);
 			throw new BusinessException(e.getMessage());
 		}
-		return policyMainPage;
+		return policys;
 	}
 	
 	/**
@@ -248,5 +256,40 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 		policyMainPage.setRecipients("");
 		policyMainPage.setRecipientsTel("");
 		policyMainPage.setReciAddress("");
+	}
+
+	/**
+	 * 删除保单、草稿信息
+	 */
+	@Override
+	public void delMain(PolicyMainPage policyMainPage) {
+		DraftEntity draftEntity = new DraftEntity();
+		PolicyEntity policyEntity = null;
+		List<PolicyVehiclePage> vehicles = null;
+		String draftId = null;
+		
+		try {
+			draftId = policyMainPage.getDraftId();
+			vehicles = policyMainPage.getVehicles();
+			draftEntity.setId(draftId);
+			//删除草稿
+			this.delete(draftEntity);
+
+			//删除草稿和保单的关系
+			policyMainDao.deleteRelation(draftId);
+			for(int i = 0; i < vehicles.size(); i++) {
+				PolicyVehiclePage vehicle = vehicles.get(i);
+				policyEntity = new PolicyEntity();
+
+				//删除保单
+				if(StringUtils.isNotBlank(vehicle.getId())) {
+					policyEntity.setId(vehicle.getId());
+					this.delete(policyEntity);
+				}
+			}
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
 	}
 }
