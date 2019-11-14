@@ -47,12 +47,30 @@
 	<table cellpadding="0" cellspacing="1" class="formtable">
 		<tr>
 			<td align="right">
-				<label class="Validform_label">产品名称:</label>
+				<label class="Validform_label">商品名称:</label>
 			</td>
 			<td class="value">
 		     	<input id="prodName" name="prodName" type="text" style="width: 150px" class="inputxt"  datatype="*"  ignore="checked" value="${productEntityPage.prodName }"/>
 				<span class="Validform_checktip"></span>
-				<label class="Validform_label" style="display: none;">产品名称</label>
+				<label class="Validform_label" style="display: none;">商品名称</label>
+			</td>
+			<td align="right">
+				<label class="Validform_label">产品代码:</label>
+			</td>
+			<td class="value">
+				<input id="prodCode" name="prodCode" type="text" style="width: 150px"  class="inputxt" datatype="*" ignore="checked" value="${productEntityPage.prodCode }"/>
+				<span class="Validform_checktip"></span>
+				<label class="Validform_label" style="display: none;">产品代码</label>
+			</td>	
+		</tr>			
+		<tr>	
+			<td align="right">
+				<label class="Validform_label">商品代码:</label>
+			</td>
+			<td class="value">
+				<input id="goodCode" name="goodCode" type="text" style="width: 150px"  class="inputxt" datatype="*" ignore="checked" value="${productEntityPage.goodCode }"/>
+				<span class="Validform_checktip"></span>
+				<label class="Validform_label" style="display: none;">商品代码</label>
 			</td>
 			<td align="right">
 				<label class="Validform_label">产品类型:</label>

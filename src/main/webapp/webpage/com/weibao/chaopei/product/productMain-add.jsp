@@ -47,15 +47,13 @@
 	<table cellpadding="0" cellspacing="1" class="formtable">
 		<tr>
 			<td align="right">
-				<label class="Validform_label">产品名称:</label>
+				<label class="Validform_label">商品名称:</label>
 			</td>
 			<td class="value">
 		     	<input id="prodName" name="prodName" type="text" style="width: 150px" class="inputxt"  datatype="*"  ignore="checked" />
 				<span class="Validform_checktip"></span>
-				<label class="Validform_label" style="display: none;">产品名称</label>
+				<label class="Validform_label" style="display: none;">商品名称</label>
 			</td>
-				
-				
 			<td align="right">
 				<label class="Validform_label">产品代码:</label>
 			</td>

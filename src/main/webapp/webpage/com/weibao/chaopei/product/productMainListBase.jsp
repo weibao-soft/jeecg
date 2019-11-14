@@ -28,10 +28,11 @@
   	      
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
-   <t:dgCol title="产品名称"  field="prodName"  queryMode="single" width="160"></t:dgCol>
-   <t:dgCol title="产品类型"  field="prodType" queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="期限"  field="period"  queryMode="single"  width="120"></t:dgCol>
-   <t:dgCol title="保险公司"  field="insurCompName" dictionary="ins_comp"  queryMode="single" width="120"></t:dgCol>   
+   <t:dgCol title="商品名称"  field="prodName"  queryMode="single" width="260"></t:dgCol>
+   <t:dgCol title="商品代码"  field="goodCode"  queryMode="single" width="150"></t:dgCol>
+   <t:dgCol title="产品类型"  field="prodType" queryMode="single" width="150"></t:dgCol>
+   <t:dgCol title="期限"  field="period"  queryMode="single"  width="150"></t:dgCol>
+   <t:dgCol title="保险公司"  field="insurCompName" dictionary="ins_comp"  queryMode="single" width="200"></t:dgCol>   
    <t:hasPermission code="addProduct">
    <t:dgToolBar title="新增" icon="icon-add" url="productMainController.do?goAdd" funname="add" width="980" height="500"></t:dgToolBar>
    </t:hasPermission>

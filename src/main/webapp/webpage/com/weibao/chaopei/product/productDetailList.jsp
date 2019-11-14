@@ -33,22 +33,22 @@
 	<tr bgcolor="#E6E6E6">
 		<td align="center" bgcolor="#EEEEEE" style="width: 25px;">序号</td>
 		<td align="center" bgcolor="#EEEEEE" style="width: 25px;">操作</td>
-				  <td align="center" bgcolor="#EEEEEE" style="width: 80px;">
+				  <td align="center" bgcolor="#EEEEEE" style="width: 86px;">
 						方案代码
 				  </td>
-				  <td align="center" bgcolor="#EEEEEE" style="width: 220px;">
+				  <td align="center" bgcolor="#EEEEEE" style="width: 226px;">
 						方案名称
 				  </td>
-				  <td align="center" bgcolor="#EEEEEE" style="width: 350px;">
+				  <td align="center" bgcolor="#EEEEEE" style="width: 356px;">
 						产品计划
 				  </td>
-				  <td align="center" bgcolor="#EEEEEE" style="width: 80px;">
+				  <td align="center" bgcolor="#EEEEEE" style="width: 86px;">
 						营运性质
 				  </td>
-				  <td align="center" bgcolor="#EEEEEE" style="width: 80px;">
+				  <td align="center" bgcolor="#EEEEEE" style="width: 86px;">
 						保费
 				  </td>
-				  <td align="center" bgcolor="#EEEEEE" style="width: 20px;">
+				  <td align="center" bgcolor="#EEEEEE" style="width: 26px;">
 						排序
 				  </td>				  
 	</tr>
