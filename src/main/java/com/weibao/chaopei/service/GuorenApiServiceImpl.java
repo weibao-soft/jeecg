@@ -27,7 +27,7 @@ import com.weibao.chaopei.util.http.RelFieldName;
 
 @Service("guorenApiService")
 @Transactional
-public class GuorenApiService extends CommonServiceImpl  {
+public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApiServiceI   {
 	@Autowired
 	GuorenApiConfig apiConfig;
 	
@@ -139,7 +139,7 @@ public class GuorenApiService extends CommonServiceImpl  {
 			    		Map resBody = (Map)mapRes.get("RESPONSE_BODY");
 			    		Map resData = (Map)resBody.get("data");
 			    		
-			    		String updSql = "update wb_insurance_product set proposal_no=?, order_no=? where id=?";
+			    		String updSql = "update wb_insurance_policy set proposal_no=?, order_no=? where id=?";
 			    		
 			    		String proposalNo = (String)resData.get("proposalNo");
 			    		String orderNo = (String)resData.get("orderNo");	    		
@@ -159,9 +159,11 @@ public class GuorenApiService extends CommonServiceImpl  {
 			    	}
 		    	}catch(Exception e) {
 		    		//调用远程接口或者解析接口出错，该保单不列入核保单
+		    		e.printStackTrace();
 		    	}
 			}catch(Exception e1) {
 				//构造接口请求数据出错
+				e1.printStackTrace();
 			}	    	
 		}
 		
