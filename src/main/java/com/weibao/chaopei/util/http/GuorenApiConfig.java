@@ -46,7 +46,21 @@ public class GuorenApiConfig {
     @Value("${BODY.order_source}")
     public String order_source;
     
-    @Value("${BODY.prodCode}")
-    public String prodCode;
+    @Value("${BODY.appnum}")
+    public String appnum;
     
+    @Value("${base_reltab}")
+    public String base_reltab;
+    
+    @Value("${base_call_back_url}")
+    public String call_back_url;
+    
+    @Value("${appl_reltab}")
+    public String appl_reltab;
+    
+    @Value("${ins_reltab}")
+    public String ins_reltab;
+    
+    @Value("${tgt_reltab}")
+    public String tgt_reltab;    		
 }
