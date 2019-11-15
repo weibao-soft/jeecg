@@ -21,6 +21,10 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String prodId;
 	//产品代码
 	private java.lang.String prodCode;
+	//保单号
+	private java.lang.String policyNo;
+	//电子保单链接url
+	private java.lang.String policyUrl;	
 	//产品名称
 	private java.lang.String prodName;
 	//保险公司名称
@@ -382,6 +386,16 @@ public class PolicyMainPage implements Serializable {
 	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
 	}
-	
-	
+	public java.lang.String getPolicyNo() {
+		return policyNo;
+	}
+	public void setPolicyNo(java.lang.String policyNo) {
+		this.policyNo = policyNo;
+	}
+	public java.lang.String getPolicyUrl() {
+		return policyUrl;
+	}
+	public void setPolicyUrl(java.lang.String policyUrl) {
+		this.policyUrl = policyUrl;
+	}
 }

@@ -6,6 +6,7 @@ var addTabs = function (options) {
     id = "tab_" + options.id;
     $(".active").removeClass("active");
     //如果TAB不存在，创建一个新的TAB
+    debugger;
     if (!$("#" + id)[0]) {
         //固定TAB中IFRAME高度    	
         mainHeight = screen.height;
@@ -31,7 +32,7 @@ var addTabs = function (options) {
         $(".tab-content").append(content);
     }else{    	
     	//切换后不要重新加载页面，如需重新加载页面，打开注释即可
-        // $("#" + id).find("iframe").attr("src",options.url);
+        $("#" + id).find("iframe").attr("src",options.url);
     }
     //激活TAB
     $("#tab_" + id).addClass('active');

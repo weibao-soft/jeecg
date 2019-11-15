@@ -9,6 +9,8 @@ import java.util.Map;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.web.system.util.HttpClientUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,8 @@ import com.weibao.chaopei.util.http.RelFieldName;
 public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApiServiceI   {
 	@Autowired
 	GuorenApiConfig apiConfig;
+	
+	private static final Logger logger = LoggerFactory.getLogger(GuorenApiServiceImpl.class);
 	
 	Gson gson = new GsonBuilder().create();	
 	/**
@@ -131,9 +135,10 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 		    	
 		    	Map package_map = new HashMap();
 		    	package_map.put("PACKAGE", package_);
-		    	String json = gson.toJson(package_map);	    
+		    	String json = gson.toJson(package_map);
+		    	String response = "";
 		    	try {
-			    	String response = HttpClientUtil.httpPostRequest(apiConfig.API_URL, json);	
+			    	response = HttpClientUtil.httpPostRequest(apiConfig.API_URL, json);	
 			    	Map mapRes = gson.fromJson(response, Map.class);
 			    	if(mapRes.get("RESPONSE_BODY") != null) {
 			    		Map resBody = (Map)mapRes.get("RESPONSE_BODY");
@@ -153,13 +158,15 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 				    		r1.put("policyMobile", policyEntity.getPolicyMobile());
 				    		result.add(r1);
 			    		}else {
-			    			
+			    			logger.error("updCnt is 0000!!!");
 			    		}
 			    	}else {
 			    		//接口返回的数据里没有RESPONSE_BODY
+			    		logger.error("responseBody from insured is null");
 			    	}
 		    	}catch(Exception e) {
 		    		//调用远程接口或者解析接口出错，该保单不列入核保单
+		    		logger.error("Error in response::"+response);
 		    		e.printStackTrace();
 		    	}
 			}catch(Exception e1) {
@@ -229,6 +236,7 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 			    		result.put("payorderId", payorderId);
 			    	}else {
 			    		//接口返回的数据里没有RESPONSE_BODY
+			    		logger.error("responseBody from payService is null");
 			    	}
 		    	}catch(Exception e) {
 		    		//调用远程接口或者解析接口出错，该保单不列入核保单
@@ -240,5 +248,75 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 			e1.printStackTrace();
 		}
 		return result;
+	}
+	@Override
+	public void payback(Map<String, String> back) {
+		String result =(String) back.get("result");
+		if("0".equals(result)) {
+			String proposalNos = back.get("proposalNo");
+			String policyNos = back.get("policyNo");
+			String orderNo = back.get("orderNoMall");
+			String payorderId = back.get("orderId");
+			String message = back.get("message");
+			String type = back.get("type");
+			String signMsg = back.get("signMsg");
+			proposalNos = proposalNos.substring(1, proposalNos.length());
+			policyNos = policyNos.substring(1, policyNos.length());
+			String[] proposalNoArray = proposalNos.split(":");
+			String[] policyNoArray = policyNos.split(":");
+			for(int i=0; i<proposalNoArray.length; i++) {
+				//调接口生成电子保单
+				ApiPackage package_ = new ApiPackage();
+		    	Head head = new Head();
+		    	head.setCLIENT_ENCODE(apiConfig.CLIENT_ENCODE);
+		    	head.setSERVE_CODE(apiConfig.SERVE_CODE);    	
+		    	head.setCHANNEL_CODE(apiConfig.CHANNEL_CODE);
+		    	head.setINTERFACE_CODE(apiConfig.INTERFACE_CODE_POLICY);//生成电子保单接口
+		    	head.setINTERFACE_USER_CODE(apiConfig.INTERFACE_USER_CODE);
+		    	head.setINTERFACE_PWD(apiConfig.INTERFACE_PWD);
+		    	head.setBUSINESS_UUID(proposalNoArray[i]);
+		    	Date now = new Date();	    	
+		    	head.setREQUEST_TIME(DateUtils.datetimeFormatSSSS(now));
+		    	head.setIFTEST(apiConfig.IFTEST);
+		    	head.setXML_LIST_SUFFIX("");
+		    	
+		    	package_.setHEAD(head);
+		    	Body body = new Body();
+		    	package_.setBODY(body);
+		    	body.setPolicyNo(policyNoArray[i]);		
+		    	
+		    	Map package_map = new HashMap();
+		    	package_map.put("PACKAGE", package_);
+		    	String json = gson.toJson(package_map);
+		    	String policyurl = "#";
+		    	try {
+			    	try {
+				    	String response = HttpClientUtil.httpPostRequest(apiConfig.API_URL, json);	
+				    	Map mapRes = gson.fromJson(response, Map.class);
+				    	if(mapRes.get("RESPONSE_BODY") != null) {
+				    		Map resBody = (Map)mapRes.get("RESPONSE_BODY");
+				    		policyurl = (String)resBody.get("data");			    		
+				    	}else {
+				    		//接口返回的数据里没有RESPONSE_BODY
+				    		logger.error("responseBody from generate policy is null");
+				    	}
+			    	}catch(Exception e) {
+			    		//调用远程接口或者解析接口出错，该保单不列入核保单
+			    		e.printStackTrace();
+			    	}
+			    	//修改保单状态为已支付；写入支付时间、写入保单号、生成电子保单、修改电子保单url
+					String updSql = "update wb_insurance_policy set pay_status=1, pay_time=SYSDATE(), policy_no=?, policy_url=? where proposal_no=? and pay_status=0";
+					int updCnt = super.executeSql(updSql, policyNoArray[i], policyurl, proposalNoArray[i]);
+		    		if(updCnt < 1) {
+		    			logger.error("update count is 0000!!!");
+		    		}
+		    	}catch(Exception e1) {
+		    		e1.printStackTrace();
+		    		//1个保单没有处理有问题，继续处理下一个保单
+		    	}
+		    	
+			}
+		}
+		
 	}
 }

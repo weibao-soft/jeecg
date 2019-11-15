@@ -15,6 +15,7 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,22 +52,12 @@ public class PolicyDraftController extends BaseController {
 	private GuorenApiServiceI guorenApiService;
 
 	/**
-	 * 保单主信息列表 页面跳转
+	 * 我的保单信息列表 页面跳转
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "list")
 	public ModelAndView list(HttpServletRequest request) {
-		return new ModelAndView("com/weibao/chaopei/policy/draftMainList");
-	}
-	
-	/**
-	 * 我的保单信息列表 页面跳转
-	 * 
-	 * @return
-	 */
-	@RequestMapping(params = "mainlist")
-	public ModelAndView mainlist(HttpServletRequest request) {
 		return new ModelAndView("com/weibao/chaopei/policy/draftMainListBase");
 	}
 	
@@ -81,11 +72,15 @@ public class PolicyDraftController extends BaseController {
 	@RequestMapping(params = "datagrid")
 	public void datagrid(DraftEntity draftEntity, HttpServletRequest request, 
 			HttpServletResponse response, DataGrid dataGrid) {
+		
 		CriteriaQuery cq = new CriteriaQuery(DraftEntity.class, dataGrid);
 		try{
 			//自定义追加查询条件
+			//查询当前用户下的草稿单
+			TSUser currentUser = ResourceUtil.getSessionUser();
 			String status = "1";
-			draftEntity.setStatus(status);
+			draftEntity.setStatus(status);			
+			draftEntity.setUserId(currentUser.getId());						
 			//查询条件组装器
 			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, draftEntity);
 		}catch (Exception e) {
@@ -119,7 +114,7 @@ public class PolicyDraftController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return new ModelAndView("com/weibao/chaopei/policy/draftMainList");
+		return new ModelAndView("com/weibao/chaopei/policy/draftMainListBase");
 	}
 	
 	/**
@@ -145,7 +140,7 @@ public class PolicyDraftController extends BaseController {
 		}
 		j.setMsg(message);
 		request.setAttribute("policyMainPage", policyMainPage);
-		return new ModelAndView("com/weibao/chaopei/policy/draftMainList");
+		return new ModelAndView("com/weibao/chaopei/policy/draftMainListBase");
 	}
 	
 	/**
@@ -194,8 +189,10 @@ public class PolicyDraftController extends BaseController {
 			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
 			String draftId = policyMainPage.getDraftId();
-			policyService.updatePolicyStatus(list, draftId);
-			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
+			if(insRsList.size() == list.size()) {
+				policyService.updatePolicyStatus(list, draftId);
+				//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？				
+			}
 			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
 			j.setObj(array);
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);

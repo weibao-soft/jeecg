@@ -106,113 +106,117 @@ public class WaitRewardCalcTask extends BasicTask{
 					TSUser user = rewardCalcServiceI.getEntity(TSUser.class, user_id);
 					TSUserOrg uo = user.getUserOrgList().get(0);
 					if(uo != null) {
-						TSDepart parent = uo.getTsDepart();
+						TSDepart parent = uo.getTsDepart();						
+						//如果是admin，上级机构为null，则不计算佣金
 						do {
 							rowMap = commConfCache.get(parent.getId()+"_"+plan_id);
 							parent = parent.getTSPDepart();
-						}while(rowMap == null);
+						}while(rowMap == null && parent != null);
+						
 					}else {
 						continue;
 					}
 				}
-				departUser = (String)rowMap.get("departUser");
-				Integer period = (Integer)rowMap.get("period");
-				BigDecimal rate = (BigDecimal)rowMap.get("rate");								
-				Date now = new Date();
-				Calendar rewardTime = new GregorianCalendar();
-				rewardTime.setTime(pay_time);
-				rewardTime.add(Calendar.DAY_OF_MONTH, period);
-				
-				if("0".equals(rowMap.get("type"))) {	//	机构
-					//找到自己的公司账户，如果公司的账户不存在，那么这一机构不会分润，继续往上查找上级机构
-					List<CompanyAccountEntity> cAcctListTemp = rewardCalcServiceI.findByProperty(CompanyAccountEntity.class, "departId", departUser);
-					BigDecimal subRate = new BigDecimal(0);
-					if(cAcctListTemp !=null && cAcctListTemp.size() > 0) {
-						do {
-							rate = (BigDecimal)rowMap.get("rate");
-							companyAcct = cAcctListTemp.get(0);						
-							BigDecimal c_newAmount = permium_big.multiply(rate.subtract(subRate).divide(percent100)).setScale(2, RoundingMode.HALF_UP);
-							companyAcct.setUnreceivedBalance(c_newAmount.add(companyAcct.getUnreceivedBalance()));
-							cAcctList.add(companyAcct);
-							//	insert into CompanyRewardedDetailEntity
-							CompanyUnrewardedDetailEntity cEntity = new CompanyUnrewardedDetailEntity();							
-							cEntity.setAmount(c_newAmount);
-							cEntity.setGenerateTime(now);
-							cEntity.setPayTime(pay_time);
-							cEntity.setRewardTime(rewardTime.getTime());
-							cEntity.setPolicyId(policy_id);
-							cEntity.setCompanyAccountId(companyAcct.getId());
-							cEntity.setDepartId(companyAcct.getDepartId());							
-							cRwdEtyList.add(cEntity);
-							
-							String parentId = (String)rowMap.get("parentId");
-							rowMap = commConfCache.get(parentId+"_"+plan_id);
-							subRate = rate;
-							cAcctListTemp = rewardCalcServiceI.findByProperty(CompanyAccountEntity.class, "departId", parentId);							
-							
-						} while(rowMap != null);						
-					}					
-				}else {
-					//	人员
-					//	insert into PersonalRewardedDetailEntity
-					//找到个人账户
-					List<PersonalAccountEntity> pAcctList = rewardCalcServiceI.findByProperty(PersonalAccountEntity.class, "userId", departUser);
-					if(pAcctList != null && pAcctList.size() >0) {
-						personalAcct = pAcctList.get(0);
+				if(rowMap != null) {
+					departUser = (String)rowMap.get("departUser");
+					Integer period = (Integer)rowMap.get("period");
+					BigDecimal rate = (BigDecimal)rowMap.get("rate");								
+					Date now = new Date();
+					Calendar rewardTime = new GregorianCalendar();
+					rewardTime.setTime(pay_time);
+					rewardTime.add(Calendar.DAY_OF_MONTH, period);
+					
+					if("0".equals(rowMap.get("type"))) {	//	机构
+						//找到自己的公司账户，如果公司的账户不存在，那么这一机构不会分润，继续往上查找上级机构
+						List<CompanyAccountEntity> cAcctListTemp = rewardCalcServiceI.findByProperty(CompanyAccountEntity.class, "departId", departUser);
+						BigDecimal subRate = new BigDecimal(0);
+						if(cAcctListTemp !=null && cAcctListTemp.size() > 0) {
+							do {
+								rate = (BigDecimal)rowMap.get("rate");
+								companyAcct = cAcctListTemp.get(0);						
+								BigDecimal c_newAmount = permium_big.multiply(rate.subtract(subRate).divide(percent100)).setScale(2, RoundingMode.HALF_UP);
+								companyAcct.setUnreceivedBalance(c_newAmount.add(companyAcct.getUnreceivedBalance()));
+								cAcctList.add(companyAcct);
+								//	insert into CompanyRewardedDetailEntity
+								CompanyUnrewardedDetailEntity cEntity = new CompanyUnrewardedDetailEntity();							
+								cEntity.setAmount(c_newAmount);
+								cEntity.setGenerateTime(now);
+								cEntity.setPayTime(pay_time);
+								cEntity.setRewardTime(rewardTime.getTime());
+								cEntity.setPolicyId(policy_id);
+								cEntity.setCompanyAccountId(companyAcct.getId());
+								cEntity.setDepartId(companyAcct.getDepartId());							
+								cRwdEtyList.add(cEntity);
+								
+								String parentId = (String)rowMap.get("parentId");
+								rowMap = commConfCache.get(parentId+"_"+plan_id);
+								subRate = rate;
+								cAcctListTemp = rewardCalcServiceI.findByProperty(CompanyAccountEntity.class, "departId", parentId);							
+								
+							} while(rowMap != null);						
+						}					
 					}else {
-						//这个保单的出单用户，必须要有个人账户信息，否则，这一单不予计算佣金
-						continue;
+						//	人员
+						//	insert into PersonalRewardedDetailEntity
+						//找到个人账户
+						List<PersonalAccountEntity> pAcctList = rewardCalcServiceI.findByProperty(PersonalAccountEntity.class, "userId", departUser);
+						if(pAcctList != null && pAcctList.size() >0) {
+							personalAcct = pAcctList.get(0);
+						}else {
+							//这个保单的出单用户，必须要有个人账户信息，否则，这一单不予计算佣金
+							continue;
+						}
+						
+						PersonalUnrewardedDetailEntity pEntity = new PersonalUnrewardedDetailEntity();		
+						BigDecimal newAmount = permium_big.multiply(rate.divide(percent100)).setScale(2, RoundingMode.HALF_UP); 
+						pEntity.setAmount(newAmount);						
+						pEntity.setGenerateTime(now);
+						//pEntity.setPersonalAccountId(personalAccountId);
+						pEntity.setPolicyId(policy_id);
+						//pEntity.setReceiveTime(receiveTime); 						
+						pEntity.setUserId(departUser);
+						pEntity.setPersonalAccountId(personalAcct.getId());
+						pEntity.setRewardTime(rewardTime.getTime());						
+						pEntity.setPayTime(pay_time);					
+						pRwdEtyList.add(pEntity);
+						String parentId = (String)rowMap.get("parentId");
+						//修改个人账户未分润余额
+						personalAcct.setUnreceivedBalance(newAmount.add(personalAcct.getUnreceivedBalance()));
+						BigDecimal subRate = rate;
+						while(parentId != null) {
+							//找到上级的公司账户，如果公司的账户不存在，那么这一机构不会分润，继续往上查找上级机构
+							List<CompanyAccountEntity> cAcctListTemp = rewardCalcServiceI.findByProperty(CompanyAccountEntity.class, "departId", parentId);
+							if(cAcctListTemp !=null && cAcctListTemp.size() > 0) {
+								companyAcct = cAcctListTemp.get(0);
+								rowMap = commConfCache.get(parentId+"_"+plan_id);
+								rate = (BigDecimal)rowMap.get("rate");
+								BigDecimal c_newAmount = permium_big.multiply(rate.subtract(subRate).divide(percent100)).setScale(2, RoundingMode.HALF_UP);
+								companyAcct.setUnreceivedBalance(c_newAmount.add(companyAcct.getUnreceivedBalance()));
+								cAcctList.add(companyAcct);
+								//	insert into CompanyUnrewardedDetailEntity
+								CompanyUnrewardedDetailEntity cEntity = new CompanyUnrewardedDetailEntity();							
+								cEntity.setAmount(c_newAmount);
+								cEntity.setGenerateTime(now);
+								cEntity.setPayTime(pay_time);
+								cEntity.setRewardTime(rewardTime.getTime());
+								cEntity.setPolicyId(policy_id);					
+								cEntity.setCompanyAccountId(companyAcct.getId());
+								cEntity.setDepartId(parentId);
+								
+								cRwdEtyList.add(cEntity);
+							}								
+							
+							subRate = rate;
+							parentId = (String)rowMap.get("parentId");
+						}
 					}
 					
-					PersonalUnrewardedDetailEntity pEntity = new PersonalUnrewardedDetailEntity();		
-					BigDecimal newAmount = permium_big.multiply(rate.divide(percent100)).setScale(2, RoundingMode.HALF_UP); 
-					pEntity.setAmount(newAmount);						
-					pEntity.setGenerateTime(now);
-					//pEntity.setPersonalAccountId(personalAccountId);
-					pEntity.setPolicyId(policy_id);
-					//pEntity.setReceiveTime(receiveTime); 						
-					pEntity.setUserId(departUser);
-					pEntity.setPersonalAccountId(personalAcct.getId());
-					pEntity.setRewardTime(rewardTime.getTime());						
-					pEntity.setPayTime(pay_time);					
-					pRwdEtyList.add(pEntity);
-					String parentId = (String)rowMap.get("parentId");
-					//修改个人账户未分润余额
-					personalAcct.setUnreceivedBalance(newAmount.add(personalAcct.getUnreceivedBalance()));
-					BigDecimal subRate = rate;
-					while(parentId != null) {
-						//找到上级的公司账户，如果公司的账户不存在，那么这一机构不会分润，继续往上查找上级机构
-						List<CompanyAccountEntity> cAcctListTemp = rewardCalcServiceI.findByProperty(CompanyAccountEntity.class, "departId", parentId);
-						if(cAcctListTemp !=null && cAcctListTemp.size() > 0) {
-							companyAcct = cAcctListTemp.get(0);
-							rowMap = commConfCache.get(parentId+"_"+plan_id);
-							rate = (BigDecimal)rowMap.get("rate");
-							BigDecimal c_newAmount = permium_big.multiply(rate.subtract(subRate).divide(percent100)).setScale(2, RoundingMode.HALF_UP);
-							companyAcct.setUnreceivedBalance(c_newAmount.add(companyAcct.getUnreceivedBalance()));
-							cAcctList.add(companyAcct);
-							//	insert into CompanyUnrewardedDetailEntity
-							CompanyUnrewardedDetailEntity cEntity = new CompanyUnrewardedDetailEntity();							
-							cEntity.setAmount(c_newAmount);
-							cEntity.setGenerateTime(now);
-							cEntity.setPayTime(pay_time);
-							cEntity.setRewardTime(rewardTime.getTime());
-							cEntity.setPolicyId(policy_id);					
-							cEntity.setCompanyAccountId(companyAcct.getId());
-							cEntity.setDepartId(parentId);
-							
-							cRwdEtyList.add(cEntity);
-						}								
-						
-						subRate = rate;
-						parentId = (String)rowMap.get("parentId");
+					try {
+						//一个保单开启一次事务		
+						rewardCalcServiceI.batchSavePolicyReward(cAcctList, personalAcct, cRwdEtyList, pRwdEtyList, policy);
+					}catch(Exception e) {
+						e.printStackTrace();
 					}
-				}
-				
-				try {
-					//一个保单开启一次事务		
-					rewardCalcServiceI.batchSavePolicyReward(cAcctList, personalAcct, cRwdEtyList, pRwdEtyList, policy);
-				}catch(Exception e) {
-					e.printStackTrace();
 				}
 			}
 		}catch(Exception e) {

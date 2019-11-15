@@ -51,22 +51,12 @@ public class PolicyMainController extends BaseController {
 	private PolicyServiceI policyService;
 
 	/**
-	 * 保单主信息列表 页面跳转
+	 * 我的保单信息列表 页面跳转
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "list")
 	public ModelAndView list(HttpServletRequest request) {
-		return new ModelAndView("com/weibao/chaopei/policy/policyMainList");
-	}
-	
-	/**
-	 * 我的保单信息列表 页面跳转
-	 * 
-	 * @return
-	 */
-	@RequestMapping(params = "mainlist")
-	public ModelAndView mainlist(HttpServletRequest request) {
 		return new ModelAndView("com/weibao/chaopei/policy/policyMainListBase");
 	}
 

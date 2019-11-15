@@ -184,6 +184,10 @@ public class PolicyEntity implements Serializable {
 	/**订单号*/
 	@Column(name ="order_no",nullable=true)
 	private String orderNo;
+	
+	/**电子保单下载路径url*/
+	@Column(name ="policy_url",nullable=true)
+	private String policyUrl;
 
 	public java.lang.String getId() {
 		return id;
@@ -511,6 +515,13 @@ public class PolicyEntity implements Serializable {
 
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
-	}	
+	}
 
+	public String getPolicyUrl() {
+		return policyUrl;
+	}
+
+	public void setPolicyUrl(String policyUrl) {
+		this.policyUrl = policyUrl;
+	}		
 }

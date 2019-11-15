@@ -83,6 +83,8 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setProdId((String)obj.get("prod_id"));
 		policyMainPage.setPlanId((String)obj.get("plan_id"));
 		policyMainPage.setStartDate((Date)obj.get("start_date"));
+		policyMainPage.setPolicyNo((String)obj.get("policy_no"));
+		policyMainPage.setPolicyUrl((String)obj.get("policy_url"));
 		policyMainPage.setEndDate((Date)obj.get("end_date"));
 		policyMainPage.setCreateTime((Date)obj.get("create_time"));
 		policyMainPage.setStatus((String)obj.get("status"));
@@ -157,7 +159,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbSql = new StringBuffer();
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
-		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
+		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
 		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.insur_comp_name ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu ");
@@ -229,7 +231,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		stbHeadSql1.append("b.insur_comp_name, d.id depart_id, d.departname ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d ");
-		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id");
+		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id and a.pay_status=1 ");
 		
 		try {
 			List<Object> objList = new ArrayList<Object>();

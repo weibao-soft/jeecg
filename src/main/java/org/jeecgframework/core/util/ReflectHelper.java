@@ -111,7 +111,7 @@ public class ReflectHelper {
 				/**
 				 * 调用obj类的setter函数
 				 */
-				value=m.invoke(obj, new Object[] {});
+				value=m.invoke(obj);
 				
 			} catch (Exception ex) {
 				logger.info("invoke getter on " + property + " error: " + ex.toString());

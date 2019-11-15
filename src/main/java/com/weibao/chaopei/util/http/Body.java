@@ -20,6 +20,7 @@ public class Body {
 	private String platform;
 	private String proposalNo;
 	private String orderNo;
+	private String policyNo;
 	public String getOperCode() {
 		return operCode;
 	}
@@ -121,5 +122,11 @@ public class Body {
 	}
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
+	}
+	public String getPolicyNo() {
+		return policyNo;
+	}
+	public void setPolicyNo(String policyNo) {
+		this.policyNo = policyNo;
 	}	
 }

@@ -15,11 +15,11 @@
       
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
    
-   <t:dgCol title="投保人"  frozenColumn="true" field="holderCompName" query="true" queryMode="single" width="220"></t:dgCol>
+   <t:dgCol title="投保人" frozenColumn="true" field="holderCompName" query="true" queryMode="single" width="220"></t:dgCol>
    <t:dgCol title="车牌号"  frozenColumn="true" field="plateNo" query="true" queryMode="single" width="100"></t:dgCol>
    <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" sortable="false" width="200"></t:dgCol>
    <t:dgCol title="保费"  field="premium" queryMode="single" sortable="false" width="100"></t:dgCol>
-   <t:dgCol title="保单号"  field="policyNo" query="false" queryMode="single" width="200"></t:dgCol>
+   <t:dgCol title="保单号" url="policyNo" field="policyNo" query="false" queryMode="single" width="200"></t:dgCol>
    <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" sortable="false" showMode="radio" dictionary="qpolStatus" width="100"></t:dgCol>
    <t:dgCol title="支付状态"  field="payStatus" queryMode="single" sortable="false" defaultVal='N' dictionary="payStatus" width="100"></t:dgCol>
    <t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>
