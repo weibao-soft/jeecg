@@ -34,8 +34,7 @@ public interface PolicyMainDao {
 	 *  查询产品方案信息
 	 * @return
 	 */
-	@Sql("select det.id,det.prod_plan name,det.premium code from wb_depart_product_rel rel, wb_product_detail det "
-			+ "where rel.product_detail_id=det.id and rel.assign_status=1 and rel.depart_id=:departId and det.prod_id=:prodId")
+	@Sql("select det.id,det.prod_plan name,det.premium code from wb_depart_product_rel rel, wb_product_detail det where rel.product_detail_id=det.id and rel.assign_status=1 and rel.depart_id=:departId and det.prod_id=:prodId")
 	@ResultType(CommonBean.class)
 	public List<CommonBean> getProductPlan(@Param("departId") String departId, @Param("prodId") String prodId);
 	
@@ -80,8 +79,7 @@ public interface PolicyMainDao {
 	 * @return
 	 */
 	@Arguments({"id"})
-	@Sql("select id,holder_nature,holder_org_code,holder_comp_name,holder_comp_nature,industry_type,taxpayer_no,receiver_mobile,"
-			+ "comp_name,comp_address,comp_phone,deposit_bank,bank_account,last_update_time from wb_policy_holder where id=:id")
+	@Sql("select id,holder_nature,holder_org_code,holder_comp_name,holder_comp_nature,industry_type,taxpayer_no,receiver_mobile, comp_name,comp_address,comp_phone,deposit_bank,bank_account,last_update_time from wb_policy_holder where id=:id")
 	@ResultType(HolderEntity.class)
 	public HolderEntity getHolderById(String id);
 	
