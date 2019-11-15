@@ -139,6 +139,24 @@ public interface PolicyMainDao {
 	public List<String> getUserDepartNames(String userId);
 	
 	/**
+	 * 根据保单id修改保单为已投保状态
+	 * @param userid
+	 * @return
+	 */
+	@Arguments({"policyid"})
+	@Sql("update wb_insurance_policy set `status`='2' where id =:policyid")
+	public int updatePolicyStatus(String policyid);
+	
+	/**
+	 * 根据草稿id修改草稿为已投保状态
+	 * @param userid
+	 * @return
+	 */
+	@Arguments({"draftId"})
+	@Sql("update wb_insurance_draft set `status`='2' where id =:draftId")
+	public int updateDraftStatus(String draftId);
+	
+	/**
 	 * 保存投保人
 	 * @param holder
 	 */

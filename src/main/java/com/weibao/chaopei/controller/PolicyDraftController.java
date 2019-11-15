@@ -193,7 +193,11 @@ public class PolicyDraftController extends BaseController {
 			//2.调用核保接口
 			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
-			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？			
+			String draftId = policyMainPage.getDraftId();
+			policyService.updatePolicyStatus(list, draftId);
+			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
+			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
+			j.setObj(array);
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
@@ -226,7 +230,11 @@ public class PolicyDraftController extends BaseController {
 			//2.调用核保接口
 			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
-			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？			
+			String draftId = policyMainPage.getDraftId();
+			policyService.updatePolicyStatus(list, draftId);
+			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
+			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
+			j.setObj(array);
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);

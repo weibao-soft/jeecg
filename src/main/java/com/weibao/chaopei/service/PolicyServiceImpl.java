@@ -445,6 +445,36 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	public List<String> getDepartIdByUser(String userId) {
 		return policyMainDao.getUserDepartIds(userId);
 	}
+
+	/**
+	 * 根据保单id、草稿id分别修改保单和草稿的状态为已投保
+	 * @param policyid
+	 * @param draftId
+	 * @return
+	 */
+	public int updatePolicyStatusById(List<String> policyids, String draftId) {
+		for(int i = 0; i < policyids.size(); i++) {
+			String policyid = policyids.get(i);
+			policyMainDao.updatePolicyStatus(policyid);
+		}
+		return policyMainDao.updateDraftStatus(draftId);
+	}
+
+	/**
+	 * 根据保单id、草稿id分别修改保单和草稿的状态为已投保
+	 * @param policyid
+	 * @param draftId
+	 * @return
+	 */
+	public int updatePolicyStatus(List<PolicyEntity> list, String draftId) {
+		for(int i = 0; i < list.size(); i++) {
+			PolicyEntity obj = list.get(i);
+			String policyid = obj.getId();
+			policyMainDao.updatePolicyStatus(policyid);
+		}
+		
+		return policyMainDao.updateDraftStatus(draftId);
+	}
 	
 	/**
 	 * 根据id删除不在列表里的保单

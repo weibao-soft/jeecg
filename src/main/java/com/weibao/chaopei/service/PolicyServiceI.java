@@ -6,6 +6,7 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.CommonService;
 
 import com.weibao.chaopei.entity.HolderEntity;
+import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.entity.ReceiverEntity;
 import com.weibao.chaopei.page.CommonBean;
 import com.weibao.chaopei.page.PolicyMainPage;
@@ -66,6 +67,20 @@ public interface PolicyServiceI extends CommonService {
 	 * @return
 	 */
 	public List<String> getDepartIdByUser(String userid);
+	/**
+	 * 根据保单id、草稿id分别修改保单和草稿的状态为已投保
+	 * @param policyid
+	 * @param draftId
+	 * @return
+	 */
+	public int updatePolicyStatusById(List<String> policyids, String draftId);
+	/**
+	 * 根据保单id、草稿id分别修改保单和草稿的状态为已投保
+	 * @param policyid
+	 * @param draftId
+	 * @return
+	 */
+	public int updatePolicyStatus(List<PolicyEntity> list, String draftId);
 	/**
 	 * 根据id删除保单表id不在列表里的行
 	 * @param draftId
