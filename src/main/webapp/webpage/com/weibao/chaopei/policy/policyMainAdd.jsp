@@ -74,7 +74,7 @@ function insurance() {
 	submitForm();
 }
 //支付
-function pay() {
+function doPay() {
 	submitPay();
 }
 
@@ -233,7 +233,7 @@ function closeCurrent(id){
 <div style="text-align:center;width:99%;padding-top:10px;">
 <input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="pay" class="btn" type="button" value="在线支付" onclick="pay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
+<input id="pay" class="btn" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
 <input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${prodId}');" style="height:30px;width:100px !important;border-radius:5px"/>
 </div>
 </fieldset>

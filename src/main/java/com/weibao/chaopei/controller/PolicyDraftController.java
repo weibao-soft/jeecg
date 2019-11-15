@@ -1,5 +1,6 @@
 package com.weibao.chaopei.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.weibao.chaopei.entity.DraftEntity;
 import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.page.PolicyMainPage;
@@ -38,6 +41,8 @@ public class PolicyDraftController extends BaseController {
 	private static final String ISO8859 = "ISO8859-1";
 	
 	private static final String UTF8 = "UTF-8";
+	
+	Gson gson = new GsonBuilder().create();	
 	
 	@Autowired
 	private PolicyServiceI policyService;
@@ -178,7 +183,7 @@ public class PolicyDraftController extends BaseController {
 	@ResponseBody
 	public AjaxJson insuranceAdd(PolicyMainPage policyMainPage, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		String message = "添加成功";
+		String message = "核保成功";
 		try{
 			//String userId = request.getParameter("userId");
 			String userId = ResourceUtil.getSessionUser().getId();
@@ -189,7 +194,7 @@ public class PolicyDraftController extends BaseController {
 			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
 			String draftId = policyMainPage.getDraftId();
-			if(insRsList.size() == list.size()) {
+			if(insRsList != null && insRsList.size() == list.size()) {
 				policyService.updatePolicyStatus(list, draftId);
 			}
 			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
@@ -199,7 +204,7 @@ public class PolicyDraftController extends BaseController {
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
-			message = "保单主信息添加失败";
+			message = "保单核保失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -217,7 +222,7 @@ public class PolicyDraftController extends BaseController {
 	@ResponseBody
 	public AjaxJson insuranceUpdate(PolicyMainPage policyMainPage, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		String message = "修改成功";
+		String message = "核保成功";
 		try{
 			//String userId = ResourceUtil.getSessionUser().getId();
 			//policyMainPage.setUserId(userId);
@@ -227,18 +232,18 @@ public class PolicyDraftController extends BaseController {
 			//2.调用核保接口
 			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
-			if(insRsList != null && !insRsList.isEmpty()) {
-				String draftId = policyMainPage.getDraftId();
+			String draftId = policyMainPage.getDraftId();
+			if(insRsList != null && insRsList.size() == list.size()) {
 				policyService.updatePolicyStatus(list, draftId);
 			}
 			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
 			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
 			j.setObj(array);
-			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			systemService.addLog(message+":", Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
-			message = "保单主信息修改失败";
+			message = "保单核保失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -254,23 +259,43 @@ public class PolicyDraftController extends BaseController {
 	 */
 	@RequestMapping(params = "insurancePay")
 	@ResponseBody
-	public AjaxJson insurancePay(List<Map<String, String>> insRsList, HttpServletRequest request) {
+	public AjaxJson insurancePay(String params, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		String message = "修改成功";
+		String message = "支付成功";
+		List<PolicyEntity> list = new ArrayList<PolicyEntity>();
+		Map<String, String> insRs = null;
 		try{
 			//String userId = ResourceUtil.getSessionUser().getId();
 			//policyMainPage.setUserId(userId);
-			//2.调用核保接口
-
-			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
-
-			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
-			j.setObj(array);
-			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			//1.页面传入的数据
+			List<Map<String, String>> paramList = gson.fromJson(params, List.class);
+			for(int i = 0; i < paramList.size(); i++) {
+				Map<String, String> param = paramList.get(i);
+				PolicyEntity policy = new PolicyEntity();
+	    		String id = (String)param.get("id");
+	    		String proposalNo = (String)param.get("proposalNo");
+	    		String orderNo = (String)param.get("orderNo");
+	    		String policyMobile = (String)param.get("policyMobile");
+	    		policy.setId(id);
+	    		policy.setProposalNo(proposalNo);
+	    		policy.setOrderNo(orderNo);
+	    		policy.setPolicyMobile(policyMobile);
+	    		list.add(policy);
+			}
+			//2.调用支付接口
+			if(!list.isEmpty()) {
+				insRs = guorenApiService.payService(list);
+				//3.根据支付接口返回的数据，修改保单支付状态
+				if(insRs != null && !insRs.isEmpty()) {
+					net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRs);
+					j.setObj(array);
+				}
+			}
+			systemService.addLog(message+":", Globals.Log_Type_OTHER, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
-			message = "保单主信息修改失败";
+			message = "保单支付失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);

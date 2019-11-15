@@ -70,10 +70,14 @@ function saveDraft() {
 //提交核保
 function insurance() {
 	$("#status").val("1");
-	submitForm();
+	//submitForm();
+    var payUrl = "";
+    payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";
+   //参数： url, 名称, 窗体样式
+var openNewLink = window.open(payUrl, "支付", "height=600, width=1200, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
 }
 //支付
-function pay() {
+function doPay() {
 	submitPay();
 }
 
@@ -234,7 +238,7 @@ function closeCurrent(id){
 <div style="text-align:right;width:1200px;padding-top:10px;">
 <input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="pay" class="btn" type="button" value="在线支付" onclick="pay();" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="pay" class="btn" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.draftId}');" style="height:30px;width:100px !important;border-radius:5px"/>
 </div>
 </fieldset>
@@ -255,7 +259,7 @@ function closeCurrent(id){
 <input id="recipientsp" name="recipients" type="hidden" value="${policyMainPage.recipients}" />
 <input id="recipientsTelp" name="recipientsTel" type="hidden" value="${policyMainPage.recipientsTel}" />
 <input id="reciAddressp" name="reciAddress" type="hidden" value="${policyMainPage.reciAddress}" />
-<input id="insurance" name="insurance" type="hidden" />
+<input id="insuranceObj" name="insuranceObj" type="hidden" />
 <input id="payUrl" name="payUrl" type="hidden" />
 </t:formvalid>
 

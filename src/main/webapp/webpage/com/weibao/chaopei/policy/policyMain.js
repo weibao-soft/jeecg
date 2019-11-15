@@ -480,14 +480,17 @@ function submitData() {
 }
 //Ajax方式打开支付页面
 function submitPay() {
-	var params = $("#insuranceObj").val();
-	if(params == null || params == "") {
+	var param = $("#insuranceObj").val();
+    if(window.console) console.log(param);
+	if(param == null || param == "") {
 		$.messager.alert('提示','支付地址获取失败，请重试或联系客服!','error');
 		return false;
 	}
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
 	
+	var params = {};
+	params.params = param;
 	var url = "policyDraftController.do?insurancePay";
 	ajaxPay(url, params);
 }
@@ -505,8 +508,16 @@ $.ajax({
         if(console) console.log("ajaxReturn == ", data);
         if (data.success) {
       	    var result=data.obj;
+            result = JSON.stringify(result);
+            var payUrl = result.data;
+            //payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";
+            if(console) console.log("payUrl == ", payUrl);
       	    $("#payUrl").val(result);
-      		openwindow("支付",result,"addWithbtn",770,500);
+      	    //参数： url, 名称, 窗体样式
+      		var openNewLink = window.open(payUrl, "支付", "height=600, width=1200, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+            if(window.focus) {
+                openNewLink.focus();
+            }
             return false;
         } else {
             layer.alert(data.msg);
@@ -528,6 +539,7 @@ function ajaxSubmitForm(url, params) {
           if(console) console.log("ajaxReturn == ", data);
           if (data.success) {
               var result=data.obj;
+              result = JSON.stringify(result);
               if(console) console.log("returnObj == ", result);
               $("#insuranceObj").val(result);
               $("#pay").attr("disabled", false);
