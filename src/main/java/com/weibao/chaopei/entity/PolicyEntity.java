@@ -177,7 +177,13 @@ public class PolicyEntity implements Serializable {
 	@Column(name ="last_update_time",nullable=true)
 	private java.util.Date lastUpdateTime;
 	
+	/**投保单号*/
+	@Column(name ="proposal_no",nullable=true)
+	private String proposalNo;
 	
+	/**订单号*/
+	@Column(name ="order_no",nullable=true)
+	private String orderNo;
 
 	public java.lang.String getId() {
 		return id;
@@ -490,5 +496,21 @@ public class PolicyEntity implements Serializable {
 	public void setPremium(java.math.BigDecimal premium) {
 		this.premium = premium;
 	}
+
+	public String getProposalNo() {
+		return proposalNo;
+	}
+
+	public void setProposalNo(String proposalNo) {
+		this.proposalNo = proposalNo;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}	
 
 }
