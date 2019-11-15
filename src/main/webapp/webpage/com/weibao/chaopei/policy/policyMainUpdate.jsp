@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>新增保单</title>
+<title>修改保单</title>
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
@@ -42,20 +42,6 @@ function customFunc() {
 		$("#taxpayerNop").val("");
 	}
 }
-//提交表单数据
-function submitData() {
-	if(!validData()) {
-		return false;
-	}
-
-	var invoice=$("#invoiceType").val();
-	if(invoice=='2') {
-		var taxpayerNo = $("#taxpayerNo2").val();
-        $("#taxpayerNop").val(taxpayerNo);
-	}
-	
-	$("#formobj").submit();
-}
 //Ajax方式提交表单数据
 function submitForm() {
 	if(!validData()) {
@@ -74,7 +60,6 @@ function submitForm() {
 	var params = getSubmitParam();
 	params = getUpdateParam(params);
 	//tip(JSON.stringify(params));
-    //if(console) console.log(JSON.stringify(params));
 	ajaxSubmitForm(url, params);
 }
 //存草稿
@@ -86,6 +71,10 @@ function saveDraft() {
 function insurance() {
 	$("#status").val("1");
 	submitForm();
+}
+//支付
+function pay() {
+	submitPay();
 }
 
 //关闭窗口
@@ -245,7 +234,7 @@ function closeCurrent(id){
 <div style="text-align:right;width:1200px;padding-top:10px;">
 <input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="pay" class="btn" type="button" value="在线支付" onclick=";" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="pay" class="btn" type="button" value="在线支付" onclick="pay();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.draftId}');" style="height:30px;width:100px !important;border-radius:5px"/>
 </div>
 </fieldset>
@@ -266,6 +255,8 @@ function closeCurrent(id){
 <input id="recipientsp" name="recipients" type="hidden" value="${policyMainPage.recipients}" />
 <input id="recipientsTelp" name="recipientsTel" type="hidden" value="${policyMainPage.recipientsTel}" />
 <input id="reciAddressp" name="reciAddress" type="hidden" value="${policyMainPage.reciAddress}" />
+<input id="insurance" name="insurance" type="hidden" />
+<input id="payUrl" name="payUrl" type="hidden" />
 </t:formvalid>
 
 </body>

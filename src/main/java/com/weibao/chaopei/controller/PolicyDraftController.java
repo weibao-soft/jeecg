@@ -193,8 +193,10 @@ public class PolicyDraftController extends BaseController {
 			//2.调用核保接口
 			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
-			String draftId = policyMainPage.getDraftId();
-			policyService.updatePolicyStatus(list, draftId);
+			if(insRsList != null && !insRsList.isEmpty()) {
+				String draftId = policyMainPage.getDraftId();
+				policyService.updatePolicyStatus(list, draftId);
+			}
 			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
 			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
 			j.setObj(array);
@@ -211,7 +213,7 @@ public class PolicyDraftController extends BaseController {
 	}
 	
 	/**
-	 * 修改保单主信息
+	 * 草稿修改页面提交核保
 	 * 
 	 * @param policyMainPage
 	 * @return
@@ -230,8 +232,10 @@ public class PolicyDraftController extends BaseController {
 			//2.调用核保接口
 			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
-			String draftId = policyMainPage.getDraftId();
-			policyService.updatePolicyStatus(list, draftId);
+			if(insRsList != null && !insRsList.isEmpty()) {
+				String draftId = policyMainPage.getDraftId();
+				policyService.updatePolicyStatus(list, draftId);
+			}
 			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
 			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
 			j.setObj(array);
@@ -244,6 +248,37 @@ public class PolicyDraftController extends BaseController {
 		}
 		j.setMsg(message);
 		request.setAttribute("policyMainPage", policyMainPage);
+		return j;
+	}
+	
+	/**
+	 * 核保支付
+	 * 
+	 * @param insRsList
+	 * @return
+	 */
+	@RequestMapping(params = "insurancePay")
+	@ResponseBody
+	public AjaxJson insurancePay(List<Map<String, String>> insRsList, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "修改成功";
+		try{
+			//String userId = ResourceUtil.getSessionUser().getId();
+			//policyMainPage.setUserId(userId);
+			//2.调用核保接口
+
+			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
+
+			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
+			j.setObj(array);
+			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单主信息修改失败";
+			throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
 		return j;
 	}
 }
