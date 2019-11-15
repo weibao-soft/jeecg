@@ -26,6 +26,9 @@ public class GuorenApiConfig {
     @Value("${HEAD.INTERFACE_CODE_PAY}")
     public String INTERFACE_CODE_PAY;
     
+    @Value("${HEAD.INTERFACE_CODE_BATCH_PAY}")
+    public String INTERFACE_CODE_BATCH_PAY;
+    
     @Value("${HEAD.INTERFACE_USER_CODE}")
     public String INTERFACE_USER_CODE;
     

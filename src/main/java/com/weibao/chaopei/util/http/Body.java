@@ -17,6 +17,9 @@ public class Body {
 	private Element insured;
 	private Element tgtCar;
 	private List limit;
+	private String platform;
+	private String proposalNo;
+	private String orderNo;
 	public String getOperCode() {
 		return operCode;
 	}
@@ -101,4 +104,22 @@ public class Body {
 	public void setLimit(List limit) {
 		this.limit = limit;
 	}
+	public String getPlatform() {
+		return platform;
+	}
+	public void setPlatform(String platform) {
+		this.platform = platform;
+	}
+	public String getProposalNo() {
+		return proposalNo;
+	}
+	public void setProposalNo(String proposalNo) {
+		this.proposalNo = proposalNo;
+	}
+	public String getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}	
 }

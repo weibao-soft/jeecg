@@ -150,6 +150,7 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 				    		r1.put("id", policyEntity.getId());
 				    		r1.put("proposalNo", proposalNo);
 				    		r1.put("orderNo", orderNo);
+				    		r1.put("policyMobile", policyEntity.getPolicyMobile());
 				    		result.add(r1);
 			    		}else {
 			    			
@@ -164,9 +165,80 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 			}catch(Exception e1) {
 				//构造接口请求数据出错
 				e1.printStackTrace();
-			}	    	
+			}
 		}
 		
+		return result;
+	}
+	@Override
+	public Map<String, String> payService(List<PolicyEntity> policyEntityList) {
+		
+		Map<String, String> result = new HashMap<String, String>();
+		try {
+			String uuid = "";
+			if(policyEntityList != null && policyEntityList.size() > 0) {
+				PolicyEntity entity = policyEntityList.get(0);
+				uuid = entity.getId();
+					
+				ApiPackage package_ = new ApiPackage();
+		    	Head head = new Head();
+		    	head.setCLIENT_ENCODE(apiConfig.CLIENT_ENCODE);
+		    	head.setSERVE_CODE(apiConfig.SERVE_CODE);    	
+		    	head.setCHANNEL_CODE(apiConfig.CHANNEL_CODE);
+		    	if(policyEntityList.size() > 1) {
+		    		head.setINTERFACE_CODE(apiConfig.INTERFACE_CODE_PAY);//批量支付接口
+		    	}else {
+		    		head.setINTERFACE_CODE(apiConfig.INTERFACE_CODE_BATCH_PAY);//单个支付接口
+		    	}
+		    	head.setINTERFACE_USER_CODE(apiConfig.INTERFACE_USER_CODE);
+		    	head.setINTERFACE_PWD(apiConfig.INTERFACE_PWD);
+		    	head.setBUSINESS_UUID(uuid);
+		    	Date now = new Date();	    	
+		    	head.setREQUEST_TIME(DateUtils.datetimeFormatSSSS(now));
+		    	head.setIFTEST(apiConfig.IFTEST);
+		    	head.setXML_LIST_SUFFIX("");
+				
+		    	package_.setHEAD(head);
+		    	Body body = new Body();
+		    	package_.setBODY(body);
+		    	body.setOperCode(entity.getPolicyMobile());//填录单人员联系方式
+		    	String proposalNo = "";
+		    	String orderNo = "";
+				for (int i=0; i<policyEntityList.size(); i++) {
+					PolicyEntity policyEntity = policyEntityList.get(i);	
+					proposalNo = proposalNo + policyEntity.getProposalNo() + ":";
+					orderNo = orderNo + policyEntity.getOrderNo() + ":";
+				}
+				proposalNo = proposalNo.substring(0, proposalNo.length()-1);
+				orderNo = orderNo.substring(0, orderNo.length()-1);
+				body.setProposalNo(proposalNo);
+				body.setOrderNo(orderNo);
+				body.setPlatform(apiConfig.platform);
+				
+				Map package_map = new HashMap();
+		    	package_map.put("PACKAGE", package_);
+		    	String json = gson.toJson(package_map);	    
+		    	try {
+			    	String response = HttpClientUtil.httpPostRequest(apiConfig.API_URL, json);	
+			    	Map mapRes = gson.fromJson(response, Map.class);
+			    	if(mapRes.get("RESPONSE_BODY") != null) {
+			    		Map resBody = (Map)mapRes.get("RESPONSE_BODY");
+			    		String payurl = (String)resBody.get("data");
+			    		String payorderId = (String)resBody.get("orderId");
+			    		result.put("data", payurl);
+			    		result.put("payorderId", payorderId);
+			    	}else {
+			    		//接口返回的数据里没有RESPONSE_BODY
+			    	}
+		    	}catch(Exception e) {
+		    		//调用远程接口或者解析接口出错，该保单不列入核保单
+		    		e.printStackTrace();
+		    	}
+			}
+		}catch(Exception e1) {
+			//构造接口请求数据出错
+			e1.printStackTrace();
+		}
 		return result;
 	}
 }
