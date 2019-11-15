@@ -479,23 +479,24 @@ function submitData() {
 	$("#formobj").submit();
 }
 //Ajax方式打开支付页面
-function submitPay() {
+function submitPay(id) {
 	var param = $("#insuranceObj").val();
     if(window.console) console.log(param);
 	if(param == null || param == "") {
-		$.messager.alert('提示','支付地址获取失败，请重试或联系客服!','error');
+		$.messager.alert('提示','请先核保再进行支付!','error');
 		return false;
 	}
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
+    $("#pay").attr("disabled", true);
 	
 	var params = {};
 	params.params = param;
 	var url = "policyDraftController.do?insurancePay";
-	ajaxPay(url, params);
+	ajaxPay(url, params, id);
 }
 //公共支付函数：参数 params为 Json类型
-function ajaxPay(url, params) {
+function ajaxPay(url, params, id) {
 $.ajax({
     url: url,
     type: "POST",
@@ -505,28 +506,28 @@ $.ajax({
         layer.alert("服务器异常");
     },
     success: function (data) {
+  	    var result = data.obj;
         if(console) console.log("ajaxReturn == ", data);
         if (data.success) {
-      	    var result=data.obj;
-            result = JSON.stringify(result);
             var payUrl = result.data;
             //payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";
             if(console) console.log("payUrl == ", payUrl);
       	    $("#payUrl").val(result);
       	    //参数： url, 名称, 窗体样式
       		var openNewLink = window.open(payUrl, "支付", "height=600, width=1200, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
-            if(window.focus) {
-                openNewLink.focus();
-            }
+      		closeCurrent('tab_'+id);
+
             return false;
         } else {
+            $("#pay").attr("disabled", false);
             layer.alert(data.msg);
+            return false;
         }
     }
 });
 }
 //公共提交表单函数：参数 params为 Json类型，可以传空参数，如:  {}
-function ajaxSubmitForm(url, params) {
+function ajaxSubmitForm(url, params, isAdd) {
   $.ajax({
       url: url,
       type: "POST",
@@ -536,17 +537,24 @@ function ajaxSubmitForm(url, params) {
           layer.alert("服务器异常");
       },
       success: function (data) {
+          var result = data.obj;
           if(console) console.log("ajaxReturn == ", data);
           if (data.success) {
-              var result=data.obj;
               result = JSON.stringify(result);
-              if(console) console.log("returnObj == ", result);
+              //if(console) console.log("returnObj == ", result);
               $("#insuranceObj").val(result);
               $("#pay").attr("disabled", false);
+              $("#insResult").val("1");
   			  layer.msg(data.msg, {icon:6});
               return false;
           } else {
+              $("#insur").attr("disabled", false);
+              $("#insResult").val("0");
               layer.alert(data.msg);
+              if(isAdd) {
+            	  failureCallback(result);
+              }
+              return false;
           }
       }
   });

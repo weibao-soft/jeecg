@@ -45,8 +45,52 @@ function customFunc() {
     var code=$('#planId option:first').attr("data-code");
 	$("#premium").val(code);
 }
+//核保失败回调函数
+function failureCallback(result) {
+    if(console) console.log("returnObj == ", result);
+    debugger;
+	var draftId = result.draftId;
+	var createTime = result.createTime;
+	var vehicles = result.vehicles;
+	document.getElementById("draftId").value = draftId;
+	document.getElementById("createTime").value = createTime;
+	for(var j = 0; j < vehicles.length; j++) {
+		var vehicleBack = vehicles[j];
+		var frameNo = vehicleBack.frameNo;
+		var pid = vehicleBack.id;
+
+		var plateNos = $("[class='policy'][title='plateNo']");
+		var length = plateNos.length;
+		for(var i = 0; i < length; i++) {
+			var vehicle = {};
+			vehicle.id = document.getElementsByName("vehicles["+i+"].id")[0].value;
+			vehicle.frameNo = document.getElementsByName("vehicles["+i+"].frameNo")[0].value;
+			if(frameNo == vehicle.frameNo) {
+				document.getElementsByName("vehicles["+i+"].id")[0].value = pid;
+			}
+		}
+	}
+}
 //Ajax方式提交表单数据
 function submitForm() {
+	var url = "policyDraftController.do?insuranceAdd";
+	var params = getSubmitParam();
+	ajaxSubmitForm(url, params, true);
+}
+function submitFormUpd() {
+	var url = "policyDraftController.do?insuranceUpdate";
+	var params = getSubmitParam();
+	params = getUpdateParam(params);
+	ajaxSubmitForm(url, params, true);
+}
+//存草稿
+function saveDraft() {
+	$("#status").val("1");
+	submitData();
+}
+//提交核保
+function insurance() {
+	$("#status").val("1");
 	if(!validData()) {
 		return false;
 	}
@@ -59,23 +103,15 @@ function submitForm() {
         $("#taxpayerNop").val(taxpayerNo);
 	}
 	
-	var url = "policyDraftController.do?insuranceAdd";
-	var params = getSubmitParam();
-	ajaxSubmitForm(url, params);
-}
-//存草稿
-function saveDraft() {
-	$("#status").val("1");
-	submitData();
-}
-//提交核保
-function insurance() {
-	$("#status").val("1");
-	submitForm();
+	if($("#insResult").val() == "1") {
+		submitForm();
+	} else {
+		submitFormUpd();
+	}
 }
 //支付
 function doPay() {
-	submitPay();
+	submitPay("${prodId}");
 }
 
 //关闭窗口
@@ -97,6 +133,7 @@ function closeCurrent(id){
  <legend>国任投保</legend>
  <table cellpadding="0" cellspacing="1" class="formtable" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
+	<input id="draftId" name="draftId" type="hidden" value="${policyMainPage.draftId }"/>
 	<input id="prodId" name="prodId" type="hidden"/>
 	<input id="premium" name="premium" type="hidden"/>
  
@@ -239,6 +276,10 @@ function closeCurrent(id){
 </fieldset>
 
 <input id="status" name="status" type="hidden" value="1" />
+<input id="userId" name="userId" type="hidden" />
+<input id="payStatus" name="payStatus" type="hidden" value="0"/>
+<input id="rewardStatus" name="rewardStatus" type="hidden" value="0"/>
+<input id="createTime" name="createTime" type="hidden" value="${policyMainPage.createTime }"/>
 <input id="endDate" name="endDate" type="hidden" value="${end}" />
 <input id="invoiceObj" name="invoiceObj" type="hidden" />
 <input id="compNamep" name="compName" type="hidden" />
@@ -252,6 +293,7 @@ function closeCurrent(id){
 <input id="reciAddressp" name="reciAddress" type="hidden" />
 <input id="insuranceObj" name="insuranceObj" type="hidden" />
 <input id="payUrl" name="payUrl" type="hidden" />
+<input id="insResult" name="insResult" type="hidden" value="1"/>
 </t:formvalid>
 
 </body>

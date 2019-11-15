@@ -133,8 +133,8 @@ public class PolicyDraftController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String message = "修改成功";
 		try{
-			//String userId = ResourceUtil.getSessionUser().getId();
-			//policyMainPage.setUserId(userId);
+			String userId = ResourceUtil.getSessionUser().getId();
+			policyMainPage.setUserId(userId);
 			draftService.updateMain(policyMainPage);
 			systemService.addLog(message+":", Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
@@ -185,21 +185,26 @@ public class PolicyDraftController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String message = "核保成功";
 		try{
-			//String userId = request.getParameter("userId");
 			String userId = ResourceUtil.getSessionUser().getId();
 			policyMainPage.setUserId(userId);
 			//1.先将草稿单、保单、投保人等信息写进数据库，保单状态为草稿
 			List<PolicyEntity> list = draftService.addMain(policyMainPage);
 			//2.调用核保接口
 			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
+			//net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
+			j.setObj(insRsList);
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
 			String draftId = policyMainPage.getDraftId();
 			if(insRsList != null && insRsList.size() == list.size()) {
 				policyService.updatePolicyStatus(list, draftId);
+			} else {
+				message = "保单核保失败，请重新发起核保申请！";
+				j.setSuccess(false);
+				j.setObj(policyMainPage);
+				j.setMsg(message);
+				return j;
 			}
 			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
-			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
-			j.setObj(array);
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
@@ -224,21 +229,24 @@ public class PolicyDraftController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String message = "核保成功";
 		try{
-			//String userId = ResourceUtil.getSessionUser().getId();
-			//policyMainPage.setUserId(userId);
+			String userId = ResourceUtil.getSessionUser().getId();
+			policyMainPage.setUserId(userId);
 			
 			//1.先修改草稿单、保单、投保人等信息，保单状态为草稿
 			List<PolicyEntity> list = draftService.updateMain(policyMainPage);
 			//2.调用核保接口
 			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
+			//net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
+			j.setObj(insRsList);
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
 			String draftId = policyMainPage.getDraftId();
 			if(insRsList != null && insRsList.size() == list.size()) {
 				policyService.updatePolicyStatus(list, draftId);
+			} else {
+				j.setSuccess(false);
+				message = "保单核保失败，请重新发起核保申请！";
 			}
 			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
-			net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
-			j.setObj(array);
 			systemService.addLog(message+":", Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
@@ -265,8 +273,6 @@ public class PolicyDraftController extends BaseController {
 		List<PolicyEntity> list = new ArrayList<PolicyEntity>();
 		Map<String, String> insRs = null;
 		try{
-			//String userId = ResourceUtil.getSessionUser().getId();
-			//policyMainPage.setUserId(userId);
 			//1.页面传入的数据
 			List<Map<String, String>> paramList = gson.fromJson(params, List.class);
 			for(int i = 0; i < paramList.size(); i++) {
@@ -283,13 +289,20 @@ public class PolicyDraftController extends BaseController {
 	    		list.add(policy);
 			}
 			//2.调用支付接口
-			if(!list.isEmpty()) {
-				insRs = guorenApiService.payService(list);
-				//3.根据支付接口返回的数据，修改保单支付状态
-				if(insRs != null && !insRs.isEmpty()) {
-					net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRs);
-					j.setObj(array);
-				}
+			if(list.isEmpty()) {
+				j.setSuccess(false);
+				message = "参数错误，请重新发起支付申请！";
+				return j;
+			}
+			
+			insRs = guorenApiService.payService(list);
+			//3.根据支付接口返回的数据，修改保单支付状态
+			if(insRs != null && !insRs.isEmpty()) {
+				//net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(insRs);
+				j.setObj(insRs);
+			} else {
+				j.setSuccess(false);
+				message = "保单支付失败，请重新发起申请！";
 			}
 			systemService.addLog(message+":", Globals.Log_Type_OTHER, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
