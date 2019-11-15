@@ -87,12 +87,18 @@ function insurance() {
 	$("#status").val("1");
 	submitForm();
 }
-//关闭
-function closeWin() {
-	var id = document.getElementById("draftId").value;
-    if(console) console.log(id);
-	closeTab(id);
+
+//关闭窗口
+function closeCurrent(id){	
+	if (parent.$("li.active").attr('id') == "tab_" + id) {
+        parent.$("#tab_" + id).prev().addClass('active');
+        parent.$("#" + id).prev().addClass('active');
+    }
+    //关闭TAB
+    parent.$("#tab_" + id).remove();
+    parent.$("#" + id).remove();		
 }
+
 </SCRIPT>
 </head>
 <body>
@@ -240,7 +246,7 @@ function closeWin() {
 <input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="pay" class="btn" type="button" value="在线支付" onclick=";" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="back" class="btn" type="button" value="关闭" onclick="closeWin();" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.draftId}');" style="height:30px;width:100px !important;border-radius:5px"/>
 </div>
 </fieldset>
 

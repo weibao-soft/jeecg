@@ -7,6 +7,7 @@
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 <style type="text/css">
 *{font-size:14px;}
@@ -85,6 +86,17 @@ function saveDraft() {
 function insurance() {
 	$("#status").val("1");
 	submitForm();
+}
+//关闭窗口
+function closeCurrent(id){
+	debugger;
+	if (parent.$("li.active").attr('id') == "tab_" + id) {
+        parent.$("#tab_" + id).prev().addClass('active');
+        parent.$("#" + id).prev().addClass('active');
+    }
+    //关闭TAB
+    parent.$("#tab_" + id).remove();
+    parent.$("#" + id).remove();		
 }
 </SCRIPT>
 </head>
@@ -232,7 +244,7 @@ function insurance() {
 <input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="pay" class="btn" type="button" value="在线支付" onclick=";" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="back" class="btn" type="button" value="返回" onclick=";" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${prodId}');" style="height:30px;width:100px !important;border-radius:5px"/>
 </div>
 </fieldset>
 

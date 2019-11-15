@@ -2,7 +2,8 @@ var addTabs = function (options) {
     //var rand = Math.random().toString();
     //var id = rand.substring(rand.indexOf('.') + 1);
     //var url = window.location.protocol + '//' + window.location.host;
-    //options.url = url + options.url;	
+    //options.url = url + options.url;		
+	debugger;
     id = "tab_" + options.id;
     parent.parent.$(".active").removeClass("active");    
     //如果TAB不存在，创建一个新的TAB
@@ -53,44 +54,44 @@ var addTabs = function (options) {
             	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
                 label:'刷新缓存',icon:'plug-in/diy/icons/refresh.png',action:function(){
                 // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑---------------------- 
-                //last就是当前选中的元素
-                var tab = last.children("a").attr("aria-controls").toString();
+                //last就是当前选中的元素                
+                var tab = last.children("a").attr("aria-controls").toString();                
                 //$("#tabs").find("li[aria-controls='"+tab+"']").remove();
-                var div = $("#tabs").find("div[id='"+tab+"']");
+                var div = parent.parent.$("#tabs").find("div[id='"+tab+"']");                
                 div.find("iframe").attr("src",options.url);
                 //tabs.tabs("refresh");
             }
             },
-            {
-            	
+            {            	
             	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
                 label:'关闭',icon:'plug-in/diy/icons/closeone.png',action:function(){
                 // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑---------------------- 
                 //last就是当前选中的元素
+                debugger;
                 var closeText = last.children("a").text().trim();
-                var nowText = $("#tabs").find("li[class='active']").children("a").text().trim();
+                var nowText = parent.parent.$("#tabs").find("li[class='active']").children("a").text().trim();
                 if(closeText==nowText){
                     //关闭的是当前页的时候，显示前一页，如果没有前一页了，就提示
                     var prevCount = last.prevAll().size();
                     if(prevCount==0){
                         var tab = last.children("a").attr("aria-controls").toString();
                         last.remove();
-                        $("#tabs").find("div[id='"+tab+"']").remove();
+                        parent.parent.$("#tabs").find("div[id='"+tab+"']").remove();
                     }else{
                         //显示前一个tab
                         var tab = last.children("a").attr("aria-controls").toString();
                         var prev = last.prevAll().first();
                         last.remove();
-                        $("#tabs").find("div[id='"+tab+"']").remove();
+                        parent.parent.$("#tabs").find("div[id='"+tab+"']").remove();
                         prev.addClass("active");
                         var id = prev.children("a").attr("aria-controls").toString();
-                        $("#tabs").find("div[id='"+id+"']").addClass("active");
+                        parent.parent.$("#tabs").find("div[id='"+id+"']").addClass("active");
                     }
                 }else{
                     //关闭的不是当前页，关闭就好了╮(╯_╰)╭
                     var tab = last.children("a").attr("aria-controls").toString();
                     last.remove();
-                    $("#tabs").find("div[id='"+tab+"']").remove();
+                    parent.parent.$("#tabs").find("div[id='"+tab+"']").remove();
                 }
             }
             },
@@ -98,35 +99,38 @@ var addTabs = function (options) {
             	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
             	label:'全部关闭',icon:'plug-in/diy/icons/closeall.png',action:function(){
                 // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑----------------------    
-                $("#tabs>ul>li").remove();
-                $("#tabs>div>div").remove();
+                parent.parent.$("#tabs>ul>li").remove();
+                parent.parent.$("#tabs>div>div").remove();
                 //tabs.tabs("refresh");
             }
             },
+            /*
             {
             	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
                 label:'除此之外全部关闭',icon:'plug-in/diy/icons/closeother.png',action:function(){
-                // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑----------------------    
+                // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑----------------------
+                debugger;
                 var closeText = last.children("a").text().trim();
-                var nowText = $("#tabs").find("li[class='active']").children("a").text().trim();
+                var nowText = parent.parent.$("#tabs").find("li[class='active']").children("a").text().trim();
                 //此是当前页则关闭，如果不是当前页面，要激活选择页面
                 if(closeText==nowText){
                     //此是当前页面
                     var tab = last.children("a").attr("aria-controls").toString();
-                    $("#tabs>ul>li").not(last).remove();
-                    $("#tabs>div>div").not($("#tabs").find("div[id='"+tab+"']")).remove();
+                    parent.parent.$("#tabs>ul>li").not(last).remove();
+                    parent.parent.$("#tabs>div>div").not(parent.parent.$("#tabs").find("div[id='"+tab+"']")).remove();
                 }else{
                     var tab = last.children("a").attr("aria-controls").toString();
-                    $("#tabs>ul>li").not(last).remove();
-                    $("#tabs>div>div").not($("#tabs").find("div[id='"+tab+"']")).remove();
+                    parent.parent.$("#tabs>ul>li").not(last).remove();
+                    parent.parent.$("#tabs>div>div").not(parent.parent.$("#tabs").find("div[id='"+tab+"']")).remove();
                     last.addClass("active");
                     var id = last.children("a").attr("aria-controls").toString();
-                    $("#tabs").find("div[id='"+id+"']").addClass("active");
+                    parent.parent.$("#tabs").find("div[id='"+id+"']").addClass("active");
                 }
                 //tabs.tabs("refresh");
             }
-            },
-            null,
+            },*/
+            null
+            /*,            
             {
             	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
                 label:'当前页右侧全部关闭',icon:'plug-in/diy/icons/closeright.png',action:function(){
@@ -166,7 +170,8 @@ var addTabs = function (options) {
                     }
                 }
             }
-            },
+            }, */
+            /*
             {
             	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
             	label:'当前页左侧全部关闭',icon:'plug-in/diy/icons/closeleft.png',action:function(){
@@ -205,22 +210,23 @@ var addTabs = function (options) {
                         layer.msg('<b>左侧没有啦</b>');
                     }
                 }
-                /*var prevAll = last.prevAll();
-                 if(prevAll.length!=0){
-                 prevAll.remove();
-                 }else{
-                 layer.msg('<b>左侧没有啦</b>');
-                 }
-                 var tab = last.attr("aria-controls").toString();
-                 //$("#tabs>ul>li").not(shouye).remove();
-                 $("#tabs>div").find("div[id='"+tab+"']").prevAll().remove();*/
+//                 var prevAll = last.prevAll();
+//                 if(prevAll.length!=0){
+//                 prevAll.remove();
+//                 }else{
+//                 layer.msg('<b>左侧没有啦</b>');
+//                 }
+//                 var tab = last.attr("aria-controls").toString();
+//                 //$("#tabs>ul>li").not(shouye).remove();
+//                 $("#tabs>div").find("div[id='"+tab+"']").prevAll().remove();
                 //tabs.tabs("refresh");
-            }
-            }
+            } 
+            }*/
         ]
     });
 };
 var closeTab = function (id) {
+	debugger;
     //如果关闭的是当前激活的TAB，激活他的前一个TAB
     if ($("li.active").attr('id') == "tab_" + id) {
         $("#tab_" + id).prev().addClass('active');
