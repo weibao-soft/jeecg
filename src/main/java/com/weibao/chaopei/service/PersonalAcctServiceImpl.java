@@ -85,6 +85,7 @@ public class PersonalAcctServiceImpl extends CommonServiceImpl implements Person
 			stbSql.append(" and d.personal_account_id = ? and d.user_id = ?");
 			if(StringUtils.isNotBlank(sort)) {
 				String column = PolicyUtil.getColumnName(sort);
+				column = PolicyUtil.getAmbiguousColumn(column);
 				if(StringUtils.isNotBlank(column)) {
 					stbSql.append(" order by " + column + " " + order);
 				}

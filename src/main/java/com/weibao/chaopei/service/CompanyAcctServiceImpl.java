@@ -85,6 +85,7 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 			stbSql.append(" and d.company_account_id = ? and d.depart_id = ?");
 			if(StringUtils.isNotBlank(sort)) {
 				String column = PolicyUtil.getColumnName(sort);
+				column = PolicyUtil.getAmbiguousColumn(column);
 				if(StringUtils.isNotBlank(column)) {
 					stbSql.append(" order by " + column + " " + order);
 				}

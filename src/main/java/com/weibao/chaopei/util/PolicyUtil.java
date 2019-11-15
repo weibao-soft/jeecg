@@ -65,4 +65,18 @@ public class PolicyUtil {
 		}
 		return column1;
 	}
+	
+	/**
+	 * 重复字段加上表别名
+	 * @param column
+	 * @return
+	 */
+	public static String getAmbiguousColumn(String column) {
+		if("pay_time".equals(column)) {
+			column = "a.pay_time";
+		} else if("reward_time".equals(column)) {
+			column = "d.reward_time";
+		}
+		return column;
+	}
 }
