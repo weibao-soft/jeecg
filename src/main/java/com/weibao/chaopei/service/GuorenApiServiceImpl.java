@@ -193,9 +193,9 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 		    	head.setSERVE_CODE(apiConfig.SERVE_CODE);    	
 		    	head.setCHANNEL_CODE(apiConfig.CHANNEL_CODE);
 		    	if(policyEntityList.size() > 1) {
-		    		head.setINTERFACE_CODE(apiConfig.INTERFACE_CODE_PAY);//批量支付接口
+		    		head.setINTERFACE_CODE(apiConfig.INTERFACE_CODE_BATCH_PAY);//批量支付接口
 		    	}else {
-		    		head.setINTERFACE_CODE(apiConfig.INTERFACE_CODE_BATCH_PAY);//单个支付接口
+		    		head.setINTERFACE_CODE(apiConfig.INTERFACE_CODE_PAY);//单个支付接口
 		    	}
 		    	head.setINTERFACE_USER_CODE(apiConfig.INTERFACE_USER_CODE);
 		    	head.setINTERFACE_PWD(apiConfig.INTERFACE_PWD);
@@ -230,8 +230,19 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 			    	Map mapRes = gson.fromJson(response, Map.class);
 			    	if(mapRes.get("RESPONSE_BODY") != null) {
 			    		Map resBody = (Map)mapRes.get("RESPONSE_BODY");
-			    		String payurl = (String)resBody.get("data");
-			    		String payorderId = (String)resBody.get("orderId");
+			    		String payurl = "";
+			    		String payorderId = "";
+			    		if(policyEntityList.size() > 1) {
+			    			//批量支付
+			    			Map data = (Map)resBody.get("data");
+			    			payurl = (String)data.get("payUrl");
+				    		payorderId = (String)data.get("orderId");
+			    		}else {
+			    			//单个支付
+			    			payurl = (String)resBody.get("data");
+				    		payorderId = (String)resBody.get("orderId");
+			    		}
+			    		
 			    		result.put("data", payurl);
 			    		result.put("payorderId", payorderId);
 			    	}else {

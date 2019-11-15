@@ -3,8 +3,8 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="acctReceiveDetailList" checkbox="false" fitColumns="true" title="" actionUrl="companyAcctController.do?acctReceiveDetailDatagrid" 
-  	idField="id" fit="true" queryMode="group" collapsible="true" pageSize="100" sortName="payTime" sortOrder="desc" extendParams="view:scrollview">
+  <t:datagrid name="acctReceiveDetailList" fitColumns="true" title="" actionUrl="companyAcctController.do?acctReceiveDetailDatagrid" 
+  	idField="id" fit="true" checkbox="true" queryMode="group" collapsible="true" pageSize="100" sortName="payTime" sortOrder="desc" extendParams="view:scrollview">
    <t:dgCol title="主键" hidden="true" field="id"  queryMode="single"  width="0"></t:dgCol>   
    
    <t:dgCol title="保单号"  field="policyNo"  width="200" sortable="false"></t:dgCol>
@@ -20,11 +20,9 @@
    <t:dgCol title="营运性质"  field="planType" extendParams="editor:'numberbox'"  queryMode="single"  width="50"></t:dgCol>
    <t:dgCol title="保费"  field="price"  queryMode="single"  width="120"></t:dgCol>
    --%>
-   <%--  
-	<t:dgToolBar  title="编辑" icon="icon-edit"  funname="editRow"></t:dgToolBar>
-	<t:dgToolBar  title="保存" icon="icon-save" url="jformOrderMainController.do?saveRows" funname="saveData"></t:dgToolBar>
-	<t:dgToolBar  title="取消编辑" icon="icon-undo" funname="reject"></t:dgToolBar>
-	--%>
+	
+	<t:dgToolBar  title="提现" icon="icon-save" url="companyAcctController.do?withdraw" funname="saveData"></t:dgToolBar>
+	
   </t:datagrid>
   </div>
  </div>

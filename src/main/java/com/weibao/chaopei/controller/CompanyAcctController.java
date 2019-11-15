@@ -6,10 +6,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
+import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.manager.ClientManager;
@@ -19,8 +23,11 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jeecg.demo.entity.JeecgDemoEntity;
+import com.jeecg.demo.entity.JeecgDemoPage;
 import com.weibao.chaopei.entity.CompanyAccountEntity;
 import com.weibao.chaopei.entity.CompanyRewardedDetailEntity;
 import com.weibao.chaopei.entity.CompanyUnrewardedDetailEntity;
@@ -138,5 +145,48 @@ public class CompanyAcctController extends BaseController {
 		}
 
 		TagUtil.datagrid(response, dataGrid);
+	}
+	
+	/**
+	 * 保存新增/更新的行数据
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(params = "saveRows")
+	@ResponseBody
+	public AjaxJson saveRows(CompanyRewardedDetailEntity page){
+		String message = null;
+//		List<JeecgDemoEntity> demos=page.getDemos();
+		AjaxJson j = new AjaxJson();
+		/*
+		if(CollectionUtils.isNotEmpty(demos)){
+			for(JeecgDemoEntity jeecgDemo:demos){
+				if (StringUtil.isNotEmpty(jeecgDemo.getId())) {
+//					JeecgDemoEntity t =jeecgDemoService.get(JeecgDemoEntity.class, jeecgDemo.getId());
+					try {
+						message = "JeecgDemo例子: " + jeecgDemo.getName() + "被更新成功";
+						MyBeanUtils.copyBeanNotNull2Bean(jeecgDemo, t);
+//						jeecgDemoService.saveOrUpdate(t);
+						systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+					} catch (Exception e) {
+						message = "JeecgDemo例子: " + jeecgDemo.getName() + "更新失败!!";
+						e.printStackTrace();
+					}
+				} else {
+					try {
+						message = "JeecgDemo例子: " + jeecgDemo.getName() + "被添加成功";
+						//jeecgDemo.setStatus("0");
+//						jeecgDemoService.save(jeecgDemo);
+						systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+					} catch (Exception e) {
+						message = "JeecgDemo例子: " + jeecgDemo.getName() + "添加失败!!";
+						e.printStackTrace();
+					}
+					
+				}
+			}
+		}
+		*/
+		return j;
 	}
 }
