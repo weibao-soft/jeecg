@@ -463,6 +463,57 @@ function parseData(info) {
     }
 }
 
+
+//提交表单数据
+function submitData() {
+	if(!validData()) {
+		return false;
+	}
+
+	var invoice=$("#invoiceType").val();
+	if(invoice=='2') {
+		var taxpayerNo = $("#taxpayerNo2").val();
+      $("#taxpayerNop").val(taxpayerNo);
+	}
+	
+	$("#formobj").submit();
+}
+//Ajax方式打开支付页面
+function submitPay() {
+	var params = $("#insuranceObj").val();
+	if(params == null || params == "") {
+		$.messager.alert('提示','支付地址获取失败，请重试或联系客服!','error');
+		return false;
+	}
+	$("#save").attr("disabled", true);
+	$("#insur").attr("disabled", true);
+	
+	var url = "policyDraftController.do?insurancePay";
+	ajaxPay(url, params);
+}
+//公共支付函数：参数 params为 Json类型
+function ajaxPay(url, params) {
+$.ajax({
+    url: url,
+    type: "POST",
+    data: params,
+    dataType: "json",
+    error: function () {
+        layer.alert("服务器异常");
+    },
+    success: function (data) {
+        if(console) console.log("ajaxReturn == ", data);
+        if (data.success) {
+      	    var result=data.obj;
+      	    $("#payUrl").val(result);
+      		openwindow("支付",result,"addWithbtn",770,500);
+            return false;
+        } else {
+            layer.alert(data.msg);
+        }
+    }
+});
+}
 //公共提交表单函数：参数 params为 Json类型，可以传空参数，如:  {}
 function ajaxSubmitForm(url, params) {
   $.ajax({
@@ -474,8 +525,12 @@ function ajaxSubmitForm(url, params) {
           layer.alert("服务器异常");
       },
       success: function (data) {
-          if(console) console.log("submitForm == ", data);
+          if(console) console.log("ajaxReturn == ", data);
           if (data.success) {
+              var result=data.obj;
+              if(console) console.log("returnObj == ", result);
+              $("#insuranceObj").val(result);
+              $("#pay").attr("disabled", false);
   			  layer.msg(data.msg, {icon:6});
               return false;
           } else {

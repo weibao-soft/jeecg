@@ -45,20 +45,6 @@ function customFunc() {
     var code=$('#planId option:first').attr("data-code");
 	$("#premium").val(code);
 }
-//提交表单数据
-function submitData() {
-	if(!validData()) {
-		return false;
-	}
-
-	var invoice=$("#invoiceType").val();
-	if(invoice=='2') {
-		var taxpayerNo = $("#taxpayerNo2").val();
-        $("#taxpayerNop").val(taxpayerNo);
-	}
-	
-	$("#formobj").submit();
-}
 //Ajax方式提交表单数据
 function submitForm() {
 	if(!validData()) {
@@ -87,9 +73,13 @@ function insurance() {
 	$("#status").val("1");
 	submitForm();
 }
+//支付
+function pay() {
+	submitPay();
+}
+
 //关闭窗口
 function closeCurrent(id){
-	debugger;
 	if (parent.$("li.active").attr('id') == "tab_" + id) {
         parent.$("#tab_" + id).prev().addClass('active');
         parent.$("#" + id).prev().addClass('active');
@@ -243,7 +233,7 @@ function closeCurrent(id){
 <div style="text-align:center;width:99%;padding-top:10px;">
 <input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="pay" class="btn" type="button" value="在线支付" onclick=";" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="pay" class="btn" type="button" value="在线支付" onclick="pay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
 <input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${prodId}');" style="height:30px;width:100px !important;border-radius:5px"/>
 </div>
 </fieldset>
@@ -260,6 +250,8 @@ function closeCurrent(id){
 <input id="recipientsp" name="recipients" type="hidden" />
 <input id="recipientsTelp" name="recipientsTel" type="hidden" />
 <input id="reciAddressp" name="reciAddress" type="hidden" />
+<input id="insuranceObj" name="insuranceObj" type="hidden" />
+<input id="payUrl" name="payUrl" type="hidden" />
 </t:formvalid>
 
 </body>
