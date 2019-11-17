@@ -20,7 +20,7 @@ public class GuorenApiConfig {
     @Value("${HEAD.CHANNEL_CODE}")
     public String CHANNEL_CODE; 
     
-    @Value("${HEAD.INTERFACE_CODE_HEBAO}")
+    @Value("${HEAD.INTERFACE_CODE.HEBAO}")
     public String INTERFACE_CODE_HEBAO;
     
     @Value("${HEAD.INTERFACE_CODE_PAY}")

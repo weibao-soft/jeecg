@@ -3,8 +3,8 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="acctUnreceiveDetailList" checkbox="false" fitColumns="true" title="" actionUrl="companyAcctController.do?acctUnreceiveDetailDatagrid" 
-  	idField="id" fit="true" queryMode="group" sortName="payTime" sortOrder="desc" collapsible="true" pageSize="100" extendParams="view:scrollview">
+  <t:datagrid name="acctUnreceiveDetailList" checkbox="false" fitColumns="true" title="未分润明细" actionUrl="companyAcctController.do?acctUnreceiveDetailDatagrid" 
+  	idField="id" fit="true" queryMode="group" sortName="payTime" sortOrder="desc" collapsible="true" pageSize="100">
    <t:dgCol title="主键" hidden="true" field="id"  queryMode="single"  width="0"></t:dgCol>   
    
    <t:dgCol title="保单号"  field="policyNo" sortable="false" width="200"></t:dgCol>

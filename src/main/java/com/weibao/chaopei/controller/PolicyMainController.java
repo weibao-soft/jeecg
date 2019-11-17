@@ -135,7 +135,7 @@ public class PolicyMainController extends BaseController {
 	public ModelAndView addSpe(PolicyMainPage policyMainPage, HttpServletRequest req) {
 		try {
 			req.setCharacterEncoding(UTF8);
-			setCharacterEncoding(policyMainPage);
+			//setCharacterEncoding(policyMainPage);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage());
 		}
@@ -150,7 +150,7 @@ public class PolicyMainController extends BaseController {
 	 * 从页面上传来的中文参数，由"ISO8859-1"编码转换为"UTF-8"
 	 * @param policyMainPage
 	 */
-	private void setCharacterEncoding(PolicyMainPage policyMainPage) {
+	protected void setCharacterEncoding(PolicyMainPage policyMainPage) {
 		try {
 			String compName = policyMainPage.getCompName();
 			String compAddress = policyMainPage.getCompAddress();
