@@ -237,8 +237,16 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 			    			payorderId = (String)data.get("orderId");
 			    			payurl = (String)data.get("payUrl");
 			    		}else {
-			    			payurl = (String)resBody.get("data");
-				    		payorderId = (String)resBody.get("orderId");
+			    			Double resultCode = (Double)resBody.get("resultCode");
+			    			String sresultCode = String.valueOf(resultCode.intValue());
+			    			result.put("resultCode", sresultCode);
+			    			if("0".equals(sresultCode)) {
+			    				payurl = (String)resBody.get("data");
+					    		payorderId = (String)resBody.get("orderId");
+			    			}else {
+			    				result.put("resultMsg", result.get("resultMsg"));
+			    			}
+			    			
 			    		}			    		
 			    		result.put("data", payurl);
 			    		result.put("payorderId", payorderId);
