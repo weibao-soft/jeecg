@@ -22,10 +22,10 @@ $(document).ready(function(){
 	getHolders();
 	getCommonSelect("planId", url, params);
 
-    window.setTimeout(customFunc, 500);
     $("#holderCompNature").css("width", "200px");
     $("#industryType").css("width", "200px");
     $("#holderNature").css("width", "200px");
+    window.setTimeout(customFunc, 500);
 });
 
 function customFunc() {
@@ -42,6 +42,7 @@ function customFunc() {
 		$("#taxpayerNop").val("");
 	}
 }
+
 //Ajax方式提交表单数据
 function submitForm() {
 	if(!validData()) {
@@ -209,7 +210,7 @@ function closeCurrent(id){
 		 </td><td></td><td></td></tr>
 		 <tr id="invoiceTr" style="display: none;">
 		 <td>纳税人识别号</td>
-		 <td><input type="text" name="taxpayerNo2" id="taxpayerNo2" style="width:200px;" value="${policyMainPage.taxpayerNo}"/></td>
+		 <td><input type="text" name="taxpayerNo2" id="taxpayerNo2" maxlength="18" style="width:200px;" value="${policyMainPage.taxpayerNo}"/></td>
 		 <td>手机号</td>
 		 <td><input type="text" name="receiverMobile" id="receiverMobile" maxlength="11" style="width:200px;" value="${policyMainPage.receiverMobile}"/></td></tr>
 	 </table>
