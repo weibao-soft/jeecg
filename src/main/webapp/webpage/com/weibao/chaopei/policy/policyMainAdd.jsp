@@ -5,10 +5,10 @@
 <head>
 <title>新增保单</title>
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
-<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
-<script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 <style type="text/css">
 *{font-size:14px;}
 </style>
@@ -33,10 +33,10 @@ $(document).ready(function(){
         }
     });*/
 
-    window.setTimeout(customFunc, 500);
     $("#holderCompNature").css("width", "200px");
     $("#industryType").css("width", "200px");
     $("#holderNature").css("width", "200px");
+    window.setTimeout(customFunc, 500);
 });
 
 function customFunc() {
@@ -45,6 +45,7 @@ function customFunc() {
     var code=$('#planId option:first').attr("data-code");
 	$("#premium").val(code);
 }
+
 //核保失败回调函数
 function failureCallback(result) {
     if(console) console.log("returnObj == ", result);
@@ -83,6 +84,7 @@ function submitFormUpd() {
 	params = getUpdateParam(params);
 	ajaxSubmitForm(url, params, true);
 }
+
 //存草稿
 function saveDraft() {
 	$("#status").val("1");

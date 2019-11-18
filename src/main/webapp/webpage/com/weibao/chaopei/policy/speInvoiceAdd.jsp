@@ -3,12 +3,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>新增保单</title>
+<title>开具专用发票</title>
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
+<script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
+<link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 <SCRIPT type="text/javascript">
 //var compName2 = parent.$("#compName2p").val();
 //layer.msg(compName2);
+$(document).ready(function() {
+    $("#recipients").css("width", "140px");
+	getReceivers();
+    window.setTimeout(customFunc, 300);
+});
 
+function customFunc() {
+	editableInvoice();
+
+	//$("#recipients").val("${policyMainPage.recipients }");
+    //var num=$('#recipients option:first').attr("data-num");
+	//$("#recipientsTel").val(num);
+}
 function closeDialog() {
 }
 </SCRIPT>
@@ -30,7 +45,7 @@ function closeDialog() {
 				<label class="Validform_label">纳税人识别号:</label>
 			</td>
 			<td class="value">
-				<input id="taxpayerNo" name="taxpayerNo" type="text" style="width: 150px"  class="inputxt" datatype="*" ignore="checked" value="${policyMainPage.taxpayerNo }" />
+				<input id="taxpayerNo" name="taxpayerNo" type="text" maxlength="18" style="width: 150px"  class="inputxt" datatype="*" ignore="checked" value="${policyMainPage.taxpayerNo }" />
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">纳税人识别号</label>
 			</td>
@@ -75,9 +90,9 @@ function closeDialog() {
 			<td align="right">
 				<label class="Validform_label">收件人:</label>
 			</td>
-			<td class="value">
-		     	<input id="recipients" name="recipients" type="text" style="width: 150px" class="inputxt"  datatype="*"  ignore="checked" value="${policyMainPage.recipients }" />
-				<span class="Validform_checktip"></span>
+			<td class="value"><select name="recipients" id="recipients" style="width:160px;" autocomplete="off" datatype="*" ignore="checked" value="${policyMainPage.recipients }">
+				<option value=""></option>
+				</select><span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">收件人</label>
 			</td>
 			<td align="right">

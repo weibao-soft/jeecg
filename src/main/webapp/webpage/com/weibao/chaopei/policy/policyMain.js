@@ -30,9 +30,6 @@ $(document).ready(function() {
 
 });
 
-function formCallBack(data){
-	return false;
-}
 var neibuClickFlag = false;
 function jeecgFormFileCallBack(data){
 	if (data.success == true) {
@@ -55,6 +52,33 @@ function jeecgFormFileCallBack(data){
 	if (!neibuClickFlag) {
 		var win = frameElement.api.opener;
 		win.reloadTable();
+	}
+}
+function formCallBack(data){
+	return false;
+}
+//doSubmitForm 完成后调用
+function formCallback(data){
+	var win = frameElement.api.opener;
+	if (data.success == true) {
+	    frameElement.api.close();
+	    win.reloadTable();
+	    win.tip(data.msg);
+	} else {
+	    if (data.responseText == '' || data.responseText == undefined) {
+	        $.messager.alert('错误', data.msg);
+	        $.Hidemsg();
+	    } else {
+	        try {
+	            var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'), data.responseText.indexOf('错误信息'));
+	            $.messager.alert('错误', emsg);
+	            $.Hidemsg();
+	        } catch (ex) {
+	            $.messager.alert('错误', data.responseText + "");
+	            $.Hidemsg();
+	        }
+	    }
+	    return false;
 	}
 }
 //初始化下标
@@ -111,6 +135,21 @@ function editablePolicy() {
             $("#insuredOrgCode").val(insuredOrgCode);
         }
     });*/
+}
+function editableInvoice() {
+	$("#recipients").editableSelect({
+        effects: 'slide',
+        bg_iframe: false,
+        case_sensitive: false,
+        items_then_scroll: 10,
+        isFilter:false,
+        onSelect: function(list_item) {
+            var recipientsTel=$(list_item[0]).attr("data-num");
+            var reciAddress=$(list_item[0]).attr("data-text");
+            $("#recipientsTel").val(recipientsTel);
+            $("#reciAddress").val(reciAddress);
+        }
+    });
 }
 
 //公共函数：参数 params为 Json类型，可以传空参数，如:  {}

@@ -72,7 +72,7 @@
                   <div class="space-6"></div>
                       <label class="block clearfix">
 								<span class="block input-icon input-icon-right">
-									<input type="text"  name="userName" iscookie="true" class="form-control" placeholder="请输入用户名"  id="userName" value=""/>
+									<input type="text"  name="userName" iscookie="true" class="form-control" placeholder="请输入用户名"  id="userName" value="admin"/>
 									<i class="ace-icon fa fa-user"></i>
 								</span>
                       </label>
