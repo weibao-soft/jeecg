@@ -298,8 +298,17 @@ public class PolicyDraftController extends BaseController {
 			insRs = guorenApiService.payService(list);
 			//3.根据支付接口返回的数据，修改保单支付状态
 			if(insRs != null && !insRs.isEmpty()) {
+				String url = insRs.get("data");
+				String resultCode = insRs.get("resultCode");
+				request.setAttribute("payUrl", url);
+				System.err.println("payurl ================ " + url);
 				//net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(insRs);
-				j.setObj(insRs);
+				if("0".equals(resultCode)) {
+					j.setObj(insRs);
+				} else {
+					message = insRs.get("resultMsg");
+					j.setSuccess(false);
+				}
 			} else {
 				j.setSuccess(false);
 				message = "保单支付失败，请重新发起申请！";

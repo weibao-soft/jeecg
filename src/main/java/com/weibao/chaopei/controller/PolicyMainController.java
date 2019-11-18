@@ -115,15 +115,28 @@ public class PolicyMainController extends BaseController {
 	        String start = sdfd.format(startDate);
 	        String end = sdfd.format(endDate);
 	        String max = sdfd.format(endDate);
+	        //String payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";
 			request.setAttribute("start", start);
 			request.setAttribute("end", end);
 			request.setAttribute("max", max);
 			request.setAttribute("year", year);
+			//request.setAttribute("payUrl", payUrl);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage());
 		}
 		request.setAttribute("policyMainPage", policyMainPage);
 		return new ModelAndView("com/weibao/chaopei/policy/policyMainUpdate");
+	}
+	
+	/**
+	 * 保单主信息编辑页面跳转
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "goChild")
+	public ModelAndView goChild(String payUrl, HttpServletRequest request) {
+		request.setAttribute("payUrl", payUrl);
+		return new ModelAndView("com/weibao/chaopei/policy/policyPayChild");
 	}
 	
 	/**

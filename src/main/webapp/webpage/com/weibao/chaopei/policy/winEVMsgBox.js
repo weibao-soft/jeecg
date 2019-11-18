@@ -17,6 +17,7 @@ function EV_modeAlert() {
 }
 //关闭对话窗口   
 function EV_closeAlert() {
+    if(console) console.log("关闭事件......");
     var msgObj = window.opener.document.getElementById(EV_MsgBox_ID);
     var bgObj = window.opener.document.getElementById("EV_bgModeAlertDiv");
     msgObj.style.display = "none";

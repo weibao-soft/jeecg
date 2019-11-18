@@ -5,8 +5,9 @@
 <head>
 <title>修改保单</title>
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
-<script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 
@@ -15,6 +16,13 @@
 dict_select{width:200px;}
 </style>
 <SCRIPT type="text/javascript">
+window.onfocus = getFocus;
+window.onclick = getFocus;
+function getFocus() {
+    if (typeof (window.childWindow) != "undefined") {//如果子窗口存在，将焦点转到子窗口
+        window.childWindow.focus();
+    }
+}
 $(document).ready(function(){
 	var params = {};
 	params.paramId = "${policyMainPage.prodId }";
@@ -72,9 +80,13 @@ function saveDraft() {
 function insurance() {
 	$("#status").val("1");
 	submitForm();
+	//var payUrl = "${payUrl}";
+	//payUrl = encodeURIComponent(payUrl);
+	//EV_modeAlert();//弹出遮罩层
     //var payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";
     //参数： url, 名称, 窗体样式
-	//var openNewLink = window.open(payUrl, "支付", "height=600, width=1200, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+	//window.childWindow = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+	//window.childWindow.focus();//子窗口获取焦点
 }
 //支付
 function doPay() {
@@ -261,6 +273,7 @@ function closeCurrent(id){
 <input id="reciAddressp" name="reciAddress" type="hidden" value="${policyMainPage.reciAddress}" />
 <input id="insuranceObj" name="insuranceObj" type="hidden" />
 <input id="payUrl" name="payUrl" type="hidden" />
+<input id="payResult" name="payResult" type="hidden" />
 <input id="insResult" name="insResult" type="hidden" value="1"/>
 </t:formvalid>
 
