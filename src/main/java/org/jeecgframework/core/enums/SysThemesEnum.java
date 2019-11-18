@@ -83,13 +83,13 @@ public enum SysThemesEnum {
 	public static SysThemesEnum toEnum(String style) {
 		//如果移动端访问，自动切换H+首页
 		if(isMobileDevice()){
-			return HPLUS;
+			return ACE_STYLE;
 		}
 		
 		
 		if (StringUtil.isEmpty(style)) {
 			//默认风格
-			return FINEUI_STYLE;
+			return ACE_STYLE;
         }
 		for(SysThemesEnum item : SysThemesEnum.values()) {
 			if(item.getStyle().equals(style)) {
