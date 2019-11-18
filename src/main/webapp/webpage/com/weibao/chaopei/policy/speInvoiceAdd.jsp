@@ -20,7 +20,7 @@ $(document).ready(function() {
 function customFunc() {
 	editableInvoice();
 
-	//$("#recipients").val("${policyMainPage.recipients }");
+	$("#recipients").val("${policyMainPage.recipients }");
     //var num=$('#recipients option:first').attr("data-num");
 	//$("#recipientsTel").val(num);
 }

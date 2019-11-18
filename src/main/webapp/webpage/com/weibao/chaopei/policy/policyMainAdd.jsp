@@ -5,14 +5,24 @@
 <head>
 <title>新增保单</title>
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
-<script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
-<link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
+<script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
+<link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 <style type="text/css">
 *{font-size:14px;}
+input[type="text"]{font-size:14px;}
+select{height:46px;}
 </style>
 <SCRIPT type="text/javascript">
+window.onfocus = getFocus;
+window.onclick = getFocus;
+function getFocus() {
+    if (typeof (window.childWindow) != "undefined") {//如果子窗口存在，将焦点转到子窗口
+        window.childWindow.focus();
+    }
+}
 $(document).ready(function(){
 	var params = {};
 	params.paramId = "${prodId}";

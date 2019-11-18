@@ -4,6 +4,7 @@
 
 <style type="text/css">
 *{font-size:14px;}
+div.datagrid-cell{font-size:14px;}
 </style>
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">

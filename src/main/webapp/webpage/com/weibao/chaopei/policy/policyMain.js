@@ -547,6 +547,8 @@ $.ajax({
     success: function (data) {
   	    var result = data.obj;
         if(console) console.log("ajaxReturn == ", data);
+        //if(console) console.log("parent == ", window.parent.location);
+        //if(console) console.log("me == ", window.location);
         if (data.success) {
             var payUrl = result.data;
             //payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";
@@ -557,7 +559,8 @@ $.ajax({
       	    EV_modeAlert();//弹出遮罩层
       	    //参数： url, 名称, 窗体样式
       	    window.childWindow = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
-      	    window.childWindow.focus();//子窗口获取焦点
+      	    //window.childWindow.focus();//子窗口获取焦点
+      	    getFocus();
       	    //closeCurrent('tab_'+id);
 
             return false;

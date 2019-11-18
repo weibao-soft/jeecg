@@ -13,6 +13,8 @@
 
 <style type="text/css">
 *{font-size:14px;}
+input[type="text"]{font-size:14px;}
+select{height:46px;}
 dict_select{width:200px;}
 </style>
 <SCRIPT type="text/javascript">
