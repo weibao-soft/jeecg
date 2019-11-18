@@ -11,14 +11,14 @@
    <t:dgCol title="车牌号"  field="plateNo" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="签单日期"  field="payTime" formatter="yyyy-MM-dd hh:mm:ss" width="150"></t:dgCol>
    <t:dgCol title="产品名称"  field="prodName" sortable="false" width="200"></t:dgCol>
+   <t:dgCol title="保费"  field="price"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="出单机构"  field="departName" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="出单员"  field="userName"  sortable="false" width="100"></t:dgCol>
    <t:dgCol title="分润金额"  field="amount" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="分润时间"  field="divideTime" formatter="yyyy-MM-dd hh:mm:ss" width="150"></t:dgCol>
    <t:dgCol title="结算状态"  field="rewardStatus" dictionary="rwdstatus" sortable="false" width="100"></t:dgCol>
    <%-- 
-   <t:dgCol title="营运性质"  field="planType" extendParams="editor:'numberbox'"  queryMode="single"  width="50"></t:dgCol>
-   <t:dgCol title="保费"  field="price"  queryMode="single"  width="120"></t:dgCol>
+   <t:dgCol title="营运性质"  field="planType" extendParams="editor:'numberbox'"  queryMode="single"  width="50"></t:dgCol>   
    --%>
 	
 	<t:dgToolBar  title="提现" icon="icon-save" url="companyAcctController.do?withdraw" funname="saveData"></t:dgToolBar>

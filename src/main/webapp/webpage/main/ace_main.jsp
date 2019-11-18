@@ -237,14 +237,15 @@
 										 <t:mutiLang langKey="common.ssms.getSysInfos"/>
 									</a>
 								</li>
-								<%-- 
+								<%--
 								<li>
 									<a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,270)">
 										<i class="icon-cog"></i>
 										 <t:mutiLang langKey="common.my.style"/>
 									</a>
 								</li>
-								
+								 --%>
+								<%-- 
 								<li>
 									<a href="http://www.jeecg.com" target="_blank">
 										<i class="icon-cloud"></i>
