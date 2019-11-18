@@ -142,24 +142,35 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 			    	Map mapRes = gson.fromJson(response, Map.class);
 			    	if(mapRes.get("RESPONSE_BODY") != null) {
 			    		Map resBody = (Map)mapRes.get("RESPONSE_BODY");
-			    		Map resData = (Map)resBody.get("data");
-			    		
-			    		String updSql = "update wb_insurance_policy set proposal_no=?, order_no=? where id=?";
-			    		
-			    		String proposalNo = (String)resData.get("proposalNo");
-			    		String orderNo = (String)resData.get("orderNo");	    		
-			    		int updCnt = super.executeSql(updSql, proposalNo, orderNo, policyEntity.getId());
-			    		if(updCnt > 0) {
-			    			//
-				    		Map<String, String> r1 = new HashMap<String, String>();
-				    		r1.put("id", policyEntity.getId());
-				    		r1.put("proposalNo", proposalNo);
-				    		r1.put("orderNo", orderNo);
-				    		r1.put("policyMobile", policyEntity.getPolicyMobile());
-				    		result.add(r1);
-			    		}else {
-			    			logger.error("updCnt is 0000!!!");
-			    		}
+			    					    		
+			    		Double resultCode = (Double)resBody.get("resultCode");
+		    			String sresultCode = String.valueOf(resultCode.intValue());		    					    			
+		    			if("0".equals(sresultCode)) {
+				    		Map resData = (Map)resBody.get("data");
+				    		
+				    		String updSql = "update wb_insurance_policy set proposal_no=?, order_no=? where id=?";
+				    		
+				    		String proposalNo = (String)resData.get("proposalNo");
+				    		String orderNo = (String)resData.get("orderNo");	    		
+				    		int updCnt = super.executeSql(updSql, proposalNo, orderNo, policyEntity.getId());
+				    		if(updCnt > 0) {
+				    			//
+					    		Map<String, String> r1 = new HashMap<String, String>();
+					    		r1.put("resultCode", sresultCode);
+					    		r1.put("id", policyEntity.getId());
+					    		r1.put("proposalNo", proposalNo);
+					    		r1.put("orderNo", orderNo);
+					    		r1.put("policyMobile", policyEntity.getPolicyMobile());
+					    		result.add(r1);
+				    		}else {
+				    			logger.error("updCnt is 0000!!!");
+				    		}
+		    			}else {
+		    				Map<String, String> r1 = new HashMap<String, String>();
+		    				r1.put("resultCode", sresultCode);
+		    				r1.put("resultMsg", (String)resBody.get("resultMsg"));
+		    				result.add(r1);
+		    			}
 			    	}else {
 			    		//接口返回的数据里没有RESPONSE_BODY
 			    		logger.error("responseBody from insured is null");
