@@ -547,6 +547,8 @@ $.ajax({
     success: function (data) {
   	    var result = data.obj;
         if(console) console.log("ajaxReturn == ", data);
+        //if(console) console.log("parent == ", window.parent.location);
+        //if(console) console.log("me == ", window.location);
         if (data.success) {
             var payUrl = result.data;
             //payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";

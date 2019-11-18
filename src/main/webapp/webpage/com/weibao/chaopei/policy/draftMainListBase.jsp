@@ -16,9 +16,10 @@
 
 <style type="text/css">
 *{font-size:14px;}
+div.datagrid-cell{font-size:14px;}
 </style>
 <div class="easyui-layout" fit="true" id="lywidth_demo">
-  <div region="center" style="padding:0px;border:0px">
+  <div region="center" style="padding:0px;border:0px;">
   <t:datagrid name="draftMainList" checkbox="false" fitColumns="false" title="投保草稿列表" actionUrl="policyDraftController.do?datagrid" 
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" pageSize="20">
    <t:dgCol title="操作" field="opt" width="200"></t:dgCol>
