@@ -108,6 +108,7 @@ function insurance() {
 	}
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
+	//loadDialog();
 
 	var invoice=$("#invoiceType").val();
 	if(invoice=='2') {
@@ -120,6 +121,7 @@ function insurance() {
 	} else {
 		submitFormUpd();
 	}
+    //window.setTimeout(closeDialog, 500);
 }
 //支付
 function doPay() {
@@ -176,7 +178,7 @@ function closeCurrent(id){
 				<td><span style="color: red;">*</span>车架号 </td>
 				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17"></td>
 				<td><span style="color: red;">*</span>发动机号 </td>
-				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo"></td>
+				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="15"></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 				style="height:30px;width:100px !important;border-radius:5px"/></td>
 				</tr>
@@ -190,7 +192,7 @@ function closeCurrent(id){
 					<td><span style="color: red;">*</span>车架号 </td>
 					<td><input type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" value="${poVal.frameNo}"></td>
 					<td><span style="color: red;">*</span>发动机号 </td>
-					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" value="${poVal.engineNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="15" value="${poVal.engineNo}"></td>
 				<c:if test="${stat.index == 0 }">
 					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 					style="height:30px;width:100px !important;border-radius:5px"/></td>

@@ -11,13 +11,14 @@ div.datagrid-cell{font-size:14px;}
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="policyMainList" checkbox="false" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
   		idField="id" fit="true" collapsible="false" queryMode="group" superQuery="true" filter="true" pageSize="20">
-   <t:dgCol title="操作" frozenColumn="true" field="opt" width="180"></t:dgCol>
-   <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
+   <t:dgCol title="操作" frozenColumn="true" field="opt" width="160"></t:dgCol>
+   <t:dgFunOpt title="编辑"  funname="addTab(draftId)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
       
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
+   <t:dgCol title="草稿ID"  field="draftId" hidden="true" queryMode="single" width="50"></t:dgCol>
    
    <t:dgCol title="投保人" frozenColumn="true" field="holderCompName" query="true" queryMode="single" width="220"></t:dgCol>
-   <t:dgCol title="车牌号"  frozenColumn="true" field="plateNo" query="true" queryMode="single" width="100"></t:dgCol>
+   <t:dgCol title="车牌号"  frozenColumn="true" field="plateNo" query="true" queryMode="single" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" sortable="false" width="200"></t:dgCol>
    <t:dgCol title="保费"  field="premium" queryMode="single" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="保单号" url="policyUrl" field="policyNo" query="false" queryMode="single" width="200"></t:dgCol>
@@ -56,8 +57,8 @@ function getCustomerList(id){
 	parent.getCustomerList(id);
 }
 function addTab(ids) {	
-    //if(console) console.log(ids);
-	//addTabs({id:ids,title:'保单修改',close: true,url: 'policyMainController.do?goUpdate&draftId='+ids});	
+    if(console) console.log(ids);
+	addTabs({id:ids,title:'保单修改',close: true,url: "policyMainController.do?goUpdate&draftId="+ids+"&isDraft="+false});	
 }
 
  </script>

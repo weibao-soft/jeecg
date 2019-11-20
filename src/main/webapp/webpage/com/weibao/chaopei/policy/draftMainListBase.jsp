@@ -22,15 +22,15 @@ div.datagrid-cell{font-size:14px;}
   <div region="center" style="padding:0px;border:0px;">
   <t:datagrid name="draftMainList" checkbox="false" fitColumns="false" title="投保草稿列表" actionUrl="policyDraftController.do?datagrid" 
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" pageSize="20">
-   <t:dgCol title="操作" field="opt" width="200"></t:dgCol>
-   <t:dgFunOpt title="修改保单"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
+   <t:dgCol title="操作" field="opt" width="180"></t:dgCol>
+   <t:dgFunOpt title="编辑"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
    <t:dgDelOpt title="删除" url="policyDraftController.do?doDel&draftId={id}"  urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>  		
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
    <t:dgCol title="方案保障"  field="productDetailEntity.prodPlan" queryMode="single" width="450"></t:dgCol>
    <t:dgCol title="投保单位名称"  field="holderCompName"  queryMode="single" width="300"></t:dgCol>
-   <t:dgCol title="收件人"  field="recipients" queryMode="single" width="200"></t:dgCol>
-   <t:dgCol title="投保车辆(台)"  field="truckNums" queryMode="single" width="150"></t:dgCol>
+   <t:dgCol title="收件人"  field="recipients" queryMode="single" sortable="false" width="200"></t:dgCol>
+   <t:dgCol title="投保车辆(台)"  field="truckNums" queryMode="single" sortable="false" width="150"></t:dgCol>
    <t:dgCol title="保存时间"  field="saveTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="200"></t:dgCol>
    
   </t:datagrid>
@@ -59,6 +59,6 @@ function getCustomerList(id){
 
 function addTab(ids) {	
     if(console) console.log(ids);
-	addTabs({id:ids,title:'保单修改',close: true,url: 'policyMainController.do?goUpdate&draftId='+ids});	
+	addTabs({id:ids,title:'保单修改',close: true,url: "policyMainController.do?goUpdate&draftId="+ids+"&isDraft="+true});	
 }
  </script>

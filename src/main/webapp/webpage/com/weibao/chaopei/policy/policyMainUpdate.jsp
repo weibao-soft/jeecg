@@ -81,6 +81,7 @@ function saveDraft() {
 //提交核保
 function insurance() {
 	$("#status").val("1");
+	//loadDialog();
 	submitForm();
 	//var payUrl = "${payUrl}";
 	//payUrl = encodeURIComponent(payUrl);
@@ -146,7 +147,7 @@ function closeCurrent(id){
 				<td><span style="color: red;">*</span>车架号 </td>
 				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17"></td>
 				<td><span style="color: red;">*</span>发动机号 </td>
-				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo"></td>
+				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="15"></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 				style="height:30px;width:100px !important;border-radius:5px"/></td>
 				</tr>
@@ -160,7 +161,7 @@ function closeCurrent(id){
 					<td><span style="color: red;">*</span>车架号 </td>
 					<td><input type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" value="${poVal.frameNo}"></td>
 					<td><span style="color: red;">*</span>发动机号 </td>
-					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" value="${poVal.engineNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="15" value="${poVal.engineNo}"></td>
 				<c:if test="${stat.index == 0 }">
 					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 					style="height:30px;width:100px !important;border-radius:5px"/></td>
@@ -250,7 +251,9 @@ function closeCurrent(id){
  </table>
  
 <div style="text-align:right;width:1200px;padding-top:10px;">
+<c:if test="${isDraft == true }">
 <input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
+</c:if>
 <input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="pay" class="btn" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
 <input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.draftId}');" style="height:30px;width:100px !important;border-radius:5px"/>
@@ -277,6 +280,7 @@ function closeCurrent(id){
 <input id="payUrl" name="payUrl" type="hidden" />
 <input id="payResult" name="payResult" type="hidden" />
 <input id="insResult" name="insResult" type="hidden" value="1"/>
+<input id="isDraft" name="isDraft" type="hidden" value="${isDraft}"/>
 </t:formvalid>
 
 </body>

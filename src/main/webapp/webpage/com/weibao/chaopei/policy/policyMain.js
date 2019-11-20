@@ -111,6 +111,36 @@ function resetTrNum(tableId) {
 	});
 }
 
+var index = 1;
+var subDlgIndex = null;
+function loadDialog() {
+    var tag = false;
+    subDlgIndex = $.dialog({
+        content: '正在加载中',
+        zIndex: 19910320,
+        onClose : function() {
+            $(this).dialog('destroy');
+        },
+        lock: true,
+        width: 100,
+        height: 50,
+        opacity: 0.3,
+        title: '提示',
+        cache: false
+    });
+    var infoTable = subDlgIndex.DOM.t.parent().parent().parent();
+        infoTable.parent().append('<div id="infoTable-loading" style="text-align:center;"><img src="plug-in/layer/skin/default/loading-1.gif"/></div>');
+    infoTable.css('display', 'none');
+    //alert(infoTable.parent().html());
+    index++;
+}
+function closeDialog() {
+    if (subDlgIndex && subDlgIndex != null) {
+        $('#infoTable-loading').hide();
+        subDlgIndex.close();
+    }
+}
+
 function editablePolicy() {
 	$("#holderCompName").editableSelect({
         effects: 'slide',
@@ -550,25 +580,28 @@ $.ajax({
         //if(console) console.log("parent == ", window.parent.location);
         //if(console) console.log("me == ", window.location);
         if (data.success) {
+		    layer.msg(data.msg, {icon:6});
             var payUrl = result.data;
-            //payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";
             if(console) console.log("payUrl == ", payUrl);
         	payUrl = encodeURIComponent(payUrl);
       	    $("#payResult").val(result);
       	    $("#payUrl").val(payUrl);
       	    EV_modeAlert();//弹出遮罩层
       	    //参数： url, 名称, 窗体样式
-      	    window.childWindow = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
-      	    //window.childWindow.focus();//子窗口获取焦点
-      	    getFocus();
+      	    var child = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+      	    child.focus();//子窗口获取焦点
+      		window.parent.onfocus=function (){child.focus();};
+      	    window.parent.onclick=function (){child.focus();};
+      		window.onfocus=function (){child.focus();};
+      	    window.onclick=function (){child.focus();};
       	    //closeCurrent('tab_'+id);
 
-            return false;
         } else {
+        	$("#insur").attr("disabled", false);
             $("#pay").attr("disabled", false);
             layer.alert(data.msg);
-            return false;
         }
+        return false;
     }
 });
 }
@@ -585,23 +618,22 @@ function ajaxSubmitForm(url, params, isAdd) {
       success: function (data) {
           var result = data.obj;
           if(console) console.log("ajaxReturn == ", data);
+          $("#insResult").val("0");
           if (data.success) {
               result = JSON.stringify(result);
               //if(console) console.log("returnObj == ", result);
               $("#insuranceObj").val(result);
               $("#pay").attr("disabled", false);
-              $("#insResult").val("1");
   			  layer.msg(data.msg, {icon:6});
-              return false;
           } else {
-              $("#insur").attr("disabled", false);
-              $("#insResult").val("0");
-              layer.alert(data.msg);
               if(isAdd) {
             	  failureCallback(result);
               }
-              return false;
+              layer.alert(data.msg);
           }
+          
+          $("#insur").attr("disabled", false);
+          return false;
       }
   });
 }

@@ -121,6 +121,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				policys.add(policyEntity);
 			}
 			
+			policyMainPage.setCreateTime(currDate);
 			policyMainPage.setDraftId(draftEntity.getId());
 		} catch (IllegalAccessException e) {
 			logger.error(e.getMessage(), e);

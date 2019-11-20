@@ -162,6 +162,7 @@ public class PolicyDraftController extends BaseController {
         PolicyMainPage policyMainPage = null;
 		try{
 			policyMainPage = policyService.getPolicyMainPage(draftId);
+			policyMainPage.setDraftId(draftId);
 			draftService.delMain(policyMainPage);
 			systemService.addLog(message+":", Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
@@ -193,6 +194,7 @@ public class PolicyDraftController extends BaseController {
 			List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
 			//net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(insRsList);
 			j.setObj(insRsList);
+			//insRsList.clear();
 			//3.根据核保接口返回的数据，修改保单状态为已投保，修改主草稿单状态为已投保
 			String draftId = policyMainPage.getDraftId();
 			if(insRsList != null && insRsList.size() == list.size()) {
@@ -269,7 +271,7 @@ public class PolicyDraftController extends BaseController {
 	@ResponseBody
 	public AjaxJson insurancePay(String params, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		String message = "支付成功";
+		String message = "支付链接获取成功";
 		List<PolicyEntity> list = new ArrayList<PolicyEntity>();
 		Map<String, String> insRs = null;
 		try{
@@ -311,13 +313,13 @@ public class PolicyDraftController extends BaseController {
 				}
 			} else {
 				j.setSuccess(false);
-				message = "保单支付失败，请重新发起申请！";
+				message = "支付链接获取失败，请重新发起申请！";
 			}
 			systemService.addLog(message+":", Globals.Log_Type_OTHER, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
-			message = "保单支付失败";
+			message = "支付链接获取失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);

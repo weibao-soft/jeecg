@@ -96,7 +96,7 @@ public class PolicyMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "goUpdate")
-	public ModelAndView goUpdate(String draftId, HttpServletRequest request) {
+	public ModelAndView goUpdate(String draftId, boolean isDraft, HttpServletRequest request) {
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
         PolicyMainPage policyMainPage = null;
 		try {
@@ -120,6 +120,7 @@ public class PolicyMainController extends BaseController {
 			request.setAttribute("end", end);
 			request.setAttribute("max", max);
 			request.setAttribute("year", year);
+			request.setAttribute("isDraft", isDraft);
 			//request.setAttribute("payUrl", payUrl);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage());

@@ -160,10 +160,10 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
 		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
-		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.insur_comp_name ");
+		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.insur_comp_name, d.truck_nums, e.draft_id ");
 		stbHeadSql2.append("select count(1) ");
-		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu ");
-		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and (a.`status`='2' or a.`status`='3')");
+		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,wb_insurance_draft d,wb_draft_relation e,t_s_base_user bu ");
+		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and a.id=e.policy_id and d.id=e.draft_id and bu.ID=a.user_id and (a.`status`='2' or a.`status`='3')");
 		
 		try {
 			List<Object> objList = new ArrayList<Object>();
@@ -231,7 +231,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		stbHeadSql1.append("b.insur_comp_name, d.id depart_id, d.departname ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d ");
-		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id and a.pay_status=1 ");
+		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id and a.pay_status='1' ");
 		
 		try {
 			List<Object> objList = new ArrayList<Object>();
