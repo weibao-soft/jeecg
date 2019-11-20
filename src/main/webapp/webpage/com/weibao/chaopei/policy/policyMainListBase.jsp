@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 
 <style type="text/css">
@@ -13,6 +15,7 @@ div.datagrid-cell{font-size:14px;}
   		idField="id" fit="true" collapsible="false" queryMode="group" superQuery="true" filter="true" pageSize="20">
    <t:dgCol title="操作" frozenColumn="true" field="opt" width="160"></t:dgCol>
    <t:dgFunOpt title="编辑"  funname="addTab(draftId)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
+   <t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#18a689;"/>
       
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
    <t:dgCol title="草稿ID"  field="draftId" hidden="true" queryMode="single" width="50"></t:dgCol>
@@ -56,9 +59,28 @@ $(document).ready(function (){
 function getCustomerList(id){
 	parent.getCustomerList(id);
 }
+
 function addTab(ids) {	
     if(console) console.log(ids);
 	addTabs({id:ids,title:'保单修改',close: true,url: "policyMainController.do?goUpdate&draftId="+ids+"&isDraft="+false});	
 }
-
+//Ajax方式打开支付页面
+function policyPay(id) {
+	//if(param == null || param == "") {
+	//	$.messager.alert('提示','请先核保再进行支付!','error');
+	//	return false;
+	//}
+    //$(this).attr("disabled", true);
+	
+	var params = {};
+	params.policyid = id;
+	var url = "policyDraftController.do?insurancePays";
+	ajaxPay(url, params, id);
+}
+//重新加载列表数据
+function reload(){
+	var win = frameElement.api.opener;
+	frameElement.api.close();
+	win.reloadTable();
+}
  </script>

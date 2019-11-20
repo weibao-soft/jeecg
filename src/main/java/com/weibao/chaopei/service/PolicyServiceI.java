@@ -1,6 +1,7 @@
 package com.weibao.chaopei.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.CommonService;
@@ -37,6 +38,12 @@ public interface PolicyServiceI extends CommonService {
 	 * @return
 	 */
 	public List<CommonBean> getProductPlan(String departId, String prodId);
+	/**
+	 *  根据id查询保单支付信息
+	 * @param id
+	 * @return
+	 */
+	public Map<String, Object> getPolicyPayPage(String id);
 	/**
 	 *  根据id查询投保人信息
 	 * @param id

@@ -124,7 +124,7 @@ function closeCurrent(id){
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
 	 <tr><td style="width:15%">方案保障</td>
 	 <td style="width:85%">
-			<select name="planId" id="planId" style="width:400px;" value="${policyMainPage.planId}">
+			<select name="planId" id="planId" style="width:500px;" value="${policyMainPage.planId}">
 			</select>
 			<span class="Validform_checktip"></span></td></tr>
 	 </table>
@@ -143,11 +143,11 @@ function closeCurrent(id){
 				<tr name='policytr'>
 				<input name="vehicles[0].id" type="hidden"/>
 				<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
-				<td><input type="text" name="vehicles[0].plateNo" class="policy" title="plateNo" maxlength="8" value="未上牌"></td>
+				<td><input type="text" name="vehicles[0].plateNo" class="policy" title="plateNo" maxlength="8" style="width:100px;" value="未上牌"></td>
 				<td><span style="color: red;">*</span>车架号 </td>
 				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17"></td>
 				<td><span style="color: red;">*</span>发动机号 </td>
-				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="15"></td>
+				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;"></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 				style="height:30px;width:100px !important;border-radius:5px"/></td>
 				</tr>
@@ -157,11 +157,11 @@ function closeCurrent(id){
 					<tr name='policytr'>
 					<input name="vehicles[${stat.index }].id" type="hidden" value="${poVal.id }"/>
 					<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
-					<td><input type="text" name="vehicles[${stat.index }].plateNo" class="policy" title="plateNo" maxlength="8" value="${poVal.plateNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].plateNo" class="policy" title="plateNo" maxlength="8" style="width:100px;" value="${poVal.plateNo}"></td>
 					<td><span style="color: red;">*</span>车架号 </td>
 					<td><input type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" value="${poVal.frameNo}"></td>
 					<td><span style="color: red;">*</span>发动机号 </td>
-					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="15" value="${poVal.engineNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;" value="${poVal.engineNo}"></td>
 				<c:if test="${stat.index == 0 }">
 					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 					style="height:30px;width:100px !important;border-radius:5px"/></td>
@@ -188,7 +188,7 @@ function closeCurrent(id){
 		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> <input type="text" 
 		 name="shour" id="shour" style="width:20px;" value="00" disabled/> 起 至 <input type="text" name="endDate" id="end" value="${end}" class="Wdate"
 		 style="width:100px;" disabled/> <input type="text" name="ehour" id="ehour" style="width:20px;" value="24" disabled/> 止，连续 <input type="text" 
-		 name="year" id="year" style="width:100px;" value="${year}" onblur="calculateMonths(this);">年 共<label id="month">12</label>月 </td></tr>
+		 name="year" id="year" style="width:60px;" value="${year}" onblur="calculateMonths(this);">年 共<label id="month">12</label>月 </td></tr>
 	 </table>
 	 </td></tr>
 	 

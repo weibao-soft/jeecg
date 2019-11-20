@@ -401,6 +401,15 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	}
 	
 	/**
+	 *  根据id查询保单支付信息
+	 * @param id
+	 * @return
+	 */
+	public Map<String, Object> getPolicyPayPage(String id) {
+		return policyMainDao.getPolicyPayPage(id);
+	}
+	
+	/**
 	 *  根据id查询投保人信息
 	 * @param id
 	 * @return

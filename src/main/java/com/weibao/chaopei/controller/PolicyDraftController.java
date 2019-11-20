@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
@@ -262,9 +263,9 @@ public class PolicyDraftController extends BaseController {
 	}
 	
 	/**
-	 * 核保支付
+	 * 草稿页面核保支付
 	 * 
-	 * @param insRsList
+	 * @param params
 	 * @return
 	 */
 	@RequestMapping(params = "insurancePay")
@@ -294,6 +295,76 @@ public class PolicyDraftController extends BaseController {
 			if(list.isEmpty()) {
 				j.setSuccess(false);
 				message = "参数错误，请重新发起支付申请！";
+				return j;
+			}
+			
+			insRs = guorenApiService.payService(list);
+			//3.根据支付接口返回的数据，修改保单支付状态
+			if(insRs != null && !insRs.isEmpty()) {
+				String url = insRs.get("data");
+				String resultCode = insRs.get("resultCode");
+				request.setAttribute("payUrl", url);
+				System.err.println("payurl ================ " + url);
+				//net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(insRs);
+				if("0".equals(resultCode)) {
+					j.setObj(insRs);
+				} else {
+					message = insRs.get("resultMsg");
+					j.setSuccess(false);
+				}
+			} else {
+				j.setSuccess(false);
+				message = "支付链接获取失败，请重新发起申请！";
+			}
+			systemService.addLog(message+":", Globals.Log_Type_OTHER, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "支付链接获取失败";
+			throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
+		return j;
+	}
+	
+	/**
+	 * 保单列表页面已核保的直接支付
+	 * 
+	 * @param policyid
+	 * @return
+	 */
+	@RequestMapping(params = "insurancePays")
+	@ResponseBody
+	public AjaxJson insurancePays(String policyid, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "支付链接获取成功";
+		List<PolicyEntity> list = new ArrayList<PolicyEntity>();
+		Map<String, String> insRs = null;
+		try{
+			//1.页面传入的数据
+			Map<String, Object> param = policyService.getPolicyPayPage(policyid);
+			PolicyEntity policy = new PolicyEntity();
+    		String id = (String)param.get("id");
+    		String proposalNo = (String)param.get("proposal_no");
+    		String orderNo = (String)param.get("order_no");
+    		String policyMobile = (String)param.get("policy_mobile");
+    		policy.setId(id);
+    		policy.setProposalNo(proposalNo);
+    		policy.setOrderNo(orderNo);
+    		policy.setPolicyMobile(policyMobile);
+			if(StringUtils.isBlank(proposalNo) || StringUtils.isBlank(orderNo)) {
+				message = "保单未核保，请先核保再发起支付申请！";
+				j.setMsg(message);
+				j.setSuccess(false);
+				return j;
+			}
+    		
+    		list.add(policy);
+			//2.调用支付接口
+			if(list.isEmpty()) {
+				message = "参数错误，请重新发起支付申请！";
+				j.setMsg(message);
+				j.setSuccess(false);
 				return j;
 			}
 			
