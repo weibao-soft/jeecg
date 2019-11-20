@@ -32,6 +32,14 @@ public interface PolicyMainDao {
 	public Map<String, Object> getPolicyPayPage(String policyid);
 	
 	/**
+	 *  根据id查询保单信息
+	 * @return
+	 */
+	@Arguments({"policyid"})
+	@ResultType(Map.class)
+	public Map<String, Object> getOnePolicyMainPage(String policyid);
+	
+	/**
 	 *  根据草稿id查询保单信息
 	 * @return
 	 */

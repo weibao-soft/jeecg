@@ -583,8 +583,6 @@ $.ajax({
     success: function (data) {
   	    var result = data.obj;
         if(console) console.log("ajaxReturn == ", data);
-        //if(console) console.log("parent == ", window.parent.location);
-        //if(console) console.log("me == ", window.location);
         if (data.success) {
 		    layer.msg(data.msg, {icon:6});
             var payUrl = result.data;
@@ -704,6 +702,7 @@ function getUpdateParam(param) {
 	param.payStatus = document.getElementById("payStatus").value;
 	param.rewardStatus = document.getElementById("rewardStatus").value;
 	param.createTime = document.getElementById("createTime").value;
+	param.draft = document.getElementById("isDraft").value;
 	var plateNos = $("[class='policy'][title='plateNo']");
 	var length = plateNos.length;
 	for(var i = 0; i < length; i++) {

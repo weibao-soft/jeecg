@@ -14,6 +14,10 @@ import com.weibao.chaopei.page.PolicyMainPage;
 
 public interface PolicyServiceI extends CommonService {
 	/**
+	 *  查询单个保单信息
+	 */
+	public PolicyMainPage getOnePolicyMainPage(String policyid);
+	/**
 	 *  查询保单信息
 	 */
 	public PolicyMainPage getPolicyMainPage(String draftId);

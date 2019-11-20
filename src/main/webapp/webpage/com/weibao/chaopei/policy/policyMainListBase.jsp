@@ -84,7 +84,7 @@ function getCustomerList(id){
 
 function addTab(ids) {	
     if(console) console.log(ids);
-	addTabs({id:ids,title:'保单修改',close: true,url: "policyMainController.do?goUpdate&draftId="+ids+"&isDraft="+false});	
+	addTabs({id:ids,title:'保单修改',close: true,url: "policyMainController.do?goUpdate&policyid="+ids+"&isDraft="+false});	
 }
 
 function policyHref(value, row, index){	
@@ -122,9 +122,18 @@ function policyPay(id) {
 	ajaxPay(url, params, id);
 }
 //重新加载列表数据
-function reload(){
-	var win = frameElement.api.opener;
-	frameElement.api.close();
-	win.reloadTable();
+function reload() {
+	var iframe;// iframe操作对象
+	var win;//窗口对象
+	var windowapi;
+	try {
+		iframe = this.iframe.contentWindow;
+		iframe.searchs();
+		windowapi = frameElement.api;//内容页中调用窗口实例对象接口
+		win = frameElement.api.opener;
+		frameElement.api.close();
+		win.reloadTable();
+	} catch (e) {
+	}
 }
  </script>

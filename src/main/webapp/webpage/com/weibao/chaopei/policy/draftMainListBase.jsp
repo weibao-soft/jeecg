@@ -59,6 +59,6 @@ function getCustomerList(id){
 
 function addTab(ids) {	
     if(console) console.log(ids);
-	addTabs({id:ids,title:'保单修改',close: true,url: "policyMainController.do?goUpdate&draftId="+ids+"&isDraft="+true});	
+	addTabs({id:ids,title:'保单修改',close: true,url: "policyDraftController.do?goUpdate&draftId="+ids+"&isDraft="+true});	
 }
  </script>
