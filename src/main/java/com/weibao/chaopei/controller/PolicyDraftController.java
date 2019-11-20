@@ -170,7 +170,7 @@ public class PolicyDraftController extends BaseController {
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
 			message = "保单主信息删除失败";
-			throw new BusinessException(e.getMessage());
+			//throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
 		return j;
@@ -201,6 +201,7 @@ public class PolicyDraftController extends BaseController {
 			if(insRsList != null && insRsList.size() == list.size()) {
 				policyService.updatePolicyStatus(list, draftId);
 			} else {
+				logger.info("insuranceAdd result info ==== " + insRsList);
 				message = "保单核保失败，请重新发起核保申请！";
 				j.setSuccess(false);
 				j.setObj(policyMainPage);
@@ -213,7 +214,7 @@ public class PolicyDraftController extends BaseController {
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
 			message = "保单核保失败";
-			throw new BusinessException(e.getMessage());
+			//throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
 		request.setAttribute("policyMainPage", policyMainPage);
@@ -246,6 +247,7 @@ public class PolicyDraftController extends BaseController {
 			if(insRsList != null && insRsList.size() == list.size()) {
 				policyService.updatePolicyStatus(list, draftId);
 			} else {
+				logger.info("insuranceUpdate result info ==== " + insRsList);
 				j.setSuccess(false);
 				message = "保单核保失败，请重新发起核保申请！";
 			}
@@ -255,7 +257,7 @@ public class PolicyDraftController extends BaseController {
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
 			message = "保单核保失败";
-			throw new BusinessException(e.getMessage());
+			//throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
 		request.setAttribute("policyMainPage", policyMainPage);
@@ -304,11 +306,12 @@ public class PolicyDraftController extends BaseController {
 				String url = insRs.get("data");
 				String resultCode = insRs.get("resultCode");
 				request.setAttribute("payUrl", url);
-				System.err.println("payurl ================ " + url);
+				logger.info("payurl ================ " + url);
 				//net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(insRs);
 				if("0".equals(resultCode)) {
 					j.setObj(insRs);
 				} else {
+					logger.info("insurancePay result info ==== " + insRs);
 					message = insRs.get("resultMsg");
 					j.setSuccess(false);
 				}
@@ -321,7 +324,7 @@ public class PolicyDraftController extends BaseController {
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
 			message = "支付链接获取失败";
-			throw new BusinessException(e.getMessage());
+			//throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
 		return j;
@@ -340,26 +343,37 @@ public class PolicyDraftController extends BaseController {
 		String message = "支付链接获取成功";
 		List<PolicyEntity> list = new ArrayList<PolicyEntity>();
 		Map<String, String> insRs = null;
+		if(policyid == null) {
+			message = "参数错误，请重新发起支付申请！";
+			j.setMsg(message);
+			j.setSuccess(false);
+			return j;
+		}
+		
 		try{
+			String[] policyidArr = policyid.split(",");
 			//1.页面传入的数据
-			Map<String, Object> param = policyService.getPolicyPayPage(policyid);
-			PolicyEntity policy = new PolicyEntity();
-    		String id = (String)param.get("id");
-    		String proposalNo = (String)param.get("proposal_no");
-    		String orderNo = (String)param.get("order_no");
-    		String policyMobile = (String)param.get("policy_mobile");
-    		policy.setId(id);
-    		policy.setProposalNo(proposalNo);
-    		policy.setOrderNo(orderNo);
-    		policy.setPolicyMobile(policyMobile);
-			if(StringUtils.isBlank(proposalNo) || StringUtils.isBlank(orderNo)) {
-				message = "保单未核保，请先核保再发起支付申请！";
-				j.setMsg(message);
-				j.setSuccess(false);
-				return j;
+			for(int i = 0; i < policyidArr.length; i++) {
+				String policyid1 = policyidArr[i];
+				Map<String, Object> param = policyService.getPolicyPayPage(policyid1);
+				PolicyEntity policy = new PolicyEntity();
+	    		String id = (String)param.get("id");
+	    		String proposalNo = (String)param.get("proposal_no");
+	    		String orderNo = (String)param.get("order_no");
+	    		String policyMobile = (String)param.get("policy_mobile");
+	    		policy.setId(id);
+	    		policy.setProposalNo(proposalNo);
+	    		policy.setOrderNo(orderNo);
+	    		policy.setPolicyMobile(policyMobile);
+				if(StringUtils.isBlank(proposalNo) || StringUtils.isBlank(orderNo)) {
+					message = "保单未核保，请先核保再发起支付申请！";
+					j.setMsg(message);
+					j.setSuccess(false);
+					return j;
+				}
+	    		
+	    		list.add(policy);
 			}
-    		
-    		list.add(policy);
 			//2.调用支付接口
 			if(list.isEmpty()) {
 				message = "参数错误，请重新发起支付申请！";
@@ -374,11 +388,12 @@ public class PolicyDraftController extends BaseController {
 				String url = insRs.get("data");
 				String resultCode = insRs.get("resultCode");
 				request.setAttribute("payUrl", url);
-				System.err.println("payurl ================ " + url);
+				logger.info("payurl ================ " + url);
 				//net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(insRs);
 				if("0".equals(resultCode)) {
 					j.setObj(insRs);
 				} else {
+					logger.info("insurancePay result info ==== " + insRs);
 					message = insRs.get("resultMsg");
 					j.setSuccess(false);
 				}
@@ -391,7 +406,7 @@ public class PolicyDraftController extends BaseController {
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
 			message = "支付链接获取失败";
-			throw new BusinessException(e.getMessage());
+			//throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
 		return j;
