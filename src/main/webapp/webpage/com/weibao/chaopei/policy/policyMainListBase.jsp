@@ -14,7 +14,7 @@ div.datagrid-cell{font-size:14px;}
   <t:datagrid name="policyMainList" checkbox="true" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
   		 idField="id" fit="true" collapsible="false" queryMode="group" superQuery="true" filter="true" pageSize="20">
    <t:dgCol title="操作" frozenColumn="true" field="opt" width="160"></t:dgCol>
-   <t:dgFunOpt title="编辑"  funname="addTab(draftId)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
+   <t:dgFunOpt title="编辑"  funname="addTab(draftId)" urlclass="ace_button"  urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
    <t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#18a689;"/>
       
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
@@ -35,7 +35,7 @@ div.datagrid-cell{font-size:14px;}
    <t:dgCol title="产品代码"  field="prodCode" queryMode="single" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="保险公司"  field="insurCompName" query="true" queryMode="single" sortable="false" dictionary="ins_comp" width="100"></t:dgCol>
    
-   <t:dgToolBar title="批量支付" icon="icon-remove" url="policyDraftController.do?insurancePay" funname="batchPay"></t:dgToolBar>
+   <t:dgToolBar title="批量支付" icon="icon-add" url="policyDraftController.do?insurancePay" funname="batchPay"></t:dgToolBar>
    
   </t:datagrid>
   </div>
