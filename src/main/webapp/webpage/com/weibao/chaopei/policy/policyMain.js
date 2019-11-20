@@ -6,6 +6,12 @@ $(document).ready(function() {
 	$("#invoiceType").change(function() {
 		var value=$(this).children('option:selected').val();
         if(value=='3') {
+        	var taxpayerNo=$("#taxpayerNop").val();
+        	var orgCode=$("#holderOrgCode").val();
+        	if(taxpayerNo==null || taxpayerNo=="") {
+                $("#taxpayerNop").val(orgCode);
+        	}
+
         	$("#invoiceTr").css("display", "none");
         	add("开具增值税专用发票","policyMainController.do?addSpe");
         } else if(value=='2') {
@@ -111,7 +117,7 @@ function resetTrNum(tableId) {
 	});
 }
 
-var index = 1;
+var index2 = 1;
 var subDlgIndex = null;
 function loadDialog() {
     var tag = false;
@@ -132,7 +138,7 @@ function loadDialog() {
         infoTable.parent().append('<div id="infoTable-loading" style="text-align:center;"><img src="plug-in/layer/skin/default/loading-1.gif"/></div>');
     infoTable.css('display', 'none');
     //alert(infoTable.parent().html());
-    index++;
+    index2++;
 }
 function closeDialog() {
     if (subDlgIndex && subDlgIndex != null) {
@@ -337,11 +343,11 @@ function addPolicy() {
 	//layer.msg(index);
 	var trbody = "<tr name='policytr'><input name='vehicles["+index+"].id' type='hidden'/>";
 	trbody += "<td><div style='text-align:right;width:140px;'>车牌号：<BR/>（新车填写：未上牌）</div></td>";
-	trbody += "<td><input type='text' name='vehicles["+index+"].plateNo' class='policy' title='plateNo' maxlength='8' value='未上牌'></td>";
+	trbody += "<td><input type='text' name='vehicles["+index+"].plateNo' class='policy' title='plateNo' maxlength='8' style='width:100px;' value='未上牌'></td>";
 	trbody += "<td><span style='color: red;'>*</span>车架号 </td>";
 	trbody += "<td><input type='text' name='vehicles["+index+"].frameNo' class='policy' title='frameNo' maxlength='17'></td>";
 	trbody += "<td><span style='color: red;'>*</span>发动机号 </td>";
-	trbody += "<td><input type='text' name='vehicles["+index+"].engineNo' class='policy' title='engineNo'></td>";
+	trbody += "<td><input type='text' name='vehicles["+index+"].engineNo' class='policy' title='engineNo' maxlength='40' style='width:120px;'></td>";
 	trbody += "<td><input class='btn' type='button' value='删除' onclick='removePolicy(this);'";
 	trbody += " style='height:30px;width:100px !important;border-radius:5px'/></td>";
 	trbody += "</tr>";
