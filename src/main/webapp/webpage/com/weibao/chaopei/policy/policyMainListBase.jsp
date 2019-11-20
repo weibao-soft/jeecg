@@ -19,9 +19,10 @@ div.datagrid-cell{font-size:14px;}
    
    <t:dgCol title="投保人" frozenColumn="true" field="holderCompName" query="true" queryMode="single" width="220"></t:dgCol>
    <t:dgCol title="车牌号"  frozenColumn="true" field="plateNo" query="true" queryMode="single" sortable="false" width="100"></t:dgCol>
-   <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" sortable="false" width="200"></t:dgCol>
+   <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" sortable="false" width="200"></t:dgCol>   
    <t:dgCol title="保费"  field="premium" queryMode="single" sortable="false" width="100"></t:dgCol>
-   <t:dgCol title="保单号" url="policyUrl" field="policyNo" query="false" queryMode="single" width="200"></t:dgCol>
+   <t:dgCol title="保单号" field="policyNo" formatterjs="policyHref" query="false" queryMode="single" width="200"></t:dgCol>
+   <t:dgCol title="保单链接"  field="policyUrl" hidden="true" width="100"></t:dgCol>
    <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" sortable="false" showMode="radio" dictionary="qpolStatus" width="100"></t:dgCol>
    <t:dgCol title="支付状态"  field="payStatus" queryMode="single" sortable="false" defaultVal='N' dictionary="payStatus" width="100"></t:dgCol>
    <t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>
@@ -59,6 +60,13 @@ function getCustomerList(id){
 function addTab(ids) {	
     if(console) console.log(ids);
 	addTabs({id:ids,title:'保单修改',close: true,url: "policyMainController.do?goUpdate&draftId="+ids+"&isDraft="+false});	
+}
+
+function policyHref(value, row, index){	
+	if (value != null && value != ''){		
+		return '<a href="'+row.policyUrl+'" style="color:red" target="_blank" >'+value+'</a>';
+	} 
+	
 }
 
  </script>
