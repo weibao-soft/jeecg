@@ -15,6 +15,7 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,6 +195,7 @@ public class ProductMainController extends BaseController {
 			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, productDetailEntity);
 			try{
 				//	自定义追加查询条件
+				cq.addOrder("sortNo", SortDirection.asc);
 				cq.add();
 				this.productService.getDataGridReturn(cq, true);
 			}catch (Exception e) {
@@ -216,7 +218,7 @@ public class ProductMainController extends BaseController {
 		Object id0 = productEntity.getId();
 		//===================================================================================
 		//查询-JformOrderMain子表
-	    String hql0 = "from ProductDetailEntity where 1 = 1 AND prodId = ? ";
+	    String hql0 = "from ProductDetailEntity where 1 = 1 AND prodId = ? order by sortNo asc";
 	    try{
 	    	List<ProductDetailEntity> productDetailEntityList = systemService.findHql(hql0,id0);
 			req.setAttribute("productDetailEntityList", productDetailEntityList);
