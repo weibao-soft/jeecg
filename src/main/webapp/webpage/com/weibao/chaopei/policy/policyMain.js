@@ -595,18 +595,21 @@ $.ajax({
       	    EV_modeAlert();//弹出遮罩层
       	    //参数： url, 名称, 窗体样式
       	    var child = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
-      	    child.focus();//子窗口获取焦点
-      		window.parent.onfocus=function (){child.focus();};
-      	    window.parent.onclick=function (){child.focus();};
-      		window.onfocus=function (){child.focus();};
-      	    window.onclick=function (){child.focus();};
+      		try {
+      			child.focus();//子窗口获取焦点
+          		window.onfocus=function (){child.focus();};
+          	    window.onclick=function (){child.focus();};
+          		window.parent.onfocus=function (){child.focus();};
+          	    window.parent.onclick=function (){child.focus();};
+      		} catch (e) {
+      		}
       	    //closeCurrent('tab_'+id);
 
         } else {
         	$("#insur").attr("disabled", false);
-            $("#pay").attr("disabled", false);
             layer.alert(data.msg);
         }
+        $("#pay").attr("disabled", false);
         return false;
     }
 });
