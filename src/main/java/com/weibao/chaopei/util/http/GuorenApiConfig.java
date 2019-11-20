@@ -68,5 +68,11 @@ public class GuorenApiConfig {
     public String ins_reltab;
     
     @Value("${tgt_reltab}")
-    public String tgt_reltab;    		
+    public String tgt_reltab;
+    
+    @Value("${tgt_carSeatNum}")
+    public String tgt_carSeatNum;
+    
+    @Value("${tgt_carTonCount}")
+    public String tgt_carTonCount;
 }

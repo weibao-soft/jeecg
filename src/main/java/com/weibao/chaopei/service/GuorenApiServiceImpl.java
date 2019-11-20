@@ -128,8 +128,8 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 		    	relFieldName_tgtCar.setLicense_no(policyEntity.getPlateNo());
 		    	relFieldName_tgtCar.setFrame_no(policyEntity.getFrameNo());
 		    	relFieldName_tgtCar.setEngine_no(policyEntity.getEngineNo());
-		    	relFieldName_tgtCar.setSeat_num("5");
-		    	relFieldName_tgtCar.setToncount("4.5");	    	
+		    	relFieldName_tgtCar.setSeat_num(apiConfig.tgt_carSeatNum);
+		    	relFieldName_tgtCar.setToncount(apiConfig.tgt_carTonCount);	    	
 		    	List limit = new ArrayList();
 		    	body.setLimit(limit);
 		    	
@@ -139,6 +139,7 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 		    	String response = "";
 		    	try {
 			    	response = HttpClientUtil.httpPostRequest(apiConfig.API_URL, json);	
+			    	logger.info("request json::"+json);
 			    	Map mapRes = gson.fromJson(response, Map.class);
 			    	if(mapRes.get("RESPONSE_BODY") != null) {
 			    		Map resBody = (Map)mapRes.get("RESPONSE_BODY");
@@ -173,7 +174,8 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 		    			}
 			    	}else {
 			    		//接口返回的数据里没有RESPONSE_BODY
-			    		logger.error("responseBody from insured is null");
+			    		logger.error("responseBody from insured is null, request json::"+json);
+			    		logger.error("response from insured::"+response);
 			    	}
 		    	}catch(Exception e) {
 		    		//调用远程接口或者解析接口出错，该保单不列入核保单
@@ -241,16 +243,20 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 			    	Map mapRes = gson.fromJson(response, Map.class);
 			    	if(mapRes.get("RESPONSE_BODY") != null) {
 			    		Map resBody = (Map)mapRes.get("RESPONSE_BODY");
+			    		Double resultCode = (Double)resBody.get("resultCode");
+		    			String sresultCode = String.valueOf(resultCode.intValue());
+		    			result.put("resultCode", sresultCode);
 			    		String payurl = "";
 			    		String payorderId = "";
 			    		if(policyEntityList.size() > 1) {
-			    			Map data = (Map)resBody.get("data");
-			    			payorderId = (String)data.get("orderId");
-			    			payurl = (String)data.get("payUrl");
-			    		}else {
-			    			Double resultCode = (Double)resBody.get("resultCode");
-			    			String sresultCode = String.valueOf(resultCode.intValue());
-			    			result.put("resultCode", sresultCode);
+			    			if("0".equals(sresultCode)) {
+				    			Map data = (Map)resBody.get("data");
+				    			payorderId = (String)data.get("orderId");
+				    			payurl = (String)data.get("payUrl");
+			    			}else {
+			    				result.put("resultMsg", (String)resBody.get("resultMsg"));
+			    			}
+			    		}else {			    			
 			    			if("0".equals(sresultCode)) {
 			    				payurl = (String)resBody.get("data");
 					    		payorderId = (String)resBody.get("orderId");
@@ -263,7 +269,8 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 			    		result.put("payorderId", payorderId);
 			    	}else {
 			    		//接口返回的数据里没有RESPONSE_BODY
-			    		logger.error("responseBody from payService is null");
+			    		logger.error("responseBody from payService is null, request json::"+json);
+			    		logger.error("payService response::"+response);
 			    	}
 		    	}catch(Exception e) {
 		    		//调用远程接口或者解析接口出错，该保单不列入核保单
@@ -325,10 +332,11 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 				    		policyurl = (String)resBody.get("data");			    		
 				    	}else {
 				    		//接口返回的数据里没有RESPONSE_BODY
-				    		logger.error("responseBody from generate policy is null");
+				    		logger.error("responseBody from generate policy is null, request json::"+json);
+				    		logger.error("payback response::"+response);
 				    	}
 			    	}catch(Exception e) {
-			    		//调用远程接口或者解析接口出错，该保单不列入核保单
+			    		//调用远程接口或者解析接口出错，该保单不列入核保单			    		
 			    		e.printStackTrace();
 			    	}
 			    	//修改保单状态为已支付；写入支付时间、写入保单号、生成电子保单、修改电子保单url
