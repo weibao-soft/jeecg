@@ -11,8 +11,8 @@ div.datagrid-cell{font-size:14px;}
 </style>
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="policyMainList" checkbox="false" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
-  		idField="id" fit="true" collapsible="false" queryMode="group" superQuery="true" filter="true" pageSize="20">
+  <t:datagrid name="policyMainList" checkbox="true" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
+  		 idField="id" fit="true" collapsible="false" queryMode="group" superQuery="true" filter="true" pageSize="20">
    <t:dgCol title="操作" frozenColumn="true" field="opt" width="160"></t:dgCol>
    <t:dgFunOpt title="编辑"  funname="addTab(draftId)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
    <t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#18a689;"/>
@@ -27,7 +27,7 @@ div.datagrid-cell{font-size:14px;}
    <t:dgCol title="保单号" field="policyNo" formatterjs="policyHref" query="false" queryMode="single" width="200"></t:dgCol>
    <t:dgCol title="保单链接"  field="policyUrl" hidden="true" width="100"></t:dgCol>
    <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" sortable="false" showMode="radio" dictionary="qpolStatus" width="100"></t:dgCol>
-   <t:dgCol title="支付状态"  field="payStatus" queryMode="single" sortable="false" defaultVal='N' dictionary="payStatus" width="100"></t:dgCol>
+   <t:dgCol title="支付状态"  field="payStatus" queryMode="single" sortable="false" defaultVal='N' dictionary="payStatus" width="100" extendParams="styler:payStyle"></t:dgCol>
    <t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>
    <t:dgCol title="投保时间"  field="lastUpdateTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>
    <t:dgCol title="用户姓名"  field="userName" queryMode="single" width="120"></t:dgCol>
@@ -35,7 +35,7 @@ div.datagrid-cell{font-size:14px;}
    <t:dgCol title="产品代码"  field="prodCode" queryMode="single" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="保险公司"  field="insurCompName" query="true" queryMode="single" sortable="false" dictionary="ins_comp" width="100"></t:dgCol>
    
-   <t:dgToolBar title="查看" icon="icon-search" url="jeecgListDemoController.do?goUpdate" funname="" width="770" height="500"></t:dgToolBar>
+   <t:dgToolBar title="批量支付" icon="icon-remove" url="policyDraftController.do?insurancePay" funname="batchPay"></t:dgToolBar>
    
   </t:datagrid>
   </div>
@@ -57,6 +57,27 @@ $(document).ready(function (){
 	*/
 	
 });
+
+function batchPay(title,url,gname) {
+	debugger;
+	gridname=gname;
+    var policyids = [];
+    var rows = $("#"+gname).datagrid('getSelections');
+    if (rows.length > 0) {
+    	$.dialog.setting.zIndex = getzIndex(true);
+    	$.dialog.confirm("确定要支付这[ "+rows.length+" ]张保单吗？", function(r) {
+		   if (r) {			   	
+				for ( var i = 0; i < rows.length; i++) {
+					policyids.push(rows[i].id);
+				}
+				policyPay(policyids.join(','));				
+			}
+		});
+	} else {
+		tip('请选择需要支付的保单');
+	}
+}
+
 function getCustomerList(id){
 	parent.getCustomerList(id);
 }
@@ -70,8 +91,22 @@ function policyHref(value, row, index){
 	if (value != null && value != ''){		
 		return '<a href="'+row.policyUrl+'" style="color:red" target="_blank" >'+value+'</a>';
 	} 
-	
 }
+
+function payStyle(val, row, index){  	
+	
+	var s1 = 'background-color:#18a689;color:#FFF;';
+    var s2 = 'background-color:#3a87ad;color:#FFF;';
+    var s3 = 'background-color:#21B9BB;';
+    if (val =='1') {
+        return s1
+    }
+    if (val =='0') {
+        return s2
+    }
+    return s3
+	
+} 
 
 //Ajax方式打开支付页面
 function policyPay(id) {
