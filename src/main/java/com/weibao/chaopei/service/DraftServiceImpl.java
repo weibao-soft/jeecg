@@ -227,7 +227,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				
 			}
 			//草稿中删除的保单，同时也从数据库删除
-			if(!delIds.isEmpty()) {
+			if(policyMainPage.isDraft() && !delIds.isEmpty()) {
 				int size = delIds.size();
 				String[] ids = delIds.toArray(new String[size]);
 				policyMainDao.deletePolicys(draftId, ids);

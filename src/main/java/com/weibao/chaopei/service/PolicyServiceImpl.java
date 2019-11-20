@@ -38,6 +38,26 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	private PolicyMainDao policyMainDao;
 	
 	/**
+	 *  查询单个保单信息
+	 */
+	public PolicyMainPage getOnePolicyMainPage(String policyid) {
+		PolicyMainPage policyMainPage = new PolicyMainPage();
+		Map<String, Object> objs = null;
+		try {
+			objs = policyMainDao.getOnePolicyMainPage(policyid);
+			if(objs == null || objs.isEmpty()) {
+				return policyMainPage;
+			}
+			setVehiclePage(objs, policyMainPage);
+			setPolicyMainPage(objs, policyMainPage);
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
+		return policyMainPage;
+	}
+	
+	/**
 	 *  查询保单信息
 	 */
 	public PolicyMainPage getPolicyMainPage(String draftId) {
@@ -49,7 +69,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				return policyMainPage;
 			}
 			Map<String, Object> obj = objs.get(0);
-			setVehiclePage(objs, policyMainPage);
+			setVehiclesPage(objs, policyMainPage);
 			setPolicyMainPage(obj, policyMainPage);
 		} catch(Exception e) {
 			logger.error(e.getMessage(), e);
@@ -58,7 +78,19 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		return policyMainPage;
 	}
 	
-	private void setVehiclePage(List<Map<String, Object>> objs, PolicyMainPage policyMainPage) {
+	private void setVehiclePage(Map<String, Object> obj, PolicyMainPage policyMainPage) {
+		List<PolicyVehiclePage> vehicles = new ArrayList<PolicyVehiclePage>();
+		PolicyVehiclePage vehicle = new PolicyVehiclePage();
+		vehicle.setId((String)obj.get("id"));
+		vehicle.setPlateNo((String)obj.get("plate_no"));
+		vehicle.setFrameNo((String)obj.get("frame_no"));
+		vehicle.setEngineNo((String)obj.get("engine_no"));
+		vehicles.add(vehicle);
+		policyMainPage.setVehicles(vehicles);
+		
+	}
+	
+	private void setVehiclesPage(List<Map<String, Object>> objs, PolicyMainPage policyMainPage) {
 		List<PolicyVehiclePage> vehicles = new ArrayList<PolicyVehiclePage>();
 		for(int i = 0; i < objs.size(); i++) {
 			Map<String, Object> obj = objs.get(i);
@@ -80,6 +112,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 */
 	private void setPolicyMainPage(Map<String, Object> obj, PolicyMainPage policyMainPage) {
 		//复制保单详情
+		policyMainPage.setId((String)obj.get("id"));
 		policyMainPage.setProdId((String)obj.get("prod_id"));
 		policyMainPage.setPlanId((String)obj.get("plan_id"));
 		policyMainPage.setStartDate((Date)obj.get("start_date"));

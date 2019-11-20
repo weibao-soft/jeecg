@@ -96,13 +96,13 @@ public class PolicyMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "goUpdate")
-	public ModelAndView goUpdate(String draftId, boolean isDraft, HttpServletRequest request) {
+	public ModelAndView goUpdate(String policyid, boolean isDraft, HttpServletRequest request) {
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
         PolicyMainPage policyMainPage = null;
 		try {
 			request.setCharacterEncoding(UTF8);
 			//setCharacterEncoding(policyMainPage);
-			policyMainPage = policyService.getPolicyMainPage(draftId);
+			policyMainPage = policyService.getOnePolicyMainPage(policyid);
 			Calendar canlendar = Calendar.getInstance();
 			Date startDate = policyMainPage.getStartDate();
 			Date endDate = policyMainPage.getEndDate();

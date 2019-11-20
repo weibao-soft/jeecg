@@ -1,6 +1,10 @@
 package com.weibao.chaopei.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +69,45 @@ public class PolicyDraftController extends BaseController {
 	@RequestMapping(params = "list")
 	public ModelAndView list(HttpServletRequest request) {
 		return new ModelAndView("com/weibao/chaopei/policy/draftMainListBase");
+	}
+	
+	/**
+	 * 保单主信息编辑页面跳转
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "goUpdate")
+	public ModelAndView goUpdate(String draftId, boolean isDraft, HttpServletRequest request) {
+        SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
+        PolicyMainPage policyMainPage = null;
+		try {
+			request.setCharacterEncoding(UTF8);
+			//setCharacterEncoding(policyMainPage);
+			policyMainPage = policyService.getPolicyMainPage(draftId);
+			Calendar canlendar = Calendar.getInstance();
+			Date startDate = policyMainPage.getStartDate();
+			Date endDate = policyMainPage.getEndDate();
+			canlendar.setTime(startDate);
+			int startYear = canlendar.get(Calendar.YEAR);
+			canlendar.setTime(endDate);
+			int endYear = canlendar.get(Calendar.YEAR);
+			int year = endYear - startYear;
+			
+	        String start = sdfd.format(startDate);
+	        String end = sdfd.format(endDate);
+	        String max = sdfd.format(endDate);
+	        //String payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";
+			request.setAttribute("start", start);
+			request.setAttribute("end", end);
+			request.setAttribute("max", max);
+			request.setAttribute("year", year);
+			request.setAttribute("isDraft", isDraft);
+			//request.setAttribute("payUrl", payUrl);
+		} catch (UnsupportedEncodingException e) {
+			logger.error(e.getMessage());
+		}
+		request.setAttribute("policyMainPage", policyMainPage);
+		return new ModelAndView("com/weibao/chaopei/policy/policyMainUpdateOne");
 	}
 	
 	/**

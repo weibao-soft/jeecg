@@ -109,6 +109,8 @@ public class PolicyMainPage implements Serializable {
 	private java.util.Date createTime;
 	//最后修改时间
 	private java.util.Date lastUpdateTime;
+	//是否草稿
+	private boolean isDraft = true;
 	
 	public List<PolicyVehiclePage> getVehicles() {
 		return vehicles;
@@ -397,5 +399,11 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setPolicyUrl(java.lang.String policyUrl) {
 		this.policyUrl = policyUrl;
+	}
+	public boolean isDraft() {
+		return isDraft;
+	}
+	public void setDraft(boolean isDraft) {
+		this.isDraft = isDraft;
 	}
 }

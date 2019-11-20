@@ -162,14 +162,6 @@ function closeCurrent(id){
 					<td><input type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" value="${poVal.frameNo}"></td>
 					<td><span style="color: red;">*</span>发动机号 </td>
 					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;" value="${poVal.engineNo}"></td>
-				<c:if test="${stat.index == 0 }">
-					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
-					style="height:30px;width:100px !important;border-radius:5px"/></td>
-				</c:if>
-				<c:if test="${stat.index > 0 }">
-					<td><input class="btn" type="button" value="删除" onclick="removePolicy(this);" 
-					style="height:30px;width:100px !important;border-radius:5px"/></td>
-				</c:if>
 		   			</tr>
 				</c:forEach>
 			</c:if>

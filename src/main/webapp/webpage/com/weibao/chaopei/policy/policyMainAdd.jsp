@@ -307,7 +307,9 @@ function closeCurrent(id){
 <input id="reciAddressp" name="reciAddress" type="hidden" />
 <input id="insuranceObj" name="insuranceObj" type="hidden" />
 <input id="payUrl" name="payUrl" type="hidden" />
+<input id="payResult" name="payResult" type="hidden" />
 <input id="insResult" name="insResult" type="hidden" value="1"/>
+<input id="isDraft" name="isDraft" type="hidden" value="true"/>
 </t:formvalid>
 
 </body>
