@@ -5,7 +5,25 @@
 	<artifactId>jeecg</artifactId>
 	<version>4.0</version>
 	<packaging>war</packaging>
-	
+	<profiles>
+		<profile>
+			<!-- 本地开发环境 -->
+			<id>dev</id>	
+			<properties>
+	            <profiles.active>dev</profiles.active>
+	        </properties>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
+	    </profile>
+	    <profile>
+        <!-- 生产环境 -->
+        <id>pro</id>
+        	<properties>
+            	<profiles.active>pro</profiles.active>
+        	</properties>
+    	</profile>
+	</profiles>
 	<properties>
 		<!-- 自定义依赖包 -->
         <codegenerate.version>3.6.4</codegenerate.version>
@@ -709,7 +727,16 @@
 			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
-			</resource>
+				<excludes>
+					<!-- 资源根目录排除各环境的配置，防止在生成目录中多余其它目录 -->
+					<exclude>test/*</exclude>
+                    <exclude>pro/*</exclude>
+                    <exclude>dev/*</exclude>
+				</excludes>
+			</resource>			
+			<resource>
+                <directory>src/main/resources/${profiles.active}</directory>
+            </resource>			
 		</resources>
 		<testResources>
 			<testResource>
