@@ -65,7 +65,7 @@ function getCustomerList(id){
 	parent.getCustomerList(id);
 }
 function addTab(ids) {		
-	addTabs({id:ids,title:'保单投保',close: true,url: 'policyMainController.do?add&paramId='+ids});	
+	addTabs({id:ids,title:'保单投保',close: true,url: 'policyDraftController.do?add&paramId='+ids});	
 }
 
 /**

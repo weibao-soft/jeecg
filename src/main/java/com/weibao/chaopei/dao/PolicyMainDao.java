@@ -27,7 +27,7 @@ public interface PolicyMainDao {
 	 * @return
 	 */
 	@Arguments({"policyid"})
-	@Sql("select p.id,p.order_no,p.proposal_no,p.policy_mobile from wb_insurance_policy p where p.id=:policyid")
+	@Sql("select p.id,p.order_no,p.proposal_no,p.policy_mobile from wb_insurance_policy p where p.pay_status='0' and p.id=:policyid")
 	@ResultType(Map.class)
 	public Map<String, Object> getPolicyPayPage(String policyid);
 	

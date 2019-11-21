@@ -112,7 +112,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 */
 	private void setPolicyMainPage(Map<String, Object> obj, PolicyMainPage policyMainPage) {
 		//复制保单详情
-		policyMainPage.setId((String)obj.get("id"));
+		//policyMainPage.setId((String)obj.get("id"));
 		policyMainPage.setProdId((String)obj.get("prod_id"));
 		policyMainPage.setPlanId((String)obj.get("plan_id"));
 		policyMainPage.setStartDate((Date)obj.get("start_date"));

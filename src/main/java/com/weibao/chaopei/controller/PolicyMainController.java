@@ -59,36 +59,6 @@ public class PolicyMainController extends BaseController {
 	public ModelAndView list(HttpServletRequest request) {
 		return new ModelAndView("com/weibao/chaopei/policy/policyMainListBase");
 	}
-
-	/**
-	 * 保单主信息新增 页面跳转
-	 * 
-	 * @return
-	 */
-	@RequestMapping(params = "add")
-	public ModelAndView add(String paramId, HttpServletRequest request) {
-        SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar canlendar = Calendar.getInstance();
-		canlendar.add(Calendar.DATE, 1);
-		Date startDate = canlendar.getTime();
-		
-		canlendar.add(Calendar.YEAR, 1);
-		canlendar.add(Calendar.DATE, -1);
-		Date endDate = canlendar.getTime();
-		
-		canlendar.add(Calendar.YEAR, -1);
-		canlendar.add(Calendar.DATE, 365);
-		Date maxDate = canlendar.getTime();
-
-        String start = sdfd.format(startDate);
-        String end = sdfd.format(endDate);
-        String max = sdfd.format(maxDate);
-		request.setAttribute("start", start);
-		request.setAttribute("end", end);
-		request.setAttribute("max", max);
-		request.setAttribute("prodId", paramId);
-		return new ModelAndView("com/weibao/chaopei/policy/policyMainAdd");
-	}
 	
 	/**
 	 * 保单主信息编辑页面跳转
@@ -96,13 +66,14 @@ public class PolicyMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "goUpdate")
-	public ModelAndView goUpdate(String policyid, boolean isDraft, HttpServletRequest request) {
+	public ModelAndView goUpdate(String policyid, HttpServletRequest request) {
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
         PolicyMainPage policyMainPage = null;
 		try {
 			request.setCharacterEncoding(UTF8);
 			//setCharacterEncoding(policyMainPage);
 			policyMainPage = policyService.getOnePolicyMainPage(policyid);
+			policyMainPage.setId(policyid);
 			Calendar canlendar = Calendar.getInstance();
 			Date startDate = policyMainPage.getStartDate();
 			Date endDate = policyMainPage.getEndDate();
@@ -115,18 +86,16 @@ public class PolicyMainController extends BaseController {
 	        String start = sdfd.format(startDate);
 	        String end = sdfd.format(endDate);
 	        String max = sdfd.format(endDate);
-	        //String payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";
 			request.setAttribute("start", start);
 			request.setAttribute("end", end);
 			request.setAttribute("max", max);
 			request.setAttribute("year", year);
-			request.setAttribute("isDraft", isDraft);
-			//request.setAttribute("payUrl", payUrl);
+			request.setAttribute("isDraft", false);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage());
 		}
 		request.setAttribute("policyMainPage", policyMainPage);
-		return new ModelAndView("com/weibao/chaopei/policy/policyMainUpdate");
+		return new ModelAndView("com/weibao/chaopei/policy/policyMainUpdateOne");
 	}
 	
 	/**

@@ -16,13 +16,6 @@ input[type="text"]{font-size:14px;}
 select{height:46px;}
 </style>
 <SCRIPT type="text/javascript">
-window.onfocus = getFocus;
-window.onclick = getFocus;
-function getFocus() {
-    if (typeof (window.childWindow) != "undefined") {//如果子窗口存在，将焦点转到子窗口
-        window.childWindow.focus();
-    }
-}
 $(document).ready(function(){
 	var params = {};
 	params.paramId = "${prodId}";
@@ -126,17 +119,6 @@ function insurance() {
 //支付
 function doPay() {
 	submitPay("${prodId}");
-}
-
-//关闭窗口
-function closeCurrent(id){
-	if (parent.$("li.active").attr('id') == "tab_" + id) {
-        parent.$("#tab_" + id).prev().addClass('active');
-        parent.$("#" + id).prev().addClass('active');
-    }
-    //关闭TAB
-    parent.$("#tab_" + id).remove();
-    parent.$("#" + id).remove();		
 }
 </SCRIPT>
 </head>

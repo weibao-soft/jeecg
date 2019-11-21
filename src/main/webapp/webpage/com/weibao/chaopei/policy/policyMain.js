@@ -36,6 +36,17 @@ $(document).ready(function() {
 
 });
 
+//关闭窗口
+function closeCurrent(id){	
+	if (parent.$("li.active").attr('id') == "tab_" + id) {
+      parent.$("#tab_" + id).prev().addClass('active');
+      parent.$("#" + id).prev().addClass('active');
+  }
+  //关闭TAB
+  parent.$("#tab_" + id).remove();
+  parent.$("#" + id).remove();		
+}
+
 var neibuClickFlag = false;
 function jeecgFormFileCallBack(data){
 	if (data.success == true) {

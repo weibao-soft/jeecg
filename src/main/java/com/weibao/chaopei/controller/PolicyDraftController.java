@@ -70,6 +70,36 @@ public class PolicyDraftController extends BaseController {
 	public ModelAndView list(HttpServletRequest request) {
 		return new ModelAndView("com/weibao/chaopei/policy/draftMainListBase");
 	}
+
+	/**
+	 * 保单主信息新增 页面跳转
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "add")
+	public ModelAndView add(String paramId, HttpServletRequest request) {
+        SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar canlendar = Calendar.getInstance();
+		canlendar.add(Calendar.DATE, 1);
+		Date startDate = canlendar.getTime();
+		
+		canlendar.add(Calendar.YEAR, 1);
+		canlendar.add(Calendar.DATE, -1);
+		Date endDate = canlendar.getTime();
+		
+		canlendar.add(Calendar.YEAR, -1);
+		canlendar.add(Calendar.DATE, 365);
+		Date maxDate = canlendar.getTime();
+
+        String start = sdfd.format(startDate);
+        String end = sdfd.format(endDate);
+        String max = sdfd.format(maxDate);
+		request.setAttribute("start", start);
+		request.setAttribute("end", end);
+		request.setAttribute("max", max);
+		request.setAttribute("prodId", paramId);
+		return new ModelAndView("com/weibao/chaopei/policy/policyMainAdd");
+	}
 	
 	/**
 	 * 保单主信息编辑页面跳转
@@ -77,7 +107,7 @@ public class PolicyDraftController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "goUpdate")
-	public ModelAndView goUpdate(String draftId, boolean isDraft, HttpServletRequest request) {
+	public ModelAndView goUpdate(String draftId, HttpServletRequest request) {
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
         PolicyMainPage policyMainPage = null;
 		try {
@@ -101,13 +131,13 @@ public class PolicyDraftController extends BaseController {
 			request.setAttribute("end", end);
 			request.setAttribute("max", max);
 			request.setAttribute("year", year);
-			request.setAttribute("isDraft", isDraft);
+			request.setAttribute("isDraft", true);
 			//request.setAttribute("payUrl", payUrl);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage());
 		}
 		request.setAttribute("policyMainPage", policyMainPage);
-		return new ModelAndView("com/weibao/chaopei/policy/policyMainUpdateOne");
+		return new ModelAndView("com/weibao/chaopei/policy/policyMainUpdate");
 	}
 	
 	/**
@@ -399,6 +429,9 @@ public class PolicyDraftController extends BaseController {
 			for(int i = 0; i < policyidArr.length; i++) {
 				String policyid1 = policyidArr[i];
 				Map<String, Object> param = policyService.getPolicyPayPage(policyid1);
+				if(param.isEmpty()) {
+					continue;
+				}
 				PolicyEntity policy = new PolicyEntity();
 	    		String id = (String)param.get("id");
 	    		String proposalNo = (String)param.get("proposal_no");

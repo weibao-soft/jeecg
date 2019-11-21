@@ -18,13 +18,6 @@ select{height:46px;}
 dict_select{width:200px;}
 </style>
 <SCRIPT type="text/javascript">
-window.onfocus = getFocus;
-window.onclick = getFocus;
-function getFocus() {
-    if (typeof (window.childWindow) != "undefined") {//如果子窗口存在，将焦点转到子窗口
-        window.childWindow.focus();
-    }
-}
 $(document).ready(function(){
 	var params = {};
 	params.paramId = "${policyMainPage.prodId }";
@@ -81,8 +74,8 @@ function saveDraft() {
 //提交核保
 function insurance() {
 	$("#status").val("1");
-	//loadDialog();
 	submitForm();
+	
 	//var payUrl = "${payUrl}";
 	//payUrl = encodeURIComponent(payUrl);
 	//EV_modeAlert();//弹出遮罩层
@@ -95,18 +88,6 @@ function insurance() {
 function doPay() {
 	submitPay("${policyMainPage.draftId}");
 }
-
-//关闭窗口
-function closeCurrent(id){	
-	if (parent.$("li.active").attr('id') == "tab_" + id) {
-        parent.$("#tab_" + id).prev().addClass('active');
-        parent.$("#" + id).prev().addClass('active');
-    }
-    //关闭TAB
-    parent.$("#tab_" + id).remove();
-    parent.$("#" + id).remove();		
-}
-
 </SCRIPT>
 </head>
 <body>
@@ -250,10 +231,8 @@ function closeCurrent(id){
  </td></tr>
  </table>
  
-<div style="text-align:right;width:1200px;padding-top:10px;">
-<c:if test="${isDraft eq true }">
+<div style="text-align:center;width:99%;padding-top:10px;">
 <input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
-</c:if>
 <input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="pay" class="btn" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
 <c:if test="${isDraft eq true }">
