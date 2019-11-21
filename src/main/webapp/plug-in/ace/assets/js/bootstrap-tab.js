@@ -2,17 +2,16 @@ var addTabs = function (options) {
     //var rand = Math.random().toString();
     //var id = rand.substring(rand.indexOf('.') + 1);
     //var url = window.location.protocol + '//' + window.location.host;
-    //options.url = url + options.url;	
+    //options.url = url + options.url;
+
     id = "tab_" + options.id;
     $(".active").removeClass("active");
     //如果TAB不存在，创建一个新的TAB
-    debugger;
     if (!$("#" + id)[0]) {
         //固定TAB中IFRAME高度    	
         mainHeight = screen.height;
         mainHeight = mainHeight*0.79;//Ace 右侧高度默认
 
-        //
         //创建新TAB的title
         title = '<li role="presentation" id="tab_' + id + '"><a href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab">' + options.title;
         //是否允许关闭

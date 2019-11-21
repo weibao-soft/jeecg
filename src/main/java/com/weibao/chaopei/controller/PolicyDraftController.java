@@ -429,7 +429,7 @@ public class PolicyDraftController extends BaseController {
 			for(int i = 0; i < policyidArr.length; i++) {
 				String policyid1 = policyidArr[i];
 				Map<String, Object> param = policyService.getPolicyPayPage(policyid1);
-				if(param.isEmpty()) {
+				if(param == null || param.isEmpty()) {
 					continue;
 				}
 				PolicyEntity policy = new PolicyEntity();

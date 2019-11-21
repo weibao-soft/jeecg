@@ -8,6 +8,7 @@
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 
@@ -46,6 +47,7 @@ function customFunc() {
 	}
 }
 
+//imgName = "upload/MacGimp.png";
 //Ajax方式提交表单数据
 function submitForm() {
 	if(!validData()) {
@@ -53,6 +55,7 @@ function submitForm() {
 	}
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
+    window.Utils.showLoading("upload/MacGimp.png");
 
 	var invoice=$("#invoiceType").val();
 	if(invoice=='2') {

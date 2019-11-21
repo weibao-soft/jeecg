@@ -2,8 +2,7 @@ var addTabs = function (options) {
     //var rand = Math.random().toString();
     //var id = rand.substring(rand.indexOf('.') + 1);
     //var url = window.location.protocol + '//' + window.location.host;
-    //options.url = url + options.url;		
-	debugger;
+    //options.url = url + options.url;
     id = "tab_" + options.id;
     parent.parent.$(".active").removeClass("active");    
     //如果TAB不存在，创建一个新的TAB
@@ -67,7 +66,6 @@ var addTabs = function (options) {
                 label:'关闭',icon:'plug-in/diy/icons/closeone.png',action:function(){
                 // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑---------------------- 
                 //last就是当前选中的元素
-                debugger;
                 var closeText = last.children("a").text().trim();
                 var nowText = parent.parent.$("#tabs").find("li[class='active']").children("a").text().trim();
                 if(closeText==nowText){
@@ -109,7 +107,6 @@ var addTabs = function (options) {
             	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
                 label:'除此之外全部关闭',icon:'plug-in/diy/icons/closeother.png',action:function(){
                 // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑----------------------
-                debugger;
                 var closeText = last.children("a").text().trim();
                 var nowText = parent.parent.$("#tabs").find("li[class='active']").children("a").text().trim();
                 //此是当前页则关闭，如果不是当前页面，要激活选择页面
@@ -210,15 +207,15 @@ var addTabs = function (options) {
                         layer.msg('<b>左侧没有啦</b>');
                     }
                 }
-//                 var prevAll = last.prevAll();
-//                 if(prevAll.length!=0){
-//                 prevAll.remove();
-//                 }else{
-//                 layer.msg('<b>左侧没有啦</b>');
-//                 }
-//                 var tab = last.attr("aria-controls").toString();
-//                 //$("#tabs>ul>li").not(shouye).remove();
-//                 $("#tabs>div").find("div[id='"+tab+"']").prevAll().remove();
+                 var prevAll = last.prevAll();
+                 if(prevAll.length!=0){
+                 prevAll.remove();
+                 }else{
+                 layer.msg('<b>左侧没有啦</b>');
+                 }
+                 var tab = last.attr("aria-controls").toString();
+                 //$("#tabs>ul>li").not(shouye).remove();
+                 $("#tabs>div").find("div[id='"+tab+"']").prevAll().remove();
                 //tabs.tabs("refresh");
             } 
             }*/

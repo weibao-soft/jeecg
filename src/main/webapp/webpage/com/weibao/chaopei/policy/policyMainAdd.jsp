@@ -8,6 +8,7 @@
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 <style type="text/css">
@@ -88,6 +89,7 @@ function submitFormUpd() {
 	ajaxSubmitForm(url, params, true);
 }
 
+imgName = "swagger/images/throbber.gif";
 //存草稿
 function saveDraft() {
 	$("#status").val("1");
@@ -101,6 +103,7 @@ function insurance() {
 	}
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
+    window.Utils.showLoading(imgName);
 	//loadDialog();
 
 	var invoice=$("#invoiceType").val();
@@ -115,6 +118,7 @@ function insurance() {
 		submitFormUpd();
 	}
     //window.setTimeout(closeDialog, 500);
+    //window.setTimeout(window.Utils.closeLoading, 5000);
 }
 //支付
 function doPay() {

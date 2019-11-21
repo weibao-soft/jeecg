@@ -1,3 +1,5 @@
+var imgName = "";
+
 $(document).ready(function() {
 	$("#planId").change(function() {
 		var code=$(this).children('option:selected').attr("data-code");
@@ -575,6 +577,7 @@ function submitPay(id) {
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
     $("#pay").attr("disabled", true);
+    window.Utils.showLoading(imgName);
 	
 	var params = {};
 	params.params = param;
@@ -619,6 +622,7 @@ $.ajax({
             layer.alert(data.msg);
         }
         $("#pay").attr("disabled", false);
+        window.Utils.closeLoading();
         return false;
     }
 });
@@ -651,6 +655,7 @@ function ajaxSubmitForm(url, params, isAdd) {
           }
           
           $("#insur").attr("disabled", false);
+          window.Utils.closeLoading();
           return false;
       }
   });
