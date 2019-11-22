@@ -8,9 +8,13 @@
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/driveValid.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/common.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/toast.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
+<link rel="stylesheet" type="text/css" href="plug-in/weibao/custom.css"/>
 
 <style type="text/css">
 *{font-size:14px;}
@@ -20,6 +24,7 @@ dict_select{width:200px;}
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
+    window.Utils.showLoading();
 	var params = {};
 	params.paramId = "${policyMainPage.prodId }";
 	var url = "policyMainController.do?getProductPlan";
@@ -45,6 +50,7 @@ function customFunc() {
 		$("#invoiceType").val(invoiceType).trigger('change');
 		$("#taxpayerNop").val("");
 	}
+    window.Utils.closeLoading();
 }
 
 //Ajax方式提交表单数据
@@ -87,6 +93,7 @@ function insurance() {
 	//window.childWindow = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
 	//window.childWindow.focus();//子窗口获取焦点
 }
+//imgName = "upload/MacGimp.png";
 //支付
 function doPay() {
 	submitPay("${policyMainPage.draftId}");
@@ -235,14 +242,14 @@ function doPay() {
  </table>
  
 <div style="text-align:center;width:99%;padding-top:10px;">
-<input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="pay" class="btn" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
+<input id="save" class="btnmy" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="insur" class="subBtnmy" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="pay" class="subBtnmy" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
 <c:if test="${isDraft eq true }">
-<input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.draftId}');" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.draftId}');" style="height:30px;width:100px !important;border-radius:5px"/>
 </c:if>
 <c:if test="${isDraft eq false }">
-<input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.id}');" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.id}');" style="height:30px;width:100px !important;border-radius:5px"/>
 </c:if>
 </div>
 </fieldset>

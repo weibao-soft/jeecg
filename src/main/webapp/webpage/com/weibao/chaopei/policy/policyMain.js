@@ -797,6 +797,10 @@ function validData() {
 			message = "第" + (i + 1) + "行，车牌号不能为空!";
 			$.messager.alert('提示',message,'info');
 			return false;
+		} else if(!checkLicenseNo(plateNo)) {
+			message = "第" + (i + 1) + "行，车牌号不正确，请重新输入!";
+            $.messager.alert('提示',message,'info');
+			return false;
 		}
 	}
 	for(var i = 0; i < frameNos.length; i++) {
@@ -806,6 +810,10 @@ function validData() {
 			message = "第" + (i + 1) + "行，车架号不能为空!";
 			$.messager.alert('提示',message,'info');
 			return false;
+		} else if(frameNo.length != 17) {
+			message = "第" + (i + 1) + "行，车架号必须为17位!";
+            //$.messager.alert('提示',message,'info');
+			//return false;
 		}
 		aryFrameNo.push(frameNo);
 	}

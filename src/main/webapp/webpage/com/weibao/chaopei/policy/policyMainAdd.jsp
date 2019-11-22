@@ -8,9 +8,14 @@
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/driveValid.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/common.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/toast.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
+<link rel="stylesheet" type="text/css" href="plug-in/weibao/custom.css"/>
+
 <style type="text/css">
 *{font-size:14px;}
 input[type="text"]{font-size:14px;}
@@ -18,6 +23,8 @@ select{height:46px;}
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
+	//window.Custom.dialogLoading(true);
+    window.Utils.showLoading();
 	var params = {};
 	params.paramId = "${prodId}";
 	//params.paramId = "402880ea6e1c6fad016e1c830134000d";
@@ -48,6 +55,8 @@ function customFunc() {
 	
     var code=$('#planId option:first').attr("data-code");
 	$("#premium").val(code);
+    window.Utils.closeLoading();
+	//window.Custom.dialogLoading(false);
 }
 
 //核保失败回调函数
@@ -143,7 +152,8 @@ function doPay() {
 	 <td style="width:85%">
 		<select name="planId" id="planId" style="width:500px;">
 		</select>
-		<span class="Validform_checktip"></span></td></tr>
+		<span class="Validform_checktip"></span></td>
+	 </tr>
 	 </table>
  </td></tr>
  
@@ -218,7 +228,7 @@ function doPay() {
 						<span class="Validform_checktip"></span></td>
 		 <td style="width:15%"></td><td style="width:35%"></td></tr>
 		 <tr><td><span style="color: red;">*</span>单位名称</td>
-		 <td><select name="holderCompName" id="holderCompName" style="width:180px;" autocomplete="off">
+		 <td><select name="holderCompName" id="holderCompName" class="editable-select" style="width:180px;" autocomplete="off">
 				<option value=""></option>
 				</select></td>
 		 <td><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码) </td>
@@ -268,10 +278,10 @@ function doPay() {
  </table>
  
 <div style="text-align:center;width:99%;padding-top:10px;">
-<input id="save" class="btn" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="pay" class="btn" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
-<input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${prodId}');" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="save" class="btnmy" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="insur" class="subBtnmy" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="pay" class="subBtnmy" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
+<input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_${prodId}');" style="height:30px;width:100px !important;border-radius:5px"/>
 </div>
 </fieldset>
 

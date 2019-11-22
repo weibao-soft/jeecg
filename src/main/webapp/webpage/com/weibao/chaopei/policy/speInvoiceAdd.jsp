@@ -90,7 +90,7 @@ function closeDialog() {
 			<td align="right">
 				<label class="Validform_label">收件人:</label>
 			</td>
-			<td class="value"><select name="recipients" id="recipients" style="width:160px;" autocomplete="off" datatype="*" ignore="checked" value="${policyMainPage.recipients }">
+			<td class="value"><select name="recipients" id="recipients" class="editable-select" style="width:160px;" autocomplete="off" datatype="*" ignore="checked" value="${policyMainPage.recipients }">
 				<option value=""></option>
 				</select><span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">收件人</label>

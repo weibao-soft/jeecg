@@ -15,7 +15,8 @@ div.datagrid-cell{font-size:14px;}
   		 idField="id" fit="true" collapsible="false" queryMode="group" superQuery="true" filter="true" pageSize="20">
    <t:dgCol title="操作" frozenColumn="true" field="opt" width="160"></t:dgCol>
    <t:dgFunOpt title="编辑" exp="payStatus#ne#1" funname="addTab(id)" urlclass="ace_button"  urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
-   <t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#18a689;"/>
+   <t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#18a689;"/>
+   <t:dgFunOpt title="批改" exp="payStatus#ne#1" funname="" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
       
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
    <t:dgCol title="草稿ID"  field="draftId" hidden="true" queryMode="single" width="50"></t:dgCol>

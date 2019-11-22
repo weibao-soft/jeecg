@@ -8,9 +8,13 @@
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/driveValid.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/common.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/toast.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
+<link rel="stylesheet" type="text/css" href="plug-in/weibao/custom.css"/>
 
 <style type="text/css">
 *{font-size:14px;}
@@ -20,6 +24,7 @@ dict_select{width:200px;}
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
+	window.Custom.dialogLoading(true);
 	var params = {};
 	params.paramId = "${policyMainPage.prodId }";
 	var url = "policyMainController.do?getProductPlan";
@@ -45,9 +50,9 @@ function customFunc() {
 		$("#invoiceType").val(invoiceType).trigger('change');
 		$("#taxpayerNop").val("");
 	}
+	window.Custom.dialogLoading(false);
 }
 
-//imgName = "upload/MacGimp.png";
 //Ajax方式提交表单数据
 function submitForm() {
 	if(!validData()) {
@@ -55,7 +60,7 @@ function submitForm() {
 	}
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
-    window.Utils.showLoading("upload/MacGimp.png");
+    window.Utils.showLoading(imgName);
 
 	var invoice=$("#invoiceType").val();
 	if(invoice=='2') {
@@ -220,9 +225,9 @@ function doPay() {
  </table>
  
 <div style="text-align:center;width:99%;padding-top:10px;">
-<input id="insur" class="btn" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="pay" class="btn" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
-<input id="back" class="btn" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.id}');" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="insur" class="subBtnmy" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="pay" class="subBtnmy" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
+<input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.id}');" style="height:30px;width:100px !important;border-radius:5px"/>
 </div>
 </fieldset>
 
