@@ -130,35 +130,6 @@ function resetTrNum(tableId) {
 	});
 }
 
-var index2 = 1;
-var subDlgIndex = null;
-function loadDialog() {
-    var tag = false;
-    subDlgIndex = $.dialog({
-        content: '正在加载中',
-        zIndex: 19910320,
-        onClose : function() {
-            $(this).dialog('destroy');
-        },
-        lock: true,
-        width: 100,
-        height: 50,
-        opacity: 0.3,
-        title: '提示',
-        cache: false
-    });
-    var infoTable = subDlgIndex.DOM.t.parent().parent().parent();
-        infoTable.parent().append('<div id="infoTable-loading" style="text-align:center;"><img src="plug-in/layer/skin/default/loading-1.gif"/></div>');
-    infoTable.css('display', 'none');
-    //alert(infoTable.parent().html());
-    index2++;
-}
-function closeDialog() {
-    if (subDlgIndex && subDlgIndex != null) {
-        $('#infoTable-loading').hide();
-        subDlgIndex.close();
-    }
-}
 
 function editablePolicy() {
 	$("#holderCompName").editableSelect({
@@ -552,7 +523,28 @@ function parseData(info) {
 }
 
 
-//提交表单数据
+//打开浏览器窗口
+function openWindow(payUrl) {
+	payUrl = encodeURIComponent(payUrl);
+    EV_modeAlert();//弹出遮罩层
+      //参数： url, 名称, 窗体样式
+    var child = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+	try {
+  		child.focus();//子窗口获取焦点
+      	window.onfocus=function (){child.focus();};
+      	window.onclick=function (){child.focus();};
+      	window.parent.onfocus=function (){child.focus();};
+      	window.parent.onclick=function (){child.focus();};
+  	} catch (e) { }
+}
+//显示弹出层
+function openDiv(payUrl) {
+    var frameObj=document.getElementById("payiFrame");
+    frameObj.src=payUrl;
+    $("#payDiv").show();
+    window.Utils.showLoading();
+}
+//Form submit方式提交表单数据
 function submitData() {
 	if(!validData()) {
 		return false;
@@ -601,22 +593,16 @@ $.ajax({
 		    layer.msg(data.msg, {icon:6});
             var payUrl = result.data;
             if(console) console.log("payUrl == ", payUrl);
-        	payUrl = encodeURIComponent(payUrl);
+            //var payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&amp;code=&amp;payOrderNo=js02&amp;platform=pc";
       	    $("#payResult").val(result);
       	    $("#payUrl").val(payUrl);
-      	    EV_modeAlert();//弹出遮罩层
-      	    //参数： url, 名称, 窗体样式
-      	    var child = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
-      		try {
-      			child.focus();//子窗口获取焦点
-          		window.onfocus=function (){child.focus();};
-          	    window.onclick=function (){child.focus();};
-          		window.parent.onfocus=function (){child.focus();};
-          	    window.parent.onclick=function (){child.focus();};
-      		} catch (e) {
-      		}
+      	    $("#tabId").val(id);
+      	    
+      	    //open window方式打开支付窗口，打开的是一个浏览器窗口
+      	    //openWindow(payUrl);
       	    //closeCurrent('tab_'+id);
-
+      		//弹出层的方式打开支付页面，打开的不是浏览器窗口，只是显示了一个层
+      	    openDiv(payUrl);
         } else {
         	$("#insur").attr("disabled", false);
             layer.alert(data.msg);

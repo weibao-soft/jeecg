@@ -24,7 +24,7 @@ dict_select{width:200px;}
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
-    window.Utils.showLoading();
+    window.Utils.showLoading(imgName);
 	var params = {};
 	params.paramId = "${policyMainPage.prodId }";
 	var url = "policyMainController.do?getProductPlan";
@@ -52,7 +52,12 @@ function customFunc() {
 	}
     window.Utils.closeLoading();
 }
+function customFunc2() {
+	window.Custom.dialogLoading(false);
+}
 
+//imgName = "swagger/images/throbber.gif";
+imgName = "images/loading-a.gif";
 //Ajax方式提交表单数据
 function submitForm() {
 	if(!validData()) {
@@ -60,7 +65,8 @@ function submitForm() {
 	}
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
-    window.Utils.showLoading(imgName);
+	//window.Custom.dialogLoading(true);
+    //window.Utils.showLoading(imgName);
 
 	var invoice=$("#invoiceType").val();
 	if(invoice=='2') {
@@ -71,9 +77,10 @@ function submitForm() {
 	var url = "policyDraftController.do?insuranceUpdate";
 	var params = getSubmitParam();
 	params = getUpdateParam(params);
-	//tip(JSON.stringify(params));
 	ajaxSubmitForm(url, params, false);
+	//tip(JSON.stringify(params));
     //window.setTimeout(window.Utils.closeLoading, 5000);
+    //window.setTimeout(customFunc2, 5000);
 }
 //存草稿
 function saveDraft() {
@@ -93,10 +100,14 @@ function insurance() {
 	//window.childWindow = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
 	//window.childWindow.focus();//子窗口获取焦点
 }
-//imgName = "upload/MacGimp.png";
 //支付
 function doPay() {
 	submitPay("${policyMainPage.draftId}");
+}
+
+function getIframeTemplate(url) {
+    console.log(url)
+    return '<iframe name="iframe" src="' + url + '" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" scrolling="yes" target="_self" seamless ></iframe>';
 }
 </SCRIPT>
 </head>
@@ -277,5 +288,6 @@ function doPay() {
 <input id="isDraft" name="isDraft" type="hidden" value="${isDraft}"/>
 </t:formvalid>
 
+<%@include file="/webpage/com/weibao/chaopei/policy/policyPayiFrame.jsp"%>
 </body>
 </html>

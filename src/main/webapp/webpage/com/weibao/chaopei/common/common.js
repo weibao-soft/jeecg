@@ -79,20 +79,6 @@ function trim(str) {
 }
 
 
-
-window.Custom = {};
-
-window.Custom.dialogLoading = function(flag) {
-	if(flag){
-		top.layer.load(0, {
-			shade: [0.1,'#fff'],
-			time: 2000
-		});
-	}else{
-		top.layer.closeAll('loading');
-	}
-}
-
 ///日期格式化
 Date.prototype.Format = function (formatStr) {
     var str = formatStr;
@@ -114,13 +100,38 @@ Date.prototype.Format = function (formatStr) {
 };
 
 
+
+window.Custom = {};
+
+window.Custom.dialogLoading = function(flag) {
+	if(flag){
+		top.layer.load(0, {
+			shade: [0.1,'#fff'],
+			time: false
+		});
+	}else{
+		top.layer.closeAll('loading');
+	}
+}
+
+window.Custom.dialogLoadingFast = function(flag) {
+	if(flag){
+		top.layer.load(0, {
+			shade: [0.1,'#fff'],
+			time: 2000
+		});
+	}else{
+		top.layer.closeAll('loading');
+	}
+}
+
+
 //解决IE8不支持TRIM
 // ============   trim()  ===============//  
 // 在IE8 及以下版本无效，需要自己写     
 String.prototype.trim = function () {
     return this.replace(/(^\s*)(\s*$)/g, "");
 };
-
 
 //ie8不支持通过yyyy-MM-dd格式来创建时间
 function parseISO8601(dateStringInRange) {
@@ -136,4 +147,41 @@ function parseISO8601(dateStringInRange) {
         }
     }
     return date;
+}
+
+
+var index2 = 1;
+var subDlgIndex = null;
+function loadDialog() {
+    var tag = false;
+    subDlgIndex = $.dialog({
+        content: '正在加载中',
+        zIndex: 19910320,
+        onClose : function() {
+            $(this).dialog('destroy');
+        },
+        lock: true,
+        width: 100,
+        height: 50,
+        opacity: 0.3,
+        title: '提示',
+        cache: false
+    });
+
+    var loading = $('#infoTable-loading');
+    if(loading.length > 0) {
+        loading.show();
+    } else {
+        var infoTable = subDlgIndex.DOM.t.parent().parent().parent();
+        infoTable.parent().append('<div id="infoTable-loading" style="text-align:center;"><img src="plug-in/layer/skin/default/loading-1.gif"/></div>');
+        infoTable.css('display', 'none');
+    }
+    //alert(infoTable.parent().html());
+    index2++;
+}
+function closeDialog() {
+    if (subDlgIndex && subDlgIndex != null) {
+        $('#infoTable-loading').hide();
+        subDlgIndex.close();
+    }
 }

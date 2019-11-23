@@ -86,9 +86,8 @@ function insurance() {
 }
 //支付
 function doPay() {
-	submitPay("${policyMainPage.draftId}");
+	submitPay("${policyMainPage.id}");
 }
-
 </SCRIPT>
 </head>
 <body>
@@ -254,5 +253,6 @@ function doPay() {
 <input id="isDraft" name="isDraft" type="hidden" value="false"/>
 </t:formvalid>
 
+<%@include file="/webpage/com/weibao/chaopei/policy/policyPayiFrame.jsp"%>
 </body>
 </html>

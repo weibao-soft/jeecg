@@ -23,8 +23,8 @@ select{height:46px;}
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
-	//window.Custom.dialogLoading(true);
-    window.Utils.showLoading();
+	window.Custom.dialogLoading(true);
+    //window.Utils.showLoading();
 	var params = {};
 	params.paramId = "${prodId}";
 	//params.paramId = "402880ea6e1c6fad016e1c830134000d";
@@ -55,8 +55,8 @@ function customFunc() {
 	
     var code=$('#planId option:first').attr("data-code");
 	$("#premium").val(code);
-    window.Utils.closeLoading();
-	//window.Custom.dialogLoading(false);
+    //window.Utils.closeLoading();
+	window.Custom.dialogLoading(false);
 }
 
 //核保失败回调函数
@@ -98,7 +98,7 @@ function submitFormUpd() {
 	ajaxSubmitForm(url, params, true);
 }
 
-imgName = "swagger/images/throbber.gif";
+//imgName = "images/loading-a.gif";
 //存草稿
 function saveDraft() {
 	$("#status").val("1");
@@ -113,7 +113,6 @@ function insurance() {
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
     window.Utils.showLoading(imgName);
-	//loadDialog();
 
 	var invoice=$("#invoiceType").val();
 	if(invoice=='2') {
@@ -126,8 +125,7 @@ function insurance() {
 	} else {
 		submitFormUpd();
 	}
-    //window.setTimeout(closeDialog, 500);
-    //window.setTimeout(window.Utils.closeLoading, 5000);
+    //window.setTimeout(window.Utils.closeLoading, 2000);
 }
 //支付
 function doPay() {
@@ -308,5 +306,6 @@ function doPay() {
 <input id="isDraft" name="isDraft" type="hidden" value="true"/>
 </t:formvalid>
 
+<%@include file="/webpage/com/weibao/chaopei/policy/policyPayiFrame.jsp"%>
 </body>
 </html>

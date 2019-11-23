@@ -1,0 +1,300 @@
+html, body, * {
+    font-family: 'Microsoft YaHei UI','Microsoft YaHei',DengXian,SimSun,'Segoe UI',Tahoma,Helvetica,sans-serif;
+}
+.jcx-header {
+    height: 84px;
+    background: url(../images/login/jcx_h_bar.png) repeat-x;
+    position: relative;
+}
+.jcx-logo {
+    background: url(../images/login/jcx_icon.png) no-repeat 0px 7px;
+    background-size: 70px 64px;
+    background-origin: border-box;
+    height: 78px;
+    position: absolute;
+    padding: 10px 10px 10px 80px;
+    left: 10px;
+    color: #FFFFFF;
+}
+
+    .jcx-logo .cn {
+        font-size: large;
+        letter-spacing: 5px;
+        padding-top: 7px;
+        color: #E8F0F6;
+    }
+
+    .jcx-logo .py {
+        font-size: 9px;
+        color: #C7DDEA;
+        font-family: cursive;
+        line-height: 1.2;
+    }
+.animated {
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both
+}
+
+    .animated.infinite {
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite
+    }
+
+    .animated.hinge {
+        -webkit-animation-duration: 0.5s;
+        animation-duration: 0.5s
+    }
+
+@keyframes zoomIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(.3,.3,.3);
+        -ms-transform: scale3d(.3,.3,.3);
+        transform: scale3d(.3,.3,.3)
+    }
+
+    50% {
+        opacity: 1
+    }
+}
+
+.zoomIn {
+    -webkit-animation-name: zoomIn;
+    animation-name: zoomIn
+}
+
+.overlay {
+    background: rgba(0,0,0,0.2);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right:0;
+    bottom:0;
+    overflow: hidden;
+}
+
+.layerBox {
+    border-radius: 2px;
+    /*margin:auto;*/
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 36px;
+    bottom: 0;
+    z-index: 1001;
+    height: auto;
+    background: #fff;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+}
+
+.layerHeader {
+    height: 35px;
+    line-height: 35px;
+    padding-left: 15px;
+    border-bottom: 1px solid #edeeee;
+    background: #3F87AF;
+    font-size: 15px;
+    color: white;
+    cursor: move;
+    margin: 0px;
+}
+
+.layerContianer {
+    height: calc(100% - 35px);
+    background: #fffdfa;
+    text-align: center;
+    overflow:auto;
+}
+
+.layer-size {
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: se-resize;
+}
+
+.close_btn {
+    width: 35px;
+    height: 34px;
+    cursor: pointer;
+    font-size: 32px;
+    text-shadow: none;
+    opacity: .9;
+    line-height: 0.5;
+}
+
+.unselect {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    /*
+	  Introduced in IE 10.
+	  See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+	*/
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.space{
+    margin-right:5px;
+}
+
+.popup-dialog
+{
+    display:block;
+}
+
+.CSSearchTbl {
+    border: 1px #008CD4 solid;
+}
+
+.CSSearchTbl thead {
+}
+
+.CSSearchTbl thead tr {
+}
+
+.CSSearchTbl thead tr th {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.CSSearchTbl tbody {
+}
+
+.CSSearchTbl tbody tr {
+}
+
+.CSSearchTbl tbody tr td {
+    padding: 4px;
+}
+
+.CSSearchTbl tbody tr td.right {
+    text-align: left;
+}
+
+.CSSearchTbl tbody tr td.left {
+    text-align: right;
+}
+
+.fold-down,.fold-up {
+    position: absolute;
+    right: 10px;
+    top:10px;
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 20px;
+}
+
+.fold-down:hover, .fold-up:hover {
+    background: #6fb3e0;
+    cursor: pointer;
+}
+
+.gray{
+    color:gray;
+} 
+
+.green{
+    color:green;
+} 
+
+.red{
+    color:red;
+}
+
+.table-striped{
+    border:none !important;
+    margin-bottom:0px;
+}
+
+.table-striped tr th:first-child, .table-striped tr td:first-child
+{
+    border-left:none;
+}
+
+.table-striped tr th {
+    border-bottom-width:1px !important;
+}
+
+.table-striped tr th:last-child, .table-striped tr td:last-child {
+    border-right: none;
+}
+
+.x_table
+{
+
+}
+.x_table tr th, .x_table tr td{
+    padding:4px 8px;
+}
+
+.left{
+    text-align:left;
+}
+.right{
+    text-align:right;
+}
+
+.center{
+    text-align:center;
+}
+
+.w100{
+    width:100%;
+}
+
+ul, ul li {
+    list-style: none;
+   
+}
+
+.fa {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.Bar_Query {
+    width: 100%;
+    color: #ffffff;
+    padding: 14px;
+    font-size: 18px;
+    border: 1px solid #00a8ff;
+    border-top: 0;
+    border-left: 0;
+    background: #0A7CD2;
+    left: 16%;
+    z-index: 10;
+}
+
+/*.Bar_Query .ec_text {
+    margin-left: 10px;
+}*/
+
+.Product_Category_Selection {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #c2c2c2;
+    background: #307ecc;
+    line-height: 38px;
+    color: #FFF;
+    font-size: 14px;
+    position: relative;
+}
+
+.right_query {
+    height: auto;
+    border-top: 0;
+    border: 1px solid #00a8ff;
+}
