@@ -223,7 +223,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbSql = new StringBuffer();
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
-		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
+		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plan_id, a.create_time, a.last_update_time, a.pay_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
 		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, b.insur_comp_name, d.truck_nums, e.draft_id ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,wb_insurance_draft d,wb_draft_relation e,t_s_base_user bu ");
