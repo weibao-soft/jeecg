@@ -10,6 +10,7 @@ import com.weibao.chaopei.entity.HolderEntity;
 import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.entity.ReceiverEntity;
 import com.weibao.chaopei.page.CommonBean;
+import com.weibao.chaopei.page.InvoiceExportPage;
 import com.weibao.chaopei.page.PolicyMainPage;
 
 public interface PolicyServiceI extends CommonService {
@@ -31,6 +32,25 @@ public interface PolicyServiceI extends CommonService {
 	 * @return
 	 */
 	public DataGrid getPolicyList(PolicyMainPage policy, DataGrid dataGrid, List<String> userIdList);
+	
+	/**
+	 * 查询国任的保单列表
+	 * @param policy
+	 * @param dataGrid
+	 * @param userIdList
+	 * @return
+	 */
+	public DataGrid getGuorenPolicyList(PolicyMainPage policy, DataGrid dataGrid, List<String> userIdList);
+	
+	/**
+	 *  导出国任的发票信息列表
+	 * @param policy
+	 * @param dataGrid
+	 * @param userIdList
+	 * @return
+	 */
+	public List<InvoiceExportPage> getGuorenInvoiceList(PolicyMainPage policy, DataGrid dataGrid, List<String> userIdList);
+	
 	/**
 	 * 根据部门id获取用户列表
 	 * @param departIds

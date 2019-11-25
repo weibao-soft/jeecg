@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.p3.core.utils.common.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.entity.ProductEntity;
 import com.weibao.chaopei.entity.ReceiverEntity;
 import com.weibao.chaopei.page.CommonBean;
+import com.weibao.chaopei.page.InvoiceExportPage;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.page.PolicyVehiclePage;
 import com.weibao.chaopei.util.PolicyUtil;
@@ -112,51 +114,73 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 */
 	private void setPolicyMainPage(Map<String, Object> obj, PolicyMainPage policyMainPage) {
 		//复制保单详情
-		//policyMainPage.setId((String)obj.get("id"));
-		policyMainPage.setProdId((String)obj.get("prod_id"));
-		policyMainPage.setPlanId((String)obj.get("plan_id"));
-		policyMainPage.setStartDate((Date)obj.get("start_date"));
+		policyMainPage.setId((String)obj.get("id"));
 		policyMainPage.setPolicyNo((String)obj.get("policy_no"));
 		policyMainPage.setPolicyUrl((String)obj.get("policy_url"));
-		policyMainPage.setEndDate((Date)obj.get("end_date"));
-		policyMainPage.setCreateTime((Date)obj.get("create_time"));
+		policyMainPage.setPlateNo((String)obj.get("plate_no"));
 		policyMainPage.setStatus((String)obj.get("status"));
-		policyMainPage.setContactName((String)obj.get("contact_name"));
-		policyMainPage.setPolicyMobile((String)obj.get("policy_mobile"));
-		policyMainPage.setInvoiceType((String)obj.get("invoice_type"));
+		policyMainPage.setPayStatus((String)obj.get("pay_status"));
+		policyMainPage.setFrameNo((String)obj.get("frame_no"));
 		//保费
 		Float premium = (Float)obj.get("premium");
 		if(premium == null) {
 			premium = 0F;
 		}
 		policyMainPage.setPremium(new BigDecimal(premium));
-		//草稿id、用户id
-		policyMainPage.setDraftId((String)obj.get("draft_id"));
-		policyMainPage.setUserId((String)obj.get("user_id"));
-		//复制投保人
-		policyMainPage.setHolderNature((String)obj.get("holder_nature"));
-		policyMainPage.setHolderOrgCode((String)obj.get("holder_org_code"));
+		policyMainPage.setCreateTime((Date)obj.get("create_time"));
+		policyMainPage.setPayTime((Date)obj.get("pay_time"));
+		
+		policyMainPage.setProdId((String)obj.get("prod_id"));
+		policyMainPage.setPlanId((String)obj.get("plan_id"));
+		policyMainPage.setStartDate((Date)obj.get("start_date"));
+		policyMainPage.setEndDate((Date)obj.get("end_date"));
 		policyMainPage.setHolderCompName((String)obj.get("holder_comp_name"));
-		policyMainPage.setHolderCompNature((String)obj.get("holder_comp_nature"));
-		policyMainPage.setIndustryType((String)obj.get("industry_type"));
-		policyMainPage.setTaxpayerNo((String)obj.get("taxpayer_no"));
+		policyMainPage.setHolderOrgCode((String)obj.get("holder_org_code"));
+		//复制被保人
+		policyMainPage.setInsuredCompName((String)obj.get("insured_comp_name"));
+		policyMainPage.setInsuredOrgCode((String)obj.get("insured_org_code"));
+		policyMainPage.setInvoiceType((String)obj.get("invoice_type"));
+		policyMainPage.setInvoiceNumb((String)obj.get("invoice_numb"));
+		
 		policyMainPage.setReceiverMobile((String)obj.get("receiver_mobile"));
+		policyMainPage.setTaxpayerNo((String)obj.get("taxpayer_no"));
 		policyMainPage.setCompName((String)obj.get("comp_name"));
 		policyMainPage.setCompAddress((String)obj.get("comp_address"));
 		policyMainPage.setCompPhone((String)obj.get("comp_phone"));
 		policyMainPage.setDepositBank((String)obj.get("deposit_bank"));
 		policyMainPage.setBankAccount((String)obj.get("bank_account"));
-		//复制被保人
-		policyMainPage.setInsuredCompName((String)obj.get("insured_comp_name"));
-		policyMainPage.setInsuredOrgCode((String)obj.get("insured_org_code"));
+		policyMainPage.setTaxiAddr((String)obj.get("taxi_addr"));
+		policyMainPage.setDepartName((String)obj.get("departname"));
+		policyMainPage.setUserName((String)obj.get("username"));
+		policyMainPage.setPlanCode((String)obj.get("plan_code"));
+		policyMainPage.setProdPlan((String)obj.get("prod_plan"));
+		
+		
+		policyMainPage.setDepartId((String)obj.get("depart_id"));
+		//草稿id、用户id
+		policyMainPage.setDraftId((String)obj.get("draft_id"));
+		policyMainPage.setUserId((String)obj.get("user_id"));
+		
 		policyMainPage.setTruckNums((Integer)obj.get("truck_nums"));
-		//复制收件人
+		
+		policyMainPage.setProdName((String)obj.get("prod_name"));
+		policyMainPage.setProdCode((String)obj.get("prod_code"));
+		policyMainPage.setInsurCompName((String)obj.get("insur_comp_name"));
+		
+		policyMainPage.setUserNo((String)obj.get("user_no"));		
+		policyMainPage.setLastUpdateTime((Date)obj.get("last_update_time"));
+		
+		policyMainPage.setContactName((String)obj.get("contact_name"));
+		policyMainPage.setPolicyMobile((String)obj.get("policy_mobile"));
+		policyMainPage.setHolderNature((String)obj.get("holder_nature"));
+		policyMainPage.setHolderCompNature((String)obj.get("holder_comp_nature"));
+		policyMainPage.setIndustryType((String)obj.get("industry_type"));
 		policyMainPage.setRecipients((String)obj.get("recipients"));
 		policyMainPage.setRecipientsTel((String)obj.get("recipients_tel"));
 		policyMainPage.setReciAddress((String)obj.get("reci_address"));
-		//复制支付状态、分润状态
-		policyMainPage.setPayStatus((String)obj.get("pay_status"));
 		policyMainPage.setRewardStatus((String)obj.get("reward_status"));
+		policyMainPage.setEngineNo((String)obj.get("engine_no"));
+		
 	}
 	
 	/**
@@ -164,23 +188,30 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	 * @param obj
 	 * @param policyMainPage
 	 */
-	private void setPolicyOther(Map<String, Object> obj, PolicyMainPage policyMainPage) {
-		policyMainPage.setId((String)obj.get("id"));
-		//复制车辆信息
-		policyMainPage.setPlateNo((String)obj.get("plate_no"));
-		policyMainPage.setFrameNo((String)obj.get("frame_no"));
-		policyMainPage.setEngineNo((String)obj.get("engine_no"));
-		//复制保单详情
-		policyMainPage.setProdName((String)obj.get("prod_name"));
-		policyMainPage.setProdCode((String)obj.get("prod_code"));
-		policyMainPage.setInsurCompName((String)obj.get("insur_comp_name"));
-		policyMainPage.setProdPlan((String)obj.get("prod_plan"));
-		policyMainPage.setUserNo((String)obj.get("user_no"));
-		policyMainPage.setUserName((String)obj.get("username"));
+	private void setInvoiceExportPage(Map<String, Object> obj, InvoiceExportPage policyMainPage) {
+		policyMainPage.setPolicyNo((String)obj.get("policy_no"));
+		//保费
+		Float premium = (Float)obj.get("premium");
+		if(premium == null) {
+			premium = 0F;
+		}
+		policyMainPage.setPremium(new BigDecimal(premium));
 		policyMainPage.setCreateTime((Date)obj.get("create_time"));
-		policyMainPage.setLastUpdateTime((Date)obj.get("last_update_time"));
+		policyMainPage.setPayTime((Date)obj.get("pay_time"));
+		
+		policyMainPage.setHolderCompName((String)obj.get("holder_comp_name"));
+		//复制被保人
+		policyMainPage.setInvoiceType((String)obj.get("invoiceType"));
+		
+		policyMainPage.setReceiverMobile((String)obj.get("receiver_mobile"));
+		policyMainPage.setTaxpayerNo((String)obj.get("taxpayer_no"));
+		policyMainPage.setCompAddress((String)obj.get("comp_address"));
+		policyMainPage.setCompPhone((String)obj.get("comp_phone"));
+		policyMainPage.setDepositBank((String)obj.get("deposit_bank"));
+		policyMainPage.setBankAccount((String)obj.get("bank_account"));
+		policyMainPage.setTaxiAddr((String)obj.get("taxi_addr"));
 	}
-
+	
 	/**
 	 *  查询保单列表
 	 * @return
@@ -213,6 +244,12 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				param = new String(policy.getUserId());
 				objList.add(param);
 			}
+			
+			stbHeadSql2.append(stbSql);
+			
+			/*
+			 * order by 语句不能用在count查询里
+			 */
 			if(StringUtils.isNotBlank(sort)) {
 				String column = PolicyUtil.getColumnName(sort);
 				if(StringUtils.isNotBlank(column)) {
@@ -221,12 +258,13 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			}
 			
 			stbHeadSql1.append(stbSql);
-			stbHeadSql2.append(stbSql);
+			
 			if(objList.isEmpty()) {
-				total = getCountForJdbc(stbHeadSql2.toString());
+				total = getCountForJdbc(stbHeadSql2.toString());				
 				objs = findForJdbc(stbHeadSql1.toString(), page, rows);
 			} else {
 				Object[] objss = objList.toArray();
+				
 				total = getCountForJdbcParam(stbHeadSql2.toString(), objss);
 				objs = findForJdbcParam(stbHeadSql1.toString(), page, rows, objss);
 			}
@@ -236,7 +274,6 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				policyMainPage = new PolicyMainPage();
 
 				setPolicyMainPage(obj, policyMainPage);
-				setPolicyOther(obj, policyMainPage);
 				policyList.add(policyMainPage);
 			}
 			dataGrid.setResults(policyList);
@@ -259,7 +296,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbSql = new StringBuffer();
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
-		stbHeadSql1.append("select a.id, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
+		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
 		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, ");
 		stbHeadSql1.append("b.insur_comp_name, d.id depart_id, d.departname ");
 		stbHeadSql2.append("select count(1) ");
@@ -292,6 +329,11 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				dataGrid.setTotal(0);
 				return dataGrid;
 			}
+			
+			stbHeadSql2.append(stbSql);
+			/*
+			 * order by 语句不能用在count查询里
+			 */
 			if(StringUtils.isNotBlank(sort)) {
 				String column = PolicyUtil.getColumnName(sort);
 				if(StringUtils.isNotBlank(column)) {
@@ -300,7 +342,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			}
 			
 			stbHeadSql1.append(stbSql);
-			stbHeadSql2.append(stbSql);
+			
 			if(objList.isEmpty()) {
 				total = getCountForJdbc(stbHeadSql2.toString());
 				objs = findForJdbc(stbHeadSql1.toString(), page, rows);
@@ -315,9 +357,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				policyMainPage = new PolicyMainPage();
 
 				setPolicyMainPage(obj, policyMainPage);
-				setPolicyOther(obj, policyMainPage);
-				policyMainPage.setDepartId((String)obj.get("depart_id"));
-				policyMainPage.setDepartName((String)obj.get("departname"));
+				
 				policyList.add(policyMainPage);
 			}
 			dataGrid.setResults(policyList);
@@ -327,6 +367,156 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			throw new BusinessException(e.getMessage());
 		}
 		return dataGrid;
+	}
+	
+	
+	/**
+	 *  查询国任的保单列表
+	 * @return
+	 */
+	public DataGrid getGuorenPolicyList(PolicyMainPage policy, DataGrid dataGrid, List<String> userIdList) {
+		Long total = 0L;
+		List<Map<String, Object>> objs = null;
+		List<PolicyMainPage> policyList = new ArrayList<PolicyMainPage>();
+		StringBuffer stbSql = new StringBuffer();
+		StringBuffer stbHeadSql1 = new StringBuffer();
+		StringBuffer stbHeadSql2 = new StringBuffer();
+		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plate_no, a.`status`, a.pay_status, a.frame_no, a.premium, a.create_time, a.pay_time, a.holder_comp_name, ");
+		stbHeadSql1.append("a.holder_org_code, a.insured_comp_name, a.insured_org_code, a.invoice_type, a.invoice_numb, a.receiver_mobile, a.taxpayer_no, a.comp_address, ");
+		stbHeadSql1.append("a.comp_phone, a.deposit_bank, a.bank_account, CONCAT(a.recipients, ' ', a.recipients_tel, ' ', a.reci_address) as taxi_addr, ");
+		stbHeadSql1.append("d.id depart_id, d.departname, bu.username, c.plan_code, c.prod_plan ");
+		stbHeadSql2.append("select count(1) ");
+		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d ");
+		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id and a.pay_status in('1', '2') ");
+		
+		try {
+			List<Object> objList = new ArrayList<Object>();
+			int page = dataGrid.getPage();
+			int rows = dataGrid.getRows();
+			String sort = dataGrid.getSort();
+			String order = dataGrid.getOrder();
+			PolicyMainPage policyMainPage = null;
+			
+			getQueryConditions(policy, stbSql, objList);
+			
+			if(userIdList != null && !userIdList.isEmpty()) {
+				stbSql.append(" and a.user_id in(");
+				for(int i = 0; i < userIdList.size(); i++) {
+					String userId = userIdList.get(i);
+					if(i != 0) {
+						stbSql.append(",");
+					}
+					stbSql.append(" ?");
+					Object param = (Object)userId;
+					objList.add(param);
+				}
+				stbSql.append(" )");
+			} else if(userIdList != null && userIdList.isEmpty()) {
+				dataGrid.setResults(policyList);
+				dataGrid.setTotal(0);
+				return dataGrid;
+			}
+			
+			stbHeadSql2.append(stbSql);
+			
+			/*
+			 * order by 语句不能用在count查询里
+			 */
+			if(StringUtils.isNotBlank(sort)) {
+				String column = PolicyUtil.getColumnName(sort);
+				if(StringUtils.isNotBlank(column)) {
+					stbSql.append(" order by " + column + " " + order);
+				}
+			}
+			
+			stbHeadSql1.append(stbSql);
+			
+			if(objList.isEmpty()) {
+				total = getCountForJdbc(stbHeadSql2.toString());
+				objs = findForJdbc(stbHeadSql1.toString(), page, rows);
+			} else {
+				Object[] objss = objList.toArray();
+				total = getCountForJdbcParam(stbHeadSql2.toString(), objss);
+				objs = findForJdbcParam(stbHeadSql1.toString(), page, rows, objss);
+			}
+			
+			for(int i = 0; i < objs.size(); i++) {
+				Map<String, Object> obj = objs.get(i);
+				policyMainPage = new PolicyMainPage();
+
+				setPolicyMainPage(obj, policyMainPage);
+				policyList.add(policyMainPage);
+			}
+			dataGrid.setResults(policyList);
+			dataGrid.setTotal(total.intValue());
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
+		return dataGrid;
+	}
+	
+	
+	/**
+	 *  导出国任的发票列表
+	 * @return
+	 */
+	public List<InvoiceExportPage> getGuorenInvoiceList(PolicyMainPage policy, DataGrid dataGrid, List<String> userIdList) {
+		
+		List<Map<String, Object>> objs = null;
+		List<InvoiceExportPage> invoiceList = new ArrayList<InvoiceExportPage>();
+		StringBuffer stbSql = new StringBuffer();
+		StringBuffer stbHeadSql1 = new StringBuffer();		
+		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plate_no, a.`status`, a.pay_status, a.frame_no, a.premium, a.create_time, a.pay_time, a.holder_comp_name, ");
+		stbHeadSql1.append("a.holder_org_code, a.insured_comp_name, a.insured_org_code, a.invoice_type, a.invoice_numb, a.receiver_mobile, a.taxpayer_no, a.comp_address, ");
+		stbHeadSql1.append("a.comp_phone, a.deposit_bank, a.bank_account, type_.typename invoiceType, CONCAT(a.recipients, ' ', a.recipients_tel, ' ', a.reci_address) as taxi_addr, ");
+		stbHeadSql1.append("d.id depart_id, d.departname, bu.username, c.plan_code, c.prod_plan ");
+		stbSql.append(" from wb_insurance_policy a, wb_insurance_product b, wb_product_detail c, t_s_base_user bu, t_s_user_org uo,t_s_depart d, t_s_typegroup tg, t_s_type type_ ");
+		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id "
+				+ "and d.ID=uo.org_id and tg.ID=type_.typegroupid and tg.typegroupcode='taxiType' and "
+				+ "type_.typecode=a.invoice_type  and a.pay_status in('1', '2')  and a.invoice_type in('2', '3') ");
+		
+		try {
+			List<Object> objList = new ArrayList<Object>();
+			InvoiceExportPage invoicePage = null;
+			
+			getQueryConditions(policy, stbSql, objList);
+			if(userIdList != null && !userIdList.isEmpty()) {
+				stbSql.append(" and a.user_id in(");
+				for(int i = 0; i < userIdList.size(); i++) {
+					String userId = userIdList.get(i);
+					if(i != 0) {
+						stbSql.append(",");
+					}
+					stbSql.append(" ?");
+					Object param = (Object)userId;
+					objList.add(param);
+				}
+				stbSql.append(" )");
+			} else if(userIdList != null && userIdList.isEmpty()) {
+				return invoiceList;
+			}
+			
+			stbSql.append(" order by a.pay_time asc ");
+			stbHeadSql1.append(stbSql);
+			
+			
+			Object[] objss = objList.toArray();
+			
+			objs = findForJdbc(stbHeadSql1.toString(), objss);
+			
+			for(int i = 0; i < objs.size(); i++) {
+				Map<String, Object> obj = objs.get(i);
+				invoicePage = new InvoiceExportPage();
+
+				setInvoiceExportPage(obj, invoicePage);
+				invoiceList.add(invoicePage);
+			}
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
+		return invoiceList;
 	}
 	
 	/**
@@ -361,11 +551,47 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			stbSql.append(" and b.insur_comp_name like ?");
 			param = new String("%" + policy.getInsurCompName() + "%");
 			objList.add(param);
-		}
+		}		
 		if(StringUtils.isNotBlank(policy.getStatus())) {
 			stbSql.append(" and a.`status` = ?");
 			param = new String(policy.getStatus());
 			objList.add(param);
+		}
+		
+		if(StringUtils.isNotBlank(policy.getPolicyNo())) {
+			stbSql.append(" and a.policy_no like ?");
+			param = new String("%" + policy.getPolicyNo());
+			objList.add(param);
+		}
+		
+		if(StringUtils.isNotBlank(policy.getPayTimeFilter_begin())) {
+			stbSql.append(" and a.pay_time >= ?");			
+			objList.add(DateUtils.str2Date(policy.getPayTimeFilter_begin(), DateUtils.date_sdf));
+		}
+		if(StringUtils.isNotBlank(policy.getPayTimeFilter_end())) {			
+			stbSql.append(" and a.pay_time <= ?");			
+			objList.add(DateUtils.str2Date(policy.getPayTimeFilter_end()+" 23:59:59", DateUtils.datetimeFormat));
+		}
+		if(StringUtils.isNotBlank(policy.getCreateTimeFilter_begin())) {
+			stbSql.append(" and a.create_time >= ?");			
+			objList.add(DateUtils.str2Date(policy.getCreateTimeFilter_begin(), DateUtils.date_sdf));
+		}
+		if(StringUtils.isNotBlank(policy.getCreateTimeFilter_end())) {			
+			stbSql.append(" and a.create_time <= ?");			
+			objList.add(DateUtils.str2Date(policy.getCreateTimeFilter_end()+" 23:59:59", DateUtils.datetimeFormat));
+		}
+		if(StringUtils.isNotBlank(policy.getInvoiceType())) {
+			String[] invoiceTypes = policy.getInvoiceType().split(",");
+				stbSql.append(" and a.invoice_type in(");				
+				for(int i = 0; i < invoiceTypes.length; i++) {
+					String invoiceType = invoiceTypes[i];
+					if(StringUtils.isNotBlank(invoiceType)) {												
+						stbSql.append(" ?,");						
+						objList.add(invoiceType);
+					}
+				}
+				stbSql.deleteCharAt(stbSql.length()-1);
+				stbSql.append(" )");
 		}
 	}
 	
