@@ -60,27 +60,22 @@ function customFunc2() {
 imgName = "images/loading-a.gif";
 //Ajax方式提交表单数据
 function submitForm() {
-	if(!validData()) {
-		return false;
-	}
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
 	//window.Custom.dialogLoading(true);
-    //window.Utils.showLoading(imgName);
-
-	var invoice=$("#invoiceType").val();
-	if(invoice=='2') {
-		var taxpayerNo = $("#taxpayerNo2").val();
-        $("#taxpayerNop").val(taxpayerNo);
-	}
+    window.Utils.showLoading(imgName);
 	
 	var url = "policyDraftController.do?insuranceUpdate";
 	var params = getSubmitParam();
 	params = getUpdateParam(params);
 	ajaxSubmitForm(url, params, false);
 	//tip(JSON.stringify(params));
-    //window.setTimeout(window.Utils.closeLoading, 5000);
-    //window.setTimeout(customFunc2, 5000);
+    //window.setTimeout(window.Utils.closeLoading, 2000);
+    //window.setTimeout(customFunc2, 2000);
+}
+function confirmSubmit() {
+	submitForm();
+	$("#promptDiv").hide();
 }
 //存草稿
 function saveDraft() {
@@ -90,8 +85,21 @@ function saveDraft() {
 //提交核保
 function insurance() {
 	$("#status").val("1");
-	submitForm();
-	
+	if(!validData()) {
+		return false;
+	}
+
+	var invoice=$("#invoiceType").val();
+	if(invoice=='2') {
+		var taxpayerNo = $("#taxpayerNo2").val();
+        $("#taxpayerNop").val(taxpayerNo);
+	}
+
+	$.dialog.confirm("请仔细核对投保内容，核对无误后再提交！确定提交核保吗？", function(){
+		getMainContent();
+		$('#promptDiv').show();
+	}, function(){
+	});
 	//var payUrl = "${payUrl}";
 	//payUrl = encodeURIComponent(payUrl);
 	//EV_modeAlert();//弹出遮罩层
@@ -288,6 +296,7 @@ function getIframeTemplate(url) {
 <input id="isDraft" name="isDraft" type="hidden" value="${isDraft}"/>
 </t:formvalid>
 
-<%@include file="/webpage/com/weibao/chaopei/policy/policyPayiFrame.jsp"%>
+<%@include file="policyPromptDiv.jsp"%>
+<%@include file="policyPayiFrame.jsp"%>
 </body>
 </html>

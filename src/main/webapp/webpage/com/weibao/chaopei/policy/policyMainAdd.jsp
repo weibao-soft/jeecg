@@ -32,17 +32,7 @@ $(document).ready(function(){
 	$("#prodId").val(params.paramId);
 	getHolders();
 	getCommonSelect("planId", url, params);
-    
-	/*$("#planId").editableSelect({
-        bg_iframe: false,
-        case_sensitive: false,
-        items_then_scroll: 10,
-        isFilter:false,
-        onSelect: function(list_item) {
-            var sele_val =  $(this).val();
-            console.log("selected", sele_val);
-        }
-    });*/
+
 
     $("#holderCompNature").css("width", "200px");
     $("#industryType").css("width", "200px");
@@ -97,6 +87,17 @@ function submitFormUpd() {
 	params = getUpdateParam(params);
 	ajaxSubmitForm(url, params, true);
 }
+function confirmSubmit() {
+	if($("#insResult").val() == "1") {
+		submitForm();
+	} else {
+		submitFormUpd();
+	}
+	$("#save").attr("disabled", true);
+	$("#insur").attr("disabled", true);
+    window.Utils.showLoading(imgName);
+	$("#promptDiv").hide();
+}
 
 //imgName = "images/loading-a.gif";
 //存草稿
@@ -110,21 +111,18 @@ function insurance() {
 	if(!validData()) {
 		return false;
 	}
-	$("#save").attr("disabled", true);
-	$("#insur").attr("disabled", true);
-    window.Utils.showLoading(imgName);
 
 	var invoice=$("#invoiceType").val();
 	if(invoice=='2') {
 		var taxpayerNo = $("#taxpayerNo2").val();
         $("#taxpayerNop").val(taxpayerNo);
 	}
-	
-	if($("#insResult").val() == "1") {
-		submitForm();
-	} else {
-		submitFormUpd();
-	}
+
+	$.dialog.confirm("请仔细核对投保内容，核对无误后再提交！确定提交核保吗？", function(){
+		getMainContent();
+		$('#promptDiv').show();
+	}, function(){
+	});
     //window.setTimeout(window.Utils.closeLoading, 2000);
 }
 //支付
@@ -306,6 +304,7 @@ function doPay() {
 <input id="isDraft" name="isDraft" type="hidden" value="true"/>
 </t:formvalid>
 
-<%@include file="/webpage/com/weibao/chaopei/policy/policyPayiFrame.jsp"%>
+<%@include file="policyPromptDiv.jsp"%>
+<%@include file="policyPayiFrame.jsp"%>
 </body>
 </html>

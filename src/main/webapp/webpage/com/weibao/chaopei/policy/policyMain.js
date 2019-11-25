@@ -592,8 +592,8 @@ $.ajax({
         if (data.success) {
 		    layer.msg(data.msg, {icon:6});
             var payUrl = result.data;
-            if(console) console.log("payUrl == ", payUrl);
             //var payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&amp;code=&amp;payOrderNo=js02&amp;platform=pc";
+            if(console) console.log("payUrl == ", payUrl);
       	    $("#payResult").val(result);
       	    $("#payUrl").val(payUrl);
       	    $("#tabId").val(id);
@@ -692,8 +692,8 @@ function getSubmitParam() {
 		param["vehicles["+i+"].engineNo"] = vehicle.engineNo;
 		vehicles[i] = vehicle;
 	}
-	//param.vehicles = vehicles;
-    if(console) console.log("param == ", param);
+	param.vehicleArr = vehicles;
+    //if(console) console.log("param == ", param);
 	
 	return param;
 }
@@ -712,6 +712,15 @@ function getUpdateParam(param) {
 		vehicle.id = document.getElementsByName("vehicles["+i+"].id")[0].value;
 		param["vehicles["+i+"].id"] = vehicle.id;
 	}
+	
+	return param;
+}
+function getSelectParam(param) {
+	param.planName = $("#planId").children('option:selected').text();
+	param.invTypeName = $("#invoiceType").children('option:selected').text();
+	param.hldNatureName = $("#holderNature").children('option:selected').text();
+	param.compNatureName = $("#holderCompNature").children('option:selected').text();
+	param.indstTypeName = $("#industryType").children('option:selected').text();
 	
 	return param;
 }

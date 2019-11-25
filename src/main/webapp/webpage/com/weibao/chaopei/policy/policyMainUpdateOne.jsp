@@ -55,24 +55,19 @@ function customFunc() {
 
 //Ajax方式提交表单数据
 function submitForm() {
-	if(!validData()) {
-		return false;
-	}
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
     window.Utils.showLoading(imgName);
-
-	var invoice=$("#invoiceType").val();
-	if(invoice=='2') {
-		var taxpayerNo = $("#taxpayerNo2").val();
-        $("#taxpayerNop").val(taxpayerNo);
-	}
 	
 	var url = "policyDraftController.do?insuranceUpdate";
 	var params = getSubmitParam();
 	params = getUpdateParam(params);
 	//tip(JSON.stringify(params));
 	ajaxSubmitForm(url, params, false);
+}
+function confirmSubmit() {
+	submitForm();
+	$("#promptDiv").hide();
 }
 //存草稿
 function saveDraft() {
@@ -82,7 +77,21 @@ function saveDraft() {
 //提交核保
 function insurance() {
 	$("#status").val("1");
-	submitForm();
+	if(!validData()) {
+		return false;
+	}
+
+	var invoice=$("#invoiceType").val();
+	if(invoice=='2') {
+		var taxpayerNo = $("#taxpayerNo2").val();
+        $("#taxpayerNop").val(taxpayerNo);
+	}
+	
+	$.dialog.confirm("请仔细核对投保内容，核对无误后再提交！确定提交核保吗？", function(){
+		getMainContent();
+		$('#promptDiv').show();
+	}, function(){
+	});
 }
 //支付
 function doPay() {
@@ -253,6 +262,7 @@ function doPay() {
 <input id="isDraft" name="isDraft" type="hidden" value="false"/>
 </t:formvalid>
 
+<%@include file="policyPromptDiv.jsp"%>
 <%@include file="/webpage/com/weibao/chaopei/policy/policyPayiFrame.jsp"%>
 </body>
 </html>

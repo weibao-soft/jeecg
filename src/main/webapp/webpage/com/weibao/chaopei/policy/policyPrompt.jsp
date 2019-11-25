@@ -11,16 +11,12 @@
 <link rel="stylesheet" type="text/css" href="plug-in/weibao/custom.css"/>
 
 <SCRIPT type="text/javascript">
-//var compName2 = parent.$("#compName2p").val();
-//layer.msg(compName2);
 $(document).ready(function() {
     window.setTimeout(customFunc, 300);
 });
 
 function customFunc() {
 	//$("#recipients").val("${policyMainPage.recipients }");
-}
-function closeDialog() {
 }
 </SCRIPT>
 </head>
@@ -51,8 +47,9 @@ function closeDialog() {
     <br>8、空载情况下发生的第三者保 险责任也属于保险责任范围内。
     <br>9、本保单为指定 车辆物流安全责任险，指定车辆认定以车牌号、车辆识别代码为准 ，如果保险期间内发生车 牌号变更，出险时以车辆识别代码为准。
     <br>10、出险时无需提供安全生产证明资料。
-    <br></div></div>
-            <span style="margin-left: 5px; text-align: right;">(提示，任何信息缺失，均导致开票失败，请仔细填写！)</span>
+    <br></div>
+</div>
+            <span style="margin-left: 5px; text-align: right;"></span>
             </td>
         </tr>
 	</table>
