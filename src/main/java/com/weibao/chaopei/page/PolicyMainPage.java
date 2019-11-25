@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jeecgframework.poi.excel.annotation.Excel;
+
 
 /**
  * 保单Form Bean
@@ -22,6 +24,7 @@ public class PolicyMainPage implements Serializable {
 	//产品代码
 	private java.lang.String prodCode;
 	//保单号
+	@Excel(name="保单号",width=32)
 	private java.lang.String policyNo;
 	//电子保单链接url
 	private java.lang.String policyUrl;	
@@ -33,19 +36,26 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String planId;
 	//产品方案计划
 	private java.lang.String prodPlan;
+	//产品方案code
+	private java.lang.String planCode;
 	//车牌号
+	@Excel(name="车牌号",width=32)
 	private java.lang.String plateNo;
 	//车架号
+	@Excel(name="车架号",width=32)
 	private java.lang.String frameNo;
 	//发动机号
+	@Excel(name="发动机号",width=32)
 	private java.lang.String engineNo;
 	//保险开始日期
 	private java.util.Date startDate;
 	//保险结束日期
 	private java.util.Date endDate;
 	//保费
+	@Excel(name="保费",width=32)
 	private java.math.BigDecimal premium;
 	//保单状态
+	@Excel(name="保单状态",width=32)
 	private java.lang.String status;
 	//投保联系人
 	private java.lang.String contactName;
@@ -53,6 +63,8 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String policyMobile;
 	//发票类型
 	private java.lang.String invoiceType;
+	//发票号码
+	private java.lang.String invoiceNumb;
 	//投保人性质
 	private java.lang.String holderNature;
 	//投保单位组织机构代码
@@ -85,6 +97,8 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String reciAddress;
 	//被保单位组织机构代码
 	private java.lang.String insuredOrgCode;
+	//专票接收人、电话、地址拼接
+	private String taxiAddr;
 	//被保单位名称
 	private java.lang.String insuredCompName;
 	//投保车辆(台)
@@ -102,11 +116,19 @@ public class PolicyMainPage implements Serializable {
 	//部门名称
 	private java.lang.String departName;
 	//支付状态
+	@Excel(name="支付状态",width=32)
 	private java.lang.String payStatus;
 	//分润状态
 	private java.lang.String rewardStatus;
 	//创建时间
 	private java.util.Date createTime;
+	//支付时间
+	private java.util.Date payTime;
+	
+	private String payTimeFilter_begin;
+	private String payTimeFilter_end;
+	private String createTimeFilter_begin;
+	private String createTimeFilter_end;
 	//最后修改时间
 	private java.util.Date lastUpdateTime;
 	//是否草稿
@@ -406,4 +428,52 @@ public class PolicyMainPage implements Serializable {
 	public void setDraft(boolean isDraft) {
 		this.isDraft = isDraft;
 	}
+	public java.lang.String getInvoiceNumb() {
+		return invoiceNumb;
+	}
+	public void setInvoiceNumb(java.lang.String invoiceNumb) {
+		this.invoiceNumb = invoiceNumb;
+	}
+	public String getTaxiAddr() {
+		return taxiAddr;
+	}
+	public void setTaxiAddr(String taxiAddr) {
+		this.taxiAddr = taxiAddr;
+	}
+	public java.lang.String getPlanCode() {
+		return planCode;
+	}
+	public void setPlanCode(java.lang.String planCode) {
+		this.planCode = planCode;
+	}
+	public java.util.Date getPayTime() {
+		return payTime;
+	}
+	public void setPayTime(java.util.Date payTime) {
+		this.payTime = payTime;
+	}
+	public String getPayTimeFilter_begin() {
+		return payTimeFilter_begin;
+	}
+	public void setPayTimeFilter_begin(String payTimeFilter_begin) {
+		this.payTimeFilter_begin = payTimeFilter_begin;
+	}
+	public String getPayTimeFilter_end() {
+		return payTimeFilter_end;
+	}
+	public void setPayTimeFilter_end(String payTimeFilter_end) {
+		this.payTimeFilter_end = payTimeFilter_end;
+	}
+	public String getCreateTimeFilter_begin() {
+		return createTimeFilter_begin;
+	}
+	public void setCreateTimeFilter_begin(String createTimeFilter_begin) {
+		this.createTimeFilter_begin = createTimeFilter_begin;
+	}
+	public String getCreateTimeFilter_end() {
+		return createTimeFilter_end;
+	}
+	public void setCreateTimeFilter_end(String createTimeFilter_end) {
+		this.createTimeFilter_end = createTimeFilter_end;
+	}		
 }
