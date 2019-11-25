@@ -21,7 +21,7 @@
    <t:dgCol title="营运性质"  field="planType" extendParams="editor:'numberbox'"  queryMode="single"  width="50"></t:dgCol>   
    --%>
 	
-	<t:dgToolBar  title="提现" icon="icon-save" url="companyAcctController.do?withdraw" funname="saveData"></t:dgToolBar>
+	<t:dgToolBar  title="提现" icon="icon-save" url="companyAcctController.do?withdraw" funname="withdraw"></t:dgToolBar>
 	
   </t:datagrid>
   </div>
@@ -58,6 +58,49 @@
 	 */
 
  });
+ 
+ //提现
+ function withdraw(title,addurl,gname){
+	
+	var rows = $("#"+gname).datagrid('getSelections');
+			
+	//<%=basePath%>/"
+	if (rows.length > 0) {
+    	$.dialog.setting.zIndex = getzIndex(true);
+    	$.dialog.confirm("确定要申请提现支付这[ "+rows.length+" ]笔分润保单吗？", function(r) {
+			if (r) {
+			var params=[];
+				debugger;
+				for ( var i = 0; i < rows.length; i++) {					
+					params.push(rows[i].id);
+				}
+				$.ajax({
+					url : url,
+					type : 'post',
+					data : {
+						params : params.join(',')
+					},
+					cache : false,
+					success : function(data) {
+						debugger;
+						var d = $.parseJSON(data);
+						if (d.success) {
+							var msg = d.msg;
+							tip(msg);
+							reloadTable();
+							$("#"+gname).datagrid('unselectAll');
+							ids='';
+						}
+					}
+				});
+			}
+		});
+	} else {
+		tip("请选择需要申请提现的明细！")
+		return false;
+	}
+}
+ 
 function getAcctBalanceList(id){		
 	$('#acctReceiveDetailList').datagrid('load',{
 		companyAccountId : id

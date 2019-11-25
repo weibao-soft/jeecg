@@ -7,13 +7,14 @@
   	idField="id" fit="true" queryMode="group" sortName="payTime" sortOrder="desc" collapsible="true" pageSize="100">
    <t:dgCol title="主键" hidden="true" field="id"  queryMode="single"  width="0"></t:dgCol>   
    
-   <t:dgCol title="保单号"  field="policyNo" sortable="false" width="200"></t:dgCol>
-   <t:dgCol title="车牌号"  field="plateNo" sortable="false" width="100"></t:dgCol>
+   <t:dgCol title="保单号"  field="policyNo" sortable="false" width="120"></t:dgCol>
+   <t:dgCol title="车牌号"  field="plateNo" sortable="false" width="80"></t:dgCol>
    <t:dgCol title="签单日期"  field="payTime" formatter="yyyy-MM-dd hh:mm:ss" width="150"></t:dgCol>
-   <t:dgCol title="产品名称"  field="prodName" sortable="false" width="200"></t:dgCol>
+   <t:dgCol title="产品名称"  field="prodName" sortable="false" width="250"></t:dgCol>
+   <t:dgCol title="保费"  field="price"  queryMode="single"  width="60"></t:dgCol>
    <t:dgCol title="出单机构"  field="departName" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="出单员"  field="userName" sortable="false"  width="100"></t:dgCol>
-   <t:dgCol title="待分润金额"  field="amount" sortable="false" width="100"></t:dgCol>
+   <t:dgCol title="待分润金额"  field="amount" sortable="false" width="60"></t:dgCol>
    <t:dgCol title="分润到账时间"  field="rewardTime" formatter="yyyy-MM-dd hh:mm:ss" width="150"></t:dgCol>
    <%--  
 	<t:dgToolBar  title="编辑" icon="icon-edit"  funname="editRow"></t:dgToolBar>
