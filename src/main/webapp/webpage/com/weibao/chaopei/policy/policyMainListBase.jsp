@@ -41,6 +41,8 @@ div.datagrid-cell{font-size:14px;}
   </t:datagrid>
   </div>
  </div>
+ 
+<%@include file="/webpage/com/weibao/chaopei/policy/policyPayiFrame.jsp"%>
  <script type="text/javascript">
 $(document).ready(function (){
 
@@ -67,6 +69,7 @@ function batchPay(title,url,gname) {
     if (rows.length > 0) {
     	$.dialog.setting.zIndex = getzIndex(true);
     	$.dialog.confirm("确定要支付这[ "+rows.length+" ]张保单吗？", function(r) {
+    	   window.Utils.showLoading();
 		   if (r) {			   	
 				for ( var i = 0; i < rows.length; i++) {
 					policyids.push(rows[i].id);
@@ -116,6 +119,7 @@ function policyPay(id) {
 	//}
     //$(this).attr("disabled", true);
 	
+    window.Utils.showLoading();
 	var params = {};
 	params.policyid = id;
 	var url = "policyDraftController.do?insurancePays";
