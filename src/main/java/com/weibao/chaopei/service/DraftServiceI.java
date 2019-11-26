@@ -18,6 +18,12 @@ public interface DraftServiceI extends CommonService {
 	public List<PolicyEntity> updateMain(PolicyMainPage policyMainPage);
 	/**
 	 * 删除保单、草稿信息
+	 * @param draftId
+	 */
+	public void delMain(String draftId);
+	/**
+	 * 删除保单、草稿信息
+	 * @param policyMainPage
 	 */
 	public void delMain(PolicyMainPage policyMainPage);
 }

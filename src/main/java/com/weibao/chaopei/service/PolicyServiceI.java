@@ -113,6 +113,11 @@ public interface PolicyServiceI extends CommonService {
 	 */
 	public int updatePolicyStatus(List<PolicyEntity> list, String draftId);
 	/**
+	 * 删除保单、草稿信息
+	 * @param policyid
+	 */
+	public void delMain(String policyId);
+	/**
 	 * 根据id删除保单表id不在列表里的行
 	 * @param draftId
 	 * @param ids

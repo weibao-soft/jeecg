@@ -195,11 +195,39 @@ public interface PolicyMainDao {
 	public void saveReceiverEntity(ReceiverEntity receiver);
 	
 	/**
-	 *  根据草稿id删除草稿保单关系表
+	 *  根据草稿id删除草稿保单关系
 	 * @return
 	 */
 	@Sql("delete from wb_draft_relation where draft_id =:draftId")
-	public int deleteRelation(@Param("draftId") String draftId);
+	public int deleteRelationsByDraft(@Param("draftId") String draftId);
+	
+	/**
+	 *  根据保单id删除草稿保单关系
+	 * @return
+	 */
+	@Sql("delete from wb_draft_relation where policy_id =:policyId")
+	public int deleteRelationByPolicy(@Param("policyId") String policyId);
+	
+	/**
+	 *  根据草稿id删除保单
+	 * @return
+	 */
+	@Sql("delete p from wb_draft_relation as r, wb_insurance_policy as p where r.policy_id=p.id and r.draft_id =:draftId")
+	public int deletePolicysByDraft(@Param("draftId") String draftId);
+	
+	/**
+	 *  根据保单id删除草稿
+	 * @return
+	 */
+	@Sql("delete d from wb_draft_relation as r, wb_insurance_draft as d where r.draft_id=d.id and r.policy_id =:policyId")
+	public int deleteDraftByPolicy(@Param("policyId") String policyId);
+	
+	/**
+	 * 根据id批量删除保单
+	 * @param ids
+	 */
+	@Sql("delete from wb_insurance_policy where id in ( ${DaoFormat.getInStrs(ids)} )")
+	public int deletePolicys(@Param("ids") String[] ids);
 	
 	/**
 	 * 根据id删除保单表id不在列表里的行

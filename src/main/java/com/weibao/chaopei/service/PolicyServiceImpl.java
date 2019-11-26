@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
@@ -744,6 +745,35 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		}
 		
 		return policyMainDao.updateDraftStatus(draftId);
+	}
+
+	/**
+	 * 删除保单、草稿信息
+	 * @param policyid
+	 */
+	@Override
+	public void delMain(String policyId) {
+		PolicyEntity policyEntity = null;
+		
+		try {
+			//删除草稿和保单的关系
+			policyMainDao.deleteRelationByPolicy(policyId);
+			//删除草稿
+			policyMainDao.deleteDraftByPolicy(policyId);
+
+			policyEntity = new PolicyEntity();
+			//删除保单
+			if(StringUtils.isNotBlank(policyId)) {
+				policyEntity.setId(policyId);
+				this.delete(policyEntity);
+			}
+		} catch(HibernateException e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
 	}
 	
 	/**
