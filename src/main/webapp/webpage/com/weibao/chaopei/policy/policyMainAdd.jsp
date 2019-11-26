@@ -38,6 +38,9 @@ $(document).ready(function(){
     $("#industryType").css("width", "200px");
     $("#holderNature").css("width", "200px");
     window.setTimeout(customFunc, 500);
+
+	var abc = $("#formobj").width()+17;
+	$("#formobj").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
 });
 
 function customFunc() {
@@ -118,11 +121,10 @@ function insurance() {
         $("#taxpayerNop").val(taxpayerNo);
 	}
 
-	$.dialog.confirm("请仔细核对投保内容，核对无误后再提交！确定提交核保吗？", function(){
-		getMainContent();
-		$('#promptDiv').show();
-	}, function(){
-	});
+	getMainContent();
+	$("#readedPrompt").attr("checked", false);
+	$('#promptDiv').show();
+	
     //window.setTimeout(window.Utils.closeLoading, 2000);
 }
 //支付

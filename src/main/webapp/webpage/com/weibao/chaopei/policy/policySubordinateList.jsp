@@ -14,7 +14,6 @@ div.datagrid-cell{font-size:14px;}
   	  fit="true" queryMode="group" filter="true" sortName="payTime" sortOrder="desc" >
 
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
-   
    <t:dgCol title="投保人"  frozenColumn="true" field="holderCompName" sortable="false" width="220"></t:dgCol>
    <t:dgCol title="车牌号"  frozenColumn="true" field="plateNo" query="true" queryMode="single" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" sortable="false" width="200"></t:dgCol>

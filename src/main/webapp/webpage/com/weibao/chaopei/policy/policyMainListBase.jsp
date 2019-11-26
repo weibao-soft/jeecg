@@ -13,15 +13,15 @@ div.datagrid-cell{font-size:14px;}
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="policyMainList" checkbox="true" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
   		 idField="id" fit="true" collapsible="false" queryMode="group" sortName="lastUpdateTime" sortOrder="desc" filter="true" pageSize="20">
-   <t:dgCol title="操作" frozenColumn="true" field="opt" width="160"></t:dgCol>
-   <t:dgFunOpt title="编辑" exp="payStatus#ne#1" funname="addTab(id)" urlclass="ace_button"  urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
+   <t:dgCol title="操作" frozenColumn="true" field="opt" width="200"></t:dgCol>
+   <t:dgFunOpt title="编辑" exp="payStatus#ne#1" funname="addTab(id)" urlclass="ace_button" urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
+   <t:dgDelOpt title="删除" exp="payStatus#eq#0" url="policyMainController.do?doDel&policyId={id}&payStatus={payStatus}" urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
    <t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#18a689;"/>
    <t:dgFunOpt title="发票信息" exp="status#eq#3&&payStatus#eq#1" funname="" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
    <t:dgFunOpt title="批改" exp="status#eq#3&&payStatus#eq#1" funname="" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
       
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
    <t:dgCol title="草稿ID"  field="draftId" hidden="true" queryMode="single" width="50"></t:dgCol>
-      
 	<t:dgCol title="支付时间"  field="payTimeFilter" formatter="yyyy-MM-dd" hidden="true" query="true" queryMode="group" sortable="false"  width="150"></t:dgCol>
 	<t:dgCol title="创建日期"  field="createTimeFilter" hidden="true" formatter="yyyy-MM-dd" query="true" queryMode="group" sortable="false"  width="150"></t:dgCol>
    	<t:dgCol title="保单号"  frozenColumn="true" formatterjs="policyHref" field="policyNo" query="true" queryMode="single" sortable="false" width="165"></t:dgCol>
@@ -60,8 +60,8 @@ div.datagrid-cell{font-size:14px;}
  <script type="text/javascript">
 $(document).ready(function (){
 
-	var abc = $("#lywidth_demo").width()+17;
-	$("#lywidth_demo").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
+	var abc = $("#policyMainList").width()+17;
+	$("#policyMainList").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
 	
 	/*//为了给产品列表的行添加鼠标点击事件
 	//该鼠标点击事件触发父页面：policyMainList.jsp（包含当前iframe的页面）的getCustomerList

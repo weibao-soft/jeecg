@@ -12,15 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
+import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSUser;
+import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +53,9 @@ public class PolicyMainController extends BaseController {
 	
 	@Autowired
 	private PolicyServiceI policyService;
+	
+	@Autowired
+	private SystemService systemService;
 
 	/**
 	 * 我的保单信息列表 页面跳转
@@ -183,6 +190,40 @@ public class PolicyMainController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		TagUtil.datagrid(response, dataGrid);
+	}
+	
+	/**
+	 * 删除未支付状态的保单，已支付状态的保单不能删除
+	 * 
+	 * @param policyId
+	 * @return
+	 */
+	@RequestMapping(params = "doDel")
+	@ResponseBody
+	public AjaxJson doDel(String policyId, String payStatus, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "删除成功";
+		try {
+			if(!"0".equals(payStatus)) {
+				j.setSuccess(false);
+				message = "不能删除已支付的保单";
+				j.setMsg(message);
+				return j;
+			}
+			policyService.delMain(policyId);
+			systemService.addLog(message+":", Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+		} catch(HibernateException e) {
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单删除失败";
+			throw new BusinessException("保单删除失败，原因：" + e.getMessage());
+		} catch(Exception e) {
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单删除失败";
+		}
+		j.setMsg(message);
+		return j;
 	}
 	
 	/**

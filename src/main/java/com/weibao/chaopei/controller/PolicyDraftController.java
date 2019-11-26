@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -233,17 +234,21 @@ public class PolicyDraftController extends BaseController {
 	public AjaxJson doDel(String draftId, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		String message = "删除成功";
-        PolicyMainPage policyMainPage = null;
-		try{
-			policyMainPage = policyService.getPolicyMainPage(draftId);
-			policyMainPage.setDraftId(draftId);
-			draftService.delMain(policyMainPage);
+		try {
+	        //PolicyMainPage policyMainPage = policyService.getPolicyMainPage(draftId);
+			//policyMainPage.setDraftId(draftId);
+			//draftService.delMain(policyMainPage);
+			draftService.delMain(draftId);
 			systemService.addLog(message+":", Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-		}catch(Exception e){
+		} catch(HibernateException e) {
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
-			message = "保单主信息删除失败";
-			//throw new BusinessException(e.getMessage());
+			message = "保单草稿删除失败";
+			throw new BusinessException("保单草稿删除失败，原因：" + e.getMessage());
+		} catch(Exception e) {
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单草稿删除失败";
 		}
 		j.setMsg(message);
 		return j;

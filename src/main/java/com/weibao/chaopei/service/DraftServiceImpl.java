@@ -261,6 +261,30 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 
 	/**
 	 * 删除保单、草稿信息
+	 * @param draftId
+	 */
+	@Override
+	public void delMain(String draftId) {
+		DraftEntity draftEntity = new DraftEntity();
+		
+		try {
+			draftEntity.setId(draftId);
+			//删除草稿
+			this.delete(draftEntity);
+
+			//删除草稿和保单的关系
+			policyMainDao.deleteRelationsByDraft(draftId);
+			//删除保单
+			policyMainDao.deletePolicysByDraft(draftId);
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
+	}
+
+	/**
+	 * 删除保单、草稿信息
+	 * @param policyMainPage
 	 */
 	@Override
 	public void delMain(PolicyMainPage policyMainPage) {
@@ -277,7 +301,7 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			this.delete(draftEntity);
 
 			//删除草稿和保单的关系
-			policyMainDao.deleteRelation(draftId);
+			policyMainDao.deleteRelationsByDraft(draftId);
 			for(int i = 0; i < vehicles.size(); i++) {
 				PolicyVehiclePage vehicle = vehicles.get(i);
 				policyEntity = new PolicyEntity();
