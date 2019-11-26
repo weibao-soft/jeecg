@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
 <script type="text/javascript" src="plug-in/ace/assets/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/weibao/main.css"/>
 
