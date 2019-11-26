@@ -25,12 +25,12 @@
 <SCRIPT type="text/javascript">
 $(document).ready(function() {
 	$("#readedPrompt").change(function() {
-		var readed=$(this).prop("checked");
-        if(readed==true) {
+		/*var readed=$(this).prop("checked");
+        if(readed) {
         	$("#ensure").attr("disabled", false);
         } else {
         	$("#ensure").attr("disabled", true);
-        }
+        }*/
 	});
 	
 });
@@ -64,6 +64,19 @@ function getMainContent() {
 	//layer.msg(content);
 }
 function confirmInsurance() {
+	var readed=$("#readedPrompt").prop("checked");
+	if(!readed) {
+		//$.messager.alert('提示','您必须在提交核保之前阅读并同意特约条款!','info');
+		$.dialog.alert('您必须在提交核保之前阅读并同意特约条款!');
+		return false;
+	} else {
+		confirmSubmit();
+	}
+}
+function confirmData() {
+	//$.dialog.confirm("请仔细核对投保内容，核对无误后再提交！确定提交核保吗？", function(){
+	//}, function(){});
+	
 	$.messager.confirm('提示信息', "请确认投保信息无误，确定提交核保吗？", function(r){
 		if (r) {
 			//submitForm();
@@ -99,17 +112,18 @@ function closePromptDiv() {
     <br>9、空载情况下发生的第三者保险责任也属于保险责任范围内。
     <br>10、被保险标的被转让、改装、加装或改变使用性质的，被保险人未书面通知保险人，且因转让、改装、加装或改变使用性质导致被保险标的危险程度显著增加，保险人不承担赔偿责任。
     <br></div>
-    <br><input id="readedPrompt" type="checkbox" style=""/><b>已阅读特约申明</b> 
+    <br><input id="readedPrompt" type="checkbox" style=""/><b><span style="font-size: 15px;">我已经阅读并同意特约条款</span></b>
     </div>
     
 	<div style="padding: 0px;">
 		<div class="line" style="border-top: solid 1px #1a7bb9;"></div>
 	</div>
 	<div class="alert alert-info" style="width: 100%;text-align: left;">
-	<div id="mainContent" style="width: 100%;display:inline-block;padding-right:5px;"></div></div>
+	<div id="mainContent" style="width: 100%;display:inline-block;padding-right:5px;"></div>
+	</div>
 
     <div style="margin:3px auto">
-    <input id="ensure" class="subBtnmy" type="button" value="确认" onclick="confirmSubmit();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
+    <input id="ensure" class="subBtnmy" type="button" value="确认提交" onclick="confirmInsurance();" style="height:30px;width:100px !important;border-radius:5px"/>
     <input id="back" class="btnmy" type="button" value="取消" onclick="closePromptDiv();" style="height:30px;width:100px !important;border-radius:5px"/>
     </div>
     <span class="layer-size"></span>

@@ -89,12 +89,10 @@ function insurance() {
 		var taxpayerNo = $("#taxpayerNo2").val();
         $("#taxpayerNop").val(taxpayerNo);
 	}
-	
-	$.dialog.confirm("请仔细核对投保内容，核对无误后再提交！确定提交核保吗？", function(){
-		getMainContent();
-		$('#promptDiv').show();
-	}, function(){
-	});
+
+	getMainContent();
+	$("#readedPrompt").attr("checked", false);
+	$('#promptDiv').show();
 }
 //支付
 function doPay() {
