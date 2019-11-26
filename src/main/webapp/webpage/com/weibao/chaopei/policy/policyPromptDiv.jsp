@@ -41,18 +41,24 @@ function getMainContent() {
 	params = getSelectParam(params);
 	
 	var content = "<b><span style='color:red;'>保单主要内容：</span></b><br>方案名称："+params.planName
-	+"，保险期间：自"+params.startDate+"起，至"+params.endDate+"止<br>";
+	+"，保险期间: 自"+params.startDate+"起 至"+params.endDate+"止<br>";
 	var length = params.vehicleArr.length;
 	for(var i = 0; i < length; i++) {
 		var vehicle = params.vehicleArr[i];
-		content = content+"车辆"+(i+1)+"，车牌号："+vehicle.plateNo+"，车架号："+vehicle.frameNo+"，发动机号："+vehicle.engineNo;
+		if(i > 2) {
+			content = content+" 等";
+			break;
+		} else if(i > 0) {
+			content = content+"; ";
+		}
+		content = content+"车辆["+(i+1)+"]，车牌号: "+vehicle.plateNo+", 车架号: "+vehicle.frameNo+", 发动机号: "+vehicle.engineNo;
 	}
-	content = content+"<br>发票类型："+params.invTypeName
+	content = content+"<br>发票类型: "+params.invTypeName
 	/*+"<br>投保人性质："+params.hldNatureName
 	+"<br>单位性质："+params.compNatureName+"，行业类别："+params.indstTypeName
 	+"联系人名称："+params.contactName+"，联系人手机："+params.policyMobile*/
-	+"，投保人名称："+params.holderCompName+"，组织机构代码："+params.holderOrgCode
-	+"，被保人名称："+params.insuredCompName+"，组织机构代码："+params.insuredOrgCode;
+	+", 投保人名称: "+params.holderCompName+", 组织机构代码: "+params.holderOrgCode
+	+", 被保人名称: "+params.insuredCompName+", 组织机构代码: "+params.insuredOrgCode;
 	
 	$("#mainContent").html(content);
 	//layer.msg(content);
@@ -72,7 +78,7 @@ function closePromptDiv() {
 }
 </SCRIPT>
 <div id="promptDiv" class="overlay" style="z-index: 11009;display: none;">
-<div class="animated zoomIn layerBox" style="width: 1086px; height: 566px; left: 177px; top: 6.8px;background: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px;z-index: 11009;">
+<div class="animated zoomIn layerBox" style="width: 1086px; height: 586px; left: 177px; top: 6.8px;background: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px;z-index: 11009;">
   <h4 class="layerHeader">
     <span>提示</span>
     <button id="prompt" type="button" data-dismiss="modal" aria-hidden="true" class="close close_btn" onclick="closePromptDiv();">
