@@ -17,26 +17,39 @@ div.datagrid-cell{font-size:14px;}
    <t:dgFunOpt title="编辑" exp="payStatus#ne#1" funname="addTab(id)" urlclass="ace_button" urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
    <t:dgDelOpt title="删除" exp="payStatus#eq#0" url="policyMainController.do?doDel&policyId={id}&payStatus={payStatus}" urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
    <t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#18a689;"/>
+   <t:dgFunOpt title="发票信息" exp="status#eq#3&&payStatus#eq#1" funname="" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
    <t:dgFunOpt title="批改" exp="status#eq#3&&payStatus#eq#1" funname="" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
       
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
    <t:dgCol title="草稿ID"  field="draftId" hidden="true" queryMode="single" width="50"></t:dgCol>
-   
-   <t:dgCol title="投保人" frozenColumn="true" field="holderCompName" sortable="false" queryMode="single" width="220"></t:dgCol>
-   <t:dgCol title="车牌号"  frozenColumn="true" field="plateNo" query="true" queryMode="single" sortable="false" width="100"></t:dgCol>
-   <t:dgCol title="车架号"  field="frameNo" query="true" queryMode="single" sortable="false" width="200"></t:dgCol>   
-   <t:dgCol title="保费"  field="premium" queryMode="single" sortable="false" width="100"></t:dgCol>
-   <t:dgCol title="保单号" field="policyNo" formatterjs="policyHref" sortable="false" query="false" queryMode="single" width="200"></t:dgCol>
-   <t:dgCol title="保单链接"  field="policyUrl" hidden="true" width="100"></t:dgCol>
-   <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" sortable="false" showMode="radio" dictionary="qpolStatus" width="100"></t:dgCol>
-   <t:dgCol title="支付状态"  field="payStatus" queryMode="single" sortable="false" defaultVal='N' dictionary="payStatus" width="100" extendParams="styler:payStyle"></t:dgCol>   
-   <t:dgCol title="核保时间"  field="lastUpdateTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>
-   <t:dgCol title="支付时间"  field="payTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>
-   <t:dgCol title="用户姓名"  field="userName" sortable="false"  queryMode="single" width="120"></t:dgCol>
-   <t:dgCol title="产品名称"  field="prodName" sortable="false"  query="true" queryMode="single" width="150"></t:dgCol>
-   <t:dgCol title="产品代码"  field="prodCode" queryMode="single" sortable="false" width="100"></t:dgCol>
-   <t:dgCol title="保险公司"  field="insurCompName" query="true" queryMode="single" sortable="false" dictionary="ins_comp" width="100"></t:dgCol>
-   
+	<t:dgCol title="支付时间"  field="payTimeFilter" formatter="yyyy-MM-dd" hidden="true" query="true" queryMode="group" sortable="false"  width="150"></t:dgCol>
+	<t:dgCol title="创建日期"  field="createTimeFilter" hidden="true" formatter="yyyy-MM-dd" query="true" queryMode="group" sortable="false"  width="150"></t:dgCol>
+   	<t:dgCol title="保单号"  frozenColumn="true" formatterjs="policyHref" field="policyNo" query="true" queryMode="single" sortable="false" width="165"></t:dgCol>
+   	<t:dgCol title="保单链接"  field="policyUrl" hidden="true" width="100"></t:dgCol>   	
+   	<t:dgCol title="车牌号"  frozenColumn="true" field="plateNo" query="true" queryMode="single" sortable="false" width="80"></t:dgCol>
+   	<t:dgCol title="车架号"   field="frameNo" query="true" queryMode="single" sortable="false" width="160"></t:dgCol>   	
+   	<t:dgCol title="保单状态"  field="status" sortable="false" query="true" queryMode="single" dictionary="poliStatus" width="70"></t:dgCol>
+   	<t:dgCol title="支付状态"  field="payStatus" sortable="false" query="true" queryMode="single" dictionary="payStatus" width="70"></t:dgCol>   	   	
+   	<t:dgCol title="保费"  field="premium" sortable="false" width="60"></t:dgCol>
+   	<t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="group" sortable="false"  width="150"></t:dgCol>   	
+   	<t:dgCol title="支付时间"  field="payTime" formatter="yyyy-MM-dd hh:mm:ss" sortable="false"  width="150"></t:dgCol>   	
+   	<t:dgCol title="投保人"  field="holderCompName" sortable="false"  width="220"></t:dgCol>
+   	<t:dgCol title="投保人证件号"  field="holderOrgCode" sortable="false"  width="160"></t:dgCol>   	
+   	<t:dgCol title="被保人"  field="insuredCompName" sortable="false"  width="220"></t:dgCol>
+   	<t:dgCol title="投保人证件号"  field="insuredOrgCode" sortable="false"  width="160"></t:dgCol>   	
+   	<t:dgCol title="发票类型" field="invoiceType" query="true" showMode="checkbox" dictionary="taxiType"  sortable="false"  width="80"></t:dgCol>
+   	<t:dgCol title="发票号码" field="invoiceNumb" sortable="false"  width="90"></t:dgCol>
+   	<t:dgCol title="发票接收手机" field="receiverMobile" sortable="false"  width="90"></t:dgCol>
+   	<t:dgCol title="纳税号" field="taxpayerNo" sortable="false"  width="160"></t:dgCol>
+   	<t:dgCol title="公司地址" field="compAddress" sortable="false"  width="220"></t:dgCol>
+   	<t:dgCol title="公司电话" field="compPhone" sortable="false"  width="120"></t:dgCol>
+   	<t:dgCol title="开户行" field="depositBank" sortable="false"  width="180"></t:dgCol>
+   	<t:dgCol title="账号" field="bankAccount" sortable="false"  width="160"></t:dgCol>
+   	<t:dgCol title="邮寄地址" field="taxiAddr" sortable="false"  width="360"></t:dgCol>   	   	 
+   	
+   	<t:dgCol title=	"产品方案" 	field="prodPlan" sortable="false" width="300"></t:dgCol>
+   	<t:dgCol title=	"保险公司"	field="insurCompName" sortable="false" dictionary="ins_comp" width="100"></t:dgCol>   	
+   	
    <t:dgToolBar title="批量支付" icon="icon-add" url="policyDraftController.do?insurancePay" funname="batchPay"></t:dgToolBar>
    
   </t:datagrid>
