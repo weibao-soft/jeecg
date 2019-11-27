@@ -13,7 +13,6 @@ div.datagrid-cell{font-size:14px;}
   	  actionUrl="policySubordController.do?datagrid&parentIds=${parentIds}" idField="id" 
   	  fit="true" queryMode="group" filter="true" sortName="payTime" sortOrder="desc" >
 
-
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
    <t:dgCol title="支付时间"  field="payTimeFilter" formatter="yyyy-MM-dd" hidden="true" query="true" queryMode="group" sortable="false"  width="150"></t:dgCol>
    <t:dgCol title="下级机构"  field="departId" hidden="true" query="true" queryMode="single" sortable="false" dictionary="t_s_depart,id,departname" dictCondition="where parentdepartid='${parentId }'" width="120"></t:dgCol>   
@@ -26,10 +25,11 @@ div.datagrid-cell{font-size:14px;}
    <t:dgCol title="投保人"  field="holderCompName" sortable="false" width="220"></t:dgCol>
    <t:dgCol title="保费"  field="premium" queryMode="single" sortable="false" width="60"></t:dgCol>
    <t:dgCol title="保单状态"  field="status" query="true" queryMode="single" sortable="false" dictionary="qpolStatus" width="80"></t:dgCol>
-   <t:dgCol title="支付状态"  field="payStatus" queryMode="single" sortable="false" defaultVal='N' dictionary="payStatus" width="80"></t:dgCol>      
-   <t:dgCol title="支付时间"  field="payTime" formatter="yyyy-MM-dd hh:mm:ss" width="160"></t:dgCol>
-      
-   <t:dgCol title="产品方案"  field="prodPlan" sortable="false" width="310"></t:dgCol>
+   <t:dgCol title="支付状态"  field="payStatus" queryMode="single" sortable="false" defaultVal='N' dictionary="payStatus" width="80"></t:dgCol>
+   <t:dgCol title="核保时间"  field="lastUpdateTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>
+   <t:dgCol title="支付时间"  field="payTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="single" width="160"></t:dgCol>
+   <t:dgCol title="产品方案"  field="prodPlan" queryMode="single" sortable="false" width="310"></t:dgCol>
+   <t:dgCol title="产品编码"  field="planCode" hidden="true" queryMode="single" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="保险公司"  field="insurCompName" queryMode="single" sortable="false" defaultVal='N' dictionary="ins_comp" width="100"></t:dgCol>
     
   </t:datagrid>

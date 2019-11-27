@@ -18,10 +18,11 @@ div.datagrid-cell{font-size:14px;}
    	<t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#18a689;"/>
    		
 	<t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
-	<t:dgCol title="支付时间"  field="payTimeFilter" formatter="yyyy-MM-dd" hidden="true" query="true" queryMode="group" sortable="false"  width="150"></t:dgCol>
+	<t:dgCol title="支付时间"  field="payTimeFilter" hidden="true" formatter="yyyy-MM-dd" query="true" queryMode="group" sortable="false"  width="150"></t:dgCol>
 	<t:dgCol title="创建日期"  field="createTimeFilter" hidden="true" formatter="yyyy-MM-dd" query="true" queryMode="group" sortable="false"  width="150"></t:dgCol>
+   	<t:dgCol title="保单链接"  field="policyUrl" hidden="true" width="100"></t:dgCol>
+   	
    	<t:dgCol title="保单号"  frozenColumn="true" formatterjs="policyHref" field="policyNo" query="true" queryMode="single" sortable="false" width="160"></t:dgCol>
-   	<t:dgCol title="保单链接"  field="policyUrl" hidden="true" width="100"></t:dgCol>   	
    	<t:dgCol title="车牌号"  frozenColumn="true" field="plateNo" query="true" queryMode="single" sortable="false" width="80"></t:dgCol>
    	<t:dgCol title="车架号"   field="frameNo" query="true" queryMode="single" sortable="false" width="160"></t:dgCol>   	
    	<t:dgCol title="保单状态"  field="status" sortable="false" query="true" queryMode="single" dictionary="poliStatus" width="70"></t:dgCol>
@@ -32,7 +33,7 @@ div.datagrid-cell{font-size:14px;}
    	<t:dgCol title="投保人"  field="holderCompName" sortable="false"  width="220"></t:dgCol>
    	<t:dgCol title="投保人证件号"  field="holderOrgCode" sortable="false"  width="160"></t:dgCol>   	
    	<t:dgCol title="被保人"  field="insuredCompName" sortable="false"  width="220"></t:dgCol>
-   	<t:dgCol title="投保人证件号"  field="insuredOrgCode" sortable="false"  width="160"></t:dgCol>   	
+   	<t:dgCol title="被保人证件号"  field="insuredOrgCode" sortable="false"  width="160"></t:dgCol>   	
    	<t:dgCol title="发票类型" field="invoiceType" query="true" showMode="checkbox" dictionary="taxiType"  sortable="false"  width="80"></t:dgCol>
    	<t:dgCol title="发票号码" field="invoiceNumb" sortable="false"  width="90"></t:dgCol>
    	<t:dgCol title="发票接收手机" field="receiverMobile" sortable="false"  width="90"></t:dgCol>
