@@ -12,7 +12,7 @@ div.datagrid-cell{font-size:14px;}
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="policyMainList" checkbox="true" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
-  		 idField="id" fit="true" collapsible="false" queryMode="group" sortName="lastUpdateTime" sortOrder="desc" filter="true" pageSize="20">
+  		 idField="id" fit="true" collapsible="false" queryMode="group" sortName="createTime" sortOrder="desc" filter="true" pageSize="20">
    <t:dgCol title="操作" frozenColumn="true" field="opt" width="200"></t:dgCol>
    <t:dgFunOpt title="编辑" exp="payStatus#ne#1" funname="addTab(id)" urlclass="ace_button" urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
    <t:dgDelOpt title="删除" exp="payStatus#eq#0" url="policyMainController.do?doDel&policyId={id}&payStatus={payStatus}" urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
@@ -31,8 +31,8 @@ div.datagrid-cell{font-size:14px;}
    	<t:dgCol title="保单状态"  field="status" sortable="false" query="true" queryMode="single" dictionary="poliStatus" width="70"></t:dgCol>
    	<t:dgCol title="支付状态"  field="payStatus" sortable="false" query="true" queryMode="single" dictionary="payStatus" width="70"></t:dgCol>   	   	
    	<t:dgCol title="保费"  field="premium" sortable="false" width="60"></t:dgCol>
-   	<t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="group" sortable="false"  width="150"></t:dgCol>   	
-   	<t:dgCol title="支付时间"  field="payTime" formatter="yyyy-MM-dd hh:mm:ss" sortable="false"  width="150"></t:dgCol>   	
+   	<t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="group" sortable="true"  width="150"></t:dgCol>   	
+   	<t:dgCol title="支付时间"  field="payTime" formatter="yyyy-MM-dd hh:mm:ss" sortable="true"  width="150"></t:dgCol>   	
    	<t:dgCol title="投保人"  field="holderCompName" sortable="false"  width="220"></t:dgCol>
    	<t:dgCol title="投保人证件号"  field="holderOrgCode" sortable="false"  width="160"></t:dgCol>   	
    	<t:dgCol title="被保人"  field="insuredCompName" sortable="false"  width="220"></t:dgCol>

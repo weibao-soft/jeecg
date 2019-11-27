@@ -34,7 +34,7 @@ public class WaitRewardCalcTask extends BasicTask{
 	@Autowired
 	private RewardCalcServiceI rewardCalcServiceI;
 	
-	boolean isRunning;
+	private static boolean isRunning;
 	
 	@Override
 	public void run() {
