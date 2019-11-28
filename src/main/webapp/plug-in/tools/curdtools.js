@@ -68,6 +68,7 @@ function upload(curform) {
  * @param addurl//目标页面地址
  */
 function add(title,addurl,gname,width,height) {
+    if(window.console) console.log("添加调用 - ", title);
 	gridname=gname;
 	createwindow(title, addurl,width,height);
 }
@@ -91,6 +92,7 @@ function addTreeNode(title,addurl,gname) {
  */
 
 function update(title,url, id,width,height,isRestful) {
+    if(window.console) console.log("修改调用 - ", title);
 	gridname=id;
 	var rowsData = $('#'+id).datagrid('getSelections');
 	if (!rowsData || rowsData.length==0) {
@@ -231,6 +233,7 @@ function detail(title,url, id,width,height) {
  * @return
  */
 function deleteALLSelect(title,url,gname) {
+    if(window.console) console.log("批量删除调用 - ", title);
 	gridname=gname;
     var ids = [];
     var rows = $("#"+gname).datagrid('getSelections');
@@ -377,6 +380,7 @@ function deluploadify(url, id) {
 // 普通询问操作调用函数
 
 function confirm(url, content,name,noShade) {
+    if(window.console) console.log("确认操作调用 - ", title);
 	createdialog($.i18n.prop('tip.title'), content, url,name,noShade);
 }
 
@@ -880,6 +884,7 @@ function doSubmit(url,name,data) {
  * @param index
  */
 function exit(url, content) {
+    if(window.console) console.log("退出确认框 - ", content);
 	$.dialog.setting.zIndex = getzIndex(true);
 	$.dialog.confirm(content, function(){
 		window.location = url;
@@ -1001,14 +1006,15 @@ function setCookie(name, value){
 }
 
 function createTabId(str){
-　　　　var val="";
-　　　　for(var i = 0; i < str.length; i++){
-　　　　　　　　val += str.charCodeAt(i).toString(16);
-　　　　}
-　　　　return val;
-　　}
+    var val="";
+    for(var i = 0; i < str.length; i++){
+        val += str.charCodeAt(i).toString(16);
+    }
+    return val;
+}
 // 添加标签
 function addOneTab(subtitle, url, icon) {
+    if(window.console) console.log("添加Tab页调用 - ", title);
 	var indexStyle = getCookie("JEECGINDEXSTYLE");
 	if(indexStyle=='sliding'||indexStyle=='bootstrap'){
 		//shortcut和bootstrap风格的tab跳转改为直接跳转
@@ -1095,6 +1101,7 @@ function addOneTab(subtitle, url, icon) {
 }
 // 关闭自身TAB刷新父TABgrid
 function closetab(title) {
+    if(window.console) console.log("关闭Tab页调用 - ", title);
 	//暂时先不刷新
 	//window.top.document.getElementById('tabiframe').contentWindow.reloadTable();
 	//window.top.document.getElementById('maintabs').contentWindow.reloadTable();

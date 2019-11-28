@@ -129,7 +129,7 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		rewardPage.setCompanyAccountId(rewardDetail.getCompanyAccountId());
 		rewardPage.setDepartId(rewardDetail.getDepartId());
 		
-		stbHeadSql1.append("select a.id, a.plan_id, a.last_update_time, a.pay_time, a.holder_comp_name, d.`status` reward_status, ");
+		stbHeadSql1.append("select d.id, a.plan_id, a.last_update_time, a.pay_time, a.holder_comp_name, d.`status` reward_status, ");
 		stbHeadSql1.append("a.policy_no, a.plate_no, a.user_id, bu.username user_no, bu.realname username, ");
 		stbHeadSql1.append("dp.id depart_id, dp.departname, d.amount, d.divide_time, b.prod_name, c.prod_plan ");
 		
@@ -151,7 +151,7 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		rewardPage.setCompanyAccountId(unrewardDetail.getCompanyAccountId());
 		rewardPage.setDepartId(unrewardDetail.getDepartId());
 		
-		stbHeadSql1.append("select a.id, a.plan_id, a.last_update_time, a.pay_time, a.holder_comp_name, ");
+		stbHeadSql1.append("select d.id, a.plan_id, a.last_update_time, a.pay_time, a.holder_comp_name, ");
 		stbHeadSql1.append("a.policy_no, a.plate_no, a.user_id, bu.username user_no, bu.realname username, ");
 		stbHeadSql1.append("dp.id depart_id, dp.departname, d.amount, d.reward_time, b.prod_name, c.prod_plan ");
 		

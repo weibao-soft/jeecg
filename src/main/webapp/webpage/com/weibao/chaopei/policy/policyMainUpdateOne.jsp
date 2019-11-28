@@ -139,8 +139,6 @@ function doPay() {
 				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17"></td>
 				<td><span style="color: red;">*</span>发动机号 </td>
 				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;"></td>
-				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
-				style="height:30px;width:100px !important;border-radius:5px"/></td>
 				</tr>
 			</c:if>
 			<c:if test="${fn:length(policyMainPage.vehicles) > 0 }">

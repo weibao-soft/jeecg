@@ -8,7 +8,7 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 
 
 /**
- * 保单Form Bean
+ * 国任公众物流责任险保单Form Bean
  * @author dms
  *
  */
@@ -95,10 +95,10 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String recipientsTel;
 	//专票收件地址
 	private java.lang.String reciAddress;
-	//被保单位组织机构代码
-	private java.lang.String insuredOrgCode;
 	//专票接收人、电话、地址拼接
 	private String taxiAddr;
+	//被保单位组织机构代码
+	private java.lang.String insuredOrgCode;
 	//被保单位名称
 	private java.lang.String insuredCompName;
 	//投保车辆(台)
@@ -122,15 +122,16 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String rewardStatus;
 	//创建时间
 	private java.util.Date createTime;
-	//支付时间
-	private java.util.Date payTime;
-	
-	private String payTimeFilter_begin;
-	private String payTimeFilter_end;
-	private String createTimeFilter_begin;
-	private String createTimeFilter_end;
 	//最后修改时间
 	private java.util.Date lastUpdateTime;
+	//支付时间
+	private java.util.Date payTime;
+	//查询条件支付时间范围
+	private String payTimeFilter_begin;
+	private String payTimeFilter_end;
+	//查询条件创建时间范围
+	private String createTimeFilter_begin;
+	private String createTimeFilter_end;
 	//是否草稿
 	private boolean isDraft = true;
 	
