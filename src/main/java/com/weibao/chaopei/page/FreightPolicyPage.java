@@ -69,7 +69,7 @@ public class FreightPolicyPage implements Serializable {
 	//投保人邮箱账号
 	private java.lang.String holderEmail;
 	//投保人手机号码(个人时必填，企业为空)
-	private java.lang.String MobileNum;
+	private java.lang.String mobileNo;
 
 	/*****被保人信息*****/
 	//投保人类型，GR=>个人，QY=>企业
@@ -279,11 +279,11 @@ public class FreightPolicyPage implements Serializable {
 	public void setHolderEmail(java.lang.String holderEmail) {
 		this.holderEmail = holderEmail;
 	}
-	public java.lang.String getMobileNum() {
-		return MobileNum;
+	public java.lang.String getMobileNo() {
+		return mobileNo;
 	}
-	public void setMobileNum(java.lang.String mobileNum) {
-		MobileNum = mobileNum;
+	public void setMobileNo(java.lang.String mobileNo) {
+		this.mobileNo = mobileNo;
 	}
 	public java.lang.String getInsuredPartType() {
 		return insuredPartType;

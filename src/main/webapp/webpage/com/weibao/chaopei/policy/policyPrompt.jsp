@@ -6,6 +6,7 @@
 <title>开具专用发票</title>
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/policyCommon.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 <link rel="stylesheet" type="text/css" href="plug-in/weibao/custom.css"/>

@@ -6,8 +6,9 @@
 <title>修改保单</title>
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
-<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/policyCommon.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/driveValid.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/common.js"></script>
@@ -126,14 +127,14 @@ function getIframeTemplate(url) {
 <t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyDraftController.do?doUpdate" callback="jeecgFormFileCallBack@Override">
 <fieldset class="step" style="width:100%;padding-bottom: 20px;">
  <legend>国任投保</legend>
- <table cellpadding="0" cellspacing="1" class="formtable" width="1200">
+ <table cellpadding="0" cellspacing="1" class="formtable" style="table-layout: fixed;" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
 	<input id="prodId" name="prodId" type="hidden" value="${policyMainPage.prodId }"/>
 	<input id="draftId" name="draftId" type="hidden" value="${policyMainPage.draftId }"/>
 	<input id="premium" name="premium" type="hidden" value="${policyMainPage.premium }"/>
  
  <tr><td style="width:10%"></td><td style="width:90%">
-	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
+	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 	 <tr><td style="width:15%">方案保障</td>
 	 <td style="width:85%">
 			<select name="planId" id="planId" style="width:500px;" value="${policyMainPage.planId}">
@@ -146,7 +147,7 @@ function getIframeTemplate(url) {
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
 	 
 	 <tr><td>
-	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
+	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr><td style="width:15%">车辆信息：</td>
 		 <td style="width:85%">
 			<table name="policy_tabel" id="policy_tabel">
@@ -193,7 +194,7 @@ function getIframeTemplate(url) {
 	 </td></tr>
 	 
 	 <tr><td>
-	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
+	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr><td style="width:15%">保险期间：</td>
 		 <td style="width:85%">
 		 自 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:100px;" onblur="calculateYear();" 
@@ -205,7 +206,7 @@ function getIframeTemplate(url) {
 	 </td></tr>
 	 
 	 <tr><td>
-	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
+	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr><td style="width:100%" colspan="4"><label class="Validform_label"> 投保人： </label></td></tr>
 		 <tr><td style="width:15%">投保人性质</td>
 		 <td style="width:35%"><t:dictSelect field="holderNature" id="holderNature" type="list" divClass="dict_select" title=""
@@ -244,7 +245,7 @@ function getIframeTemplate(url) {
 	 </td></tr>
 	 
 	 <tr><td>
-	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
+	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr>
 		 <td style="width:100%" colspan="4"><label class="Validform_label">被保人：</label><input id="check1" type="checkbox" />同投保人</td>
 		 </tr>
