@@ -139,7 +139,7 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
     }
 
     @JsonIgnore
-    @OneToMany(mappedBy = "tsUser")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tsUser")
     public List<TSUserOrg> getUserOrgList() {
         return userOrgList;
     }

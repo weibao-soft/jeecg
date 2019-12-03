@@ -24,10 +24,11 @@
   <t:datagrid name="productMainList" checkbox="false" fitColumns="false" title="产品列表" actionUrl="productMainController.do?datagrid" 
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" >
   	<t:dgCol title="操作" field="opt" width="100"  ></t:dgCol>
-  	<t:dgFunOpt title="立即投保" funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" />
+  	<t:dgFunOpt title="立即投保" funname="addTab(id, pageTitle, pageurl)" urlclass="ace_button"  urlfont="fa-check" />
   	      
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
-   
+   <t:dgCol title="页面标题"  field="pageTitle" hidden="true" width="260"></t:dgCol>
+   <t:dgCol title="页面url"  field="pageurl"  hidden="true" width="260"></t:dgCol>
    <t:dgCol title="商品名称"  field="prodName"  queryMode="single" width="260"></t:dgCol>
    <t:dgCol title="商品代码"  field="goodCode"  queryMode="single" width="150"></t:dgCol>
    <t:dgCol title="产品类型"  field="prodType" queryMode="single" width="150"></t:dgCol>
@@ -64,8 +65,8 @@ $(document).ready(function (){
 function getCustomerList(id){
 	parent.getCustomerList(id);
 }
-function addTab(ids) {		
-	addTabs({id:ids,title:'保单投保',close: true,url: 'policyDraftController.do?add&paramId='+ids});	
+function addTab(ids, title_, url_) {		
+	addTabs({id:ids,title:title_,close: true,url: url_+ids});	
 }
 
 /**
