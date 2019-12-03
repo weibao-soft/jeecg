@@ -140,8 +140,8 @@ function doPay() {
 
 <t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="freightPolicyController.do?doAdd" callback="jeecgFormFileCallBack@Override">
 <fieldset class="step" style="width:100%;padding-bottom: 20px;">
- <legend>国任投保</legend>
- <table cellpadding="0" cellspacing="1" class="formtable" width="1000">
+ <legend>东瑞安心运</legend>
+ <table cellpadding="0" cellspacing="1" class="formtable" style="table-layout: fixed;" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
 	<input id="prodId" name="prodId" type="hidden"/>
 	<input id="premium" name="premium" type="hidden"/>
@@ -168,7 +168,7 @@ function doPay() {
 						typeGroupCode="partType" defaultVal="QY" hasLabel="false" ></t:dictSelect>
 						<span class="Validform_checktip"></span></td>
 		 <td style="width:150px;" class="border-right"><label id="holderCertLbl"><span style="color: red;">*</span>证件类型</label></td>
-		 <td style="width:950px;"><t:dictSelect field="holderCertType" id="holderCertType" type="list" divClass="dict_select" title=""
+		 <td style="width:auto;"><t:dictSelect field="holderCertType" id="holderCertType" type="list" divClass="dict_select" title=""
 						typeGroupCode="certType" defaultVal="2" hasLabel="false" ></t:dictSelect></td>
 		 </tr>
 		 <tr name="holderQYTr">
@@ -213,7 +213,7 @@ function doPay() {
 						typeGroupCode="partType" defaultVal="QY" hasLabel="false" ></t:dictSelect>
 						<span class="Validform_checktip"></span></td>
 		 <td style="width:150px;" class="border-right"><label id="insuredCertLbl"><span style="color: red;">*</span>证件类型</label></td>
-		 <td style="width:950px;"><t:dictSelect field="insuredCertType" id="insuredCertType" type="list" divClass="dict_select" title=""
+		 <td style="width:auto;"><t:dictSelect field="insuredCertType" id="insuredCertType" type="list" divClass="dict_select" title=""
 						typeGroupCode="certType" defaultVal="2" hasLabel="false" ></t:dictSelect></td>
 		 </tr>
 		 <tr name="insuredQYTr">

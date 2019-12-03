@@ -22,6 +22,8 @@
 input[type="text"]{font-size:14px;}
 select{height:46px;}
 dict_select{width:200px;}
+.info-table table{border-right:1px solid #E3E3E3;border-bottom:1px solid #E3E3E3} 
+.info-table table td{border-left:1px solid #E3E3E3;border-top:1px solid #E3E3E3}
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
@@ -112,23 +114,23 @@ function doPay() {
 	<input id="draftId" name="draftId" type="hidden" value="${policyMainPage.draftId }"/>
 	<input id="premium" name="premium" type="hidden" value="${policyMainPage.premium }"/>
  
- <tr><td style="width:10%;border-top:1px solid #E3E3E3;border-left:1px solid #E3E3E3;"></td><td style="width:90%">
+ <tr><td style="width:60px;border-top:1px solid #E3E3E3;border-left:1px solid #E3E3E3;"></td><td style="width:1140px;">
 	 <table cellpadding="0" cellspacing="0" class="formtable" style="border:1px solid #E3E3E3;border-bottom:0px solid #FFF;" width="100%">
-	 <tr><td style="width:15%">方案保障</td>
-	 <td style="width:85%">
+	 <tr><td style="width:150px;">方案保障</td>
+	 <td style="width:auto;">
 			<select name="planId" id="planId" style="width:500px;" value="${policyMainPage.planId}">
 			</select>
 			<span class="Validform_checktip"></span></td></tr>
 	 </table>
  </td></tr>
  
- <tr><td style="width:10%;border:1px solid #E3E3E3;border-right:0px solid #FFF;">投保内容</td><td style="width:90%">
+ <tr><td style="width:60px;border:1px solid #E3E3E3;border-right:0px solid #FFF;">投保内容</td><td style="width:1140px;">
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
 	 
 	 <tr><td>
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
-		 <tr><td style="width:15%">车辆信息：</td>
-		 <td style="width:85%">
+		 <tr><td style="width:150px;border-right:1px solid #E3E3E3;">车辆信息：</td>
+		 <td style="width:auto;">
 			<table name="policy_tabel" id="policy_tabel">
 			<tbody id="add_policy_tabel">
 			<c:if test="${fn:length(policyMainPage.vehicles) <= 0 }">
@@ -164,8 +166,8 @@ function doPay() {
 	 
 	 <tr><td>
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
-		 <tr><td style="width:15%">保险期间：</td>
-		 <td style="width:85%">
+		 <tr><td style="width:150px;border-right:1px solid #E3E3E3;">保险期间：</td>
+		 <td style="width:auto;">
 		 自 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:100px;" onblur="calculateYear();" 
 		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> <input type="text" 
 		 name="shour" id="shour" style="width:20px;" value="00" disabled/> 起 至 <input type="text" name="endDate" id="end" value="${end}" class="Wdate"
@@ -174,14 +176,15 @@ function doPay() {
 	 </table>
 	 </td></tr>
 	 
-	 <tr><td>
-	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
-		 <tr><td style="width:100%" colspan="4"><label class="Validform_label"> 投保人： </label></td></tr>
-		 <tr><td style="width:15%">投保人性质</td>
-		 <td style="width:35%"><t:dictSelect field="holderNature" id="holderNature" type="list" divClass="dict_select" title=""
+	 <tr><td style="width:100%"><label class="Validform_label"> 投保人： </label></td></tr>
+	 
+	 <tr><td class="info-table">
+	 <table cellpadding="0" cellspacing="0" style="border-bottom:0px solid #FFF;" class="formtable" width="100%">
+		 <tr><td style="width:150px;">投保人性质</td>
+		 <td style="width:300px;"><t:dictSelect field="holderNature" id="holderNature" type="list" divClass="dict_select" title=""
 						typeGroupCode="holdNature" defaultVal="${policyMainPage.holderNature}" hasLabel="false" ></t:dictSelect>
 						<span class="Validform_checktip"></span></td>
-		 <td style="width:15%"></td><td style="width:35%"></td></tr>
+		 <td style="width:150px;"></td><td style="width:auto;"></td></tr>
 		 <tr><td><span style="color: red;">*</span>单位名称</td>
 		 <td><select name="holderCompName" id="holderCompName" style="width:180px;" autocomplete="off" value="${policyMainPage.holderCompName}">
 				<option value=""></option>
@@ -213,16 +216,17 @@ function doPay() {
 	 </table>
 	 </td></tr>
 	 
-	 <tr><td>
+	 <tr>
+	 <td style="width:100%"><label class="Validform_label">被保人：</label><input id="check1" type="checkbox" />同投保人</td>
+	 </tr>
+	 
+	 <tr><td class="info-table">
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr>
-		 <td style="width:100%" colspan="4"><label class="Validform_label">被保人：</label><input id="check1" type="checkbox" />同投保人</td>
-		 </tr>
-		 <tr>
-		 <td style="width:15%"><span style="color: red;">*</span>单位名称 </td>
-		 <td style="width:35%"><input type="text" name="insuredCompName" id="insuredCompName" style="width:200px;" value="${policyMainPage.insuredCompName}" autocomplete="off"/></td>
-		 <td style="width:15%"><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码)</td>
-		 <td style="width:35%"><input type="text" name="insuredOrgCode" id="insuredOrgCode" maxlength="18" style="width:200px;" value="${policyMainPage.insuredOrgCode}"/>
+		 <td style="width:150px;"><span style="color: red;">*</span>单位名称 </td>
+		 <td style="width:300px;"><input type="text" name="insuredCompName" id="insuredCompName" style="width:200px;" value="${policyMainPage.insuredCompName}" autocomplete="off"/></td>
+		 <td style="width:150px;"><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码)</td>
+		 <td style="width:auto;"><input type="text" name="insuredOrgCode" id="insuredOrgCode" maxlength="18" style="width:200px;" value="${policyMainPage.insuredOrgCode}"/>
 		 <span class="Validform_checktip"></span></td>
 		 </tr>
 	 </table>
