@@ -3,7 +3,7 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="acctReceiveDetailList" checkbox="true" fitColumns="true" title="已分润明细" actionUrl="personalAcctController.do?acctReceiveDetailDatagrid" 
+  <t:datagrid name="perAcctReceiveDetailList" checkbox="true" fitColumns="true" title="已分润明细" actionUrl="personalAcctController.do?acctReceiveDetailDatagrid" 
   	idField="id" fit="true" queryMode="group" collapsible="true" pageSize="100" sortName="payTime" sortOrder="desc">
    <t:dgCol title="主键" hidden="true" field="id"  queryMode="single"  width="0"></t:dgCol>   
    

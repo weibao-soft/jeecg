@@ -47,6 +47,16 @@ public class ProductEntity implements java.io.Serializable {
 	@Column(name ="insur_comp_name",nullable=true,length=100)
 	private java.lang.String insurCompName;
 	
+	/**投保页面标题*/    
+	@Column(name ="page_title",nullable=true,length=20)
+	private java.lang.String pageTitle;
+	
+	
+	/**投保页面url*/    
+	@Column(name ="pageurl",nullable=true,length=255)
+	private java.lang.String pageurl;
+	
+	
 	public java.lang.String getId(){
 		return this.id;
 	}
@@ -102,4 +112,20 @@ public class ProductEntity implements java.io.Serializable {
 	public void setGoodCode(java.lang.String goodCode) {
 		this.goodCode = goodCode;
 	}
+
+	public java.lang.String getPageTitle() {
+		return pageTitle;
+	}
+
+	public void setPageTitle(java.lang.String pageTitle) {
+		this.pageTitle = pageTitle;
+	}
+
+	public java.lang.String getPageurl() {
+		return pageurl;
+	}
+
+	public void setPageurl(java.lang.String pageurl) {
+		this.pageurl = pageurl;
+	}	
 }
