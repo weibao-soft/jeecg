@@ -190,7 +190,6 @@ function getIframeTemplate(url) {
 			</c:if>
 			</tbody>
 			</table>
-			<span class="Validform_checktip"></span>
 		 </td></tr>
 	 </table>
 	 </td></tr>
