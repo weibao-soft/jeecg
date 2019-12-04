@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
-<t:base type="jquery,easyui,tools,DatePicker"></t:base>
+<t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="acctReceiveDetailList" checkbox="true" fitColumns="true" title="已分润明细" actionUrl="companyAcctController.do?acctReceiveDetailDatagrid" 
+  <t:datagrid name="comAcctReceiveDetailList" checkbox="true" fitColumns="true" title="已分润明细" actionUrl="companyAcctController.do?acctReceiveDetailDatagrid" 
   	idField="id" fit="true" queryMode="group" collapsible="true" pageSize="100" sortName="payTime" sortOrder="desc">
    <t:dgCol title="主键" hidden="true" field="id"  queryMode="single"  width="0"></t:dgCol>   
    
@@ -17,16 +17,13 @@
    <t:dgCol title="分润金额"  field="amount" sortable="false" width="100"></t:dgCol>
    <t:dgCol title="分润时间"  field="divideTime" formatter="yyyy-MM-dd hh:mm:ss" width="150"></t:dgCol>
    <t:dgCol title="结算状态"  field="rewardStatus" dictionary="rwdstatus" sortable="false" width="100"></t:dgCol>
-   <%-- 
-   <t:dgCol title="营运性质"  field="planType" extendParams="editor:'numberbox'"  queryMode="single"  width="50"></t:dgCol>   
-   --%>
-	
+   
 	<t:dgToolBar  title="提现" icon="icon-save" url="companyAcctController.do?withdraw" funname="withdraw"></t:dgToolBar>
 	
   </t:datagrid>
   </div>
  </div>
- <script type="text/javascript" src="webpage/com/jeecg/demo/orderOne2Many/rowedit.js" ></script>
+ 
  <script type="text/javascript">
 
  var selectIframe;//iframe对象
@@ -60,11 +57,17 @@
  });
  
  //提现
- function withdraw(title,addurl,gname){
+ function withdraw(title,url,gname){
+	debugger;
+	var isNeedBind = ${isNeedBind}; 
+	if(isNeedBind){
+		var addurl = "companyAcctController.do?goBindAccount";
+		openwindow("公司账户信息绑定",addurl,gname,620,400);
+		return;
+	}
 	
 	var rows = $("#"+gname).datagrid('getSelections');
-			
-	//<%=basePath%>/"
+				
 	if (rows.length > 0) {
     	$.dialog.setting.zIndex = getzIndex(true);
     	$.dialog.confirm("确定要申请提现支付这[ "+rows.length+" ]笔分润保单吗？", function(r) {
@@ -84,7 +87,7 @@
 					success : function(data) {
 						debugger;
 						var d = $.parseJSON(data);
-						if (d.success) {
+						if (d.success) {							
 							var msg = d.msg;
 							tip(msg);
 							reloadTable();
