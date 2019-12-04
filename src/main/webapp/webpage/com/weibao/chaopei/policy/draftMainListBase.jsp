@@ -22,9 +22,8 @@ div.datagrid-cell{font-size:14px;}
   <div region="center" style="padding:0px;border:0px;">
   <t:datagrid name="draftMainList" checkbox="false" fitColumns="false" title="投保草稿列表" actionUrl="policyDraftController.do?datagrid" 
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" pageSize="20">
-   <t:dgCol title="操作" field="opt" width="220"></t:dgCol>
+   <t:dgCol title="操作" field="opt" width="200"></t:dgCol>
    <t:dgFunOpt title="编辑"  funname="addTab(id, this)" urlclass="ace_button" urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
-   <t:dgDefOpt title="编辑跳转"  url="policyDraftController.do?goUpdate&draftId={id}" urlclass="ace_button" urlfont="fa-edit" urlStyle="background-color:#FFA500;"/>
    <t:dgDelOpt title="删除" url="policyDraftController.do?doDel&draftId={id}" urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
