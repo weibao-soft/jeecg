@@ -22,15 +22,14 @@
 	--%>
   </t:datagrid>
   </div>
- </div>
- <script type="text/javascript" src="webpage/com/jeecg/demo/orderOne2Many/rowedit.js" ></script>
- <script type="text/javascript">
-
- var selectIframe;//iframe对象
- var iframeCloseFlag = 1;//避免多次创建弹框
- $(function(){
+</div>
+<script type="text/javascript" src="webpage/com/jeecg/demo/orderOne2Many/rowedit.js" ></script>
+<script type="text/javascript">
+/*
+var selectIframe;//iframe对象
+var iframeCloseFlag = 1;//避免多次创建弹框
+$(function(){
 	 //为了给列表添加双击变编辑模式的事件
-	 /*
 	  $('#productDetailList').datagrid({		  
 		  onDblClickCell: function(index,field,value){
 			  alert('bbb');
@@ -52,22 +51,15 @@
 				});
 			}
 		}); 
-	 */
 
- });
-function getAcctBalanceList(id){		
-	$('#acctUnreceiveDetailList').datagrid('load',{
-		personalAccountId : id
-	});
-	window.location.reload();
-}
+});
+
 //打开选择框
 function openSelect(dv,title,obj) {
 	$.dialog.setting.zIndex = getzIndex(); 
 	selectIframe = $.dialog({content: 'url:jformOrderMainController.do?departSelect&name='+dv, zIndex: getzIndex(),title: title, lock: false, width: '400px', height: '350px', opacity: 0.4, button: [
 	   {name: '<t:mutiLang langKey="common.confirm"/>', callback: function (){callbackSelect(obj);}, focus: true}
-	   /* ,
-	   {name: '<t:mutiLang langKey="common.cancel"/>', callback: function (){iframeCloseFlag = 1;}} */
+	   // , {name: '<t:mutiLang langKey="common.cancel"/>', callback: function (){iframeCloseFlag = 1;}} 
    ], cancel:function (){iframeCloseFlag = 1;}}).zindex();
 }
 
@@ -88,5 +80,13 @@ function callbackSelect(obj) {
 		iframeCloseFlag = 1;
 	}
 }
+*/
 
- </script>
+
+function getAcctBalanceList(id){		
+	$('#acctUnreceiveDetailList').datagrid('load',{
+		personalAccountId : id
+	});
+	window.location.reload();
+}
+</script>
