@@ -125,8 +125,11 @@ public class CommissionManagerController extends BaseController {
 					//admin才会进这里
 					String sql = "select count(*) from t_s_depart where parentdepartid = ?";
 					Long count = this.productService.getCountForJdbcParam(sql, org.get("id"));
-					
-					if(count>0){
+					String sql2 = "select count(1) from t_s_user_org uo, "
+							+ "t_s_base_user us where uo.user_id=us.ID and uo.org_id = ? "
+							+ "and us.status in ('"+Globals.User_Normal+"', '"+Globals.User_ADMIN+"')";
+					Long count2 = this.productService.getCountForJdbcParam(sql2, org.get("id"));
+					if((count+count2)>0){
 						map.put("isParent", true);
 					}else{						
 						map.put("isParent", false);
@@ -169,7 +172,7 @@ public class CommissionManagerController extends BaseController {
 	 * @param parentid 点选机构的父id，用于判断点选机构在树结构是否根节点
 	 */
 	@RequestMapping(params = "departCommissionList")
-	public ModelAndView departCommissionList(HttpServletRequest request, String departid, String orgType) {
+	public ModelAndView departCommissionList(HttpServletRequest request, String departid, String orgType, boolean updSuccess) {
 		//	传进来的departid可能是机构代码，也可能是用户代码
 		String departname = "";
 		TSDepart parent = null;
@@ -188,20 +191,27 @@ public class CommissionManagerController extends BaseController {
 			//TODO: 用户归属机构，作限制，只能归属一家机构
 			parent = uoList.get(0).getTsDepart();
 			departname = uoList.get(0).getTsUser().getRealName();
-		}
-		
-		TSUser currentUser = ResourceUtil.getSessionUser();
-		String userName = currentUser.getUserName();
-		if("admin".equals(userName)) {
-			request.setAttribute("isAdmin", true);
 		}		
-		//	点选的节点id与当前用户所属机构的id一致，说明是根节点
-		if(departid.equals(currentUser.getCurrentDepart().getId())) {
-			request.setAttribute("isRoot", true);
-		}else{
-			request.setAttribute("isRoot", false);
-		}
 		
+		TSUser currentUser = ResourceUtil.getSessionUser();		
+		if("admin".equals(currentUser.getUserName())) {
+			request.setAttribute("isAdmin", true);
+			request.setAttribute("isParent", true);
+		}
+		if(parent != null) {
+			if(parent.getId().equals(currentUser.getCurrentDepart().getId())) {
+				//	如果被选中的机构或者人员的父级机构 与当前机构一致，说明isParent==true，可以编辑页面的佣金比例，保存按钮可以用
+				request.setAttribute("isParent", true);
+			}else {
+				request.setAttribute("isParent", false);
+			}
+			
+			if(currentUser.getCurrentDepart().getTSPDepart() != null &&  currentUser.getCurrentDepart().getTSPDepart().getTSPDepart() == null) {
+				//	次顶级机构
+				request.setAttribute("isAdminSub", true);
+			}
+		}
+				
 		List<CommissionConfRef> refList = null;
 		
 		//	点选的是整个组织机构的根节点(微保科技)		
@@ -228,6 +238,7 @@ public class CommissionManagerController extends BaseController {
 		request.setAttribute("departname", departname);
 		request.setAttribute("refList", refList);
 		request.setAttribute("orgType", orgType);
+		request.setAttribute("updSuccess", updSuccess);
 		return new ModelAndView("com/weibao/chaopei/commisionmanage/commision-config");
 
 	}
@@ -243,6 +254,9 @@ public class CommissionManagerController extends BaseController {
 	public ModelAndView udpateCommConf(CommissionConfRef commConfRef, HttpServletRequest request, HttpServletResponse response) {				
 		String userName = ResourceUtil.getSessionUser().getUserName();
 		List<CommissionConfEntity> commConfList = commConfRef.getCommisConfList();		
+		if(commConfList == null || commConfList.size()==0) {
+			return departCommissionList(request,commConfRef.getDepartid(), commConfRef.getOrgType(), false);
+		}
 		Date now = new Date();
 		for (CommissionConfEntity commConf : commConfList) {
 			if(StringUtil.isEmpty(commConf.getId())){
@@ -256,6 +270,6 @@ public class CommissionManagerController extends BaseController {
 		productService.batchSaveOrUpdate(commConfList);		
 		
 		//	传进来的都是被选中的产品方案，	
-		return new ModelAndView("com/weibao/chaopei/commisionmanage/commision-config");
+		return departCommissionList(request,commConfRef.getDepartid(), commConfRef.getOrgType(), true);
 	}
 }

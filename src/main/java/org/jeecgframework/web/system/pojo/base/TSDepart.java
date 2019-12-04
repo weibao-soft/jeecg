@@ -75,7 +75,7 @@ public class TSDepart extends IdEntity implements java.io.Serializable {
     }
     
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parentdepartid")
 	public TSDepart getTSPDepart() {
 		return this.TSPDepart;

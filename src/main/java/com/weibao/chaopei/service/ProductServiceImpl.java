@@ -107,8 +107,8 @@ public class ProductServiceImpl extends CommonServiceImpl implements ProductServ
 			paramMap.put("removeIds", removeIds);
 			jdbcDao.executeForMap(updateSql, paramMap);		
 		}
-		//	再保存选中的产品		
-		this.batchSave(entityList);		
+		//	再保存选中的产品				
+		this.batchSaveOrUpdate(entityList);
 	}
 
 }

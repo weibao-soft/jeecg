@@ -32,6 +32,14 @@
 	  		</dl>
 	  		<div class="label3" onclick="getUnreAcctBalanceList('${companyAcct.id}')">明细</div>
 	  	</div>
+	  	
+  </div>
+  
+  <div class="nav-body" style="width:760px;">
+  	<ul>
+  		<li class="icon_zhxx" onclick="bindAccount()" >账户信息</li>
+  		<li class="icon_zjjyjl">提现记录</li>  		
+  	</ul>
   </div>
   </div>
 </div>
@@ -51,5 +59,10 @@
 	}
 	function getUnreAcctBalanceList(id){			
 		parent.getUnreAcctBalanceList(id);
+	}
+	function bindAccount(){
+		var addurl = "companyAcctController.do?goBindAccount";
+		openwindow("公司账户信息绑定",addurl,"bindAcct",620,400);
+		return;
 	}
  </script>

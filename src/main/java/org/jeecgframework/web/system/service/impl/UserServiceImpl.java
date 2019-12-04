@@ -244,6 +244,14 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 			uo.setTsUser(user);
 			this.save(uo);
 			//5. 设置管理员的角色
+			List<TSRole> list = this.findByProperty(TSRole.class, "roleCode", "org_manager");
+			if(list != null && list.size() > 0) {
+				TSRole role = list.get(0);
+				TSRoleUser roleUser = new TSRoleUser();
+				roleUser.setTSUser(user);
+				roleUser.setTSRole(role);
+				this.saveOrUpdate(roleUser);
+			}
 		}	
 		//6. 创建公司账户
 		CompanyAccountEntity cAcct  = new CompanyAccountEntity();

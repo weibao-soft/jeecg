@@ -10,12 +10,26 @@ public class ProductAssignRef implements java.io.Serializable {
 	private String id;
 	private java.lang.String productPlanId;
 	private java.lang.String productId;
+	private java.lang.String productName;
+	private java.lang.String premium;
 	private java.lang.String company;	
 	private java.lang.String productPlan;
 	private java.lang.String assignStatus;
 	private String departid;
 	private List<String> checkedProdctAssign;	
-		
+				
+	public java.lang.String getPremium() {
+		return premium;
+	}
+	public void setPremium(java.lang.String premium) {
+		this.premium = premium;
+	}
+	public java.lang.String getProductName() {
+		return productName;
+	}
+	public void setProductName(java.lang.String productName) {
+		this.productName = productName;
+	}
 	public String getId() {
 		return id;
 	}
