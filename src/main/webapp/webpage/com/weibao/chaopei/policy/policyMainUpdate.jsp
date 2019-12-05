@@ -70,11 +70,12 @@ function submitForm() {
 	$("#insur").attr("disabled", true);
 	//window.Custom.dialogLoading(true);
     window.Utils.showLoading(imgName);
-	
+
+    var mainTabId = "tab_402880ea6df0af64016df0b507840001";
 	var url = "policyDraftController.do?insuranceUpdate";
 	var params = getSubmitParam();
 	params = getUpdateParam(params);
-	ajaxSubmitForm(url, params, false);
+	ajaxSubmitForm(url, params, false, mainTabId);
 	//tip(JSON.stringify(params));
     //window.setTimeout(window.Utils.closeLoading, 2000);
     //window.setTimeout(customFunc2, 2000);
@@ -115,12 +116,21 @@ function insurance() {
 }
 //支付
 function doPay() {
-	submitPay("${policyMainPage.draftId}");
+    var mainTabId = "tab_402880ea6df0af64016df0b507840001";
+	submitPay("${policyMainPage.draftId}", mainTabId);
 }
 
 function getIframeTemplate(url) {
     console.log(url)
     return '<iframe name="iframe" src="' + url + '" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" scrolling="yes" target="_self" seamless ></iframe>';
+}
+//刷新保单列表
+function reloadPolicyLists() {
+	var mydiv = window.parent.$("#tab_402880ea6df0af64016df0b507840001");
+	var myframe = $(mydiv).children("iframe")[0];
+	var myWindow = myframe.contentWindow;
+    myWindow.reload();
+    closeCurrent('tab_${policyMainPage.id}');
 }
 </SCRIPT>
 </head>

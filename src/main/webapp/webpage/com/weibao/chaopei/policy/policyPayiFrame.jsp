@@ -6,8 +6,13 @@
 <script type="text/javascript">
 function closeDiv() {
 	var id = $("#tabId").val();
+	var mainTabId = $("#mainTabId").val();
+	//关闭支付页面
     $("#payDiv").hide();
+	//刷新保单列表
+    reloadPolicyList(mainTabId);
 	window.Utils.closeLoading();
+	//关闭当前的tab页面
     closeCurrent('tab_'+id);
 }
 function testPay() {
@@ -17,6 +22,7 @@ function testPay() {
 }
 </script>
 <input id="tabId" name="tabId" type="hidden" value=""/>
+<input id="mainTabId" name="mainTabId" type="hidden" value=""/>
 <div id="payDiv" class="overlay" style="z-index: 11009;display: none;">
 <div class="animated zoomIn layerBox" style="width: 1286px; height: 599px; left: 177px; top: 66.8px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px; z-index: 11009;">
   <h4 class="layerHeader">

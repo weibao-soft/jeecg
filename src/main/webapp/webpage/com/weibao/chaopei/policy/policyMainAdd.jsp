@@ -132,7 +132,7 @@ function insurance() {
 }
 //支付
 function doPay() {
-	submitPay("${prodId}");
+	submitPay("${prodId}", null);
 }
 </SCRIPT>
 </head>

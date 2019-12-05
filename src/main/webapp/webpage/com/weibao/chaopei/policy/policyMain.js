@@ -248,6 +248,17 @@ function parseData(info) {
 }
 
 
+//刷新保单列表
+function reloadPolicyList(mainTabId) {
+	debugger;
+	if(mainTabId == null || mainTabId == undefined || mainTabId == '') {
+		return false;
+	}
+	var mydiv = window.parent.$("#"+mainTabId);
+	var myframe = $(mydiv).children("iframe")[0];
+	var myWindow = myframe.contentWindow;
+    myWindow.reload();
+}
 //打开浏览器窗口
 function openWindow(payUrl) {
 	payUrl = encodeURIComponent(payUrl);
@@ -284,7 +295,7 @@ function submitData() {
 	$("#formobj").submit();
 }
 //Ajax方式打开支付页面
-function submitPay(id) {
+function submitPay(tabId, mainTabId) {
 	var param = $("#insuranceObj").val();
     if(window.console) console.log(param);
 	if(param == null || param == "") {
@@ -299,10 +310,10 @@ function submitPay(id) {
 	var params = {};
 	params.params = param;
 	var url = "policyDraftController.do?insurancePay";
-	ajaxPay(url, params, id);
+	ajaxPay(url, params, tabId, mainTabId);
 }
 //公共支付函数：参数 params为 Json类型
-function ajaxPay(url, params, id) {
+function ajaxPay(url, params, tabId, mainTabId) {
 $.ajax({
     url: url,
     type: "POST",
@@ -315,13 +326,14 @@ $.ajax({
   	    var result = data.obj;
         if(console) console.log("ajaxReturn == ", data);
         if (data.success) {
-		    layer.msg(data.msg, {icon:6});
+		    //layer.msg(data.msg, {icon:6});
             var payUrl = result.data;
             //var payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&amp;code=&amp;payOrderNo=js02&amp;platform=pc";
             if(console) console.log("payUrl == ", payUrl);
       	    $("#payResult").val(result);
       	    $("#payUrl").val(payUrl);
-      	    $("#tabId").val(id);
+      	    $("#tabId").val(tabId);
+      	    $("#mainTabId").val(mainTabId);
       	    
       	    //open window方式打开支付窗口，打开的是一个浏览器窗口
       	    //openWindow(payUrl);
@@ -339,7 +351,7 @@ $.ajax({
 });
 }
 //公共提交表单函数：参数 params为 Json类型，可以传空参数，如:  {}
-function ajaxSubmitForm(url, params, isAdd) {
+function ajaxSubmitForm(url, params, isAdd, mainTabId) {
   $.ajax({
       url: url,
       type: "POST",
@@ -357,6 +369,7 @@ function ajaxSubmitForm(url, params, isAdd) {
               //if(console) console.log("returnObj == ", result);
               $("#insuranceObj").val(result);
               $("#pay").attr("disabled", false);
+              reloadPolicyList(mainTabId);
   			  layer.msg(data.msg, {icon:6});
           } else {
               if(isAdd) {

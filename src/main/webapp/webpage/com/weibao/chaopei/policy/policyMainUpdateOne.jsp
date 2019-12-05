@@ -64,12 +64,12 @@ function submitForm() {
 	$("#save").attr("disabled", true);
 	$("#insur").attr("disabled", true);
     window.Utils.showLoading(imgName);
-	
+
 	var url = "policyDraftController.do?insuranceUpdate";
 	var params = getSubmitParam();
 	params = getUpdateParam(params);
 	//tip(JSON.stringify(params));
-	ajaxSubmitForm(url, params, false);
+	ajaxSubmitForm(url, params, false, null);
 }
 function confirmSubmit() {
 	submitForm();
@@ -99,7 +99,31 @@ function insurance() {
 }
 //支付
 function doPay() {
-	submitPay("${policyMainPage.id}");
+    var mainTabId = "tab_402880ea6e26628b016e26665a0f0001";
+	submitPay("${policyMainPage.id}", mainTabId);
+}
+//刷新保单列表
+function reloadPolicyLists() {
+	var mydiv = window.parent.$("#tab_402880ea6e26628b016e26665a0f0001");
+	var myframe = $(mydiv).children("iframe")[0];
+	var myWindow = myframe.contentWindow;
+    myWindow.reload();
+    closeCurrent('tab_${policyMainPage.id}');
+}
+function test() {
+	debugger;
+	var pobj = window.parent.document;
+	var pobj2 = window.parent.frames;
+	var len = window.parent.frames.length;
+	//window.parent.frames[1].reload();
+
+	var mydiv = window.parent.$("#tab_402880ea6e26628b016e26665a0f0001");
+	var myframe = $(mydiv).children("iframe")[0];
+	var myWindow = myframe.contentWindow;
+	var myDocument = myframe.contentDocument;
+    if(console) console.log(mydiv.html());
+    var myEle = myWindow.document.getElementById("lywidth_demo");
+    myWindow.reload();
 }
 </SCRIPT>
 </head>
