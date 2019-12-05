@@ -55,7 +55,7 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 	}
 
 	/**
-	 *  查询明细
+	 *  查询已分润、未分润明细
 	 * @return
 	 */
 	public DataGrid getRewardDetailList(RewardDetailPage rewardDetail, DataGrid dataGrid, 
@@ -83,6 +83,8 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 			Object param = null;
 
 			stbSql.append(" and d.company_account_id = ? and d.depart_id = ?");
+			stbHeadSql2.append(stbSql);
+			
 			if(StringUtils.isNotBlank(sort)) {
 				String column = PolicyUtil.getColumnName(sort);
 				column = PolicyUtil.getAmbiguousColumn(column);
@@ -90,14 +92,67 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 					stbSql.append(" order by " + column + " " + order);
 				}
 			}
+			stbHeadSql1.append(stbSql);
+			
 			param = new String(rewardDetail.getCompanyAccountId());
 			objList.add(param);
 			param = new String(rewardDetail.getDepartId());
 			objList.add(param);
+			Object[] objss = objList.toArray();
+			total = getCountForJdbcParam(stbHeadSql2.toString(), objss);
+			objs = findForJdbcParam(stbHeadSql1.toString(), page, rows, objss);
 			
-			stbHeadSql1.append(stbSql);
+			for(int i = 0; i < objs.size(); i++) {
+				Map<String, Object> obj = objs.get(i);
+				rewardDetailPage = new RewardDetailPage();
+
+				setRewardDetailPage(obj, rewardDetailPage);
+				rewardList.add(rewardDetailPage);
+			}
+			dataGrid.setResults(rewardList);
+			dataGrid.setTotal(total.intValue());
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
+		return dataGrid;
+	}
+
+	/**
+	 *  查询取现明细
+	 * @return
+	 */
+	public DataGrid getWithdrawDetailList(String orderId, DataGrid dataGrid, 
+			StringBuffer stbHeadSql1, StringBuffer stbSql) {
+		Long total = 0L;
+		List<Map<String, Object>> objs = null;
+		List<RewardDetailPage> rewardList = new ArrayList<RewardDetailPage>();
+		StringBuffer stbHeadSql2 = new StringBuffer();
+		stbHeadSql2.append("select count(1) ");
+		
+		try {
+			List<Object> objList = new ArrayList<Object>();
+			int page = dataGrid.getPage();
+			int rows = dataGrid.getRows();
+			String sort = dataGrid.getSort();
+			String order = dataGrid.getOrder();
+			RewardDetailPage rewardDetailPage = null;
+			Object param = null;
+
+			stbSql.append(" and e.order_id = ?");
 			stbHeadSql2.append(stbSql);
 			
+			if(StringUtils.isNotBlank(sort)) {
+				String column = PolicyUtil.getColumnName(sort);
+				column = PolicyUtil.getAmbiguousColumn(column);
+				if(StringUtils.isNotBlank(column)) {
+					stbSql.append(" order by " + column + " " + order);
+				}
+			}
+			stbHeadSql1.append(stbSql);
+			
+			param = new String(orderId);
+			objList.add(param);
 			Object[] objss = objList.toArray();
 			total = getCountForJdbcParam(stbHeadSql2.toString(), objss);
 			objs = findForJdbcParam(stbHeadSql1.toString(), page, rows, objss);
@@ -135,7 +190,8 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,wb_company_rewarded_detail d,");
 		stbSql.append(" t_s_base_user bu,t_s_user_org uo,t_s_depart dp ");
-		stbSql.append(" where d.status='0' and a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and a.id=d.policy_id and bu.id=uo.user_id and dp.ID=uo.org_id");
+		stbSql.append(" where d.status='0' and a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and a.id=d.policy_id ");
+		stbSql.append(" and bu.id=uo.user_id and dp.ID=uo.org_id");
 		getRewardDetailList(rewardPage, dataGrid, stbHeadSql1, stbSql);
 		return dataGrid;
 	}
@@ -159,6 +215,31 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		stbSql.append(" t_s_base_user bu,t_s_user_org uo,t_s_depart dp ");
 		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and a.id=d.policy_id and bu.id=uo.user_id and dp.ID=uo.org_id");
 		getRewardDetailList(rewardPage, dataGrid, stbHeadSql1, stbSql);
+		return dataGrid;
+	}
+
+	/**
+	 *  查询取现明细
+	 * @return
+	 */
+	public DataGrid getWithdrawDetailList(String orderId, DataGrid dataGrid) {
+		StringBuffer stbSql = new StringBuffer();
+		StringBuffer stbHeadSql1 = new StringBuffer();
+		if(StringUtils.isBlank(orderId)) {
+			dataGrid.setResults(new ArrayList<RewardDetailPage>());
+			dataGrid.setTotal(0);
+			return dataGrid;
+		}
+		
+		stbHeadSql1.append("select d.id, a.plan_id, a.last_update_time, a.pay_time, a.holder_comp_name, d.`status` reward_status, ");
+		stbHeadSql1.append("a.policy_no, a.plate_no, a.user_id, bu.username user_no, bu.realname username, ");
+		stbHeadSql1.append("dp.id depart_id, dp.departname, d.amount, d.divide_time, b.prod_name, c.prod_plan ");
+		
+		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,wb_company_rewarded_detail d,");
+		stbSql.append(" wb_withdraw_order_detail e,t_s_base_user bu,t_s_user_org uo,t_s_depart dp ");
+		stbSql.append(" where d.status='0' and a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and a.id=d.policy_id ");
+		stbSql.append(" and d.id=e.reward_detail_id and bu.id=uo.user_id and dp.ID=uo.org_id");
+		getWithdrawDetailList(orderId, dataGrid, stbHeadSql1, stbSql);
 		return dataGrid;
 	}
 }

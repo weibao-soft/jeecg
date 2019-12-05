@@ -34,7 +34,7 @@
 	text-align: center;
 	}
 	.table-tr-content{
-	height: 18px;
+	height: 46px;
 	background: #FFFFFF;
 	text-align: center;
 	font-size: 12px;
@@ -47,13 +47,13 @@
 	}
 	.hoverTD{
 	background-color: #eafcd5;
-	height: 18px;
+	height: 46px;
 	text-align: center;
 	font-size: 12px;
 	}
 	.trSelected{
 	background-color: #51b2f6;
-	height: 18px;
+	height: 46px;
 	text-align: center;
 	font-size: 12px;
 	}
@@ -72,61 +72,56 @@
 		<table  width="99%" class="list" style="word-break: break-all" border="0"
 				align="center" cellpadding="0" cellspacing="1" bgcolor="#c0de98">
 			<tr class="table-tr-title">
+				<th align="left">保险公司</th>
 				<th align="left">产品名称</th>
+				<th align="left">产品方案</th>
+				<th align="left">保费</th>
 				<th align="left">分账时间</th>
-				<c:if test="${isRoot}">
-					<c:if test="${isAdmin}">
-						<th align="left">佣金比例设置</th>		
-					</c:if>
-					<c:if test="${!isAdmin}">
-						<th align="left">我的佣金比例</th>	
-					</c:if>
-				</c:if>				
-				<c:if test="${!isRoot}">
-					<th align="left">我的佣金比例</th>
-					<th align="left">佣金比例设置</th>
-				</c:if>				
+				<th align="left">我的佣金比例</th>
+				<th align="left">佣金比例设置</th>
 			</tr>
+			<c:if test="${empty  refList }">
+				<tr  class="table-tr-content">
+					<td colspan="7" align="left"> 无产品可设置佣金比例，请先联系上级机构设置佣金比例</td>
+				</tr>
+			</c:if>
 			<c:forEach items="${refList}" var="reflation" varStatus="stuts">
 			<tr  class="table-tr-content">
 				<input name="commisConfList[${stuts.index}].id" type="hidden" value="${reflation.id}"/>				
 				<input name="commisConfList[${stuts.index}].productPlanId" type="hidden" value="${reflation.productPlanId}"/>
-			
-				<td align="left">${reflation.productPlan}</td>							
-				<c:if test="${isRoot}">
-					<c:if test="${isAdmin }">
-						<td align="left">
-						<input name="commisConfList[${stuts.index}].period" type="text" value="${reflation.period}" style="width: 30px;"/>天
-						</td>
-						<td align="left">
-						<input name="commisConfList[${stuts.index}].rate" type="text" value="${empty reflation.rate ? 0.0 : reflation.rate}" style="width: 50px;"/>%
-						</td>	
-					</c:if>
-					<c:if test="${!isAdmin }">
-						<td align="left">${reflation.period}天</td>
-						<td align="left">${empty reflation.rate ? 0.0 : reflation.rate}%</td>	
-					</c:if>
-				</c:if>
-				<c:if test="${!isRoot}">
-					<td align="left">
-						${empty reflation.period ? 0 : reflation.period}
-						<input name="commisConfList[${stuts.index}].period" type="hidden" value="${reflation.period}"/>天
-					</td>
-					<td align="left">${reflation.parentRate}%</td>
-					<c:if test="${empty reflation.period}">
-					
-					</c:if>
-					<td align="left">				
-						<input name="commisConfList[${stuts.index}].rate" type="text" value="${empty reflation.rate ? 0.0 : reflation.rate}" style="width: 50px;"/>%
-					</td>
-				</c:if>											
-				
-											
+				<td align="left">&nbsp;${reflation.company}</td>
+				<td align="left">&nbsp;${reflation.prodName}</td>				
+				<td align="left">&nbsp;${reflation.productPlan}</td>
+				<td align="left">&nbsp;${reflation.premium}</td>		
+				<td align="left">
+					<c:choose>
+						<c:when test="${isAdmin and isParent}">
+							<input name="commisConfList[${stuts.index}].period" type="text" value="${reflation.period}" onblur="calculateDays(this);" style="width: 30px;"/>天	
+						</c:when>
+						<c:when test="${isAdminSub and isParent }">
+							<input name="commisConfList[${stuts.index}].period" type="text" value="${reflation.period}" onblur="calculateDays(this);" style="width: 30px;"/>天
+						</c:when>
+						<c:otherwise>
+							&nbsp;${reflation.period}&nbsp;天	
+						</c:otherwise>
+					</c:choose>					
+				</td>
+				<td align="left">&nbsp;${reflation.parentRate}%</td>
+				<td align="left">
+					<c:choose>
+						<c:when test="${isParent}">
+							<input name="commisConfList[${stuts.index}].rate" type="text" value="${empty reflation.rate ? 0.0 : reflation.rate}" style="width: 50px;"/>%
+						</c:when>
+						<c:otherwise>
+							&nbsp;${empty reflation.rate ? 0.0 : reflation.rate}%
+						</c:otherwise>
+					</c:choose>					
+				</td>	
 			</tr>
 			</c:forEach>			
 		</table>
 		
-		<c:if test="${!isRoot or (isRoot and isAdmin)}">
+		<c:if test="${isParent}">
 			<div class="ui_buttons">
 			<input type="button" value="保存" class="ui_state_highlight" onclick="doSubmitForm()" />		
 			</div>
@@ -134,6 +129,27 @@
 	</t:formvalid>
  </body>
   	<script type="text/javascript">		
+	  	$(document).ready(function (){
+			var updSuccess = ${updSuccess};
+	  		if(updSuccess){  			  			
+	  			$.messager.alert('提示','产品分配成功','info');
+	  		}	  		
+	  	});
+  		
+	  	function calculateDays(obj) {
+	  		var numb = obj.value;	  		
+	  		if(!isPositiveInteger(numb)) {
+	  			//obj.value = 1;	  			
+	  			layer.msg("分账时间只能输入正整数！", {icon:6});
+	  			obj.focus();
+	  		}
+	  	}
+	  	
+	  	function isPositiveInteger(s){
+	  	    var re = /^[0-9]+$/ ;
+	  	    return re.test(s)
+	  	}
+	  	
 		function doSubmitForm(){
 			var form = document.getElementById('formobj');
 			//再次修改input内容

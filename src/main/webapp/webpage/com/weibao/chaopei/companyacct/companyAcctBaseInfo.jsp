@@ -2,6 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 
+<script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 
 <link rel="stylesheet" type="text/css" href="plug-in/weibao/policy.css"/>
 <style>
@@ -9,7 +10,7 @@
 <div id="lywidth_demo" style="width:100%;">
 <div style="width:100%;">
   <div id="demoapp" class="nav-container">
-  <div class="nav-header" style="width:760px;">
+  <div class="nav-header">
 	  	<img style="width:100%;vertical-align: middle;overflow:hidden;" src="plug-in/accordion/images/account.png">
 	  	<div class="nav-header-grzh">
 	  		<div class="label1"><h4>可提现</h4></div>
@@ -33,10 +34,18 @@
 	  		<div class="label3" onclick="getUnreAcctBalanceList('${companyAcct.id}')">明细</div>
 	  	</div>
   </div>
+  
+  <div class="nav-body">
+  	<ul>
+  		<li class="icon_zhxx" onclick="bindAccount()" >账户信息</li>
+  		<li class="icon_zjjyjl" onclick="getWithdrawOrderList('${companyAcct.id}');">提现记录</li>  		
+  	</ul>
+  </div>
+  
   </div>
 </div>
 </div>
- <script type="text/javascript">
+<script type="text/javascript">
 	$(document).ready(function (){
 	
 		var abc = $("#lywidth_demo").width()+17;
@@ -52,4 +61,20 @@
 	function getUnreAcctBalanceList(id){			
 		parent.getUnreAcctBalanceList(id);
 	}
- </script>
+	
+	//绑定公司账户
+	function bindAccount(){
+		var addurl = "companyAcctController.do?goBindAccount";
+		openwindow("公司账户信息绑定",addurl,"bindAcct",620,400);
+		return;
+	}
+	//查询取现记录
+	function getWithdrawOrderList(id){
+	    if(window.console) console.log("withdrawOrderList == ", id);
+		addTab(id, "取现记录", "companyAcctController.do?withdrawOrderList&accountId="+id);
+	}
+
+	function addTab(ids, title_, url_) {		
+		addTabs({id:ids,title:title_,close: true,url: url_});	
+	}
+</script>

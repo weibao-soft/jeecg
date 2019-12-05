@@ -13,7 +13,7 @@ div.datagrid-cell{font-size:14px;}
 </style>
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="policyMainList" checkbox="true" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
+  <t:datagrid name="myPolicysManageList" checkbox="true" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
   		 idField="id" fit="true" collapsible="false" queryMode="group" sortName="createTime" sortOrder="desc" filter="true" pageSize="20">
    <t:dgCol title="操作" frozenColumn="true" field="opt" width="200"></t:dgCol>
    <t:dgFunOpt title="编辑" exp="payStatus#eq#0" funname="addTab(id)" urlclass="ace_button" urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
@@ -52,7 +52,7 @@ div.datagrid-cell{font-size:14px;}
    	<t:dgCol title="产品方案" 	field="prodPlan" sortable="false" queryMode="single" showLen="22" width="300"></t:dgCol>
    	<t:dgCol title="保险公司"	field="insurCompName" sortable="false" queryMode="single" dictionary="ins_comp" width="100"></t:dgCol>
    	
-   <t:dgToolBar title="批量支付" icon="icon-add" url="policyDraftController.do?insurancePay" funname="batchPay"></t:dgToolBar>
+   <t:dgToolBar title="批量支付" icon="icon-add" url="policyDraftController.do?insurancePays" funname="batchPay"></t:dgToolBar>
    
   </t:datagrid>
   </div>
@@ -61,14 +61,13 @@ div.datagrid-cell{font-size:14px;}
 <%@include file="policyPayiFrame.jsp"%>
  <script type="text/javascript">
 $(document).ready(function (){
-
-	var abc = $("#policyMainList").width()+17;
-	$("#policyMainList").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
+	var abc = $("#lywidth_demo").width()+17;
+	$("#lywidth_demo").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
 	
 	/*//为了给产品列表的行添加鼠标点击事件
 	//该鼠标点击事件触发父页面：policyMainList.jsp（包含当前iframe的页面）的getCustomerList
 	//再由父页面内触发另一个
-	$("#policyMainList").datagrid({		
+	$("#myPolicysManageList").datagrid({		
 		onClickRow: function (index, row) {
 			//getCustomerList(row.id);
 		}
@@ -129,21 +128,17 @@ function payStyle(val, row, index){
 
 //Ajax方式打开支付页面
 function policyPay(id) {
-	//if(param == null || param == "") {
-	//	$.messager.alert('提示','请先核保再进行支付!','error');
-	//	return false;
-	//}
-    //$(this).attr("disabled", true);
-	
     window.Utils.showLoading();
 	var params = {};
 	params.policyid = id;
+    var mainTabId = "tab_402880ea6e26628b016e26665a0f0001";
 	var url = "policyDraftController.do?insurancePays";
-	ajaxPay(url, params, id);
-	reload();
+	ajaxPay(url, params, id, mainTabId);
+	//reload();
 }
 //重新加载列表数据
 function reload() {
-	$('#policyMainList').datagrid('load',{});
+    if(console) console.log("policy reload");
+	$('#myPolicysManageList').datagrid('load',{});
 }
  </script>

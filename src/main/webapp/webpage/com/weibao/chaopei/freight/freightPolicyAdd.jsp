@@ -132,7 +132,7 @@ function insurance() {
 }
 //支付
 function doPay() {
-	submitPay("${prodId}");
+	//submitPay("${prodId}");
 }
 </SCRIPT>
 </head>
@@ -316,7 +316,6 @@ function doPay() {
 </div>
 
 <div style="text-align:center;width:99%;padding-top:10px;">
-<input id="save" class="btnmy" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="pay" class="subBtnmy" type="button" value="立即支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
 <input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_4028e5846eb182ce016eb1d551d20001');" style="height:30px;width:100px !important;border-radius:5px"/>
 </div>

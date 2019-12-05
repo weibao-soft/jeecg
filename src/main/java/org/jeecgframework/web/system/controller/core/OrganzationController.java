@@ -29,6 +29,7 @@ import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.minidao.pojo.MiniDaoPage;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
@@ -37,8 +38,10 @@ import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
+import org.jeecgframework.web.system.dao.DepartAuthGroupDao;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.pojo.base.TSRole;
 import org.jeecgframework.web.system.pojo.base.TSRoleUser;
 import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.pojo.base.TSUserOrg;
@@ -47,6 +50,7 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.system.util.OrgConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,6 +83,8 @@ public class OrganzationController extends BaseController {
 	private SystemService systemService;
 	@Resource
 	private ClientManager clientManager;
+	@Autowired
+	private DepartAuthGroupDao departAuthGroupDao;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -227,13 +233,19 @@ public class OrganzationController extends BaseController {
 			if(comAcctList != null && comAcctList.size() > 0) {
 				req.setAttribute("companyAcct", comAcctList.get(0));
 			}
-			//机构管理员信息查询出来	
-			TSUser orgAdmin = new TSUser();
-			orgAdmin.setRealName("sssss");
-			req.setAttribute("orgAdmin", orgAdmin);
+			
 			//判断当前用户所属机构与选择的机构是否一致，如果一致，则返回修改页面，不一致，则返回详情页面
 			TSUser user = clientManager.getClient().getUser();
 			TSDepart currentDepart = user.getCurrentDepart();
+			
+			//机构管理员信息查询出来				 
+			MiniDaoPage<TSUser> page = departAuthGroupDao.getUserByDepartCodeAndRole("org_manager", currentDepart.getId());
+			List<TSUser> uList = page.getResults();
+			if(uList !=null && uList.size() > 0) {
+				TSUser orgAdmin = uList.get(0);
+				req.setAttribute("orgAdmin", orgAdmin);
+			}
+			
 			viewName = "system/organzation/subcompany-detail";
 			/*
 			if("1".equals(depart.getOrgType())){

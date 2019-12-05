@@ -111,7 +111,7 @@ public class ProductMainController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "goAssignProd")
-	public ModelAndView goAssignProd(String departid, HttpServletRequest req) {
+	public ModelAndView goAssignProd(String departid, HttpServletRequest req, boolean updSuccess) {
 		//	先查询分配给上级单位(如果上级是null，则查看所有)所有的产品，然后再查询该组织已经分配的产品，然后已经分配的产品勾选上		
 		TSDepart depart = systemService.get(TSDepart.class, departid);
 		TSDepart parent = depart.getTSPDepart();
@@ -127,6 +127,7 @@ public class ProductMainController extends BaseController {
 		
 		req.setAttribute("refList", refList);
 		req.setAttribute("departid", departid);//	被点选的机构再传到产品分配页面
+		req.setAttribute("updSuccess", updSuccess);
 		return new ModelAndView("com/weibao/chaopei/product/departProduct-assign");
 	}
 	
@@ -142,6 +143,9 @@ public class ProductMainController extends BaseController {
 		List<String> refs = productAssignRef.getCheckedProdctAssign();
 		List<DepartProductRefEntity> entityList = new ArrayList<DepartProductRefEntity>();
 		List<String> removeIds = new ArrayList<String>();
+		if(refs == null || refs.size() ==0) {
+			return goAssignProd(productAssignRef.getDepartid(), request, false);
+		}
 		for (String ref : refs) {
 			String[] idProductPlan = ref.split(",");
 			DepartProductRefEntity entity = new DepartProductRefEntity();
@@ -157,7 +161,7 @@ public class ProductMainController extends BaseController {
 		}
 		productService.udpateAssignProd(productAssignRef.getDepartid(), entityList, removeIds);
 		//	传进来的都是被选中的产品方案，	
-		return goAssignProd(productAssignRef.getDepartid(), request);
+		return goAssignProd(productAssignRef.getDepartid(), request, true);
 	}
 	
 	/**

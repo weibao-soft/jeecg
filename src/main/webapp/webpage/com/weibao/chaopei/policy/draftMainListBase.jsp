@@ -20,11 +20,10 @@ div.datagrid-cell{font-size:14px;}
 </style>
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px;">
-  <t:datagrid name="draftMainList" checkbox="false" fitColumns="false" title="投保草稿列表" actionUrl="policyDraftController.do?datagrid" 
+  <t:datagrid name="myDraftsManageList" checkbox="false" fitColumns="false" title="投保草稿列表" actionUrl="policyDraftController.do?datagrid" 
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" pageSize="20">
-   <t:dgCol title="操作" field="opt" width="220"></t:dgCol>
+   <t:dgCol title="操作" field="opt" width="200"></t:dgCol>
    <t:dgFunOpt title="编辑"  funname="addTab(id, this)" urlclass="ace_button" urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
-   <t:dgDefOpt title="编辑跳转"  url="policyDraftController.do?goUpdate&draftId={id}" urlclass="ace_button" urlfont="fa-edit" urlStyle="background-color:#FFA500;"/>
    <t:dgDelOpt title="删除" url="policyDraftController.do?doDel&draftId={id}" urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
    
@@ -40,13 +39,13 @@ div.datagrid-cell{font-size:14px;}
  <script type="text/javascript">
 $(document).ready(function (){
 
-	var abc = $("#draftMainList").width()+17;
-	$("#draftMainList").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
+	var abc = $("#lywidth_demo").width()+17;
+	$("#lywidth_demo").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
 	
 	/*//为了给产品列表的行添加鼠标点击事件
 	//该鼠标点击事件触发父页面：draftMainList.jsp（包含当前iframe的页面）的getCustomerList
 	//再由父页面内触发另一个
-	$("#draftMainList").datagrid({		
+	$("#myDraftsManageList").datagrid({		
 		onClickRow: function (index, row) {
 			//getCustomerList(row.id);
 		}
@@ -64,6 +63,11 @@ function addTab(ids, btnObj) {
     $(btnObj).prop("disabled", true);
     $(btnObj).css("pointer-events","none");
 	addTabs({id:ids,title:'保单修改',close: true,url: "policyDraftController.do?goUpdate&draftId="+ids});	
+}
+//重新加载列表数据
+function reload() {
+    if(console) console.log("drafts reload");
+	$('#myDraftsManageList').datagrid('load',{});
 }
 
 function test(btnObj) {

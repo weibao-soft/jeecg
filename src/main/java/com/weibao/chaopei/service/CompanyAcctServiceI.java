@@ -17,4 +17,9 @@ public interface CompanyAcctServiceI extends CommonService {
 	 * @return
 	 */
 	public DataGrid getUnreceiveDetailList(CompanyUnrewardedDetailEntity unrewardDetail, DataGrid dataGrid);
+	/**
+	 *  查询取现明细
+	 * @return
+	 */
+	public DataGrid getWithdrawDetailList(String orderId, DataGrid dataGrid);
 }
