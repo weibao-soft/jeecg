@@ -25,6 +25,11 @@ import com.weibao.chaopei.entity.PersonalRewardedDetailEntity;
 import com.weibao.chaopei.entity.PersonalUnrewardedDetailEntity;
 import com.weibao.chaopei.service.PersonalAcctServiceI;
 
+/**
+ * 个人账户管理
+ * @author dms
+ *
+ */
 @Controller
 @RequestMapping("/personalAcctController")
 public class PersonalAcctController extends BaseController {
@@ -44,23 +49,39 @@ public class PersonalAcctController extends BaseController {
 	
 	@RequestMapping(params = "base")
 	public ModelAndView base(HttpServletRequest request) {
-		//查询公司账户基本信息
-		TSUser user = clientManager.getClient().getUser();
-		String userId = user.getId();
-		List<PersonalAccountEntity> acctList = systemService.findByProperty(PersonalAccountEntity.class, "userId", userId);
-		PersonalAccountEntity personalAcct = acctList.get(0);
+		//查询个人账户基本信息
+		PersonalAccountEntity personalAcct = getPersonalAccount();
 		request.setAttribute("personalAcct", personalAcct);
 		return new ModelAndView("com/weibao/chaopei/personaacct/personalAcctBaseInfo");
 	}
 	
 	@RequestMapping(params = "acctReceiveBalanceDetail")
-	public ModelAndView acctReceiveBalanceDetail(HttpServletRequest request) {
+	public ModelAndView acctReceiveBalanceDetail(String personalAccountId, HttpServletRequest request) {
+		request.setAttribute("personalAccountId", personalAccountId);
 		return new ModelAndView("com/weibao/chaopei/personaacct/acctReceiveBalanceDetails");
 	}
 	
 	@RequestMapping(params = "acctUnreceiveBalanceDetail")
-	public ModelAndView acctUnreceiveBalanceDetail(HttpServletRequest request) {
+	public ModelAndView acctUnreceiveBalanceDetail(String personalAccountId, HttpServletRequest request) {
+		request.setAttribute("personalAccountId", personalAccountId);
 		return new ModelAndView("com/weibao/chaopei/personaacct/acctUnreceiveBalanceDetails");
+	}
+	
+	@RequestMapping(params = "withdrawOrderList")
+	public ModelAndView withdrawOrderList(String accountId, HttpServletRequest request) {
+		request.setAttribute("accountId", accountId);
+		return new ModelAndView("com/weibao/chaopei/personaacct/withdrawOrderList");
+	}
+	
+	@RequestMapping(params = "withdrawOrderListBase")
+	public ModelAndView withdrawOrderListBase(String accountId, HttpServletRequest request) {
+		request.setAttribute("accountId", accountId);
+		return new ModelAndView("com/weibao/chaopei/personaacct/withdrawOrderListBase");
+	}
+	
+	@RequestMapping(params = "withdrawOrderDetails")
+	public ModelAndView withdrawOrderDetails(HttpServletRequest request) {
+		return new ModelAndView("com/weibao/chaopei/personaacct/withdrawOrderDetails");
 	}
 	
 	
@@ -78,13 +99,11 @@ public class PersonalAcctController extends BaseController {
 
 		try{
 			//获取当前用户的所属机构
-			TSUser user = clientManager.getClient().getUser();
-			String userId = user.getId();
+			String userId = getCurrentUserId();
 			perRewardDetailEntity.setUserId(userId);
 
-			List<PersonalAccountEntity> acctList = systemService.findByProperty(PersonalAccountEntity.class, "userId", userId);
-			PersonalAccountEntity personalAcct = acctList.get(0);
-			perRewardDetailEntity.setPersonalAccountId(personalAcct.getId());
+			//PersonalAccountEntity personalAcct = getPersonalAccount();
+			//perRewardDetailEntity.setPersonalAccountId(personalAcct.getId());
 			//查询条件组装器
 			if(StringUtil.isNotEmpty(perRewardDetailEntity.getPersonalAccountId())){		
 				personalAcctService.getReceiveDetailList(perRewardDetailEntity, dataGrid);
@@ -114,13 +133,11 @@ public class PersonalAcctController extends BaseController {
 
 		try{
 			//获取当前用户的所属机构
-			TSUser user = clientManager.getClient().getUser();
-			String userId = user.getId();
+			String userId = getCurrentUserId();
 			perUnrewardDetailEntity.setUserId(userId);
 
-			List<PersonalAccountEntity> acctList = systemService.findByProperty(PersonalAccountEntity.class, "userId", userId);
-			PersonalAccountEntity personalAcct = acctList.get(0);
-			perUnrewardDetailEntity.setPersonalAccountId(personalAcct.getId());
+			//PersonalAccountEntity personalAcct = getPersonalAccount();
+			//perUnrewardDetailEntity.setPersonalAccountId(personalAcct.getId());
 			
 			//组装查询条件
 			if(StringUtil.isNotEmpty(perUnrewardDetailEntity.getPersonalAccountId())){		
@@ -135,5 +152,43 @@ public class PersonalAcctController extends BaseController {
 		}
 
 		TagUtil.datagrid(response, dataGrid);
+	}
+	
+	/**
+	 * 根据用户id获取个人账户信息
+	 * @return
+	 */
+	protected PersonalAccountEntity getPersonalAccount() {
+		PersonalAccountEntity personalAcct = null;
+		try {
+			String userId = getCurrentUserId();
+			List<PersonalAccountEntity> acctList = systemService.findByProperty(PersonalAccountEntity.class, "userId", userId);
+			if(acctList == null || acctList.isEmpty()) {
+				personalAcct = new PersonalAccountEntity();
+			} else {
+				personalAcct = acctList.get(0);
+			}
+		} catch(Exception e) {
+			logger.error(e);
+			throw new BusinessException(e.getMessage());
+		}
+		return personalAcct;
+	}
+	
+	/**
+	 * 获取当前用户的用户id
+	 * @return
+	 */
+	private String getCurrentUserId() {
+		String userId = "";
+		try {
+			//获取当前用户的用户id
+			TSUser user = clientManager.getClient().getUser();
+			userId = user.getId();
+		} catch(Exception e) {
+			logger.error(e);
+			throw new BusinessException(e.getMessage());
+		}
+		return userId;
 	}
 }
