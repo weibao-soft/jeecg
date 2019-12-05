@@ -1,6 +1,7 @@
 package com.weibao.chaopei.page;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class PolicyVehiclePage implements Serializable {
 	private static final long serialVersionUID = -724566306691255205L;
@@ -12,6 +13,10 @@ public class PolicyVehiclePage implements Serializable {
 	private java.lang.String frameNo;
 	//发动机号
 	private java.lang.String engineNo;
+	//保险开始日期
+	private java.util.Date startDate;
+	//保险结束日期
+	private java.util.Date endDate;
 	
 	public java.lang.String getId() {
 		return id;
@@ -38,4 +43,19 @@ public class PolicyVehiclePage implements Serializable {
 		this.engineNo = engineNo;
 	}
 
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 }

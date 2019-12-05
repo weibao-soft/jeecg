@@ -1,8 +1,8 @@
-package org.jeecgframework.tag.core.easyui;
+package org.jeecgframework.tag.core;
 
 import com.alibaba.fastjson.JSON;
 
-public class ToJsonFun {
+public class ElCommons {
     /**
      * 将对象中存在值的字段转换成为json串
      * @param obj

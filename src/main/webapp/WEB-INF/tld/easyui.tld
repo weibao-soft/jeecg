@@ -7,7 +7,6 @@
 	<short-name>t</short-name>
 	<uri>/easyui-tags</uri>
 	<display-name>"自定义标签"</display-name>
-	
 	<tag>
         <name>mutiLang</name>
         <tag-class>org.jeecgframework.tag.core.easyui.MutiLangTag</tag-class>
