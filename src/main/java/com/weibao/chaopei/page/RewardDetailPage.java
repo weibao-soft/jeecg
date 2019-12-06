@@ -1,9 +1,12 @@
 package com.weibao.chaopei.page;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Data
 public class RewardDetailPage implements Serializable {
 	private static final long serialVersionUID = -2634009980324608243L;
 
@@ -45,6 +48,8 @@ public class RewardDetailPage implements Serializable {
 	private String companyAccountId;
 	//个人账户ID
 	private String personalAccountId;
+	//订单id/取现记录id
+	private java.lang.String orderId;
 	//分润金额
 	private BigDecimal amount;
 	//分润时间
@@ -55,149 +60,8 @@ public class RewardDetailPage implements Serializable {
 	private Date rewardTime;
 	//明细生成时间
 	private Date generateTime;
+	//保费金额
+	private Float premium;
 	
-	public java.lang.String getId() {
-		return id;
-	}
-	public void setId(java.lang.String id) {
-		this.id = id;
-	}
-	public java.lang.String getProdId() {
-		return prodId;
-	}
-	public void setProdId(java.lang.String prodId) {
-		this.prodId = prodId;
-	}
-	public java.lang.String getProdName() {
-		return prodName;
-	}
-	public void setProdName(java.lang.String prodName) {
-		this.prodName = prodName;
-	}
-	public java.lang.String getPlanId() {
-		return planId;
-	}
-	public void setPlanId(java.lang.String planId) {
-		this.planId = planId;
-	}
-	public java.lang.String getProdPlan() {
-		return prodPlan;
-	}
-	public void setProdPlan(java.lang.String prodPlan) {
-		this.prodPlan = prodPlan;
-	}
-	public java.lang.String getPolicyNo() {
-		return policyNo;
-	}
-	public void setPolicyNo(java.lang.String policyNo) {
-		this.policyNo = policyNo;
-	}
-	public java.lang.String getPlateNo() {
-		return plateNo;
-	}
-	public void setPlateNo(java.lang.String plateNo) {
-		this.plateNo = plateNo;
-	}
-	public java.lang.String getHolderCompName() {
-		return holderCompName;
-	}
-	public void setHolderCompName(java.lang.String holderCompName) {
-		this.holderCompName = holderCompName;
-	}
-	public java.lang.String getStatus() {
-		return status;
-	}
-	public void setStatus(java.lang.String status) {
-		this.status = status;
-	}
-	public java.lang.String getUserId() {
-		return userId;
-	}
-	public void setUserId(java.lang.String userId) {
-		this.userId = userId;
-	}
-	public java.lang.String getUserNo() {
-		return userNo;
-	}
-	public void setUserNo(java.lang.String userNo) {
-		this.userNo = userNo;
-	}
-	public java.lang.String getUserName() {
-		return userName;
-	}
-	public void setUserName(java.lang.String userName) {
-		this.userName = userName;
-	}
-	public java.lang.String getDepartId() {
-		return departId;
-	}
-	public void setDepartId(java.lang.String departId) {
-		this.departId = departId;
-	}
-	public java.lang.String getDepartName() {
-		return departName;
-	}
-	public void setDepartName(java.lang.String departName) {
-		this.departName = departName;
-	}
-	public java.lang.String getRewardStatus() {
-		return rewardStatus;
-	}
-	public void setRewardStatus(java.lang.String rewardStatus) {
-		this.rewardStatus = rewardStatus;
-	}
-	public java.util.Date getLastUpdateTime() {
-		return lastUpdateTime;
-	}
-	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}
-	public java.util.Date getPayTime() {
-		return payTime;
-	}
-	public void setPayTime(java.util.Date payTime) {
-		this.payTime = payTime;
-	}
-	public String getCompanyAccountId() {
-		return companyAccountId;
-	}
-	public void setCompanyAccountId(String companyAccountId) {
-		this.companyAccountId = companyAccountId;
-	}
-	public String getPersonalAccountId() {
-		return personalAccountId;
-	}
-	public void setPersonalAccountId(String personalAccountId) {
-		this.personalAccountId = personalAccountId;
-	}
-	public BigDecimal getAmount() {
-		return amount;
-	}
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-	public Date getDivideTime() {
-		return divideTime;
-	}
-	public void setDivideTime(Date divideTime) {
-		this.divideTime = divideTime;
-	}
-	public Date getReceiveTime() {
-		return receiveTime;
-	}
-	public void setReceiveTime(Date receiveTime) {
-		this.receiveTime = receiveTime;
-	}
-	public Date getRewardTime() {
-		return rewardTime;
-	}
-	public void setRewardTime(Date rewardTime) {
-		this.rewardTime = rewardTime;
-	}
-	public Date getGenerateTime() {
-		return generateTime;
-	}
-	public void setGenerateTime(Date generateTime) {
-		this.generateTime = generateTime;
-	}
+
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
+
 <div class="easyui-layout" style="width:100%;">
    <div style="padding:0px;border:0px;overflow-x:hidden;width:100%;">
    <iframe id="mainList" src="${webRoot}/companyAcctController.do?base" frameborder="0" height="40%" width="100%"></iframe>
@@ -12,22 +13,22 @@
   </div>
 </div>
 <script type="text/javascript">
-	function getReAcctBalanceList(id){
-		var frameObj=document.getElementById("companyAcctBalanceDetail");
-		frameObj.src="${webRoot}/companyAcctController.do?acctReceiveBalanceDetail";
-		//$("#companyAcctBalanceDetail")[0].contentWindow.getAcctBalanceList(id);
-	}
-	
-	function getUnreAcctBalanceList(id){
-		var frameObj=document.getElementById("companyAcctBalanceDetail");
-		frameObj.src="${webRoot}/companyAcctController.do?acctUnreceiveBalanceDetail";
-		//$("#companyAcctBalanceDetail")[0].contentWindow.getAcctBalanceList(id);
-	}
+function getReAcctBalanceList(id){
+    if(window.console) console.log("acctReceiveBalanceDetail == ", id);
+	var frameObj=document.getElementById("companyAcctBalanceDetail");
+	frameObj.src="${webRoot}/companyAcctController.do?acctReceiveBalanceDetail&companyAccountId="+id;
+	//$("#companyAcctBalanceDetail")[0].contentWindow.getAcctBalanceList(id);
+}
 
-	$(function(){		
-		var abc = parseInt(document.body.clientWidth)-17;
-		$("#accDiv").css("width", abc);
-	});
+function getUnreAcctBalanceList(id){
+    if(window.console) console.log("acctUnreceiveBalanceDetail == ", id);
+	var frameObj=document.getElementById("companyAcctBalanceDetail");
+	frameObj.src="${webRoot}/companyAcctController.do?acctUnreceiveBalanceDetail&companyAccountId="+id;
+	//$("#companyAcctBalanceDetail")[0].contentWindow.getAcctBalanceList(id);
+}
 
-	
+$(function(){		
+	var abc = parseInt(document.body.clientWidth)-17;
+	$("#accDiv").css("width", abc);
+});
 </script>

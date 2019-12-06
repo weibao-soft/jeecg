@@ -84,4 +84,10 @@ public interface DepartAuthGroupDao {
 	@Sql("select departname from t_s_depart where id in (select org_id from t_s_user_org where user_id =:userid)")
 	@ResultType(String.class)
 	public List<String> getUserDepartNames(@Param("userid") String userid);
+	
+	
+	@Sql("select bu.* from t_s_depart d, t_s_user_org uo, t_s_role_user ru, t_s_role r, t_s_base_user bu where d.ID=uo.org_id and uo.user_id = ru.userid and ru.roleid=r.ID and uo.user_id=bu.ID and r.rolecode=:roleCode and d.ID=:orgCode")
+	@ResultType(TSUser.class)
+	public MiniDaoPage<TSUser> getUserByDepartCodeAndRole(@Param("roleCode") String roleCode, @Param("orgCode") String orgCode);
+	
 }

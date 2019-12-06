@@ -1,5 +1,6 @@
 package com.weibao.chaopei.service;
 
+import com.weibao.chaopei.entity.WithdrawOrderEntity;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.CommonService;
 
@@ -17,4 +18,20 @@ public interface CompanyAcctServiceI extends CommonService {
 	 * @return
 	 */
 	public DataGrid getUnreceiveDetailList(CompanyUnrewardedDetailEntity unrewardDetail, DataGrid dataGrid);
+
+	/**
+	 *  查询取现订单记录
+	 * @return
+	 */
+	public DataGrid getWithdrawOrderList(WithdrawOrderEntity orderEntity, DataGrid dataGrid);
+
+	/**
+	 *  查询取现订单的明细
+	 * @return
+	 */
+	public DataGrid getWithdrawDetailList(String orderId, DataGrid dataGrid);
+
+	public boolean withdrawCompany(String params);
+
+	public boolean withdrawPerson(String params);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/freightPolicyController")
 public class FreightPolicyController extends BaseController {
+
 	private static final Logger logger = Logger.getLogger(FreightPolicyController.class);
 
 	/**

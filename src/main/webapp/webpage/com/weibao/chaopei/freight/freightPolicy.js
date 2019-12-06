@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
 	$("input[name='holderPartType']").change(function() {
-		debugger;
+		//debugger;
 		var value=$("input[name='holderPartType']:checked").val();
         if(value=='GR') {
         	$("[name='holderGRTr']").css("display", "table-row");
@@ -35,6 +35,14 @@ $(document).ready(function() {
         	$("#insuredCertType").css("display", "table-row");
         	$("[name='insuredGRTr']").css("display", "none");
         	$("[name='insuredGRTr']").css("display", "none");
+        }
+	});
+	$("#check1").click(function() {
+	    var value=$(this).is(':checked');
+        if(value) {
+        	$("#insuredTr").css("display", "none");
+        } else {
+        	$("#insuredTr").css("display", "table-row");
         }
 	});
 });

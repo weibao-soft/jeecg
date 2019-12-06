@@ -26,4 +26,5 @@ public interface AccountMainDao {
 	@Sql("select pa.* from wb_personal_account pa where pa.user_id=:userId and pa.id=:accountId")
 	@ResultType(Map.class)
 	public Map<String, Object> getPersonalAccountPage(String userId, String accountId);
+
 }

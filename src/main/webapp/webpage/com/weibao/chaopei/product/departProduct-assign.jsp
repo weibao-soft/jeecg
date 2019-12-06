@@ -36,18 +36,22 @@
 		
 		<input id="departid" name="departid" type="hidden" value="${departid}"/>
 		
+		<c:if test="${empty  refList }">
+			无产品可分配，请先联系上级机构分配产品
+		</c:if>
+		
 		<c:forEach items="${refList}" var="reflation">
 			<c:if test="${reflation.assignStatus==1}">
 				<%-- 
 				<span class="icon ${operation.TSIcon.iconClas}">&nbsp;</span>
 				--%>
-				<input style="width: 20px;" type="checkbox" name="checkedProdctAssign" value="${reflation.id},${reflation.productPlanId}" checked="checked" />${reflation.company} | ${reflation.productPlan}
+				<input style="width: 20px;" type="checkbox" name="checkedProdctAssign" value="${reflation.id},${reflation.productPlanId}" checked="checked" />${reflation.company} | ${reflation.productName} | ${reflation.productPlan} | ${reflation.premium}
 			 </c:if>
 			<c:if test="${empty reflation.assignStatus}">
 				<%--
 				<span class="icon group_add">&nbsp;</span>
 				--%>
-				<input style="width: 20px;" type="checkbox" name="checkedProdctAssign" value="${reflation.id},${reflation.productPlanId}" />${reflation.company} | ${reflation.productPlan}
+				<input style="width: 20px;" type="checkbox" name="checkedProdctAssign" value="${reflation.id},${reflation.productPlanId}" />${reflation.company} | ${reflation.productName} | ${reflation.productPlan} | ${reflation.premium}
 			 </c:if>
 			<br>
 		</c:forEach>
@@ -57,69 +61,21 @@
 	</form>
  </body>
  <script src = "webpage/com/weibao/chaopei/product/productMain-add.js"></script>
-  	<script type="text/javascript">
-  		function jeecgFormFileCallBack(data){
-  			if (data.success == true) {
-				uploadFile(data);
-			} else {
-				if (data.responseText == '' || data.responseText == undefined) {
-					$.messager.alert('错误', data.msg);
-					$.Hidemsg();
-				} else {
-					try {
-						var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'), data.responseText.indexOf('错误信息'));
-						$.messager.alert('错误', emsg);
-						$.Hidemsg();
-					} catch(ex) {
-						$.messager.alert('错误', data.responseText + '');
-					}
-				}
-				return false;
-			}
-			if (!neibuClickFlag) {
-				var win = frameElement.api.opener;
-				win.reloadTable();
-			}
+<script type="text/javascript">
+
+  	$(document).ready(function (){
+		var updSuccess = ${updSuccess};
+  		if(updSuccess){  			  			
+  			$.messager.alert('提示','产品分配成功','info');
   		}
-  		function upload() {
-				$('#content').uploadify('upload', '*');
-				$('#ctype').uploadify('upload', '*');
-		}
-		
-		var neibuClickFlag = false;
-		function neibuClick() {
-			neibuClickFlag = true; 
-			$('#btn_sub').trigger('click');
-		}
-		function cancel() {
-				$('#content').uploadify('cancel', '*');
-				$('#ctype').uploadify('cancel', '*');
-		}
-		function uploadFile(data){
-			if(!$("input[name='id']").val()){
-				if(data.obj!=null && data.obj!='undefined'){
-					$("input[name='id']").val(data.obj.id);
-				}
-			}
-			if($(".uploadify-queue-item").length>0){
-				upload();
-			}else{
-				if (neibuClickFlag){
-					alert(data.msg);
-					neibuClickFlag = false;
-				}else {
-					var win = frameElement.api.opener;
-					win.reloadTable();
-					win.tip(data.msg);
-					frameElement.api.close();
-				}
-			}
-		}
-		
-		function doSubmitForm(){
-			var form = document.getElementById('formobj');
-			//再次修改input内容
-			form.submit()
-		}
-  	</script>
+  		
+  	});
+  	
+	function doSubmitForm(){
+		//再次修改input内容
+		var form = document.getElementById('formobj');
+		form.submit()						
+	}
+			
+</script>
 	

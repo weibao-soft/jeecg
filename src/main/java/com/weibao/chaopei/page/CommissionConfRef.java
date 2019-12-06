@@ -11,16 +11,44 @@ public class CommissionConfRef implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -4996574528265246960L;
 	
+	private java.lang.String company;
+	private java.lang.String prodName;
+	private java.lang.String premium;
 	private java.lang.String productPlan;
 	private String departid;
 	private java.lang.String productPlanId;
 	private String id;
 	private String orgType;
 	private Integer period;
+	private Integer parentPeriod;
 	private Float rate;
 	private Float parentRate;
 	private List<CommissionConfEntity> commisConfList;
-	
+			
+	public Integer getParentPeriod() {
+		return parentPeriod;
+	}
+	public void setParentPeriod(Integer parentPeriod) {
+		this.parentPeriod = parentPeriod;
+	}
+	public java.lang.String getCompany() {
+		return company;
+	}
+	public void setCompany(java.lang.String company) {
+		this.company = company;
+	}
+	public java.lang.String getProdName() {
+		return prodName;
+	}
+	public void setProdName(java.lang.String prodName) {
+		this.prodName = prodName;
+	}
+	public java.lang.String getPremium() {
+		return premium;
+	}
+	public void setPremium(java.lang.String premium) {
+		this.premium = premium;
+	}
 	public String getOrgType() {
 		return orgType;
 	}

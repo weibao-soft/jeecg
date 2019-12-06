@@ -115,8 +115,8 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 		    	RelFieldName relFieldName_insured = new RelFieldName();
 		    	insured.setRelFieldName(relFieldName_insured);    	
 		    	relFieldName_insured.setCertf_type("99");
-		    	relFieldName_insured.setCertf_no(policyEntity.getInsuredCompName());
-		    	relFieldName_insured.setInsrnt_name(policyEntity.getInsuredOrgCode());
+		    	relFieldName_insured.setCertf_no(policyEntity.getInsuredOrgCode());
+		    	relFieldName_insured.setInsrnt_name(policyEntity.getInsuredCompName());
 		    	relFieldName_insured.setMobile(policyEntity.getPolicyMobile());
 		    	
 		    	Element tgtCar = new Element();
@@ -336,11 +336,11 @@ public class GuorenApiServiceImpl extends CommonServiceImpl implements GuorenApi
 				    		logger.error("payback response::"+response);
 				    	}
 			    	}catch(Exception e) {
-			    		//调用远程接口或者解析接口出错，该保单不列入核保单			    		
+			    		//	调用远程接口或者解析接口出错，该保单不列入核保单			    		
 			    		e.printStackTrace();
 			    	}
-			    	//修改保单状态为已支付；写入支付时间、写入保单号、生成电子保单、修改电子保单url
-					String updSql = "update wb_insurance_policy set pay_status=1, pay_time=SYSDATE(), policy_no=?, policy_url=? where proposal_no=? and pay_status=0";
+			    	//	修改保单状态为已支付；写入支付时间、写入保单号、生成电子保单、修改电子保单url
+					String updSql = "update wb_insurance_policy set status=3, pay_status=1, pay_time=SYSDATE(), policy_no=?, policy_url=? where proposal_no=? and pay_status=0";
 					int updCnt = super.executeSql(updSql, policyNoArray[i], policyurl, proposalNoArray[i]);
 		    		if(updCnt < 1) {
 		    			logger.error("update count is 0000!!!");
