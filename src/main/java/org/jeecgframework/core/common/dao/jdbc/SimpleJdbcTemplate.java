@@ -91,7 +91,7 @@ public class SimpleJdbcTemplate extends JdbcTemplate{
 	 * @param parameters参数集合(key为参数名，value为参数值)
 	 * @return bean对象
 	 */
-	public long findForLong(final String sql,Map parameters){
+	public Long findForLong(final String sql,Map parameters){
 		try{
 			Assert.hasText(sql,"sql语句不正确!");
 
@@ -102,7 +102,7 @@ public class SimpleJdbcTemplate extends JdbcTemplate{
 			}
 
 		}catch (Exception e) {
-			return 0;
+			return 0L;
 		}
 	}
 	
