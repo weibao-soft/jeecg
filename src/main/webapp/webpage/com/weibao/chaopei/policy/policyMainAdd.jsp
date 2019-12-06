@@ -136,10 +136,10 @@ function doPay() {
 }
 </SCRIPT>
 </head>
-<body>
+<body class="panel-noscroll">
 
 <t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyDraftController.do?doAdd" callback="jeecgFormFileCallBack@Override">
-<fieldset class="step" style="width:100%;padding-bottom: 20px;">
+<fieldset class="step" style="width:99%;padding-bottom: 20px;">
  <legend>国任投保</legend>
  <table cellpadding="0" cellspacing="0" class="formtable" style="table-layout: fixed;" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
@@ -279,7 +279,7 @@ function doPay() {
  </td></tr>
  </table>
  
-<div style="text-align:center;width:99%;padding-top:10px;">
+<div style="text-align:center;width:98%;padding-top:10px;">
 <input id="save" class="btnmy" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="insur" class="subBtnmy" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
 <input id="pay" class="subBtnmy" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
