@@ -72,7 +72,7 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	 * @param parameters参数集合(key为参数名，value为参数值)
 	 * @return bean对象
 	 */
-	public long findForLong(String sql,Map parameters){
+	public Long findForLong(String sql,Map parameters){
 		return super.findForLong(sql, parameters);
 	}
 	
