@@ -6,9 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 公司及个人账户提现记录
@@ -28,12 +26,15 @@ public class WithdrawOrderEntity implements Serializable {
 	@Column(name ="id",nullable=false,length=32)
 	private java.lang.String id;
 
+	//公司账户/出单机构
 	@Transient
 	private String company;
 
+	//个人账户/用户姓名
 	@Transient
 	private String person;
 
+	/**联系电话*/
 	@Transient
 	private String telphone;
 

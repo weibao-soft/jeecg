@@ -5,8 +5,8 @@
 <div class="easyui-layout" fit="true" id="lywidth_demo">
   <div region="center" style="padding:0px;border:0px">
   
-  <t:datagrid name="withdrawOrderList" checkbox="false" fitColumns="true" title="提现记录" actionUrl="companyAcctController.do?withdrawOrderDatagrid&accountId=${accountId}" 
-  	idField="id" fit="true" queryMode="group" collapsible="true" pageSize="100" sortName="applyTime" sortOrder="desc">
+  <t:datagrid name="withdrawOrderList" checkbox="false" title="提现记录" actionUrl="companyAcctController.do?withdrawOrderDatagrid&accountId=${accountId}" 
+  	idField="id" fit="true" fitColumns="true" queryMode="group" collapsible="true" pageSize="100" sortName="applyTime" sortOrder="desc">
       <t:dgCol title="主键" hidden="true" field="id"  queryMode="single"  width="0"></t:dgCol>
 
       <t:dgCol title="公司账户"  field="company" query="true" sortable="false" width="100"></t:dgCol>
@@ -18,7 +18,7 @@
       <t:dgCol title="银行信息"  field="bankInfo" sortable="false" width="300"></t:dgCol>
       <t:dgCol title="申请日期"  field="applyTime" formatter="yyyy-MM-dd hh:mm:ss" query="true" queryMode="group" width="100"></t:dgCol>
       <t:dgCol title="到账日期"  field="approvalTime" formatter="yyyy-MM-dd hh:mm:ss" sortable="false" width="100"></t:dgCol>
-      <t:dgCol title="状态"  field="status" dictionary="rwdstatus" query="true" showMode="radio" sortable="false" width="80"></t:dgCol>
+      <t:dgCol title="取现状态"  field="status" dictionary="wthdStatus" query="true" showMode="radio" sortable="false" width="80"></t:dgCol>
 	
   </t:datagrid>
   

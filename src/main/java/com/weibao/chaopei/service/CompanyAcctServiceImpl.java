@@ -18,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.weibao.chaopei.entity.CompanyAccountEntity;
 import com.weibao.chaopei.entity.CompanyRewardedDetailEntity;
 import com.weibao.chaopei.entity.CompanyUnrewardedDetailEntity;
-import com.weibao.chaopei.entity.PersonalAccountEntity;
-import com.weibao.chaopei.entity.PersonalRewardedDetailEntity;
 import com.weibao.chaopei.entity.WithdrawOrderDetailEntity;
 import com.weibao.chaopei.entity.WithdrawOrderEntity;
 import com.weibao.chaopei.page.RewardDetailPage;
@@ -228,7 +226,9 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		return dataGrid;
 	}
 
-
+	/**
+	 * 根据公司账户id查询取现记录
+	 */
 	public DataGrid getWithdrawOrderList(WithdrawOrderEntity orderEntity, DataGrid dataGrid){
 
 		StringBuffer stbHeadSql1 = new StringBuffer();
@@ -260,7 +260,6 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 				stbSql.append(" and od.`status`=? ");
 				objList.add(orderEntity.getStatus());
 			}
-
 			stbHeadSql2.append(stbSql);
 
 			if(StringUtils.isNotBlank(sort)) {
@@ -272,7 +271,6 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 			Object[] objss = objList.toArray();
 
 			total = getCountForJdbcParam(stbHeadSql2.toString(), objss);
-
 			objs = findForJdbcParam(stbHeadSql1.toString(), page, rows, objss);
 
 			for(int i = 0; i < objs.size(); i++) {
@@ -326,6 +324,10 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		return dataGrid;
 	}
 
+	/**
+	 *  公司账户提现
+	 * @return
+	 */
 	public boolean withdrawCompany(String params) {
 		String[] rewardDetIds = params.split(",");
 		String updateStatus = "update wb_company_rewarded_detail set status=1 where status=0 and id=?";
@@ -364,49 +366,6 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		}
 		super.saveOrUpdate(order);
 		super.saveOrUpdate(companyAccount);
-		super.batchSave(orderDetList);
-
-		return true;
-	}
-
-	public boolean withdrawPerson(String params) {
-		String[] rewardDetIds = params.split(",");
-		String updateStatus = "update wb_personal_rewarded_detail set status=1 where status=0 and id=?";
-		PersonalAccountEntity personalAccount = null;
-		WithdrawOrderEntity order = new WithdrawOrderEntity();
-		order.setOrgType("1");
-		order.setStatus("0");
-		order.setApplyTime(new Date());
-		order.setAmount(new BigDecimal(0));
-		List<WithdrawOrderDetailEntity> orderDetList = new ArrayList<WithdrawOrderDetailEntity>();
-		this.save(order);
-
-		for (int i = 0; i < rewardDetIds.length; i++) {
-			String rewardDetId = rewardDetIds[i];
-			PersonalRewardedDetailEntity rewardedEntity = this.getEntity(PersonalRewardedDetailEntity.class, rewardDetId);
-			//1.先以乐观锁的方式修改可分润明细的状态
-			int updResult = super.executeSql(updateStatus, rewardDetId);
-			if(updResult == 1){
-				if(personalAccount == null) {
-					//找到个人账户ID
-					personalAccount = getEntity(PersonalAccountEntity.class, rewardedEntity.getPersonalAccountId());
-					order.setAccountId(personalAccount.getId());
-					order.setBankInfo(personalAccount.getBankAcctName()+"|"+personalAccount.getBankInfo()+"|"+personalAccount.getBankNo());
-				}
-				//2. 从个人账户的可提现余额中扣除该笔明细的金额
-				personalAccount.setReceivedBalance(personalAccount.getReceivedBalance().subtract(rewardedEntity.getAmount()));
-				//3. 新增一条提现记录，多条关系表
-				order.setAmount(order.getAmount().add(rewardedEntity.getAmount()));
-				WithdrawOrderDetailEntity orderDetEntity = new WithdrawOrderDetailEntity();
-				orderDetEntity.setOrderId(order.getId());
-				orderDetEntity.setRewardDetailId(rewardedEntity.getId());
-				orderDetList.add(orderDetEntity);
-			}else{
-				throw new RuntimeException("请刷新页面重新发起提现申请！");
-			}
-		}
-		super.saveOrUpdate(order);
-		super.saveOrUpdate(personalAccount);
 		super.batchSave(orderDetList);
 
 		return true;

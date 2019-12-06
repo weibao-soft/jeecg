@@ -19,7 +19,6 @@ public interface CompanyAcctServiceI extends CommonService {
 	 */
 	public DataGrid getUnreceiveDetailList(CompanyUnrewardedDetailEntity unrewardDetail, DataGrid dataGrid);
 
-
 	/**
 	 *  查询取现订单记录
 	 * @return
@@ -31,9 +30,10 @@ public interface CompanyAcctServiceI extends CommonService {
 	 * @return
 	 */
 	public DataGrid getWithdrawDetailList(String orderId, DataGrid dataGrid);
-
+	/**
+	 *  公司账户提现
+	 * @return
+	 */
 	public boolean withdrawCompany(String params);
-
-	public boolean withdrawPerson(String params);
 
 }

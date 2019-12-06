@@ -4,8 +4,8 @@
 
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="withdrawDetailList" checkbox="false" fitColumns="true" title="提现记录" actionUrl="companyAcctController.do?withdrawDetailDatagrid" 
-  	idField="id" fit="true" queryMode="group" collapsible="true" pageSize="20" sortName="payTime" sortOrder="desc">
+  <t:datagrid name="withdrawDetailList" checkbox="false" title="" actionUrl="companyAcctController.do?withdrawDetailDatagrid" 
+  	idField="id" fit="true" fitColumns="true" queryMode="group" collapsible="true" pageSize="20" sortName="payTime" sortOrder="desc">
    <t:dgCol title="主键" hidden="true" field="id"  width="0"></t:dgCol>
    
    <t:dgCol title="保单号"  field="policyNo"  width="150" sortable="false"></t:dgCol>

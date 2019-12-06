@@ -107,13 +107,13 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String draftId;
 	//用户id
 	private java.lang.String userId;
-	//用户账号
+	//用户账号/出单员
 	private java.lang.String userNo;
 	//用户姓名
 	private java.lang.String userName;
 	//部门id
 	private java.lang.String departId;
-	//部门名称
+	//部门名称/出单机构
 	private java.lang.String departName;
 	//支付状态
 	@Excel(name="支付状态",width=32)

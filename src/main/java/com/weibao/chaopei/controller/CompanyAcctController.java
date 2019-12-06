@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
-import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
@@ -33,6 +32,11 @@ import com.weibao.chaopei.entity.CompanyUnrewardedDetailEntity;
 import com.weibao.chaopei.entity.WithdrawOrderEntity;
 import com.weibao.chaopei.service.CompanyAcctServiceI;
 
+/**
+ * 公司账户管理
+ * @author dms
+ *
+ */
 @Controller
 @RequestMapping("/companyAcctController")
 public class CompanyAcctController extends BaseController {
@@ -223,7 +227,6 @@ public class CompanyAcctController extends BaseController {
 		try{
 		    //自定义追加查询条件
 			companyAcctService.getWithdrawOrderList(withdrawOrderEntity, dataGrid);
-
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
@@ -244,8 +247,6 @@ public class CompanyAcctController extends BaseController {
 			HttpServletResponse response, DataGrid dataGrid) {
 		try{
 		    //自定义追加查询条件
-			//CompanyAccountEntity companyAcct = getCompanyAccount();
-			//组装查询条件
 			if(StringUtil.isNotEmpty(orderId)){		
 				companyAcctService.getWithdrawDetailList(orderId, dataGrid);
 			}

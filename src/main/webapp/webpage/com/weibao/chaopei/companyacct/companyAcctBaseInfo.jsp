@@ -9,7 +9,7 @@
 </style>
 <div id="lywidth_demo" style="width:100%;">
 <div style="width:100%;">
-  <div id="demoapp" class="nav-container">
+  <div id="demoapp" class="nav-container panel-noscroll">
   <div class="nav-header">
 	  	<img style="width:100%;vertical-align: middle;overflow:hidden;" src="plug-in/accordion/images/account.png">
 	  	<div class="nav-header-grzh">
