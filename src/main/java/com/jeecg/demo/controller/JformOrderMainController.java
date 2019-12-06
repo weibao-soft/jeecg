@@ -196,7 +196,7 @@ public class JformOrderMainController extends BaseController {
 	 * 
 	 * @return
 	 */
-	 @RequestMapping(params = "doBatchDel")
+	@RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
 		AjaxJson j = new AjaxJson();

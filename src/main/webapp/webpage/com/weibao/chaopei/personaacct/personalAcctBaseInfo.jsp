@@ -37,8 +37,8 @@
   
   <div class="nav-body">
   	<ul>
-  		<li class="icon_zhxx" onclick="" >账户信息</li>
-  		<li class="icon_zjjyjl" onclick="">提现记录</li>  		
+  		<li class="icon_zhxx" onclick="bindAccount()" >账户信息</li>
+  		<li class="icon_zjjyjl" onclick="getWithdrawOrderList('${companyAcct.id}');">提现记录</li>  		
   	</ul>
   </div>
   
@@ -60,5 +60,21 @@
 	}
 	function getUnreAcctBalanceList(id){			
 		parent.getUnreAcctBalanceList(id);
+	}
+	
+	//绑定公司账户
+	function bindAccount(){
+		var addurl = "personalAcctController.do?goBindAccount";
+		//openwindow("个人账户信息绑定",addurl,"bindAcct",620,400);
+		return;
+	}
+	//查询取现记录
+	function getWithdrawOrderList(id){
+	    if(window.console) console.log("withdrawOrderList == ", id);
+		//addTab(id, "取现记录", "personalAcctController.do?withdrawOrderList&accountId="+id);
+	}
+
+	function addTab(ids, title_, url_) {		
+		addTabs({id:ids,title:title_,close: true,url: url_});	
 	}
 </script>

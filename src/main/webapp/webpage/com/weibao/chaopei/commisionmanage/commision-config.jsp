@@ -77,9 +77,13 @@
 				<th align="left">产品方案</th>
 				<th align="left">保费</th>
 				<th align="left">分账时间</th>
+<<<<<<< HEAD
 				<c:if test="${isParent}">
 				<th align="left">我的佣金比例</th>
 				</c:if>
+=======
+				<th align="left">我的佣金比例</th>
+>>>>>>> branch 'master' of https://github.com/weibao-soft/jeecg.git
 				<th align="left">佣金比例设置</th>
 			</tr>
 			<c:if test="${empty  refList }">

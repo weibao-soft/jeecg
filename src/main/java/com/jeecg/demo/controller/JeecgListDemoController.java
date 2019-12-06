@@ -810,6 +810,7 @@ public class JeecgListDemoController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "删除成功";
+		ids = "";
 		try{
 			for(String id:ids.split(",")){
 				JeecgDemoEntity jeecgDemo = systemService.getEntity(JeecgDemoEntity.class, 

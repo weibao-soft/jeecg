@@ -205,6 +205,12 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				if("".equals(vehicle.getId())) {
 					vehicle.setId(null);
 				}
+				if (vehicle.getStartDate() == null) {
+					vehicle.setStartDate(policyMainPage.getStartDate());
+				}
+				if (vehicle.getEndDate() == null) {
+					vehicle.setEndDate(policyMainPage.getEndDate());
+				}
 				BeanUtils.copyProperties(policyEntity, policyMainPage);
 				BeanUtils.copyProperties(policyEntity, vehicle);
 				//修改时间

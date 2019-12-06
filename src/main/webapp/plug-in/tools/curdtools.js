@@ -380,7 +380,7 @@ function deluploadify(url, id) {
 // 普通询问操作调用函数
 
 function confirm(url, content,name,noShade) {
-    if(window.console) console.log("确认操作调用 - ", title);
+    if(window.console) console.log("确认操作调用 - ", name);
 	createdialog($.i18n.prop('tip.title'), content, url,name,noShade);
 }
 

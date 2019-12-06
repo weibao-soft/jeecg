@@ -95,23 +95,32 @@ function resetTrNum(tableId) {
 
 
 function calculateYear() {
-	var oneDay = 1000*60*60*24;
-	var oneYear = 1000*60*60*24*365;
-	var year = $("#year").val();
-	var start = $("#start").val();
-	var time = Date.parse(start.replace(/-/g, "/"));
-	time += (oneYear * year);
-	var myDate = new Date(time);
-	var fullYear = myDate.getFullYear();
-	var month = myDate.getMonth() + 1;
-	var day = myDate.getDate();
-	var str = fullYear + "-";
-	str = str + (month < 10 ? ("0" + month) : month) + "-";
-	str = str + (day < 10 ? ("0" + day) : day);
-	$("#end").val(str);
-	$("#endDate").val(str);
-	//layer.msg(str);
-	//console.log(myDate.toLocaleDateString());
+    calculateYearByParam($("#year"), $("#start"), $("#end"), $("#endDate"));
+}
+function calculateYearByParam($year, $startEl, $endEl, $endDateEl) {
+    if (!($year instanceof jQuery)) {
+        $startEl = $($year);
+        var $parent = $startEl.parent();
+        $year = $parent.children('[data-field="year"]');
+        $endEl = $endDateEl = $parent.children('[data-field="endDate"]');
+    }
+    var oneDay = 1000*60*60*24;
+    var oneYear = 1000*60*60*24*365;
+    var year = $year.val();
+    var start = $startEl.val();
+    var time = Date.parse(start.replace(/-/g, "/"));
+    time += (oneYear * year);
+    var myDate = new Date(time);
+    var fullYear = myDate.getFullYear();
+    var month = myDate.getMonth() + 1;
+    var day = myDate.getDate();
+    var str = fullYear + "-";
+    str = str + (month < 10 ? ("0" + month) : month) + "-";
+    str = str + (day < 10 ? ("0" + day) : day);
+    $endEl.val(str);
+    $endDateEl.val(str);
+    //layer.msg(str);
+    //console.log(myDate.toLocaleDateString());
 }
 
 function calculateMonths(obj) {
@@ -124,8 +133,15 @@ function calculateMonths(obj) {
 	}
 	
 	//layer.msg(isRealNum(year));
-	document.getElementById("month").innerText = months;
-	calculateYear();
+    var $parent = $(obj).parent();
+	var $monthByIdEl = $parent.children('#month');
+	var $monthEl = $monthByIdEl.length > 0 ? $monthByIdEl : $parent.children('[data-field="month"]');
+    $monthEl.html(months);
+    if ($monthByIdEl.length > 0) {
+        calculateYear();
+    } else {
+        calculateYearByParam($parent.children('[data-field="startDate"]')[0]);
+    }
 }
 
 //是否为正整数

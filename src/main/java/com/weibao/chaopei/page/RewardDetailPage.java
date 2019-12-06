@@ -63,5 +63,4 @@ public class RewardDetailPage implements Serializable {
 	//保费金额
 	private Float premium;
 	
-
 }

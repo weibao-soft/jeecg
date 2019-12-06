@@ -36,6 +36,7 @@
  
 //ftl模板导出word
 function ftlExportWord(){
+	debugger;
 	var rowsData = $('#jeecgDemoExcelList').datagrid('getSelections');
 	if (!rowsData || rowsData.length==0) {
 		tip('请选择一条记录');

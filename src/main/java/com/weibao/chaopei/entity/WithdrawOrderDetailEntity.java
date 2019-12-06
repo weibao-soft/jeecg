@@ -35,5 +35,4 @@ public class WithdrawOrderDetailEntity implements Serializable {
 	@Column(name ="reward_detail_id",nullable=true,length=32)
 	private java.lang.String rewardDetailId;
 
-
 }

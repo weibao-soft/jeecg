@@ -172,7 +172,17 @@
         <servlet-name>imgServerServlet</servlet-name>
         <url-pattern>/img-online/server/*</url-pattern>
     </servlet-mapping>
-    
+
+	<jsp-config>
+		<!-- 自定义标签库 -->
+		<taglib>
+			<!-- 配置标签的引用地址 JSP页面中引用时使用-->
+			<taglib-uri>el-common</taglib-uri>
+			<!-- 配置标签的TLD文件地址 -->
+			<taglib-location>/WEB-INF/tld/el-common.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
 	<!-- 404错误页面 -->
     <error-page>
         <error-code>404</error-code>

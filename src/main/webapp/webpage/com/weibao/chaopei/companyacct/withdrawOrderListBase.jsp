@@ -25,28 +25,28 @@
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function (){
-	var abc = $("#lywidth_demo").width()+17;
-	$("#lywidth_demo").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
+	$(document).ready(function (){
+		var abc = $("#lywidth_demo").width()+17;
+		$("#lywidth_demo").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
+		
+		//为了给产品列表的行添加鼠标点击事件
+		//该鼠标点击事件触发父页面：withdrawOrderList.jsp（包含当前iframe的页面）的getOrderList
+		//再由父页面内触发另一个
 	
-	//为了给产品列表的行添加鼠标点击事件
-	//该鼠标点击事件触发父页面：withdrawOrderList.jsp（包含当前iframe的页面）的getOrderList
-	//再由父页面内触发另一个
-
-	$("#withdrawOrderList").datagrid({
-		onClickRow: function (index, row) {
-			getOrderList(row.id);
-		}
+		$("#withdrawOrderList").datagrid({
+			onClickRow: function (index, row) {
+				getOrderList(row.id);
+			}
+		});
+	
 	});
+	
+	function getOrderList(id){
+		parent.getOrderList(id);
+	}
 
-});
-function getOrderList(id){
-	parent.getOrderList(id);
-}
 
-
-/**
-//导入
+/*
 function ImportXls() {
 	openuploadwin('Excel导入', 'jformOrderMainController.do?upload', "jformOrderMainList");
 }

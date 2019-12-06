@@ -11,6 +11,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.jeecgframework.core.common.controller.CustomJsonDateDeserializer;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
+import net.sf.json.util.JSONUtils;
+
 /**   
  * @Title: Entity
  * @Description: jeecg_demo
@@ -84,6 +86,7 @@ public class JeecgDemoEntity implements java.io.Serializable {
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
 	public java.lang.String getId(){
+		
 		return this.id;
 	}
 

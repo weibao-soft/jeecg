@@ -1,23 +1,29 @@
 
 package com.weibao.chaopei.service;
 
-import com.weibao.chaopei.entity.*;
-import com.weibao.chaopei.page.RewardDetailPage;
-import com.weibao.chaopei.util.PolicyUtil;
-import org.apache.log4j.Logger;
-import org.jeecgframework.core.common.exception.BusinessException;
-import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-import org.jeecgframework.p3.core.utils.common.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.jeecgframework.core.common.exception.BusinessException;
+import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.p3.core.utils.common.StringUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.weibao.chaopei.entity.CompanyAccountEntity;
+import com.weibao.chaopei.entity.CompanyRewardedDetailEntity;
+import com.weibao.chaopei.entity.CompanyUnrewardedDetailEntity;
+import com.weibao.chaopei.entity.PersonalAccountEntity;
+import com.weibao.chaopei.entity.PersonalRewardedDetailEntity;
+import com.weibao.chaopei.entity.WithdrawOrderDetailEntity;
+import com.weibao.chaopei.entity.WithdrawOrderEntity;
+import com.weibao.chaopei.page.RewardDetailPage;
+import com.weibao.chaopei.util.PolicyUtil;
 
 @Service("companyAcctService")
 @Transactional
@@ -57,7 +63,7 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 	}
 
 	/**
-	 *  查询已分润、未分润明细
+	 * 点击公司账户的已分润余额明细，查询已分润明细
 	 * @return
 	 */
 	public DataGrid getRewardDetailList(RewardDetailPage rewardDetail, DataGrid dataGrid, 
@@ -100,6 +106,7 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 			objList.add(param);
 			param = new String(rewardDetail.getDepartId());
 			objList.add(param);
+
 			Object[] objss = objList.toArray();
 			total = getCountForJdbcParam(stbHeadSql2.toString(), objss);
 			objs = findForJdbcParam(stbHeadSql1.toString(), page, rows, objss);
@@ -119,6 +126,7 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		}
 		return dataGrid;
 	}
+
 
 	/**
 	 *  查询取现明细
@@ -220,6 +228,7 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		return dataGrid;
 	}
 
+
 	public DataGrid getWithdrawOrderList(WithdrawOrderEntity orderEntity, DataGrid dataGrid){
 
 		StringBuffer stbHeadSql1 = new StringBuffer();
@@ -242,8 +251,6 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 			int rows = dataGrid.getRows();
 			String sort = dataGrid.getSort();
 			String order = dataGrid.getOrder();
-			WithdrawOrderEntity withdrawOrderEntity = null;
-			Object param = null;
 
 			if(StringUtils.isNotBlank(orderEntity.getAccountId())){
 				stbSql.append(" and od.account_id = ?");

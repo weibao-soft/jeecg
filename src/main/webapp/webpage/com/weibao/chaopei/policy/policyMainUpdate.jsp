@@ -8,9 +8,11 @@
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/PolicyMainUpdateComponent.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/policyCommon.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/driveValid.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/DateUtils.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/common.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/toast.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
@@ -24,6 +26,9 @@ select{height:46px;}
 dict_select{width:200px;}
 .info-table table{border-right:1px solid #E3E3E3;border-bottom:0px solid #FFF} 
 .info-table table td{border-left:1px solid #E3E3E3;border-top:1px solid #E3E3E3}
+	.radio-one {
+		cursor: pointer;
+	}
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
@@ -41,6 +46,27 @@ $(document).ready(function(){
 
 	var abc = $("#formobj").width()+17;
 	$("#formobj").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
+
+	PolicyMainUpdateComponent.renderInsuranceDate({
+		isDefaultDateBox: true,
+		startDate: {
+			attrs:{id: 'start', name: 'startDate', value: "${start}"}},
+		startHour: {
+			attrs:{id: 'shour', name: 'shour'}},
+		endDate: {
+			attrs:{id: 'end', name: 'endDate', value: "${end}"}},
+		endHour: {
+			attrs:{id: 'ehour', name: 'ehour'}},
+		year: {
+			attrs:{id: 'year', name: 'year', value: "${year}"}},
+		month: {
+			attrs:{id:'month'}}
+	}, $('#defaultInsuranceDate'));
+
+	var vehicles = ${el:toJsonString(policyMainPage.vehicles)};
+	// 初始化界面事件监听
+	initToggleShourModeEvent('${start}', '${max}', '${end}', '${year}', vehicles);
+
 });
 
 function customFunc() {
@@ -163,17 +189,26 @@ function reloadPolicyLists() {
 		 <tr><td style="width:150px;border-right:1px solid #E3E3E3;">车辆信息：</td>
 		 <td style="width:auto;">
 			<table name="policy_tabel" id="policy_tabel">
+				<thead>
+					<tr>
+						<td>车牌号<BR/>（新车填写：未上牌）</td>
+						<td><span style="color: red;">*</span>车架号</td>
+						<td><span style="color: red;">*</span>发动机号</td>
+						<td>保险期间</td>
+						<td>操作</td>
+					</tr>
+				</thead>
 			<tbody id="add_policy_tabel">
 			<c:if test="${fn:length(policyMainPage.vehicles) <= 0 }">
 				<tr name='policytr'>
 				<input name="vehicles[0].id" type="hidden"/>
-				<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
 				<td><input type="text" name="vehicles[0].plateNo" class="policy" title="plateNo" maxlength="8" style="width:100px;" value="未上牌"></td>
-				<td><span style="color: red;">*</span>车架号 </td>
-				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17"></td>
-				<td><span style="color: red;">*</span>发动机号 </td>
-				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;"></td>
-				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
+				<td><input placeholder="输入车架号" type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17"></td>
+				<td><input placeholder="输入发动机号" type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;"></td>
+					<td>
+						<span data-event="toggleShourMode" class="radio-one"><input type="checkbox" checked name="dateMode" value="custom"/>自定义</span>
+					</td>
+					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();"
 				style="height:30px;width:100px !important;border-radius:5px"/></td>
 				</tr>
 			</c:if>
@@ -181,12 +216,12 @@ function reloadPolicyLists() {
 				<c:forEach items="${policyMainPage.vehicles}" var="poVal" varStatus="stat">
 					<tr name='policytr'>
 					<input name="vehicles[${stat.index }].id" type="hidden" value="${poVal.id }"/>
-					<td><div style="text-align:right;width:140px;">车牌号：<BR/>（新车填写：未上牌）</div></td>
 					<td><input type="text" name="vehicles[${stat.index }].plateNo" class="policy" title="plateNo" maxlength="8" style="width:100px;" value="${poVal.plateNo}"></td>
-					<td><span style="color: red;">*</span>车架号 </td>
-					<td><input type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" value="${poVal.frameNo}"></td>
-					<td><span style="color: red;">*</span>发动机号 </td>
-					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;" value="${poVal.engineNo}"></td>
+					<td><input placeholder="输入车架号" type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" value="${poVal.frameNo}"></td>
+					<td><input placeholder="输入发动机号" type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;" value="${poVal.engineNo}"></td>
+						<td>
+							<span data-event="toggleShourMode" class="radio-one"><input type="checkbox" checked name="dateMode" value="custom"/>自定义</span>
+						</td>
 				<c:if test="${stat.index == 0 }">
 					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 					style="height:30px;width:100px !important;border-radius:5px"/></td>
@@ -207,12 +242,13 @@ function reloadPolicyLists() {
 	 <tr><td>
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr><td style="width:150px;border-right:1px solid #E3E3E3;">保险期间：</td>
-		 <td style="width:auto;">
-		 自 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:100px;" onblur="calculateYear();" 
-		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> <input type="text" 
-		 name="shour" id="shour" style="width:20px;" value="00" disabled/> 起 至 <input type="text" name="endDate" id="end" value="${end}" class="Wdate"
-		 style="width:100px;" disabled/> <input type="text" name="ehour" id="ehour" style="width:20px;" value="24" disabled/> 止，连续 <input type="text" 
-		 name="year" id="year" style="width:60px;" value="${year}" onblur="calculateMonths(this);">年 共<label id="month">12</label>月 </td></tr>
+		 <td id="defaultInsuranceDate" style="width:auto;">
+<%--		 自 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:100px;" onblur="calculateYear();" --%>
+<%--		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> <input type="text" --%>
+<%--		 name="shour" id="shour" style="width:20px;" value="00" disabled/> 起 至 <input type="text" name="endDate" id="end" value="${end}" class="Wdate"--%>
+<%--		 style="width:100px;" disabled/> <input type="text" name="ehour" id="ehour" style="width:20px;" value="24" disabled/> 止，连续 <input type="text" --%>
+<%--		 name="year" id="year" style="width:60px;" value="${year}" onblur="calculateMonths(this);">年 共<label id="month">12</label>月 </td>--%>
+		 </tr>
 	 </table>
 	 </td></tr>
 	 

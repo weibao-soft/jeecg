@@ -32,6 +32,7 @@
 	}
 	//保存数据
 	function saveData(title,addurl,gname){
+		debugger;
 		if(!endEdit(gname))
 			return false;
 		var rows=$('#'+gname).datagrid("getChanges","inserted");

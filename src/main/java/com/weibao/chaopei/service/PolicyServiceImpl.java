@@ -88,6 +88,8 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		vehicle.setPlateNo((String)obj.get("plate_no"));
 		vehicle.setFrameNo((String)obj.get("frame_no"));
 		vehicle.setEngineNo((String)obj.get("engine_no"));
+		vehicle.setStartDate((java.sql.Timestamp)obj.get("start_date"));
+		vehicle.setEndDate((java.sql.Timestamp)obj.get("end_date"));
 		vehicles.add(vehicle);
 		policyMainPage.setVehicles(vehicles);
 		
@@ -102,6 +104,8 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			vehicle.setPlateNo((String)obj.get("plate_no"));
 			vehicle.setFrameNo((String)obj.get("frame_no"));
 			vehicle.setEngineNo((String)obj.get("engine_no"));
+			vehicle.setStartDate((java.sql.Timestamp)obj.get("start_date"));
+			vehicle.setEndDate((java.sql.Timestamp)obj.get("end_date"));
 			vehicles.add(vehicle);
 		}
 		policyMainPage.setVehicles(vehicles);

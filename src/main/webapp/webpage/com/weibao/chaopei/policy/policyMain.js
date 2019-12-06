@@ -90,16 +90,14 @@ function addPolicy() {
 	index1++;
 	var index = document.getElementById("policy_tabel").rows.length;
 	//layer.msg(index);
-	var trbody = "<tr name='policytr'><input name='vehicles["+index+"].id' type='hidden'/>";
-	trbody += "<td><div style='text-align:right;width:140px;'>车牌号：<BR/>（新车填写：未上牌）</div></td>";
-	trbody += "<td><input type='text' name='vehicles["+index+"].plateNo' class='policy' title='plateNo' maxlength='8' style='width:100px;' value='未上牌'></td>";
-	trbody += "<td><span style='color: red;'>*</span>车架号 </td>";
-	trbody += "<td><input type='text' name='vehicles["+index+"].frameNo' class='policy' title='frameNo' maxlength='17'></td>";
-	trbody += "<td><span style='color: red;'>*</span>发动机号 </td>";
-	trbody += "<td><input type='text' name='vehicles["+index+"].engineNo' class='policy' title='engineNo' maxlength='40' style='width:120px;'></td>";
-	trbody += "<td><input class='btn' type='button' value='删除' onclick='removePolicy(this);'";
-	trbody += " style='height:30px;width:100px !important;border-radius:5px'/></td>";
-	trbody += "</tr>";
+	var trbody = `<tr name='policytr'>
+		<input name='vehicles[${index}].id' type='hidden'/>
+		<td><input type='text' name='vehicles[${index}].plateNo' class='policy' title='plateNo' maxlength='8' style='width:100px;' value='未上牌'></td>
+		<td><input placeholder="输入车架号" type='text' name='vehicles[${index}].frameNo' class='policy' title='frameNo' maxlength='17'></td>
+		<td><input placeholder="输入发动机号" type='text' name='vehicles[${index}].engineNo' class='policy' title='engineNo' maxlength='40' style='width:120px;'></td>
+		<td><span data-event="toggleShourMode" class="radio-one"><input type="checkbox" name="dateMode" value="custom"/>自定义</span></td>
+		<td><input class='btn' type='button' value='删除' onclick='removePolicy(this);' style='height:30px;width:100px !important;border-radius:5px'/></td>
+	</tr>`;
 	$("#policy_tabel").find("tbody").append(trbody);
 	//$("#policy_tabel").find("tbody").replaceWith(trbody);
 	resetTrNum("add_policy_tabel");
@@ -109,6 +107,71 @@ function removePolicy(obj) {
 	index1--;
 	$(obj).parents("tr[name='policytr']").remove();
 	resetTrNum("add_policy_tabel");
+}
+
+/**
+ * 切换【保险期间】填写方式：默认 或 自定义
+ */
+function initToggleShourModeEvent(start, max, end, year, vehicles) {
+	 $('#add_policy_tabel').on('click', '[data-event="toggleShourMode"]', function(event){
+	 	if (event.target.tagName === 'SPAN') {
+	 		$(this).children(':input[type="checkbox"]').click();
+	 		return;
+		}
+	 });
+	 let toggleDateByCkbox = function () {
+		 let isCustom = $(this).is(':checked');
+		 let $dateField = $(this).parents('td:first').children('.shour-field');
+		 let rowIndex = $(this).parents('tr:first').index();
+		 let startDate = new Date(vehicles[rowIndex].startDate);
+		 let endDate = new Date(vehicles[rowIndex].endDate);
+		 let startDateStr = DateUtils.dateFormatYMD(startDate);
+		 let endDateStr = DateUtils.dateFormatYMD(endDate);
+		 let year = DateUtils.getDateDiffY(startDate, endDate);
+		 if (isCustom) {
+		 	if ($dateField.length === 0) {
+				PolicyMainUpdateComponent.renderInsuranceDate({
+					startDate: {
+						attrs:{"data-field":"startDate", name: `vehicles[${rowIndex}].startDate`, value: startDateStr}},
+					startHour: {
+						attrs:{"data-field": "shour", name:`vehicles[${rowIndex}].startHour`}},
+					endDate: {
+						attrs:{"data-field":"endDate", name: `vehicles[${rowIndex}].endDate`, value: endDateStr}},
+					endHour: {
+						attrs:{"data-field":"ehour", name:`vehicles[${rowIndex}].endHour`}},
+					year: {
+						attrs:{"data-field":"year", name:`vehicles[${rowIndex}].year`, value: year}},
+					month: {
+						attrs:{"data-field": "month"}}
+				}, $(this).parents('td:first'));
+			}
+
+			//  $(this).parents('td:first').append(`
+			// <span class="shour-field">
+		 	// 自
+		 	// <input type="text"  class="Wdate" style="width:100px;"
+		 	// 	onblur="calculateYearByParam(this);" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${minDateStr}',maxDate:'${maxDateStr}'})"/>
+			// <input type="text" style="width:20px;" value="00" disabled/>
+			// 起 至
+			// <input type="text"  class="Wdate" style="width:100px;" readonly/>
+			// <input type="text"  style="width:20px;" value="24" disabled/>
+			// 止，连续
+			// <input type="text"  style="width:60px;" value="${year}" onblur="calculateMonths(this);">
+			// 年 共
+			// <label data-field="month">12</label>
+			// 月
+			// </span>
+		 	// `);
+		 } else {
+			 $dateField.remove();
+		 }
+	 };
+	 $('#add_policy_tabel :input[type="checkbox"]').each(function(){
+		 toggleDateByCkbox.apply(this);
+	 });
+	$('#add_policy_tabel').on('change', ':input[type="checkbox"]', function(event){
+		toggleDateByCkbox.apply(this);
+	});
 }
 
 
@@ -425,9 +488,19 @@ function getSubmitParam() {
 		vehicle.plateNo = document.getElementsByName("vehicles["+i+"].plateNo")[0].value;
 		vehicle.frameNo = document.getElementsByName("vehicles["+i+"].frameNo")[0].value;
 		vehicle.engineNo = document.getElementsByName("vehicles["+i+"].engineNo")[0].value;
+		vehicle.startDate = document.getElementsByName("vehicles["+i+"].startDate")[0].value;
+		vehicle.startHour = document.getElementsByName("vehicles["+i+"].startHour")[0].value;
+		vehicle.endDate = document.getElementsByName("vehicles["+i+"].endDate")[0].value;
+		vehicle.endHour = document.getElementsByName("vehicles["+i+"].endHour")[0].value;
+		vehicle.year = document.getElementsByName("vehicles["+i+"].year")[0].value;
 		param["vehicles["+i+"].plateNo"] = vehicle.plateNo;
 		param["vehicles["+i+"].frameNo"] = vehicle.frameNo;
 		param["vehicles["+i+"].engineNo"] = vehicle.engineNo;
+		param["vehicles["+i+"].startDate"] = vehicle.startDate;
+		param["vehicles["+i+"].startHour"] = vehicle.startHour;
+		param["vehicles["+i+"].endDate"] = vehicle.endDate;
+		param["vehicles["+i+"].endHour"] = vehicle.endHour;
+		param["vehicles["+i+"].year"] = vehicle.year;
 		vehicles[i] = vehicle;
 	}
 	param.vehicleArr = vehicles;

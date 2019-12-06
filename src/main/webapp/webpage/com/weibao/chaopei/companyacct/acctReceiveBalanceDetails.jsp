@@ -26,7 +26,6 @@
  
 <script type="text/javascript">
 
-
 function getAcctBalanceList(id){		
 	$('#comAcctReceiveDetailList').datagrid('load',{
 		companyAccountId : id
@@ -53,32 +52,4 @@ function withdraw(title,url,gname){
 				debugger;
 				for ( var i = 0; i < rows.length; i++) {					
 					params.push(rows[i].id);
-				}
-				$.ajax({
-					url : url,
-					type : 'post',
-					data : {
-						params : params.join(',')
-					},
-					cache : false,
-					success : function(data) {
-						debugger;
-						var d = $.parseJSON(data);
-						if (d.success) {							
-							var msg = d.msg;
-							tip(msg);
-							$("#"+gname).datagrid('unselectAll');
-							$('#comAcctReceiveDetailList').datagrid('load',{								
-							});							
-						}
-					}
-				});
-			}
-		});
-	} else {
-		tip("请选择需要申请提现的明细！")
-		return false;
-	}
-}
-
 </script>
