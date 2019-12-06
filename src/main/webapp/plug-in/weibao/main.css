@@ -3,11 +3,11 @@ html, body, * {
 }
 .jcx-header {
     height: 84px;
-    background: url(../images/login/jcx_h_bar.png) repeat-x;
+    background: url(../accordion/images/login/jcx_h_bar.png) repeat-x;
     position: relative;
 }
 .jcx-logo {
-    background: url(../images/login/jcx_icon.png) no-repeat 0px 7px;
+    background: url(../accordion/images/login/jcx_icon.png) no-repeat 0px 7px;
     background-size: 70px 64px;
     background-origin: border-box;
     height: 78px;

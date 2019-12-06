@@ -17,12 +17,16 @@
 	        </activation>
 	    </profile>
 	    <profile>
-        <!-- 生产环境 -->
-        <id>pro</id>
+        	<!-- 生产环境 -->
+        	<id>pro</id>
         	<properties>
             	<profiles.active>pro</profiles.active>
         	</properties>
+        	<activation>
+	            <activeByDefault>false</activeByDefault>
+	        </activation>
     	</profile>
+    	
 	</profiles>
 	<properties>
 		<!-- 自定义依赖包 -->
@@ -155,7 +159,13 @@
 	<dependencies>
 
 		<!-- 自定义的依赖包  begin -->
-		
+
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.20</version>
+		</dependency>
 		<!-- httpclient pooling -->
 		<dependency>
 		   <groupId>org.apache.httpcomponents</groupId>
