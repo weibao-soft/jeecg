@@ -155,8 +155,7 @@ public class GuorenPolicyController extends BaseController {
 				getAllChildDepartIds(parentId, idList);
 				userIdList = policyService.getDepartUserIds(idList);
 			}
-			//userIdList = getAllChildDeparts(parentIds, request);
-			policyService.getGuorenPolicyList(policy, dataGrid, userIdList);
+			policyService.getGuorenPolicyListExport(policy, dataGrid, userIdList);
 			//查询条件组装器
 		} catch (SecurityException e) {
 			logger.error(e);
