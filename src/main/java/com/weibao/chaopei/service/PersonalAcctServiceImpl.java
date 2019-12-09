@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.weibao.chaopei.entity.PersonalAccountEntity;
 import com.weibao.chaopei.entity.PersonalRewardedDetailEntity;
 import com.weibao.chaopei.entity.PersonalUnrewardedDetailEntity;
+import com.weibao.chaopei.entity.PolicyEntity;
 import com.weibao.chaopei.entity.WithdrawOrderDetailEntity;
 import com.weibao.chaopei.entity.WithdrawOrderEntity;
 import com.weibao.chaopei.page.RewardDetailPage;
@@ -87,7 +88,7 @@ public class PersonalAcctServiceImpl extends CommonServiceImpl implements Person
 
 			stbSql.append(" and d.personal_account_id = ? and d.user_id = ?");
 			if(StringUtils.isNotBlank(sort)) {
-				String column = PolicyUtil.getColumnName(sort);
+				String column = PolicyUtil.getColumnName(PolicyEntity.class, sort);
 				column = PolicyUtil.getAmbiguousColumn(column);
 				if(StringUtils.isNotBlank(column)) {
 					stbSql.append(" order by " + column + " " + order);
@@ -146,7 +147,7 @@ public class PersonalAcctServiceImpl extends CommonServiceImpl implements Person
 			stbHeadSql2.append(stbSql);
 
 			if(StringUtils.isNotBlank(sort)) {
-				String column = PolicyUtil.getColumnName(sort);
+				String column = PolicyUtil.getColumnName(PolicyEntity.class, sort);
 				column = PolicyUtil.getAmbiguousColumn(column);
 				if(StringUtils.isNotBlank(column)) {
 					stbSql.append(" order by " + column + " " + order);
