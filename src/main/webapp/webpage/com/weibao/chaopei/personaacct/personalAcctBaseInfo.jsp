@@ -65,13 +65,13 @@
 	//绑定公司账户
 	function bindAccount(){
 		var addurl = "personalAcctController.do?goBindAccount";
-		//openwindow("个人账户信息绑定",addurl,"bindAcct",620,400);
+		openwindow("个人账户信息绑定",addurl,"bindAcct",620,400);
 		return;
 	}
 	//查询取现记录
 	function getWithdrawOrderList(id){
 	    if(window.console) console.log("withdrawOrderList == ", id);
-		//addTab(id, "取现记录", "personalAcctController.do?withdrawOrderList&accountId="+id);
+		addTab(id, "取现记录", "personalAcctController.do?withdrawOrderList&accountId="+id);
 	}
 
 	function addTab(ids, title_, url_) {		
