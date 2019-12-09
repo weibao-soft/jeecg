@@ -22,6 +22,7 @@
 input[type="text"]{font-size:14px;}
 select{height:46px;}
 dict_select{width:200px;}
+.radio-one {cursor: pointer;}
 .info-table table{border-right:1px solid #E3E3E3;border-bottom:1px solid #E3E3E3} 
 .info-table table td{border-left:1px solid #E3E3E3;border-top:1px solid #E3E3E3}
 </style>
@@ -260,9 +261,9 @@ function test() {
  </table>
  
 <div style="text-align:center;width:98%;padding-top:10px;">
-<input id="insur" class="subBtnmy" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="pay" class="subBtnmy" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
-<input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.id}');" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="insur" class="subBtnmy btn-size" type="button" value="提交核保" onclick="insurance();"/>
+<input id="pay" class="subBtnmy btn-size" type="button" value="在线支付" onclick="doPay();" disabled/>
+<input id="back" class="btnmy btn-size" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.id}');"/>
 </div>
 </fieldset>
 

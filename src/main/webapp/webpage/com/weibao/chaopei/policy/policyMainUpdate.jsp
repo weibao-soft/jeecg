@@ -24,15 +24,13 @@
 input[type="text"]{font-size:14px;}
 select{height:46px;}
 dict_select{width:200px;}
-.info-table table{border-right:1px solid #E3E3E3;border-bottom:0px solid #FFF} 
-.info-table table td{border-left:1px solid #E3E3E3;border-top:1px solid #E3E3E3}
-	.radio-one {
-		cursor: pointer;
-	}
+.radio-one {cursor: pointer;}
+.info-table table{border-right:1px solid #E3E3E3;border-bottom:0px solid #FFF;} 
+.info-table table td{border-left:1px solid #E3E3E3;border-top:1px solid #E3E3E3;}
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
-    window.Utils.showLoading(imgName);
+	window.Custom.dialogLoading(true);
 	var params = {};
 	params.paramId = "${policyMainPage.prodId }";
 	var url = "policyMainController.do?getProductPlan";
@@ -82,7 +80,7 @@ function customFunc() {
 		$("#invoiceType").val(invoiceType).trigger('change');
 		$("#taxpayerNop").val("");
 	}
-    window.Utils.closeLoading();
+	window.Custom.dialogLoading(false);
 }
 function customFunc2() {
 	window.Custom.dialogLoading(false);
@@ -176,8 +174,7 @@ function reloadPolicyLists() {
 	 <tr><td style="width:150px;">方案保障</td>
 	 <td style="width:auto;">
 			<select name="planId" id="planId" style="width:500px;" value="${policyMainPage.planId}">
-			</select>
-			<span class="Validform_checktip"></span></td></tr>
+			</select><span class="Validform_checktip"></span></td></tr>
 	 </table>
  </td></tr>
  
@@ -189,47 +186,45 @@ function reloadPolicyLists() {
 		 <tr><td style="width:150px;border-right:1px solid #E3E3E3;">车辆信息：</td>
 		 <td style="width:auto;">
 			<table name="policy_tabel" id="policy_tabel">
-				<thead>
-					<tr>
-						<td>车牌号<BR/>（新车填写：未上牌）</td>
-						<td><span style="color: red;">*</span>车架号</td>
-						<td><span style="color: red;">*</span>发动机号</td>
-						<td>保险期间</td>
-						<td>操作</td>
-					</tr>
-				</thead>
+			<thead>
+				<tr>
+					<td><span style="color: red;">*</span>车牌号<BR/>(新车填写:未上牌)</td>
+					<td><span style="color: red;">*</span>车架号</td>
+					<td><span style="color: red;">*</span>发动机号</td>
+					<td>操作</td>
+					<td>保险期间</td>
+				</tr>
+			</thead>
 			<tbody id="add_policy_tabel">
 			<c:if test="${fn:length(policyMainPage.vehicles) <= 0 }">
 				<tr name='policytr'>
 				<input name="vehicles[0].id" type="hidden"/>
 				<td><input type="text" name="vehicles[0].plateNo" class="policy" title="plateNo" maxlength="8" style="width:100px;" value="未上牌"></td>
-				<td><input placeholder="输入车架号" type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17"></td>
-				<td><input placeholder="输入发动机号" type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;"></td>
-					<td>
-						<span data-event="toggleShourMode" class="radio-one"><input type="checkbox" checked name="dateMode" value="custom"/>自定义</span>
-					</td>
-					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();"
-				style="height:30px;width:100px !important;border-radius:5px"/></td>
+				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17" placeholder="输入车架号"></td>
+				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;" placeholder="输入发动机号"></td>
+				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" style="height:30px;width:100px !important;"/></td>
+				<td><span data-event="toggleShourMode" class="radio-one"><input type="checkbox" checked name="dateMode" value="custom"/>自定义</span></td>
 				</tr>
 			</c:if>
 			<c:if test="${fn:length(policyMainPage.vehicles) > 0 }">
 				<c:forEach items="${policyMainPage.vehicles}" var="poVal" varStatus="stat">
 					<tr name='policytr'>
 					<input name="vehicles[${stat.index }].id" type="hidden" value="${poVal.id }"/>
-					<td><input type="text" name="vehicles[${stat.index }].plateNo" class="policy" title="plateNo" maxlength="8" style="width:100px;" value="${poVal.plateNo}"></td>
-					<td><input placeholder="输入车架号" type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" value="${poVal.frameNo}"></td>
-					<td><input placeholder="输入发动机号" type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;" value="${poVal.engineNo}"></td>
-						<td>
-							<span data-event="toggleShourMode" class="radio-one"><input type="checkbox" checked name="dateMode" value="custom"/>自定义</span>
-						</td>
+					<td><input type="text" name="vehicles[${stat.index }].plateNo" class="policy" title="plateNo" maxlength="8" 
+					style="width:100px;" value="${poVal.plateNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" 
+					placeholder="输入车架号" value="${poVal.frameNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="40" 
+					style="width:120px;" placeholder="输入发动机号" value="${poVal.engineNo}"></td>
 				<c:if test="${stat.index == 0 }">
 					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
-					style="height:30px;width:100px !important;border-radius:5px"/></td>
+					style="height:30px;width:100px !important;"/></td>
 				</c:if>
 				<c:if test="${stat.index > 0 }">
 					<td><input class="btn" type="button" value="删除" onclick="removePolicy(this);" 
-					style="height:30px;width:100px !important;border-radius:5px"/></td>
+					style="height:30px;width:100px !important;"/></td>
 				</c:if>
+					<td><span data-event="toggleShourMode" class="radio-one"><input type="checkbox" checked name="dateMode" value="custom"/>自定义</span></td>
 		   			</tr>
 				</c:forEach>
 			</c:if>
@@ -313,14 +308,14 @@ function reloadPolicyLists() {
  </table>
  
 <div style="text-align:center;width:98%;padding-top:10px;">
-<input id="save" class="btnmy" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="insur" class="subBtnmy" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="pay" class="subBtnmy" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
+<input id="save" class="btnmy btn-size" type="button" value="存草稿" onclick="saveDraft();"/>
+<input id="insur" class="subBtnmy btn-size" type="button" value="提交核保" onclick="insurance();"/>
+<input id="pay" class="subBtnmy btn-size" type="button" value="在线支付" onclick="doPay();" disabled/>
 <c:if test="${isDraft eq true }">
-<input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.draftId}');" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="back" class="btnmy btn-size" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.draftId}');"/>
 </c:if>
 <c:if test="${isDraft eq false }">
-<input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.id}');" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="back" class="btnmy btn-size" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.id}');"/>
 </c:if>
 </div>
 </fieldset>

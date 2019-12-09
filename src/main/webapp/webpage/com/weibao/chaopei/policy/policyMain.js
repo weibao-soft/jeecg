@@ -93,10 +93,10 @@ function addPolicy() {
 	var trbody = `<tr name='policytr'>
 		<input name='vehicles[${index}].id' type='hidden'/>
 		<td><input type='text' name='vehicles[${index}].plateNo' class='policy' title='plateNo' maxlength='8' style='width:100px;' value='未上牌'></td>
-		<td><input placeholder="输入车架号" type='text' name='vehicles[${index}].frameNo' class='policy' title='frameNo' maxlength='17'></td>
-		<td><input placeholder="输入发动机号" type='text' name='vehicles[${index}].engineNo' class='policy' title='engineNo' maxlength='40' style='width:120px;'></td>
+		<td><input type='text' name='vehicles[${index}].frameNo' class='policy' title='frameNo' maxlength='17' placeholder="输入车架号"></td>
+		<td><input type='text' name='vehicles[${index}].engineNo' class='policy' title='engineNo' maxlength='40' style='width:120px;' placeholder="输入发动机号"></td>
+		<td><input class='btn' type='button' value='删除' onclick='removePolicy(this);' style='height:30px;width:100px !important;'/></td>
 		<td><span data-event="toggleShourMode" class="radio-one"><input type="checkbox" name="dateMode" value="custom"/>自定义</span></td>
-		<td><input class='btn' type='button' value='删除' onclick='removePolicy(this);' style='height:30px;width:100px !important;border-radius:5px'/></td>
 	</tr>`;
 	$("#policy_tabel").find("tbody").append(trbody);
 	//$("#policy_tabel").find("tbody").replaceWith(trbody);

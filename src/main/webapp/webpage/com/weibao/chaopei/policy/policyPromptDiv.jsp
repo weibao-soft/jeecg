@@ -90,7 +90,7 @@ function closePromptDiv() {
 }
 </SCRIPT>
 <div id="promptDiv" class="overlay" style="z-index: 11009;display: none;">
-<div class="animated zoomIn layerBox" style="width: 1086px; height: 586px; left: 177px; top: 6.8px;background: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px;z-index: 11009;">
+<div class="animated zoomIn layerBox" style="width: 1086px; height: 586px; left: 77px; top: 6.8px;background: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px;z-index: 11009;">
   <h4 class="layerHeader">
     <span>提示</span>
     <button id="prompt" type="button" data-dismiss="modal" aria-hidden="true" class="close close_btn" onclick="closePromptDiv();">

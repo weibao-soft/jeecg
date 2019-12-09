@@ -21,6 +21,7 @@
 *{font-size:14px;}
 input[type="text"]{font-size:14px;}
 select{height:46px;}
+.radio-one {cursor: pointer;}
 .info-table table{border-right:1px solid #E3E3E3;border-bottom:1px solid #E3E3E3} 
 .info-table table td{border-left:1px solid #E3E3E3;border-top:1px solid #E3E3E3}
 </style>
@@ -177,7 +178,7 @@ function doPay() {
 				<td><span style="color: red;">*</span>发动机号 </td>
 				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;"></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
-				style="height:30px;width:100px !important;border-radius:5px"/></td>
+				style="height:30px;width:100px !important;"/></td>
 				</tr>
 			</c:if>
 			<c:if test="${fn:length(policyMainPage.vehicles) > 0 }">
@@ -192,11 +193,11 @@ function doPay() {
 					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;" value="${poVal.engineNo}"></td>
 				<c:if test="${stat.index == 0 }">
 					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
-					style="height:30px;width:100px !important;border-radius:5px"/></td>
+					style="height:30px;width:100px !important;"/></td>
 				</c:if>
 				<c:if test="${stat.index > 0 }">
 					<td><input class="btn" type="button" value="删除" onclick="removePolicy(this);" 
-					style="height:30px;width:100px !important;border-radius:5px"/></td>
+					style="height:30px;width:100px !important;"/></td>
 				</c:if>
 		   			</tr>
 				</c:forEach>
@@ -280,10 +281,10 @@ function doPay() {
  </table>
  
 <div style="text-align:center;width:98%;padding-top:10px;">
-<input id="save" class="btnmy" type="button" value="存草稿" onclick="saveDraft();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="insur" class="subBtnmy" type="button" value="提交核保" onclick="insurance();" style="height:30px;width:100px !important;border-radius:5px"/>
-<input id="pay" class="subBtnmy" type="button" value="在线支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
-<input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_${prodId}');" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="save" class="btnmy btn-size" type="button" value="存草稿" onclick="saveDraft();"/>
+<input id="insur" class="subBtnmy btn-size" type="button" value="提交核保" onclick="insurance();"/>
+<input id="pay" class="subBtnmy btn-size" type="button" value="在线支付" onclick="doPay();" disabled/>
+<input id="back" class="btnmy btn-size" type="button" value="关闭" onclick="closeCurrent('tab_${prodId}');"/>
 </div>
 </fieldset>
 
