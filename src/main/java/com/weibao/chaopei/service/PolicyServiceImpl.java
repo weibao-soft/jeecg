@@ -304,7 +304,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbSql = new StringBuffer();
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
-		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plan_id, a.create_time, a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
+		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plan_id, a.create_time, a.pay_time,  a.last_update_time, a.`status`, a.pay_status, a.holder_comp_name, a.premium, ");
 		stbHeadSql1.append("a.plate_no, a.frame_no, a.user_id, bu.username user_no, bu.realname username, c.prod_plan, b.prod_name, b.prod_code, ");
 		stbHeadSql1.append("b.insur_comp_name, d.id depart_id, d.departname ");
 		stbHeadSql2.append("select count(1) ");
@@ -466,6 +466,74 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	
 	
 	/**
+	 *  导出国任的保单列表
+	 * @return
+	 */
+	public DataGrid getGuorenPolicyListExport(PolicyMainPage policy, DataGrid dataGrid, List<String> userIdList) {
+		
+		List<Map<String, Object>> objs = null;
+		List<PolicyMainPage> policyList = new ArrayList<PolicyMainPage>();
+		StringBuffer stbSql = new StringBuffer();
+		StringBuffer stbHeadSql1 = new StringBuffer();
+		stbHeadSql1.append("select d.departname, a.policy_no,  CONCAT(b.prod_name, '|', c.prod_plan) prod_name, a.holder_comp_name, a.holder_org_code,  ")
+				.append("bu.username user_no, bu.realname userName, a.plate_no, a.frame_no, a.engine_no, a.start_date, a.end_date,  a.premium, a.pay_time, type.typename invoice_type ");
+		
+		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d, t_s_typegroup tg, t_s_type type ")
+				.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id and a.pay_status in('1', '2') ")
+				.append(" and tg.ID=type.typegroupid  and tg.typegroupcode='taxiType' and type.typecode=a.invoice_type ");
+		
+		try {
+			List<Object> objList = new ArrayList<Object>();
+			PolicyMainPage policyMainPage = null;
+			
+			getQueryConditions(policy, stbSql, objList);
+			
+			if(userIdList != null && !userIdList.isEmpty()) {
+				stbSql.append(" and a.user_id in(");
+				for(int i = 0; i < userIdList.size(); i++) {
+					String userId = userIdList.get(i);
+					if(i != 0) {
+						stbSql.append(",");
+					}
+					stbSql.append(" ?");
+					Object param = (Object)userId;
+					objList.add(param);
+				}
+				stbSql.append(" )");
+			} else if(userIdList != null && userIdList.isEmpty()) {
+				dataGrid.setResults(policyList);
+				dataGrid.setTotal(0);
+				return dataGrid;
+			}
+			
+			
+			stbSql.append(" order by a.pay_time desc ");
+			
+			stbHeadSql1.append(stbSql);
+			
+			
+			Object[] objss = objList.toArray();				
+			objs = findForJdbc(stbHeadSql1.toString(), objss);
+			
+			
+			for(int i = 0; i < objs.size(); i++) {
+				Map<String, Object> obj = objs.get(i);
+				policyMainPage = new PolicyMainPage();
+
+				setPolicyMainPage(obj, policyMainPage);
+				policyList.add(policyMainPage);
+			}
+			dataGrid.setResults(policyList);
+			
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
+		return dataGrid;
+	}
+	
+	
+	/**
 	 *  导出国任的发票列表
 	 * @return
 	 */
@@ -505,7 +573,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				return invoiceList;
 			}
 			
-			stbSql.append(" order by a.pay_time asc ");
+			stbSql.append(" order by a.pay_time desc ");
 			stbHeadSql1.append(stbSql);
 			
 			

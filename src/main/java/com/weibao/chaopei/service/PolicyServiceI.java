@@ -42,6 +42,8 @@ public interface PolicyServiceI extends CommonService {
 	 */
 	public DataGrid getGuorenPolicyList(PolicyMainPage policy, DataGrid dataGrid, List<String> userIdList);
 	
+	public DataGrid getGuorenPolicyListExport(PolicyMainPage policy, DataGrid dataGrid, List<String> userIdList);
+	
 	/**
 	 *  导出国任的发票信息列表
 	 * @param policy

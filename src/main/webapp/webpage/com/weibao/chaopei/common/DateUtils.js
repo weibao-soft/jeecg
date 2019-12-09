@@ -4,13 +4,13 @@ class DateUtils {
             date = new Date();
         }
         if (afterDay!=null) {
-            date.setDate(date.getDate() + afterDay);
+            date.setDate(date.getDate() + parseInt(afterDay));
         }
         if (afterMonth!=null) {
-            date.setMonth(date.getMonth() + afterMonth);
+            date.setMonth(date.getMonth() + parseInt(afterMonth));
         }
         if (afterYear!=null) {
-            date.setFullYear(date.getFullYear() + afterYear);
+            date.setFullYear(date.getFullYear() + parseInt(afterYear));
         }
         return date;
     }
@@ -21,7 +21,7 @@ class DateUtils {
         } else {
             diffTime = endDate - startDate;
         }
-        return Math.ceil(diffTime/(365*24*60*60*1000));
+        return Math.ceil(diffTime/(366*24*60*60*1000));
     }
     static dateFormat(date, format) {
         date = new Date(date);
@@ -48,6 +48,9 @@ class DateUtils {
         let aDate = this.parse(aDateYMD, 'yyyy-MM-dd');
         let bDate = this.parse(bDateYMD, 'yyyy-MM-dd');
         return bDate > aDate;
+    }
+    static parseYMD(str) {
+        return this.parse(str, 'yyyy-MM-dd');
     }
     static parse(str, format) {
         let pattern = format.replace("yyyy", "(\\~1{4})").replace("yy", "(\\~1{2})")

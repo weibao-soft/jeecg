@@ -123,8 +123,15 @@ function initToggleShourModeEvent(start, max, end, year, vehicles) {
 		 let isCustom = $(this).is(':checked');
 		 let $dateField = $(this).parents('td:first').children('.shour-field');
 		 let rowIndex = $(this).parents('tr:first').index();
-		 let startDate = new Date(vehicles[rowIndex].startDate);
-		 let endDate = new Date(vehicles[rowIndex].endDate);
+		 let startDate;
+		 let endDate;
+		 if (vehicles[rowIndex]) {
+			 startDate = new Date(vehicles[rowIndex].startDate);
+			 endDate = new Date(vehicles[rowIndex].endDate);
+		 } else {
+			 startDate = Date.parse($('#start').val() + ' 00:00:00');
+			 endDate = Date.parse($('#end').val() + ' 23:59:59');
+		 }
 		 let startDateStr = DateUtils.dateFormatYMD(startDate);
 		 let endDateStr = DateUtils.dateFormatYMD(endDate);
 		 let year = DateUtils.getDateDiffY(startDate, endDate);
