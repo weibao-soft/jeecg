@@ -495,19 +495,24 @@ function getSubmitParam() {
 		vehicle.plateNo = document.getElementsByName("vehicles["+i+"].plateNo")[0].value;
 		vehicle.frameNo = document.getElementsByName("vehicles["+i+"].frameNo")[0].value;
 		vehicle.engineNo = document.getElementsByName("vehicles["+i+"].engineNo")[0].value;
-		vehicle.startDate = document.getElementsByName("vehicles["+i+"].startDate")[0].value;
-		vehicle.startHour = document.getElementsByName("vehicles["+i+"].startHour")[0].value;
-		vehicle.endDate = document.getElementsByName("vehicles["+i+"].endDate")[0].value;
-		vehicle.endHour = document.getElementsByName("vehicles["+i+"].endHour")[0].value;
-		vehicle.year = document.getElementsByName("vehicles["+i+"].year")[0].value;
 		param["vehicles["+i+"].plateNo"] = vehicle.plateNo;
 		param["vehicles["+i+"].frameNo"] = vehicle.frameNo;
 		param["vehicles["+i+"].engineNo"] = vehicle.engineNo;
-		param["vehicles["+i+"].startDate"] = vehicle.startDate;
-		param["vehicles["+i+"].startHour"] = vehicle.startHour;
-		param["vehicles["+i+"].endDate"] = vehicle.endDate;
-		param["vehicles["+i+"].endHour"] = vehicle.endHour;
-		param["vehicles["+i+"].year"] = vehicle.year;
+		
+		var dateObj = document.getElementsByName("vehicles["+i+"].startDate")[0];
+		debugger;
+		if(dateObj!=undefined) {
+			vehicle.startDate = document.getElementsByName("vehicles["+i+"].startDate")[0].value;
+			vehicle.startHour = document.getElementsByName("vehicles["+i+"].startHour")[0].value;
+			vehicle.endDate = document.getElementsByName("vehicles["+i+"].endDate")[0].value;
+			vehicle.endHour = document.getElementsByName("vehicles["+i+"].endHour")[0].value;
+			vehicle.year = document.getElementsByName("vehicles["+i+"].year")[0].value;
+			param["vehicles["+i+"].startDate"] = vehicle.startDate;
+			param["vehicles["+i+"].startHour"] = vehicle.startHour;
+			param["vehicles["+i+"].endDate"] = vehicle.endDate;
+			param["vehicles["+i+"].endHour"] = vehicle.endHour;
+			param["vehicles["+i+"].year"] = vehicle.year;
+		}
 		vehicles[i] = vehicle;
 	}
 	param.vehicleArr = vehicles;

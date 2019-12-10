@@ -25,6 +25,7 @@ import com.weibao.chaopei.entity.ProductDetailEntity;
 import com.weibao.chaopei.entity.ReceiverEntity;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.page.PolicyVehiclePage;
+import com.weibao.chaopei.util.CommonUtil;
 
 @Service("draftService")
 @Transactional
@@ -103,8 +104,8 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				if(vehicle.getFrameNo() == null) {
 					continue;
 				}
-				BeanUtils.copyProperties(policyEntity, policyMainPage);
-				BeanUtils.copyProperties(policyEntity, vehicle);
+				CommonUtil.copyPropertiesIgnoreNull(policyMainPage, policyEntity);
+				CommonUtil.copyPropertiesIgnoreNull(vehicle, policyEntity);
 				policyEntity.setPayStatus("0");
 				policyEntity.setRewardStatus("0");						
 				//创建时间
@@ -211,8 +212,8 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				if (vehicle.getEndDate() == null) {
 					vehicle.setEndDate(policyMainPage.getEndDate());
 				}
-				BeanUtils.copyProperties(policyEntity, policyMainPage);
-				BeanUtils.copyProperties(policyEntity, vehicle);
+				CommonUtil.copyPropertiesIgnoreNull(policyMainPage, policyEntity);
+				CommonUtil.copyPropertiesIgnoreNull(vehicle, policyEntity);
 				//修改时间
 				policyEntity.setLastUpdateTime(currDate);
 				policyEntity.setId(vehicle.getId());
