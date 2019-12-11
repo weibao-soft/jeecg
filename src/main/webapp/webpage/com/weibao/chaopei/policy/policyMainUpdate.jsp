@@ -40,7 +40,7 @@ $(document).ready(function(){
     $("#holderCompNature").css("width", "200px");
     $("#industryType").css("width", "200px");
     $("#holderNature").css("width", "200px");
-    window.setTimeout(customFunc, 500);
+    window.setTimeout(customFunc, 666);
 
 	var abc = $("#formobj").width()+17;
 	$("#formobj").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
@@ -238,12 +238,12 @@ function reloadPolicyLists() {
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr><td style="width:150px;border-right:1px solid #E3E3E3;">保险期间：</td>
 		 <td id="defaultInsuranceDate" style="width:auto;">
-<%--		 自 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:100px;" onblur="calculateYear();" --%>
+<%--		 <span>自 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:100px;" onblur="calculateYear();" --%>
 <%--		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> <input type="text" --%>
 <%--		 name="shour" id="shour" style="width:20px;" value="00" disabled/> 起 至 <input type="text" name="endDate" id="end" value="${end}" class="Wdate"--%>
 <%--		 style="width:100px;" disabled/> <input type="text" name="ehour" id="ehour" style="width:20px;" value="24" disabled/> 止，连续 <input type="text" --%>
-<%--		 name="year" id="year" style="width:60px;" value="${year}" onblur="calculateMonths(this);">年 共<label id="month">12</label>月 </td>--%>
-		 </tr>
+<%--		 name="year" id="year" style="width:60px;" value="${year}" onblur="calculateMonths(this);">年 共<label id="month">12</label>月 </span> --%>
+		 </td></tr>
 	 </table>
 	 </td></tr>
 	 

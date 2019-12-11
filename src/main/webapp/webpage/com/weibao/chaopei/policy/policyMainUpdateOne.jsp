@@ -38,7 +38,7 @@ $(document).ready(function(){
     $("#holderCompNature").css("width", "200px");
     $("#industryType").css("width", "200px");
     $("#holderNature").css("width", "200px");
-    window.setTimeout(customFunc, 500);
+    window.setTimeout(customFunc, 666);
 
 	var abc = $("#formobj").width()+17;
 	$("#formobj").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");

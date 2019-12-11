@@ -125,7 +125,7 @@ function initToggleShourModeEvent(start, max, end, year, vehicles) {
 		 let rowIndex = $(this).parents('tr:first').index();
 		 let startDate;
 		 let endDate;
-		 if (vehicles[rowIndex]) {
+		 if (vehicles != null && vehicles[rowIndex]) {
 			 startDate = new Date(vehicles[rowIndex].startDate);
 			 endDate = new Date(vehicles[rowIndex].endDate);
 		 } else {
@@ -138,6 +138,7 @@ function initToggleShourModeEvent(start, max, end, year, vehicles) {
 		 if (isCustom) {
 		 	if ($dateField.length === 0) {
 				PolicyMainUpdateComponent.renderInsuranceDate({
+					isDefaultDateBox: false,
 					startDate: {
 						attrs:{"data-field":"startDate", name: `vehicles[${rowIndex}].startDate`, value: startDateStr}},
 					startHour: {
@@ -176,9 +177,9 @@ function initToggleShourModeEvent(start, max, end, year, vehicles) {
 	 $('#add_policy_tabel :input[type="checkbox"]').each(function(){
 		 toggleDateByCkbox.apply(this);
 	 });
-	$('#add_policy_tabel').on('change', ':input[type="checkbox"]', function(event){
-		toggleDateByCkbox.apply(this);
-	});
+	 $('#add_policy_tabel').on('change', ':input[type="checkbox"]', function(event){
+		 toggleDateByCkbox.apply(this);
+	 });
 }
 
 

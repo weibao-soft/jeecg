@@ -32,7 +32,7 @@ class PolicyMainUpdateComponent {
         let monthAttrs = this.generateAttrs(month.attrs);
         let startDateBlurFn = isDefaultDateBox ? 'calculateYear()' : 'calculateYearByParam(this)';
         let endDateDisabled = isDefaultDateBox ? 'disabled' : 'readonly';
-        let html =  `<span class="shour-field">
+        let html = `<span class="shour-field">
         自 
         <input type="text" ${startDateAttrs} class="Wdate" style="width:100px;" 
         onblur="${startDateBlurFn};" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${minDateStr}',maxDate:'${maxDateStr}'})"/> 
@@ -45,6 +45,19 @@ class PolicyMainUpdateComponent {
         年 共
         <label ${monthAttrs}>12</label>月 
         </span>`;
+        
+        if(!isDefaultDateBox) {
+        	html = `<span class="shour-field">
+            自 
+            <input type="text" ${startDateAttrs} class="Wdate" style="width:100px;" 
+            onblur="${startDateBlurFn};" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${minDateStr}',maxDate:'${maxDateStr}'})"/> 
+            <input type="text" ${startHourAttrs} style="width:20px;" value="00" disabled/> 
+            起 至 
+            <input type="text" ${endDateAttrs} class="Wdate" style="width:100px;" ${endDateDisabled}/>
+            <input type="text" ${endHourAttrs} style="width:20px;" value="24" disabled/>
+            止 
+            </span>`;
+        }
         return this.render(html, $el);
     }
 
