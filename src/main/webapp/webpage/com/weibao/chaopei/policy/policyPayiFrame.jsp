@@ -24,7 +24,7 @@ function testPay() {
 <input id="tabId" name="tabId" type="hidden" value=""/>
 <input id="mainTabId" name="mainTabId" type="hidden" value=""/>
 <div id="payDiv" class="overlay" style="z-index: 11009;display: none;">
-<div class="animated zoomIn layerBox" style="width: 1246px; height: 569px; left: 77px; top: 6.8px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px; z-index: 11009;">
+<div class="animated zoomIn layerBox" style="width: 996px; height: 529px; left: 77px; top: 6.8px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px; z-index: 11009;">
   <h4 class="layerHeader">
     <span>在线支付</span>
     <button id="pay" type="button" data-dismiss="modal" aria-hidden="true" class="close close_btn" onclick="closeDiv();">
