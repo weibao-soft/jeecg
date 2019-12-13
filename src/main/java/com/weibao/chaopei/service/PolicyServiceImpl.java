@@ -88,6 +88,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		vehicle.setPlateNo((String)obj.get("plate_no"));
 		vehicle.setFrameNo((String)obj.get("frame_no"));
 		vehicle.setEngineNo((String)obj.get("engine_no"));
+		vehicle.setTonCount((Integer)obj.get("ton_count"));
 		vehicle.setStartDate((java.sql.Timestamp)obj.get("start_date"));
 		vehicle.setEndDate((java.sql.Timestamp)obj.get("end_date"));
 		vehicles.add(vehicle);
@@ -104,6 +105,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			vehicle.setPlateNo((String)obj.get("plate_no"));
 			vehicle.setFrameNo((String)obj.get("frame_no"));
 			vehicle.setEngineNo((String)obj.get("engine_no"));
+			vehicle.setTonCount((Integer)obj.get("ton_count"));
 			vehicle.setStartDate((java.sql.Timestamp)obj.get("start_date"));
 			vehicle.setEndDate((java.sql.Timestamp)obj.get("end_date"));
 			vehicles.add(vehicle);
@@ -185,6 +187,10 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setReciAddress((String)obj.get("reci_address"));
 		policyMainPage.setRewardStatus((String)obj.get("reward_status"));
 		policyMainPage.setEngineNo((String)obj.get("engine_no"));
+		policyMainPage.setCarTypeCode((String)obj.get("car_type_code"));
+		policyMainPage.setSeatNum((Integer)obj.get("seat_num"));
+		policyMainPage.setIsPaperPolicy((String)obj.get("is_paper_policy"));
+		policyMainPage.setIsPaperInvoice((String)obj.get("is_paper_invoice"));
 		
 	}
 	

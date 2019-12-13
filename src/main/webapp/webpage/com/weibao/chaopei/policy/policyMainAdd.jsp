@@ -35,36 +35,11 @@ $(document).ready(function(){
 	params.paramId = "${prodId}";
 	//params.paramId = "402880ea6e1c6fad016e1c830134000d";
 	var url = "policyMainController.do?getProductPlan";
-	$("#prodId").val(params.paramId);
-	getHolders();
 	getCommonSelect("planId", url, params);
 
-
-    $("#holderCompNature").css("width", "200px");
-    $("#industryType").css("width", "200px");
-    $("#holderNature").css("width", "200px");
-    $("#recipients").css("width", "200px");
-    window.setTimeout(customFunc, 666);
-
-	var abc = $("#formobj").width()+17;
-	$("#formobj").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
-
-	PolicyMainUpdateComponent.renderInsuranceDate({
-		isDefaultDateBox: true,
-		startDate: {
-			attrs:{id: 'start', name: 'startDate', value: "${start}"}},
-		startHour: {
-			attrs:{id: 'shour', name: 'shour'}},
-		endDate: {
-			attrs:{id: 'end', name: 'endDate', value: "${end}"}},
-		endHour: {
-			attrs:{id: 'ehour', name: 'ehour'}},
-		year: {
-			attrs:{id: 'year', name: 'year', value: "1"}},
-		month: {
-			attrs:{id:'month'}}
-	}, $('#defaultInsuranceDate'));
-
+    window.setTimeout(customFunc, 600);
+    //初始化默认保险期间
+    initDefaultInsurDate("1");
 	var vehicles = ${el:toJsonString(policyMainPage.vehicles)};
 	// 初始化界面事件监听
 	initToggleShourModeEvent('${start}', '${max}', '${end}', '${year}', vehicles);
@@ -72,6 +47,7 @@ $(document).ready(function(){
 
 function customFunc() {
 	editablePolicy();
+	editableInvoice();
 	
     var code=$('#planId option:first').attr("data-code");
 	$("#premium").val(code);
@@ -168,13 +144,13 @@ function doPay() {
  <table cellpadding="0" cellspacing="0" class="formtable" style="table-layout: fixed;" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
 	<input id="draftId" name="draftId" type="hidden" value="${policyMainPage.draftId }"/>
-	<input id="prodId" name="prodId" type="hidden"/>
+	<input id="prodId" name="prodId" type="hidden" value="${prodId}"/>
 	<input id="premium" name="premium" type="hidden"/>
  
  <tr><td style="width:60px;border-top:1px solid #E3E3E3;border-left:1px solid #E3E3E3;"></td><td style="width:1140px;">
 	 <table cellpadding="0" cellspacing="0" class="formtable" style="border:1px solid #E3E3E3;border-bottom:0px solid #FFF;" width="100%">
 	 <tr><td style="width:150px;">方案保障</td>
-	 <td class="value" style="width:auto;">
+	 <td style="width:auto;">
 		<select name="planId" id="planId" style="width:500px;">
 		</select>
 		<span class="Validform_checktip"></span></td>
@@ -195,8 +171,9 @@ function doPay() {
 					<td><span style="color: red;">*</span>车牌号<BR/>(新车填写:未上牌)</td>
 					<td><span style="color: red;">*</span>车架号</td>
 					<td><span style="color: red;">*</span>发动机号</td>
-					<td>操作</td>
-					<td>保险期间</td>
+					<td><span style="color: red;">*</span>核定<BR/>载重质量</td>
+					<td align="center">操作</td>
+					<td align="center">保险期间</td>
 				</tr>
 			</thead>
 			<tbody id="add_policy_tabel">
@@ -206,6 +183,7 @@ function doPay() {
 				<td><input type="text" name="vehicles[0].plateNo" class="policy" title="plateNo" maxlength="8" style="width:100px;" value="未上牌"></td>
 				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17" placeholder="输入车架号"></td>
 				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;" placeholder="输入发动机号"></td>
+				<td><input type="text" name="vehicles[0].tonCount" class="policy" title="tonCount" maxlength="2" style="width:60px;" value="0" readonly placeholder="默认填: 0"></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" style="height:30px;width:100px !important;"/></td>
 				<td><span data-event="toggleShourMode" class="radio-one"><input type="checkbox" checked name="dateMode" value="custom"/>自定义</span></td>
 				</tr>
@@ -220,6 +198,8 @@ function doPay() {
 					placeholder="输入车架号" value="${poVal.frameNo}"></td>
 					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="40" 
 					style="width:120px;" placeholder="输入发动机号" value="${poVal.engineNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].tonCount" class="policy" title="tonCount" maxlength="2" 
+					style="width:60px;" placeholder="默认填: 0" value="${poVal.tonCount}" readonly></td>
 				<c:if test="${stat.index == 0 }">
 					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 					style="height:30px;width:100px !important;"/></td>
@@ -241,12 +221,12 @@ function doPay() {
 	 <tr><td>
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr><td style="width:150px;border-right:1px solid #E3E3E3;">保险期间：</td>
-		 <td id="defaultInsuranceDate" class="value" style="width:auto;">
+		 <td id="defaultInsuranceDate" style="width:auto;">
 <%--		 <span>自 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:100px;" onblur="calculateYear();"  --%>
 <%--		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> <input type="text"  --%>
 <%--		 name="shour" id="shour" style="width:20px;" value="00" disabled/> 起 至 <input type="text" name="endDate" id="end" value="${end}" class="Wdate" --%>
 <%--		 style="width:100px;" disabled/> <input type="text" name="ehour" id="ehour" style="width:20px;" value="24" disabled/> 止，连续 <input type="text"  --%>
-<%--		 name="year" id="year" style="width:60px;" value="1" onblur="calculateMonths(this);">年 共<label id="month">12</label>月 </span> --%>
+<%--		 name="year" id="year" style="width:30px;" value="1" maxlength="2" onblur="calculateMonths(this);">年 共<label id="month">12</label>月 </span> --%>
 	     </td></tr>
 	 </table>
 	 </td></tr>
@@ -256,30 +236,30 @@ function doPay() {
 	 <tr><td class="info-table">
 	 <table cellpadding="0" cellspacing="0" style="table-layout: fixed;border-bottom:0px solid #FFF;" class="formtable" width="100%">
 		 <tr><td style="width:150px;">投保人性质</td>
-		 <td class="value" style="width:300px;"><t:dictSelect field="holderNature" id="holderNature" type="list" divClass="dict_select" title=""
+		 <td style="width:300px;"><t:dictSelect field="holderNature" id="holderNature" type="list" divClass="dict_select" title=""
 						typeGroupCode="holdNature" defaultVal="1" hasLabel="false" ></t:dictSelect>
 						<span class="Validform_checktip"></span></td>
 		 <td style="width:150px;"></td><td style="width:auto;"></td>
 		 </tr>
 		 <tr><td><span style="color: red;">*</span>单位名称</td>
-		 <td class="value"><select name="holderCompName" id="holderCompName" class="editable-select" style="width:180px;" autocomplete="off">
+		 <td><select name="holderCompName" id="holderCompName" class="editable-select" style="width:180px;" autocomplete="off">
 				<option value=""></option>
 				</select></td>
 		 <td><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码) </td>
-		 <td class="value"><input type="text" name="holderOrgCode" id="holderOrgCode" maxlength="18" style="width:200px;" /></td>
+		 <td><input type="text" name="holderOrgCode" id="holderOrgCode" maxlength="18" style="width:200px;" /></td>
 		 </tr>
 		 <tr><td><span style="color: red;">*</span>单位性质</td>
-		 <td class="value"><t:dictSelect field="holderCompNature" id="holderCompNature" type="list" divClass="dict_select" title=""
+		 <td><t:dictSelect field="holderCompNature" id="holderCompNature" type="list" divClass="dict_select" title=""
 						typeGroupCode="compNature" defaultVal="1" hasLabel="false" ></t:dictSelect></td>
 		 <td><span style="color: red;">*</span>行业类别</td>
-		 <td class="value"><t:dictSelect field="industryType" id="industryType" type="list" divClass="dict_select" title=""
+		 <td><t:dictSelect field="industryType" id="industryType" type="list" divClass="dict_select" title=""
 						typeGroupCode="industType" defaultVal="1" hasLabel="false" ></t:dictSelect></td></tr>
 		 <tr><td><span style="color: red;">*</span>联系人姓名</td>
-		 <td class="value"><input type="text" name="contactName" id="contactName" style="width:200px;" /></td>
-		 <td><span style="color: red;">*</span>手机</td>
-		 <td class="value"><input type="text" name="policyMobile" id="policyMobile" maxlength="11" style="width:200px;" /></td>
+		 <td><input type="text" name="contactName" id="contactName" style="width:200px;" /></td>
+		 <td><span style="color: red;">*</span>联系人手机</td>
+		 <td><input type="text" name="policyMobile" id="policyMobile" maxlength="11" style="width:200px;" /></td>
 		 </tr>
-		 <tr><td style="color: red">发票类型</td><td class="value">
+		 <tr><td style="color: red">发票类型</td><td>
 		 <select name="invoiceType" id="invoiceType" style="width:200px;">
 				<option value="1">不开发票</option>
 				<option value="2">增值税普通发票</option>
@@ -289,32 +269,35 @@ function doPay() {
 		 </tr>
 		 <tr id="invoiceTr" style="display: none;">
 		 <td>纳税人识别号</td>
-		 <td class="value"><input type="text" name="taxpayerNo2" id="taxpayerNo2" maxlength="18" style="width:200px;" /></td>
-		 <td>手机号</td>
-		 <td class="value"><input type="text" name="receiverMobile" id="receiverMobile" maxlength="11" style="width:200px;" /></td>
+		 <td><input type="text" name="taxpayerNo2" id="taxpayerNo2" maxlength="18" style="width:200px;" /></td>
+		 <td>接收人手机</td>
+		 <td><input type="text" name="receiverMobile" id="receiverMobile" maxlength="11" style="width:200px;" /></td>
 		 </tr>
 	 </table>
 	 </td></tr>
 	 
-	 <tr><td style="width:100%"><label class="Validform_label"> 纸质发票、保单收件人： </label></td></tr>
+	 <tr>
+	 <td style="width:100%;"><label class="Validform_label"> 纸质发票、保单收件人： </label><span style="color: red;"><input id="check2" 
+	     type="checkbox" />是否纸质保单&nbsp;&nbsp;<input id="check3" type="checkbox" />是否纸质发票</span></td>
+	 </tr>
 	 
 	 <tr><td style="table-layout: fixed;" class="info-table">
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		<tr><td style="width:150px;">收件人</td>
-			<td class="value" style="width:300px;"><select name="recipients" id="recipients" class="editable-select" style="width:160px;" autocomplete="off" datatype="*" ignore="checked" value="${policyMainPage.recipients }">
+			<td style="width:300px;"><select name="recipients" id="recipients" class="editable-select" style="width:180px;" autocomplete="off">
 				<option value=""></option></select>
 				<span class="Validform_checktip"></span><label class="Validform_label" style="display: none;">收件人</label>
 			</td>
 			<td style="width:150px;">收件人电话</td>
-			<td class="value" style="width:auto;">
-				<input id="recipientsTel" name="recipientsTel" type="text" style="width: 200px"  class="inputxt" datatype="*" ignore="checked" value="${policyMainPage.recipientsTel }" />
+			<td style="width:auto;">
+				<input id="recipientsTel" name="recipientsTel" type="text" style="width: 200px"/>
 				<span class="Validform_checktip"></span><label class="Validform_label" style="display: none;">收件人电话</label>
 			</td>
 		</tr>
-		<tr><td>发票收件地址</td>
-			<td class="value" colspan="3">
-		     	<input id="reciAddress" name="reciAddress" type="text" style="width: 650px" class="inputxt"  datatype="*"  ignore="checked" value="${policyMainPage.reciAddress }" />
-				<span class="Validform_checktip"></span><label class="Validform_label" style="display: none;">发票收件地址</label>
+		<tr><td>收件地址</td>
+			<td colspan="3">
+		     	<input id="reciAddress" name="reciAddress" type="text" style="width: 650px"/>
+				<span class="Validform_checktip"></span><label class="Validform_label" style="display: none;">收件地址</label>
 			</td>
 		</tr>
 	 </table>
@@ -328,9 +311,9 @@ function doPay() {
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr>
 		 <td style="width:150px;"><span style="color: red;">*</span>单位名称 </td>
-		 <td class="value" style="width:300px;"><input type="text" name="insuredCompName" id="insuredCompName" style="width:200px;" autocomplete="off"/></td>
+		 <td style="width:300px;"><input type="text" name="insuredCompName" id="insuredCompName" style="width:200px;" autocomplete="off"/></td>
 		 <td style="width:150px;"><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码)</td>
-		 <td class="value" style="width:auto;"><input type="text" name="insuredOrgCode" id="insuredOrgCode" maxlength="18" style="width:200px;" />
+		 <td style="width:auto;"><input type="text" name="insuredOrgCode" id="insuredOrgCode" maxlength="18" style="width:200px;" />
 		 <span class="Validform_checktip"></span></td>
 		 </tr>
 	 </table>
@@ -361,13 +344,12 @@ function doPay() {
 <input id="compPhonep" name="compPhone" type="hidden" />
 <input id="depositBankp" name="depositBank" type="hidden" />
 <input id="bankAccountp" name="bankAccount" type="hidden" />
-<input id="recipientsp" name="recipients" type="hidden" />
-<input id="recipientsTelp" name="recipientsTel" type="hidden" />
-<input id="reciAddressp" name="reciAddress" type="hidden" />
 <input id="insuranceObj" name="insuranceObj" type="hidden" />
 <input id="payUrl" name="payUrl" type="hidden" />
 <input id="payResult" name="payResult" type="hidden" />
 <input id="insResult" name="insResult" type="hidden" value="1"/>
+<input id="isPaperPolicy" name="isPaperPolicy" type="hidden" value="0"/>
+<input id="isPaperInvoice" name="isPaperInvoice" type="hidden" value="0"/>
 <input id="isDraft" name="isDraft" type="hidden" value="true"/>
 </t:formvalid>
 

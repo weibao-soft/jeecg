@@ -79,8 +79,6 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String prodPlan;
 	//产品方案code
 	private java.lang.String planCode;
-	//保单状态	
-	private java.lang.String status;
 	//投保联系人
 	private java.lang.String contactName;
 	//保单接收手机
@@ -121,6 +119,12 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String insuredOrgCode;
 	//被保单位名称
 	private java.lang.String insuredCompName;
+	//车辆使用性质
+	private java.lang.String carTypeCode;
+	//核定载重质量
+	private java.lang.Integer tonCount;
+	//座位数
+	private java.lang.Integer seatNum;
 	//投保车辆(台)
 	private java.lang.Integer truckNums;
 	//草稿id
@@ -130,7 +134,13 @@ public class PolicyMainPage implements Serializable {
 	
 	//部门id
 	private java.lang.String departId;
-	
+
+	//是否纸质保单
+	private java.lang.String isPaperPolicy;
+	//是否纸质发票
+	private java.lang.String isPaperInvoice;
+	//保单状态
+	private java.lang.String status;
 	//支付状态
 	private java.lang.String payStatus;
 	//分润状态
@@ -214,6 +224,24 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setEngineNo(java.lang.String engineNo) {
 		this.engineNo = engineNo;
+	}
+	public java.lang.String getCarTypeCode() {
+		return carTypeCode;
+	}
+	public void setCarTypeCode(java.lang.String carTypeCode) {
+		this.carTypeCode = carTypeCode;
+	}
+	public java.lang.Integer getTonCount() {
+		return tonCount;
+	}
+	public void setTonCount(java.lang.Integer tonCount) {
+		this.tonCount = tonCount;
+	}
+	public java.lang.Integer getSeatNum() {
+		return seatNum;
+	}
+	public void setSeatNum(java.lang.Integer seatNum) {
+		this.seatNum = seatNum;
 	}
 	public java.util.Date getStartDate() {
 		return startDate;
@@ -436,6 +464,18 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setPolicyUrl(java.lang.String policyUrl) {
 		this.policyUrl = policyUrl;
+	}
+	public java.lang.String getIsPaperPolicy() {
+		return isPaperPolicy;
+	}
+	public void setIsPaperPolicy(java.lang.String isPaperPolicy) {
+		this.isPaperPolicy = isPaperPolicy;
+	}
+	public java.lang.String getIsPaperInvoice() {
+		return isPaperInvoice;
+	}
+	public void setIsPaperInvoice(java.lang.String isPaperInvoice) {
+		this.isPaperInvoice = isPaperInvoice;
 	}
 	public boolean isDraft() {
 		return isDraft;

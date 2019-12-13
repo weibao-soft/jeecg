@@ -46,12 +46,24 @@ public class PolicyEntity implements Serializable {
 	private java.lang.String plateNo;
 	
 	/**车架号*/
-	@Column(name ="frame_no",nullable=true,length=30)
+	@Column(name ="frame_no",nullable=false,length=30)
 	private java.lang.String frameNo;
 	
 	/**发动机号*/
 	@Column(name ="engine_no",nullable=true,length=30)
 	private java.lang.String engineNo;
+	
+	/**核定载重质量*/
+	@Column(name ="ton_count",nullable=true,length=3)
+	private java.lang.Integer tonCount;
+	
+	/**座位数*/
+	@Column(name ="seat_num",nullable=true,length=3)
+	private java.lang.Integer seatNum;
+
+	/**车辆使用性质*/
+	@Column(name ="car_type_code",nullable=true,length=1)
+	private java.lang.String carTypeCode;
 	
 	/**保险开始日期*/
 	@Column(name ="start_date",nullable=true)
@@ -66,7 +78,7 @@ public class PolicyEntity implements Serializable {
 	private java.math.BigDecimal premium;
 	
 	/**保单状态*/
-	@Column(name ="status",nullable=true,length=1)
+	@Column(name ="status",nullable=false,length=1)
 	private java.lang.String status;
 	
 	/**投保联系人*/
@@ -148,6 +160,14 @@ public class PolicyEntity implements Serializable {
 	/**专票收件地址*/
 	@Column(name ="reci_address",nullable=true,length=255)
 	private java.lang.String reciAddress;
+	
+	/**是否纸质保单*/
+	@Column(name ="is_paper_policy",nullable=true,length=1)
+	private java.lang.String isPaperPolicy;
+	
+	/**是否纸质发票*/
+	@Column(name ="is_paper_invoice",nullable=true,length=1)
+	private java.lang.String isPaperInvoice;
 	
 	/**用户id*/
 	@Column(name ="user_id",nullable=true,length=32)
@@ -435,6 +455,46 @@ public class PolicyEntity implements Serializable {
 	
 	public void setReciAddress(java.lang.String reciAddress) {
 		this.reciAddress = reciAddress;
+	}
+
+	public java.lang.Integer getTonCount() {
+		return tonCount;
+	}
+
+	public void setTonCount(java.lang.Integer tonCount) {
+		this.tonCount = tonCount;
+	}
+
+	public java.lang.Integer getSeatNum() {
+		return seatNum;
+	}
+
+	public void setSeatNum(java.lang.Integer seatNum) {
+		this.seatNum = seatNum;
+	}
+
+	public java.lang.String getCarTypeCode() {
+		return carTypeCode;
+	}
+
+	public void setCarTypeCode(java.lang.String carTypeCode) {
+		this.carTypeCode = carTypeCode;
+	}
+
+	public java.lang.String getIsPaperPolicy() {
+		return isPaperPolicy;
+	}
+
+	public void setIsPaperPolicy(java.lang.String isPaperPolicy) {
+		this.isPaperPolicy = isPaperPolicy;
+	}
+
+	public java.lang.String getIsPaperInvoice() {
+		return isPaperInvoice;
+	}
+
+	public void setIsPaperInvoice(java.lang.String isPaperInvoice) {
+		this.isPaperInvoice = isPaperInvoice;
 	}
 
 	public java.lang.String getUserId() {

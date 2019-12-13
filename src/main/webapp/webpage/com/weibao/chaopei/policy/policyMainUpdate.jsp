@@ -34,33 +34,11 @@ $(document).ready(function(){
 	var params = {};
 	params.paramId = "${policyMainPage.prodId }";
 	var url = "policyMainController.do?getProductPlan";
-	getHolders();
 	getCommonSelect("planId", url, params);
 
-    $("#holderCompNature").css("width", "200px");
-    $("#industryType").css("width", "200px");
-    $("#holderNature").css("width", "200px");
-    window.setTimeout(customFunc, 666);
-
-	var abc = $("#formobj").width()+17;
-	$("#formobj").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
-
-	PolicyMainUpdateComponent.renderInsuranceDate({
-		isDefaultDateBox: true,
-		startDate: {
-			attrs:{id: 'start', name: 'startDate', value: "${start}"}},
-		startHour: {
-			attrs:{id: 'shour', name: 'shour'}},
-		endDate: {
-			attrs:{id: 'end', name: 'endDate', value: "${end}"}},
-		endHour: {
-			attrs:{id: 'ehour', name: 'ehour'}},
-		year: {
-			attrs:{id: 'year', name: 'year', value: "${year}"}},
-		month: {
-			attrs:{id:'month'}}
-	}, $('#defaultInsuranceDate'));
-
+    window.setTimeout(customFunc, 600);
+    //初始化默认保险期间
+    initDefaultInsurDate("${year}");
 	var vehicles = ${el:toJsonString(policyMainPage.vehicles)};
 	// 初始化界面事件监听
 	initToggleShourModeEvent('${start}', '${max}', '${end}', '${year}', vehicles);
@@ -69,10 +47,20 @@ $(document).ready(function(){
 
 function customFunc() {
 	editablePolicy();
+	editableInvoice();
 	
 	var invoiceType = "${policyMainPage.invoiceType}";
 	$("#planId").val("${policyMainPage.planId}");
 	$("#holderCompName").val("${policyMainPage.holderCompName}");
+	$("#recipients").val("${policyMainPage.recipients }");
+	var isPaperPolicy = "${policyMainPage.isPaperPolicy}";
+	var isPaperInvoice = "${policyMainPage.isPaperInvoice}";
+	if(isPaperPolicy == "1") {
+		$("#check2").attr("checked", true);
+	}
+	if(isPaperInvoice == "1") {
+		$("#check3").attr("checked", true);
+	}
 	if(invoiceType == "3") {
 		$("#invoiceType").val(invoiceType);
 		$("#taxpayerNo2").val("");
@@ -191,8 +179,9 @@ function reloadPolicyLists() {
 					<td><span style="color: red;">*</span>车牌号<BR/>(新车填写:未上牌)</td>
 					<td><span style="color: red;">*</span>车架号</td>
 					<td><span style="color: red;">*</span>发动机号</td>
-					<td>操作</td>
-					<td>保险期间</td>
+					<td><span style="color: red;">*</span>核定<BR/>载重质量</td>
+					<td align="center">操作</td>
+					<td align="center">保险期间</td>
 				</tr>
 			</thead>
 			<tbody id="add_policy_tabel">
@@ -202,6 +191,7 @@ function reloadPolicyLists() {
 				<td><input type="text" name="vehicles[0].plateNo" class="policy" title="plateNo" maxlength="8" style="width:100px;" value="未上牌"></td>
 				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17" placeholder="输入车架号"></td>
 				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;" placeholder="输入发动机号"></td>
+				<td><input type="text" name="vehicles[0].tonCount" class="policy" title="tonCount" maxlength="2" style="width:60px;" value="0" placeholder="默认填: 0" readonly></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" style="height:30px;width:100px !important;"/></td>
 				<td><span data-event="toggleShourMode" class="radio-one"><input type="checkbox" checked name="dateMode" value="custom"/>自定义</span></td>
 				</tr>
@@ -216,6 +206,8 @@ function reloadPolicyLists() {
 					placeholder="输入车架号" value="${poVal.frameNo}"></td>
 					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="40" 
 					style="width:120px;" placeholder="输入发动机号" value="${poVal.engineNo}"></td>
+					<td><input type="text" name="vehicles[${stat.index }].tonCount" class="policy" title="tonCount" maxlength="2" 
+					style="width:60px;" placeholder="默认填: 0" value="${poVal.tonCount}" readonly></td>
 				<c:if test="${stat.index == 0 }">
 					<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" 
 					style="height:30px;width:100px !important;"/></td>
@@ -270,7 +262,7 @@ function reloadPolicyLists() {
 						typeGroupCode="industType" defaultVal="${policyMainPage.industryType}" hasLabel="false" ></t:dictSelect></td></tr>
 		 <tr><td><span style="color: red;">*</span>联系人姓名</td>
 		 <td><input type="text" name="contactName" id="contactName" style="width:200px;" value="${policyMainPage.contactName}"/></td>
-		 <td><span style="color: red;">*</span>手机</td>
+		 <td><span style="color: red;">*</span>联系人手机</td>
 		 <td><input type="text" name="policyMobile" id="policyMobile" maxlength="11" style="width:200px;" value="${policyMainPage.policyMobile}"/></td></tr>
 		 <tr><td style="color: red">发票类型</td><td>
 		 <select name="invoiceType" id="invoiceType" style="width:200px;">
@@ -282,8 +274,35 @@ function reloadPolicyLists() {
 		 <tr id="invoiceTr" style="display: none;">
 		 <td>纳税人识别号</td>
 		 <td><input type="text" name="taxpayerNo2" id="taxpayerNo2" maxlength="18" style="width:200px;" value="${policyMainPage.taxpayerNo}"/></td>
-		 <td>手机号</td>
+		 <td>接收人手机</td>
 		 <td><input type="text" name="receiverMobile" id="receiverMobile" maxlength="11" style="width:200px;" value="${policyMainPage.receiverMobile}"/></td></tr>
+	 </table>
+	 </td></tr>
+	 
+	 <tr>
+	 <td style="width:100%"><label class="Validform_label"> 纸质发票、保单收件人： </label><span style="color: red;"><input id="check2" 
+	     type="checkbox" />是否纸质保单&nbsp;&nbsp;<input id="check3" type="checkbox" />是否纸质发票</span></td>
+	 </tr>
+	 
+	 <tr><td style="table-layout: fixed;" class="info-table">
+	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
+		<tr><td style="width:150px;">收件人</td>
+			<td style="width:300px;"><select name="recipients" id="recipients" class="editable-select" style="width:180px;" autocomplete="off" value="${policyMainPage.recipients }">
+				<option value=""></option></select>
+				<span class="Validform_checktip"></span><label class="Validform_label" style="display: none;">收件人</label>
+			</td>
+			<td style="width:150px;">收件人电话</td>
+			<td style="width:auto;">
+				<input id="recipientsTel" name="recipientsTel" type="text" style="width: 200px" value="${policyMainPage.recipientsTel }" />
+				<span class="Validform_checktip"></span><label class="Validform_label" style="display: none;">收件人电话</label>
+			</td>
+		</tr>
+		<tr><td>收件地址</td>
+			<td colspan="3">
+		     	<input id="reciAddress" name="reciAddress" type="text" style="width: 650px" value="${policyMainPage.reciAddress }" />
+				<span class="Validform_checktip"></span><label class="Validform_label" style="display: none;">收件地址</label>
+			</td>
+		</tr>
 	 </table>
 	 </td></tr>
  
@@ -333,13 +352,12 @@ function reloadPolicyLists() {
 <input id="compPhonep" name="compPhone" type="hidden" value="${policyMainPage.compPhone}" />
 <input id="depositBankp" name="depositBank" type="hidden" value="${policyMainPage.depositBank}" />
 <input id="bankAccountp" name="bankAccount" type="hidden" value="${policyMainPage.bankAccount}" />
-<input id="recipientsp" name="recipients" type="hidden" value="${policyMainPage.recipients}" />
-<input id="recipientsTelp" name="recipientsTel" type="hidden" value="${policyMainPage.recipientsTel}" />
-<input id="reciAddressp" name="reciAddress" type="hidden" value="${policyMainPage.reciAddress}" />
 <input id="insuranceObj" name="insuranceObj" type="hidden" />
 <input id="payUrl" name="payUrl" type="hidden" />
 <input id="payResult" name="payResult" type="hidden" />
 <input id="insResult" name="insResult" type="hidden" value="1"/>
+<input id="isPaperPolicy" name="isPaperPolicy" type="hidden" value="${policyMainPage.isPaperPolicy}"/>
+<input id="isPaperInvoice" name="isPaperInvoice" type="hidden" value="${policyMainPage.isPaperInvoice}"/>
 <input id="isDraft" name="isDraft" type="hidden" value="${isDraft}"/>
 </t:formvalid>
 

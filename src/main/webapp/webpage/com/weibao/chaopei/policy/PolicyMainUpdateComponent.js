@@ -41,7 +41,7 @@ class PolicyMainUpdateComponent {
         <input type="text" ${endDateAttrs} class="Wdate" style="width:100px;" ${endDateDisabled}/>
         <input type="text" ${endHourAttrs} style="width:20px;" value="24" disabled/>
         止，连续
-        <input type="text" ${yearAttrs} style="width:60px;" onblur="calculateMonths(this);">
+        <input type="text" ${yearAttrs} style="width:30px;" maxlength="2" onblur="calculateMonths(this);">
         年 共
         <label ${monthAttrs}>12</label>月 
         </span>`;

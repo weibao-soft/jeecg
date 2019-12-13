@@ -107,7 +107,10 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				CommonUtil.copyPropertiesIgnoreNull(policyMainPage, policyEntity);
 				CommonUtil.copyPropertiesIgnoreNull(vehicle, policyEntity);
 				policyEntity.setPayStatus("0");
-				policyEntity.setRewardStatus("0");						
+				policyEntity.setRewardStatus("0");
+				policyEntity.setCarTypeCode("0");
+				policyEntity.setSeatNum(0);
+				
 				//创建时间
 				policyEntity.setCreateTime(currDate);
 				policyEntity.setLastUpdateTime(currDate);
@@ -214,6 +217,9 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				}
 				CommonUtil.copyPropertiesIgnoreNull(policyMainPage, policyEntity);
 				CommonUtil.copyPropertiesIgnoreNull(vehicle, policyEntity);
+				policyEntity.setCarTypeCode("0");
+				policyEntity.setSeatNum(0);
+				
 				//修改时间
 				policyEntity.setLastUpdateTime(currDate);
 				policyEntity.setId(vehicle.getId());
@@ -261,9 +267,6 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 		policyMainPage.setCompPhone("");
 		policyMainPage.setDepositBank("");
 		policyMainPage.setBankAccount("");
-		policyMainPage.setRecipients("");
-		policyMainPage.setRecipientsTel("");
-		policyMainPage.setReciAddress("");
 	}
 
 	/**

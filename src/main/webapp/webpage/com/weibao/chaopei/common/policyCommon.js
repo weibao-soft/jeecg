@@ -98,10 +98,13 @@ function calculateYear() {
     calculateYearByParam($("#start"), $("#end"));
 }
 function calculateYearByParam($startEl, $endEl) {
+	var isDefault = false;
     if (!($startEl instanceof jQuery)) {
         $startEl = $($startEl);
         var $parent = $startEl.parent();
         $endEl = $parent.children('[data-field="endDate"]');
+    } else {
+    	isDefault = true;
     }
     var oneDay = 1000*60*60*24;
     var oneYear = 1000*60*60*24*365;
@@ -117,7 +120,9 @@ function calculateYearByParam($startEl, $endEl) {
     str = str + (month < 10 ? ("0" + month) : month) + "-";
     str = str + (day < 10 ? ("0" + day) : day);
     $endEl.val(str);
-	$("#endDate").val(str);
+	if(isDefault) {
+		$("#endDate").val(str);
+	}
     //layer.msg(str);
     //console.log(myDate.toLocaleDateString());
 }
