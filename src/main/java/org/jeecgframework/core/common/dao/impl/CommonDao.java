@@ -118,7 +118,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 	/**
 	 * 文件上传
 	 * 
-	 * @param request
+	 * @param uploadFile
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

@@ -714,6 +714,8 @@
 							<value>${project.build.sourceEncoding}</value>
 						</systemProperty>
 					</systemProperties>
+					<stopKey/>
+					<stopPort/>
 				</configuration>
 			</plugin>
 			<!-- 打包跳过单元测试 -->

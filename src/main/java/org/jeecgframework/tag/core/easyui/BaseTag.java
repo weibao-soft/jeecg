@@ -96,6 +96,14 @@ public class BaseTag extends JeecgTag {
 			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery/jquery.cookie.js\" ></script>");
 			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery-plugs/storage/jquery.storageapi.min.js\" ></script>");
 			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery-plugs/i18n/jquery.i18n.properties.js\"></script>");
+		} else if (oConvertUtils.isIn("jquery-uploadfile", types)) {
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/jquery-plugs/uploadfile/uploadfile.css\" type=\"text/css\"></link>");
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery-plugs/uploadfile/jquery.min.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery/jquery.cookie.js\" ></script>");
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery-plugs/storage/jquery.storageapi.min.js\" ></script>");
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery-plugs/i18n/jquery.i18n.properties.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery-plugs/uploadfile/jquery.uploadfile.min.js\"></script>");
+
 		}
 		if (oConvertUtils.isIn("ckeditor", types)) {
 			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/ckeditor/ckeditor.js\"></script>");

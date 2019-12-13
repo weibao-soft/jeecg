@@ -227,7 +227,7 @@ public interface CommonService {
 	/**
 	 * 文件上传
 	 * 
-	 * @param request
+	 * @param uploadFile
 	 */
 	public <T> T uploadFile(UploadFile uploadFile);
 
@@ -236,7 +236,7 @@ public interface CommonService {
 	/**
 	 * 生成XML文件
 	 * 
-	 * @param fileName
+	 * @param importFile
 	 *            XML全路径
 	 */
 	public HttpServletResponse createXml(ImportFile importFile);

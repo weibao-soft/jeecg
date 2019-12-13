@@ -321,7 +321,7 @@ public class CommonServiceImpl implements CommonService {
 	/**
 	 * 文件上传
 	 * 
-	 * @param request
+	 * @param uploadFile
 	 */
 	public <T> T uploadFile(UploadFile uploadFile) {
 		return commonDao.uploadFile(uploadFile);

@@ -17,6 +17,13 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "wb_insurance_policy", schema = "")
 public class PolicyEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	public PolicyEntity() {
+	}
+
+	public PolicyEntity(String id) {
+		this.id = id;
+	}
 	
 	/**主键*/
 	@Id

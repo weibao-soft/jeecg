@@ -20,8 +20,9 @@ div.datagrid-cell{font-size:14px;}
    <t:dgDelOpt title="删除" exp="payStatus#eq#0" url="policyMainController.do?doDel&policyId={id}&payStatus={payStatus}" urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
    <t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#18a689;"/>
    <t:dgFunOpt title="发票信息" exp="status#eq#3&&payStatus#eq#1" funname="" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
-   <t:dgFunOpt title="批改" exp="status#eq#3&&payStatus#eq#1" funname="" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
-      
+   <t:dgFunOpt title="批改" exp="status#eq#3&&payStatus#eq#1" funname="policyChange(id)" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
+   <t:dgFunOpt title="查看批改" exp="status#eq#3&&payStatus#eq#1" funname="viewPolicyChange" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
+
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
    <t:dgCol title="草稿ID"  field="draftId" hidden="true" queryMode="single" width="50"></t:dgCol>
    	<t:dgCol title="保单链接"  field="policyUrl" hidden="true" width="100"></t:dgCol>
@@ -141,4 +142,13 @@ function reload() {
     if(console) console.log("policy reload");
 	$('#myPolicysManageList').datagrid('load',{});
 }
+
+function policyChange(id) {
+	createwindow("批改", "policyMainController.do?addPolicyChange&insurancePolicyId="+id);
+}
+
+function viewPolicyChange() {
+	self.parent.addOneTab('保单变更','policyChangeController.do?manager','icon-add')
+}
+
  </script>
