@@ -21,6 +21,8 @@
 	<t:dgToolBar  title="保存" icon="icon-save" url="jformOrderMainController.do?saveRows" funname="saveData"></t:dgToolBar>
 	<t:dgToolBar  title="取消编辑" icon="icon-undo" funname="reject"></t:dgToolBar>
 	--%>
+   
+	<t:dgToolBar  title="提现" icon="icon-save" url="personalAcctController.do?withdraw" funname="withdraw"></t:dgToolBar>
   </t:datagrid>
   </div>
 </div>
@@ -88,5 +90,53 @@ function getAcctBalanceList(id){
 	$('#perAcctReceiveDetailList').datagrid('load',{
 		personalAccountId : id
 	});
+}
+
+//提现
+function withdraw(title,url,gname){
+	debugger;
+	var isNeedBind = ${isNeedBind}; 
+	if(isNeedBind){
+		var addurl = "personalAcctController.do?goBindAccount";
+		openwindow("个人账户信息绑定",addurl,gname,620,400);
+		return;
+	}
+	
+	var rows = $("#"+gname).datagrid('getSelections');
+				
+	if (rows.length > 0) {
+	$.dialog.setting.zIndex = getzIndex(true);
+	$.dialog.confirm("确定要申请提现支付这[ "+rows.length+" ]笔分润保单吗？", function(r) {
+			if (r) {
+			var params=[];
+				debugger;
+				for ( var i = 0; i < rows.length; i++) {					
+					params.push(rows[i].id);
+				}
+				$.ajax({
+					url : url,
+					type : 'post',
+					data : {
+						params : params.join(',')
+					},
+					cache : false,
+					success : function(data) {
+						debugger;
+						var d = $.parseJSON(data);
+						if (d.success) {							
+							var msg = d.msg;
+							tip(msg);
+							$("#"+gname).datagrid('unselectAll');
+							$('#perAcctReceiveDetailList').datagrid('load',{								
+							});							
+						}
+					}
+				});
+			}
+		});
+	} else {
+		tip("请选择需要申请提现的明细！")
+		return false;
+	}
 }
 </script>

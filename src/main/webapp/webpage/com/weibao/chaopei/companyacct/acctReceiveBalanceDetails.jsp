@@ -3,8 +3,8 @@
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="comAcctReceiveDetailList" checkbox="true" fitColumns="true" title="已分润明细" actionUrl="companyAcctController.do?acctReceiveDetailDatagrid&companyAccountId=${companyAccountId }" 
-  	idField="id" fit="true" queryMode="group" collapsible="true" pageSize="100" sortName="payTime" sortOrder="desc">
+  <t:datagrid name="comAcctReceiveDetailList" checkbox="true" title="已分润明细" actionUrl="companyAcctController.do?acctReceiveDetailDatagrid&companyAccountId=${companyAccountId }" 
+  	idField="id" fit="true" fitColumns="true" queryMode="group" collapsible="true" pageSize="100" sortName="payTime" sortOrder="desc">
    <t:dgCol title="主键" hidden="true" field="id"  queryMode="single"  width="0"></t:dgCol>   
    
    <t:dgCol title="保单号"  field="policyNo"  width="150" sortable="false"></t:dgCol>
@@ -31,7 +31,7 @@ function getAcctBalanceList(id){
 		companyAccountId : id
 	});
 }
- 
+
 //提现
 function withdraw(title,url,gname){
 	debugger;
@@ -45,11 +45,38 @@ function withdraw(title,url,gname){
 	var rows = $("#"+gname).datagrid('getSelections');
 				
 	if (rows.length > 0) {
-    	$.dialog.setting.zIndex = getzIndex(true);
-    	$.dialog.confirm("确定要申请提现支付这[ "+rows.length+" ]笔分润保单吗？", function(r) {
+  	$.dialog.setting.zIndex = getzIndex(true);
+  	$.dialog.confirm("确定要申请提现支付这[ "+rows.length+" ]笔分润保单吗？", function(r) {
 			if (r) {
 			var params=[];
 				debugger;
 				for ( var i = 0; i < rows.length; i++) {					
 					params.push(rows[i].id);
+				}
+				$.ajax({
+					url : url,
+					type : 'post',
+					data : {
+						params : params.join(',')
+					},
+					cache : false,
+					success : function(data) {
+						debugger;
+						var d = $.parseJSON(data);
+						if (d.success) {							
+							var msg = d.msg;
+							tip(msg);
+							$("#"+gname).datagrid('unselectAll');
+							$('#comAcctReceiveDetailList').datagrid('load',{								
+							});							
+						}
+					}
+				});
+			}
+		});
+	} else {
+		tip("请选择需要申请提现的明细！")
+		return false;
+	}
+}
 </script>

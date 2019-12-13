@@ -85,11 +85,15 @@ public class PolicyMainController extends BaseController {
 			Date startDate = policyMainPage.getStartDate();
 			Date endDate = policyMainPage.getEndDate();
 			canlendar.setTime(startDate);
+			canlendar.add(Calendar.YEAR, 1);
+			canlendar.add(Calendar.DATE, -1);
+			Date maxDate = canlendar.getTime();
+			
+			canlendar.setTime(startDate);
 			int startYear = canlendar.get(Calendar.YEAR);
 			canlendar.setTime(endDate);
 			int endYear = canlendar.get(Calendar.YEAR);
 			int year = endYear - startYear;
-
 			String start = sdfd.format(startDate);
 			String end = sdfd.format(endDate);
 			String max = sdfd.format(endDate);

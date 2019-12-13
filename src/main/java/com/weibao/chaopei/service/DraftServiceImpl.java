@@ -25,6 +25,7 @@ import com.weibao.chaopei.entity.ProductDetailEntity;
 import com.weibao.chaopei.entity.ReceiverEntity;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.page.PolicyVehiclePage;
+import com.weibao.chaopei.util.CommonUtil;
 
 @Service("draftService")
 @Transactional
@@ -103,10 +104,13 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				if(vehicle.getFrameNo() == null) {
 					continue;
 				}
-				BeanUtils.copyProperties(policyEntity, policyMainPage);
-				BeanUtils.copyProperties(policyEntity, vehicle);
+				CommonUtil.copyPropertiesIgnoreNull(policyMainPage, policyEntity);
+				CommonUtil.copyPropertiesIgnoreNull(vehicle, policyEntity);
 				policyEntity.setPayStatus("0");
-				policyEntity.setRewardStatus("0");						
+				policyEntity.setRewardStatus("0");
+				policyEntity.setCarTypeCode("0");
+				policyEntity.setSeatNum(0);
+				
 				//创建时间
 				policyEntity.setCreateTime(currDate);
 				policyEntity.setLastUpdateTime(currDate);
@@ -211,8 +215,11 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 				if (vehicle.getEndDate() == null) {
 					vehicle.setEndDate(policyMainPage.getEndDate());
 				}
-				BeanUtils.copyProperties(policyEntity, policyMainPage);
-				BeanUtils.copyProperties(policyEntity, vehicle);
+				CommonUtil.copyPropertiesIgnoreNull(policyMainPage, policyEntity);
+				CommonUtil.copyPropertiesIgnoreNull(vehicle, policyEntity);
+				policyEntity.setCarTypeCode("0");
+				policyEntity.setSeatNum(0);
+				
 				//修改时间
 				policyEntity.setLastUpdateTime(currDate);
 				policyEntity.setId(vehicle.getId());
@@ -260,9 +267,6 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 		policyMainPage.setCompPhone("");
 		policyMainPage.setDepositBank("");
 		policyMainPage.setBankAccount("");
-		policyMainPage.setRecipients("");
-		policyMainPage.setRecipientsTel("");
-		policyMainPage.setReciAddress("");
 	}
 
 	/**

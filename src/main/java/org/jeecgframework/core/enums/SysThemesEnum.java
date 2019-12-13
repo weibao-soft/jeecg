@@ -97,7 +97,7 @@ public enum SysThemesEnum {
 			}
 		}
 		//默认风格
-		return FINEUI_STYLE;
+		return ACE_STYLE;
 	}
 
     public String toString() {

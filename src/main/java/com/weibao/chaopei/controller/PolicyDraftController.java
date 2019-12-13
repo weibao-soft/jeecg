@@ -118,15 +118,35 @@ public class PolicyDraftController extends BaseController {
 			Calendar canlendar = Calendar.getInstance();
 			Date startDate = policyMainPage.getStartDate();
 			Date endDate = policyMainPage.getEndDate();
-			canlendar.setTime(startDate);
-			int startYear = canlendar.get(Calendar.YEAR);
-			canlendar.setTime(endDate);
-			int endYear = canlendar.get(Calendar.YEAR);
-			int year = endYear - startYear;
+			Date maxDate = endDate;
+			int year = 1;
+			if(startDate == null) {
+				canlendar.add(Calendar.DATE, 1);
+				startDate = canlendar.getTime();
+				
+				canlendar.add(Calendar.YEAR, 1);
+				canlendar.add(Calendar.DATE, -1);
+				endDate = canlendar.getTime();
+				maxDate = canlendar.getTime();
+				
+				policyMainPage.setStartDate(startDate);
+				policyMainPage.setEndDate(endDate);
+			} else {
+				canlendar.setTime(startDate);
+				canlendar.add(Calendar.YEAR, 1);
+				canlendar.add(Calendar.DATE, -1);
+				maxDate = canlendar.getTime();
+				
+				canlendar.setTime(startDate);
+				int startYear = canlendar.get(Calendar.YEAR);
+				canlendar.setTime(endDate);
+				int endYear = canlendar.get(Calendar.YEAR);
+				year = endYear - startYear;
+			}
 			
 	        String start = sdfd.format(startDate);
 	        String end = sdfd.format(endDate);
-	        String max = sdfd.format(endDate);
+	        String max = sdfd.format(maxDate);
 	        //String payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&code=&payOrderNo=js02&platform=pc";
 			request.setAttribute("start", start);
 			request.setAttribute("end", end);

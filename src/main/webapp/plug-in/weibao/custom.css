@@ -37,3 +37,8 @@
     color:#666;
     text-shadow:1px 1px 1px #fff;
 }
+.btn-size{
+	height:30px;
+    width:100px !important;
+    border-radius: 5px;
+}

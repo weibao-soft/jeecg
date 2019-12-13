@@ -23,13 +23,54 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String prodId;
 	//产品代码
 	private java.lang.String prodCode;
+	//部门名称/出单机构
+	@Excel(name="出单机构名称",width=20)
+	private java.lang.String departName;
 	//保单号
-	@Excel(name="保单号",width=32)
+	@Excel(name="保单号",width=24)
 	private java.lang.String policyNo;
+	//产品名称
+	@Excel(name="保险产品",width=32)
+	private java.lang.String prodName;
+	//投保单位名称
+	@Excel(name="投保人",width=24)
+	private java.lang.String holderCompName;
+	//投保单位组织机构代码
+	@Excel(name="证件号",width=24)
+	private java.lang.String holderOrgCode;
+	
+	//用户账号/出单员
+	@Excel(name="出单员",width=15)
+	private java.lang.String userNo;
+	//用户姓名
+	@Excel(name="姓名",width=15)
+	private java.lang.String userName;
+	//车牌号
+	@Excel(name="车牌号",width=15)
+	private java.lang.String plateNo;
+	//车架号
+	@Excel(name="车架号",width=22)
+	private java.lang.String frameNo;
+	//发动机号
+	@Excel(name="发动机号",width=24)
+	private java.lang.String engineNo;
+	//保险开始日期
+	@Excel(name="起保日期",width=22)
+	private java.util.Date startDate;
+	//保险结束日期
+	@Excel(name="终保日期",width=22)
+	private java.util.Date endDate;
+	//保费
+	@Excel(name="保费",width=11)
+	private java.math.BigDecimal premium;
+	//支付时间
+	@Excel(name="付款日期",width=22)
+	private java.util.Date payTime;
+	//发票类型
+	@Excel(name="发票类型",width=14)
+	private java.lang.String invoiceType;
 	//电子保单链接url
 	private java.lang.String policyUrl;	
-	//产品名称
-	private java.lang.String prodName;
 	//保险公司名称
 	private java.lang.String insurCompName;
 	//保障方案id
@@ -38,39 +79,16 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String prodPlan;
 	//产品方案code
 	private java.lang.String planCode;
-	//车牌号
-	@Excel(name="车牌号",width=32)
-	private java.lang.String plateNo;
-	//车架号
-	@Excel(name="车架号",width=32)
-	private java.lang.String frameNo;
-	//发动机号
-	@Excel(name="发动机号",width=32)
-	private java.lang.String engineNo;
-	//保险开始日期
-	private java.util.Date startDate;
-	//保险结束日期
-	private java.util.Date endDate;
-	//保费
-	@Excel(name="保费",width=32)
-	private java.math.BigDecimal premium;
-	//保单状态
-	@Excel(name="保单状态",width=32)
-	private java.lang.String status;
 	//投保联系人
 	private java.lang.String contactName;
 	//保单接收手机
 	private java.lang.String policyMobile;
-	//发票类型
-	private java.lang.String invoiceType;
+	
 	//发票号码
 	private java.lang.String invoiceNumb;
 	//投保人性质
 	private java.lang.String holderNature;
-	//投保单位组织机构代码
-	private java.lang.String holderOrgCode;
-	//投保单位名称
-	private java.lang.String holderCompName;
+	
 	//投保单位性质
 	private java.lang.String holderCompNature;
 	//行业类别
@@ -101,22 +119,29 @@ public class PolicyMainPage implements Serializable {
 	private java.lang.String insuredOrgCode;
 	//被保单位名称
 	private java.lang.String insuredCompName;
+	//车辆使用性质
+	private java.lang.String carTypeCode;
+	//核定载重质量
+	private java.lang.Integer tonCount;
+	//座位数
+	private java.lang.Integer seatNum;
 	//投保车辆(台)
 	private java.lang.Integer truckNums;
 	//草稿id
 	private java.lang.String draftId;
 	//用户id
 	private java.lang.String userId;
-	//用户账号/出单员
-	private java.lang.String userNo;
-	//用户姓名
-	private java.lang.String userName;
+	
 	//部门id
 	private java.lang.String departId;
-	//部门名称/出单机构
-	private java.lang.String departName;
+
+	//是否纸质保单
+	private java.lang.String isPaperPolicy;
+	//是否纸质发票
+	private java.lang.String isPaperInvoice;
+	//保单状态
+	private java.lang.String status;
 	//支付状态
-	@Excel(name="支付状态",width=32)
 	private java.lang.String payStatus;
 	//分润状态
 	private java.lang.String rewardStatus;
@@ -124,8 +149,7 @@ public class PolicyMainPage implements Serializable {
 	private java.util.Date createTime;
 	//最后修改时间
 	private java.util.Date lastUpdateTime;
-	//支付时间
-	private java.util.Date payTime;
+	
 	//查询条件支付时间范围
 	private String payTimeFilter_begin;
 	private String payTimeFilter_end;
@@ -200,6 +224,24 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setEngineNo(java.lang.String engineNo) {
 		this.engineNo = engineNo;
+	}
+	public java.lang.String getCarTypeCode() {
+		return carTypeCode;
+	}
+	public void setCarTypeCode(java.lang.String carTypeCode) {
+		this.carTypeCode = carTypeCode;
+	}
+	public java.lang.Integer getTonCount() {
+		return tonCount;
+	}
+	public void setTonCount(java.lang.Integer tonCount) {
+		this.tonCount = tonCount;
+	}
+	public java.lang.Integer getSeatNum() {
+		return seatNum;
+	}
+	public void setSeatNum(java.lang.Integer seatNum) {
+		this.seatNum = seatNum;
 	}
 	public java.util.Date getStartDate() {
 		return startDate;
@@ -422,6 +464,18 @@ public class PolicyMainPage implements Serializable {
 	}
 	public void setPolicyUrl(java.lang.String policyUrl) {
 		this.policyUrl = policyUrl;
+	}
+	public java.lang.String getIsPaperPolicy() {
+		return isPaperPolicy;
+	}
+	public void setIsPaperPolicy(java.lang.String isPaperPolicy) {
+		this.isPaperPolicy = isPaperPolicy;
+	}
+	public java.lang.String getIsPaperInvoice() {
+		return isPaperInvoice;
+	}
+	public void setIsPaperInvoice(java.lang.String isPaperInvoice) {
+		this.isPaperInvoice = isPaperInvoice;
 	}
 	public boolean isDraft() {
 		return isDraft;

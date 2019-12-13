@@ -13,6 +13,8 @@ public class PolicyVehiclePage implements Serializable {
 	private java.lang.String frameNo;
 	//发动机号
 	private java.lang.String engineNo;
+	//核定载重质量
+	private java.lang.Integer tonCount;
 	//保险开始日期
 	private java.util.Date startDate;
 	//保险结束日期
@@ -42,7 +44,12 @@ public class PolicyVehiclePage implements Serializable {
 	public void setEngineNo(java.lang.String engineNo) {
 		this.engineNo = engineNo;
 	}
-
+	public java.lang.Integer getTonCount() {
+		return tonCount;
+	}
+	public void setTonCount(java.lang.Integer tonCount) {
+		this.tonCount = tonCount;
+	}
 	public Date getStartDate() {
 		return startDate;
 	}

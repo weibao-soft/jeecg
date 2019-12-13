@@ -1,15 +1,34 @@
 var imgName = "";
 
 $(document).ready(function() {
+	//初始化页面
+	initPageUI();
+	//绑定事件
+	bindEvents();
+});
+//初始化页面
+function initPageUI() {
+	getHolders();
+	getReceivers();
+
+    $("#holderCompNature").css("width", "200px");
+    $("#industryType").css("width", "200px");
+    $("#holderNature").css("width", "200px");
+
+	var abc = $("#formobj").width()+17;
+	$("#formobj").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
+}
+//绑定事件
+function bindEvents() {
 	$("#planId").change(function() {
 		var code=$(this).children('option:selected').attr("data-code");
 		$("#premium").val(code);
 	});
 	$("#invoiceType").change(function() {
 		var value=$(this).children('option:selected').val();
+    	var orgCode=$("#holderOrgCode").val();
         if(value=='3') {
         	var taxpayerNo=$("#taxpayerNop").val();
-        	var orgCode=$("#holderOrgCode").val();
         	var compNamep=$("#compNamep").val();
         	var compName=$("#holderCompName").val();
         	if(taxpayerNo==null || taxpayerNo=="") {
@@ -22,6 +41,10 @@ $(document).ready(function() {
         	$("#invoiceTr").css("display", "none");
         	add("开具增值税专用发票","policyMainController.do?addSpe");
         } else if(value=='2') {
+        	var taxpayerNo2=$("#taxpayerNo2").val();
+        	if(taxpayerNo2==null || taxpayerNo2=="") {
+                $("#taxpayerNo2").val(orgCode);
+        	}
         	$("#invoiceTr").css("display", "table-row");
         } else if(value=='1') {
         	$("#invoiceTr").css("display", "none");
@@ -40,10 +63,26 @@ $(document).ready(function() {
 	    	$("#insuredOrgCode").val("");
 	    }
 	});
-
-});
+	$("#check2").click(function() {
+	    var value=$(this).is(':checked');
+	    if(value) {
+	    	$("#isPaperPolicy").val("1");
+	    } else {
+	    	$("#isPaperPolicy").val("0");
+	    }
+	});
+	$("#check3").click(function() {
+	    var value=$(this).is(':checked');
+	    if(value) {
+	    	$("#isPaperInvoice").val("1");
+	    } else {
+	    	$("#isPaperInvoice").val("0");
+	    }
+	});
+}
 
 function editablePolicy() {
+	//将投保人下拉框设置为可编辑的下拉框
 	$("#holderCompName").editableSelect({
         effects: 'slide',
         bg_iframe: false,
@@ -69,6 +108,7 @@ function editablePolicy() {
     });*/
 }
 function editableInvoice() {
+	//将收件人下拉框设置为可编辑的下拉框
 	$("#recipients").editableSelect({
         effects: 'slide',
         bg_iframe: false,
@@ -93,10 +133,11 @@ function addPolicy() {
 	var trbody = `<tr name='policytr'>
 		<input name='vehicles[${index}].id' type='hidden'/>
 		<td><input type='text' name='vehicles[${index}].plateNo' class='policy' title='plateNo' maxlength='8' style='width:100px;' value='未上牌'></td>
-		<td><input placeholder="输入车架号" type='text' name='vehicles[${index}].frameNo' class='policy' title='frameNo' maxlength='17'></td>
-		<td><input placeholder="输入发动机号" type='text' name='vehicles[${index}].engineNo' class='policy' title='engineNo' maxlength='40' style='width:120px;'></td>
+		<td><input type='text' name='vehicles[${index}].frameNo' class='policy' title='frameNo' maxlength='17' placeholder='输入车架号'></td>
+		<td><input type='text' name='vehicles[${index}].engineNo' class='policy' title='engineNo' maxlength='40' style='width:120px;' placeholder='输入发动机号'></td>
+		<td><input type='text' name='vehicles[${index}].tonCount' class='policy' title='tonCount' maxlength='2' style='width:60px;' value='0' placeholder='默认填: 0' readonly></td>
+		<td><input class='btn' type='button' value='删除' onclick='removePolicy(this);' style='height:30px;width:100px !important;'/></td>
 		<td><span data-event="toggleShourMode" class="radio-one"><input type="checkbox" name="dateMode" value="custom"/>自定义</span></td>
-		<td><input class='btn' type='button' value='删除' onclick='removePolicy(this);' style='height:30px;width:100px !important;border-radius:5px'/></td>
 	</tr>`;
 	$("#policy_tabel").find("tbody").append(trbody);
 	//$("#policy_tabel").find("tbody").replaceWith(trbody);
@@ -109,6 +150,24 @@ function removePolicy(obj) {
 	resetTrNum("add_policy_tabel");
 }
 
+//初始化默认保险期间
+function initDefaultInsurDate(year) {
+	PolicyMainUpdateComponent.renderInsuranceDate({
+		isDefaultDateBox: true,
+		startDate: {
+			attrs:{id: 'start', name: 'startDate', value: "${start}"}},
+		startHour: {
+			attrs:{id: 'shour', name: 'shour'}},
+		endDate: {
+			attrs:{id: 'end', name: 'endDate', value: "${end}"}},
+		endHour: {
+			attrs:{id: 'ehour', name: 'ehour'}},
+		year: {
+			attrs:{id: 'year', name: 'year', value: year}},
+		month: {
+			attrs:{id:'month'}}
+	}, $('#defaultInsuranceDate'));
+}
 /**
  * 切换【保险期间】填写方式：默认 或 自定义
  */
@@ -125,7 +184,7 @@ function initToggleShourModeEvent(start, max, end, year, vehicles) {
 		 let rowIndex = $(this).parents('tr:first').index();
 		 let startDate;
 		 let endDate;
-		 if (vehicles[rowIndex]) {
+		 if (vehicles != null && vehicles[rowIndex]) {
 			 startDate = new Date(vehicles[rowIndex].startDate);
 			 endDate = new Date(vehicles[rowIndex].endDate);
 		 } else {
@@ -138,6 +197,7 @@ function initToggleShourModeEvent(start, max, end, year, vehicles) {
 		 if (isCustom) {
 		 	if ($dateField.length === 0) {
 				PolicyMainUpdateComponent.renderInsuranceDate({
+					isDefaultDateBox: false,
 					startDate: {
 						attrs:{"data-field":"startDate", name: `vehicles[${rowIndex}].startDate`, value: startDateStr}},
 					startHour: {
@@ -176,9 +236,9 @@ function initToggleShourModeEvent(start, max, end, year, vehicles) {
 	 $('#add_policy_tabel :input[type="checkbox"]').each(function(){
 		 toggleDateByCkbox.apply(this);
 	 });
-	$('#add_policy_tabel').on('change', ':input[type="checkbox"]', function(event){
-		toggleDateByCkbox.apply(this);
-	});
+	 $('#add_policy_tabel').on('change', ':input[type="checkbox"]', function(event){
+		 toggleDateByCkbox.apply(this);
+	 });
 }
 
 
@@ -246,9 +306,6 @@ function setChildUrl() {
 	url = url + "&compPhone=" + param.compPhone;
 	url = url + "&depositBank=" + param.depositBank;
 	url = url + "&bankAccount=" + param.bankAccount;
-	url = url + "&recipients=" + param.recipients;
-	url = url + "&recipientsTel=" + param.recipientsTel;
-	url = url + "&reciAddress=" + param.reciAddress;
 	
     if(window.console) console.log(url);
     //layer.msg(url);
@@ -264,9 +321,6 @@ function setChildData(iframe) {
 	$("#compPhone", iframe.document).val(param.compPhone);
 	$("#depositBank", iframe.document).val(param.depositBank);
 	$("#bankAccount", iframe.document).val(param.bankAccount);
-	$("#recipients", iframe.document).val(param.recipients);
-	$("#recipientsTel", iframe.document).val(param.recipientsTel);
-	$("#reciAddress", iframe.document).val(param.reciAddress);
 }
 function getParentParam() {
 	var param = {};
@@ -276,9 +330,6 @@ function getParentParam() {
 	param.compPhone = $("#compPhonep").val();
 	param.depositBank = $("#depositBankp").val();
 	param.bankAccount = $("#bankAccountp").val();
-	param.recipients = $("#recipientsp").val();
-	param.recipientsTel = $("#recipientsTelp").val();
-	param.reciAddress = $("#reciAddressp").val();
 	
 	return param;
 }
@@ -291,9 +342,6 @@ function setParentData(iframe) {
 	param.compPhone = $("#compPhone", iframe.document).val();
 	param.depositBank = $("#depositBank", iframe.document).val();
 	param.bankAccount = $("#bankAccount", iframe.document).val();
-	param.recipients = $("#recipients", iframe.document).val();
-	param.recipientsTel = $("#recipientsTel", iframe.document).val();
-	param.reciAddress = $("#reciAddress", iframe.document).val();
 
 	if(!validParam(param, iframe)) {
 		return false;
@@ -311,9 +359,6 @@ function parseData(info) {
         $("#compPhonep").val(info.compPhone);
         $("#depositBankp").val(info.depositBank);
         $("#bankAccountp").val(info.bankAccount);
-        $("#recipientsp").val(info.recipients);
-        $("#recipientsTelp").val(info.recipientsTel);
-        $("#reciAddressp").val(info.reciAddress);
     }
 }
 
@@ -473,6 +518,11 @@ function getSubmitParam() {
 	param.insuredOrgCode = document.getElementById("insuredOrgCode").value;
 	param.status = document.getElementById("status").value;
 	param.invoiceType = document.getElementById("invoiceType").value;
+	param.recipients = document.getElementById("recipients").value;
+	param.recipientsTel = document.getElementById("recipientsTel").value;
+	param.reciAddress = document.getElementById("reciAddress").value;
+	param.isPaperPolicy = document.getElementById("isPaperPolicy").value;
+	param.isPaperInvoice = document.getElementById("isPaperInvoice").value;
 	if(param.invoiceType == '3') {
 		param.taxpayerNo = document.getElementById("taxpayerNop").value;
 		param.compName = document.getElementById("compNamep").value;
@@ -480,9 +530,6 @@ function getSubmitParam() {
 		param.compPhone = document.getElementById("compPhonep").value;
 		param.depositBank = document.getElementById("depositBankp").value;
 		param.bankAccount = document.getElementById("bankAccountp").value;
-		param.recipients = document.getElementById("recipientsp").value;
-		param.recipientsTel = document.getElementById("recipientsTelp").value;
-		param.reciAddress = document.getElementById("reciAddressp").value;
 	} else if(param.invoiceType == '2') {
 		param.taxpayerNo = document.getElementById("taxpayerNo2").value;
 		param.receiverMobile = document.getElementById("receiverMobile").value;
@@ -495,19 +542,26 @@ function getSubmitParam() {
 		vehicle.plateNo = document.getElementsByName("vehicles["+i+"].plateNo")[0].value;
 		vehicle.frameNo = document.getElementsByName("vehicles["+i+"].frameNo")[0].value;
 		vehicle.engineNo = document.getElementsByName("vehicles["+i+"].engineNo")[0].value;
-		vehicle.startDate = document.getElementsByName("vehicles["+i+"].startDate")[0].value;
-		vehicle.startHour = document.getElementsByName("vehicles["+i+"].startHour")[0].value;
-		vehicle.endDate = document.getElementsByName("vehicles["+i+"].endDate")[0].value;
-		vehicle.endHour = document.getElementsByName("vehicles["+i+"].endHour")[0].value;
-		vehicle.year = document.getElementsByName("vehicles["+i+"].year")[0].value;
+		vehicle.tonCount = document.getElementsByName("vehicles["+i+"].tonCount")[0].value;
 		param["vehicles["+i+"].plateNo"] = vehicle.plateNo;
 		param["vehicles["+i+"].frameNo"] = vehicle.frameNo;
 		param["vehicles["+i+"].engineNo"] = vehicle.engineNo;
-		param["vehicles["+i+"].startDate"] = vehicle.startDate;
-		param["vehicles["+i+"].startHour"] = vehicle.startHour;
-		param["vehicles["+i+"].endDate"] = vehicle.endDate;
-		param["vehicles["+i+"].endHour"] = vehicle.endHour;
-		param["vehicles["+i+"].year"] = vehicle.year;
+		param["vehicles["+i+"].tonCount"] = vehicle.tonCount;
+		
+		var dateObj = document.getElementsByName("vehicles["+i+"].startDate")[0];
+		debugger;
+		if(dateObj!=undefined) {
+			vehicle.startDate = document.getElementsByName("vehicles["+i+"].startDate")[0].value;
+			vehicle.startHour = document.getElementsByName("vehicles["+i+"].startHour")[0].value;
+			vehicle.endDate = document.getElementsByName("vehicles["+i+"].endDate")[0].value;
+			vehicle.endHour = document.getElementsByName("vehicles["+i+"].endHour")[0].value;
+			//vehicle.year = document.getElementsByName("vehicles["+i+"].year")[0].value;
+			param["vehicles["+i+"].startDate"] = vehicle.startDate;
+			param["vehicles["+i+"].startHour"] = vehicle.startHour;
+			param["vehicles["+i+"].endDate"] = vehicle.endDate;
+			param["vehicles["+i+"].endHour"] = vehicle.endHour;
+			//param["vehicles["+i+"].year"] = vehicle.year;
+		}
 		vehicles[i] = vehicle;
 	}
 	param.vehicleArr = vehicles;
@@ -579,6 +633,34 @@ function validParam(param, iframe) {
 		iframe.$.messager.alert('提示','请填写银行账号!','info');
 		return false;
 	}
+	return true;
+}
+//校验开具专用发票页面上的数据
+function validParam2(param, iframe) {
+	if(param.compName == null || param.compName == "") {
+		iframe.$.messager.alert('提示','请填写公司名称!','info');
+		return false;
+	}
+	if(param.taxpayerNo == null || param.taxpayerNo == "") {
+		iframe.$.messager.alert('提示','请填写纳税人识别号!','info');
+		return false;
+	}
+	if(param.compAddress == null || param.compAddress == "") {
+		iframe.$.messager.alert('提示','请填写公司地址!','info');
+		return false;
+	}
+	if(param.compPhone == null || param.compPhone == "") {
+		iframe.$.messager.alert('提示','请填写公司电话!','info');
+		return false;
+	}
+	if(param.depositBank == null || param.depositBank == "") {
+		iframe.$.messager.alert('提示','请填写开户行!','info');
+		return false;
+	}
+	if(param.bankAccount == null || param.bankAccount == "") {
+		iframe.$.messager.alert('提示','请填写银行账号!','info');
+		return false;
+	}
 	if(param.recipients == null || param.recipients == "") {
 		iframe.$.messager.alert('提示','请填写收件人!','info');
 		return false;
@@ -601,6 +683,7 @@ function validData() {
 	var plateNos = $("[class='policy'][title='plateNo']");
 	var frameNos = $("[class='policy'][title='frameNo']");
 	var engineNos = $("[class='policy'][title='engineNo']");
+	var tonCounts = $("[class='policy'][title='tonCount']");
 	//var frameNos = document.getElementsByName("vehicles[*].frameNo");
 	//var engineNos = document.getElementsByName("vehicles[*].engineNo");
 	for(var i = 0; i < plateNos.length; i++) {
@@ -640,6 +723,15 @@ function validData() {
 		}
 		aryEngineNo.push(engineNo);
 	}
+	for(var i = 0; i < tonCounts.length; i++) {
+		var tonCount = $(tonCounts[i]).val();
+	    //if(window.console) console.log(tonCount);
+		if(tonCount == null || tonCount == "") {
+			message = "第" + (i + 1) + "行，核定载重质量不能为空!";
+			$.messager.alert('提示',message,'info');
+			return false;
+		}
+	}
 	if (!isRepeat(aryFrameNo)) {
 		message = "车架号重复!请输入正确的车架号!";
 		$.messager.alert('提示',message,'info');
@@ -649,6 +741,7 @@ function validData() {
 		$.messager.alert('提示',message,'info');
         return false;
     }
+	
 	var holderNature = document.getElementById("holderNature").value;
 	var holderCompName = document.getElementById("holderCompName").value;
 	var holderOrgCode = document.getElementById("holderOrgCode").value;
@@ -683,7 +776,7 @@ function validData() {
 		return false;
 	}
 	if(policyMobile == null || policyMobile == "") {
-		$.messager.alert('提示','手机不能为空!','info');
+		$.messager.alert('提示','联系人手机不能为空!','info');
 		return false;
 	}
 	if(insuredCompName == null || insuredCompName == "") {
@@ -692,6 +785,41 @@ function validData() {
 	}
 	if(insuredOrgCode == null || insuredOrgCode == "") {
 		$.messager.alert('提示','“被投保人”组织机构代码不能为空!','info');
+		return false;
+	}
+
+	var invoiceType = document.getElementById("invoiceType").value;
+	var taxpayerNo = document.getElementById("taxpayerNo2").value;
+	var receiverMobile = document.getElementById("receiverMobile").value;
+	if(invoiceType == '2') {
+		if(taxpayerNo == null || taxpayerNo == "") {
+			$.messager.alert('提示','请填写纳税人识别号!','info');
+			return false;
+		}
+		if(receiverMobile == null || receiverMobile == "") {
+			$.messager.alert('提示','请填写接收人手机!','info');
+			return false;
+		}
+	}
+	
+	var isPaperPolicy = document.getElementById("isPaperPolicy").value;
+	var isPaperInvoice = document.getElementById("isPaperInvoice").value;
+	if(isPaperPolicy == "0" && isPaperInvoice == "0") {
+		return true;
+	}
+	var recipients = document.getElementById("recipients").value;
+	var recipientsTel = document.getElementById("recipientsTel").value;
+	var reciAddress = document.getElementById("reciAddress").value;
+	if(recipients == null || recipients == "") {
+		$.messager.alert('提示','请填写收件人!','info');
+		return false;
+	}
+	if(recipientsTel == null || recipientsTel == "") {
+		$.messager.alert('提示','请填写收件人电话!','info');
+		return false;
+	}
+	if(reciAddress == null || reciAddress == "") {
+		$.messager.alert('提示','请填写发票收件地址!','info');
 		return false;
 	}
 	return true;
