@@ -20,6 +20,7 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.TSUser;
@@ -137,11 +138,18 @@ public class PolicyDraftController extends BaseController {
 				canlendar.add(Calendar.DATE, -1);
 				maxDate = canlendar.getTime();
 				
-				canlendar.setTime(startDate);
+				/*canlendar.setTime(startDate);
 				int startYear = canlendar.get(Calendar.YEAR);
 				canlendar.setTime(endDate);
 				int endYear = canlendar.get(Calendar.YEAR);
-				year = endYear - startYear;
+				year = endYear - startYear;*/
+				
+				Calendar calSta = Calendar.getInstance();
+				calSta.setTime(startDate);
+				Calendar canEnd = Calendar.getInstance();
+				canEnd.setTime(endDate);
+				year = DateUtils.dateDiff('d', canEnd, calSta);
+				year = (year / 365 == 0) ? 1 : year / 365;
 			}
 			
 	        String start = sdfd.format(startDate);
