@@ -136,7 +136,7 @@ function doPay() {
 }
 </SCRIPT>
 </head>
-<body style="overflow-y: auto;" class="panel-noscroll">
+<body style="overflow-x: hidden;overflow-y: auto;">
 
 <t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyDraftController.do?doAdd" callback="jeecgFormFileCallBack@Override">
 <fieldset class="step" style="width:99%;padding-bottom: 20px;">

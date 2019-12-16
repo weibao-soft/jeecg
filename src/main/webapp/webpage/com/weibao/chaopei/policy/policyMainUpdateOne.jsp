@@ -131,7 +131,7 @@ function test() {
 }
 </SCRIPT>
 </head>
-<body style="overflow-y: auto;" class="panel-noscroll">
+<body class="panel-noscroll">
 
 <t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyDraftController.do?doUpdate" callback="jeecgFormFileCallBack@Override">
 <fieldset class="step" style="width:99%;padding-bottom: 20px;">
