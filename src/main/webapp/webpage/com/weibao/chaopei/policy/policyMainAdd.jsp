@@ -168,7 +168,7 @@ function doPay() {
 			<table name="policy_tabel" id="policy_tabel">
 			<thead>
 				<tr>
-					<td><span style="color: red;">*</span>车牌号<BR/>(新车填写:未上牌)</td>
+					<td style="width:120px;"><span style="color: red;">*</span>车牌号<BR/>(新车填写:未上牌)</td>
 					<td><span style="color: red;">*</span>车架号</td>
 					<td><span style="color: red;">*</span>发动机号</td>
 					<td><span style="color: red;">*</span>核定<BR/>载重质量</td>
