@@ -34,7 +34,7 @@ class PolicyMainUpdateComponent {
         let endDateDisabled = isDefaultDateBox ? 'disabled' : 'readonly';
         let html = `<span class="shour-field">
         自 
-        <input type="text" ${startDateAttrs} class="Wdate" style="width:100px;" 
+        <input type="text" ${startDateAttrs} class="Wdate" style="width:100px;" readonly 
         onblur="${startDateBlurFn};" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${minDateStr}',maxDate:'${maxDateStr}'})"/> 
         <input type="text" ${startHourAttrs} style="width:20px;" value="00" disabled/> 
         起 至 
@@ -49,7 +49,7 @@ class PolicyMainUpdateComponent {
         if(!isDefaultDateBox) {
         	html = `<span class="shour-field">
             自 
-            <input type="text" ${startDateAttrs} class="Wdate" style="width:100px;" 
+            <input type="text" ${startDateAttrs} class="Wdate" style="width:100px;" readonly 
             onblur="${startDateBlurFn};" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${minDateStr}',maxDate:'${maxDateStr}'})"/> 
             <input type="text" ${startHourAttrs} style="width:20px;" value="00" disabled/> 
             起 至 

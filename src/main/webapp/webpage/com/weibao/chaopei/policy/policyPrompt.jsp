@@ -21,7 +21,7 @@ function customFunc() {
 }
 </SCRIPT>
 </head>
-<body>
+<body class="panel-noscroll">
 <t:formvalid formid="dialog_formobj" dialog="true" layout="table" tiptype="1" action="" beforeSubmit="" callback="">
 	<table cellpadding="0" cellspacing="1" class="formtable">
 		<tr>

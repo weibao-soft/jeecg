@@ -106,6 +106,9 @@ function calculateYearByParam($startEl, $endEl) {
     } else {
     	isDefault = true;
     }
+    if($startEl.val() == null || $startEl.val() == "") {
+    	return false;
+    }
     var oneDay = 1000*60*60*24;
     var oneYear = 1000*60*60*24*365;
 	var year = $("#year").val();
@@ -162,20 +165,6 @@ function isPositiveInteger(s){
 }
 
 
-function editablePolicy() {
-	$("#holderCompName").editableSelect({
-        effects: 'slide',
-        bg_iframe: false,
-        case_sensitive: false,
-        items_then_scroll: 10,
-        isFilter:false,
-        onSelect: function(list_item) {
-            var holderId=$(list_item[0]).attr("data-id");
-            //$("#holderOrgCode").val(holderId);
-        	getHolderById(holderId);
-        }
-    });
-}
 
 //公共函数：参数 params为 Json类型，可以传空参数，如:  {}
 function getCommonSelect(selectId, url, params) {
