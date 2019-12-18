@@ -8,8 +8,8 @@ $(document).ready(function() {
 });
 //初始化页面
 function initPageUI() {
-	getHolders();
-	getReceivers();
+	getHolders("holderCompName");
+	getReceivers("recipients");
 
     $("#holderCompNature").css("width", "200px");
     $("#industryType").css("width", "200px");
@@ -780,11 +780,11 @@ function validData() {
 		return false;
 	}
 	if(insuredCompName == null || insuredCompName == "") {
-		$.messager.alert('提示','“被投保人”单位名称不能为空!','info');
+		$.messager.alert('提示','“被保人”单位名称不能为空!','info');
 		return false;
 	}
 	if(insuredOrgCode == null || insuredOrgCode == "") {
-		$.messager.alert('提示','“被投保人”组织机构代码不能为空!','info');
+		$.messager.alert('提示','“被保人”组织机构代码不能为空!','info');
 		return false;
 	}
 

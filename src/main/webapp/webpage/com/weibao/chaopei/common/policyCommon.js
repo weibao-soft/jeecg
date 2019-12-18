@@ -196,7 +196,7 @@ function addOptions(items, selectId) {
       $('#'+selectId).append(htmlContent);
   });
 }
-function getHolders() {
+function getHolders(id) {
 	//获取投保人单位名称下拉框的数据
   $.ajax({
       url: "policyMainController.do?getHolders",
@@ -209,7 +209,7 @@ function getHolders() {
       success: function (data) {
           //if(console) console.log(data);
           if (data.code == 200) {
-              addHldOptions(data.value);
+              addHldOptions(data.value,id);
               return false;
           } else {
               layer.alert(data.message);
@@ -237,7 +237,7 @@ function getInsureds() {
       }
   });
 }
-function getReceivers() {
+function getReceivers(id) {
 	//获取专用发票收件人下拉框的数据
   $.ajax({
       url: "policyMainController.do?getReceivers",
@@ -249,7 +249,7 @@ function getReceivers() {
       },
       success: function (data) {
           if (data.code == 200) {
-          	addRceOptions(data.value);
+          	addRceOptions(data.value,id);
               return false;
           } else {
               layer.alert(data.message);
@@ -257,10 +257,10 @@ function getReceivers() {
       }
   });
 }
-function addHldOptions(items) {
+function addHldOptions(items,id) {
   $.each(items,function(n,value) {
       var htmlContent = $('<option data-id="'+value.id+'" value="'+value.name+'">'+value.name+'</option>');
-      $('#holderCompName').append(htmlContent);
+      $('#'+id).append(htmlContent);
   });
 }
 function addIurOptions(items) {
@@ -269,10 +269,10 @@ function addIurOptions(items) {
       $('#insuredCompName').append(htmlContent);
   });
 }
-function addRceOptions(items) {
+function addRceOptions(items,id) {
   $.each(items,function(n,value) {
       var htmlContent = $('<option data-num="'+value.recipientsTel+'" data-text="'+value.reciAddress+'" value="'+value.recipients+'">'+value.recipients+'</option>');
-      $('#recipients').append(htmlContent);
+      $('#'+id).append(htmlContent);
   });
 }
 function getHolderById(holderId) {

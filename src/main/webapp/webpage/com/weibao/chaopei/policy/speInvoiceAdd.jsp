@@ -13,15 +13,11 @@
 //var compName2 = parent.$("#compName2p").val();
 //layer.msg(compName2);
 $(document).ready(function() {
-    $("#recipients").css("width", "140px");
-	getReceivers();
-    window.setTimeout(customFunc, 300);
+    //window.setTimeout(customFunc, 300);
 });
 
 function customFunc() {
-	editableInvoice();
-
-	$("#recipients").val("${policyMainPage.recipients }");
+	//$("#recipients").val("${policyMainPage.recipients }");
     //var num=$('#recipients option:first').attr("data-num");
 	//$("#recipientsTel").val(num);
 }

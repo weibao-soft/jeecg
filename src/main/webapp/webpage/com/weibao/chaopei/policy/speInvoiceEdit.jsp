@@ -14,7 +14,7 @@
 //layer.msg(compName2);
 $(document).ready(function() {
     $("#recipients").css("width", "140px");
-	getReceivers();
+	getReceivers("recipients");
     window.setTimeout(customFunc, 300);
 });
 
