@@ -71,7 +71,7 @@
 	//查询取现记录
 	function getWithdrawOrderList(id){
 	    if(window.console) console.log("withdrawOrderList == ", id);
-		addTab(id, "取现记录", "personalAcctController.do?withdrawOrderList&accountId="+id);
+		addTab(id, "个人取现记录", "personalAcctController.do?withdrawOrderList&accountId="+id);
 	}
 
 	function addTab(ids, title_, url_) {		

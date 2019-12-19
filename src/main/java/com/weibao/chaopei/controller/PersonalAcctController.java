@@ -63,6 +63,15 @@ public class PersonalAcctController extends BaseController {
 	
 	@RequestMapping(params = "acctReceiveBalanceDetail")
 	public ModelAndView acctReceiveBalanceDetail(String personalAccountId, HttpServletRequest request) {
+		PersonalAccountEntity personalAcct = getPersonalAccount();
+		//如果有任何一个属性是空的，则需要弹出页面框让用户绑定信息
+		if(StringUtil.isEmpty(personalAcct.getBankAcctName()) ||  StringUtil.isEmpty(personalAcct.getBankInfo())
+				|| StringUtil.isEmpty(personalAcct.getBankNo()) || StringUtil.isEmpty(personalAcct.getCertiNo())
+				|| StringUtil.isEmpty(personalAcct.getWithdrawPasswd())){
+			request.setAttribute("isNeedBind", true);
+		}else {
+			request.setAttribute("isNeedBind", false);
+		}
 		request.setAttribute("personalAccountId", personalAccountId);
 		return new ModelAndView("com/weibao/chaopei/personaacct/acctReceiveBalanceDetails");
 	}

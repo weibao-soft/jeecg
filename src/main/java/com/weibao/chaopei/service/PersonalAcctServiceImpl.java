@@ -54,6 +54,8 @@ public class PersonalAcctServiceImpl extends CommonServiceImpl implements Person
 		//复制保单状态、分润状态
 		rewardDetailPage.setStatus((String)obj.get("status"));
 		rewardDetailPage.setRewardStatus((String)obj.get("reward_status"));
+		//保费
+		rewardDetailPage.setPremium((Float)obj.get("premium"));
 		//分润金额
 		rewardDetailPage.setAmount((BigDecimal)obj.get("amount"));
 	}
@@ -189,12 +191,13 @@ public class PersonalAcctServiceImpl extends CommonServiceImpl implements Person
 		rewardPage.setUserId(rewardDetail.getUserId());
 		
 		stbHeadSql1.append("select d.id, a.plan_id, a.last_update_time, a.pay_time, a.holder_comp_name, d.`status` reward_status, ");
-		stbHeadSql1.append("a.policy_no, a.plate_no, a.user_id, bu.username user_no, bu.realname username, ");
+		stbHeadSql1.append("a.policy_no, a.premium, a.plate_no, a.user_id, bu.username user_no, bu.realname username, ");
 		stbHeadSql1.append("dp.id depart_id, dp.departname, d.amount, d.divide_time, b.prod_name, c.prod_plan ");
 		
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,wb_personal_rewarded_detail d,");
 		stbSql.append(" t_s_base_user bu,t_s_user_org uo,t_s_depart dp ");
-		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and a.id=d.policy_id and bu.id=uo.user_id and dp.ID=uo.org_id");
+		stbSql.append(" where d.status='0' and a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id ");
+		stbSql.append(" and a.id=d.policy_id and bu.id=uo.user_id and dp.ID=uo.org_id");
 		getRewardDetailList(rewardPage, dataGrid, stbHeadSql1, stbSql);
 		return dataGrid;
 	}
@@ -324,7 +327,7 @@ public class PersonalAcctServiceImpl extends CommonServiceImpl implements Person
 	 */
 	public boolean withdrawPerson(String params) {
 		String[] rewardDetIds = params.split(",");
-		String updateStatus = "update wb_personal_rewarded_detail set status=1 where status=0 and id=?";
+		String updateStatus = "update wb_personal_rewarded_detail set status=1, withdraw_time=SYSDATE() where status=0 and id=?";
 		PersonalAccountEntity personalAccount = null;
 		WithdrawOrderEntity order = new WithdrawOrderEntity();
 		order.setOrgType("1");

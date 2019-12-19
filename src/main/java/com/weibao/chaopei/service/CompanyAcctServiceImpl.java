@@ -331,7 +331,7 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 	 */
 	public boolean withdrawCompany(String params) {
 		String[] rewardDetIds = params.split(",");
-		String updateStatus = "update wb_company_rewarded_detail set status=1 where status=0 and id=?";
+		String updateStatus = "update wb_company_rewarded_detail set status=1, withdraw_time=SYSDATE() where status=0 and id=?";
 		CompanyAccountEntity companyAccount = null;
 		WithdrawOrderEntity order = new WithdrawOrderEntity();
 		order.setOrgType("0");
