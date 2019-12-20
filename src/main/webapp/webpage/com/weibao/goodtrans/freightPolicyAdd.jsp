@@ -32,7 +32,11 @@ td .border-right{border-right:1px solid #E3E3E3;}
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
 	window.Custom.dialogLoading(true);
-    //window.Utils.showLoading();
+	var params = {};
+	params.paramId = "${prodId}";
+	params.paramId = "4028dc816ead101e016ead2eafcb0002";
+	var url = "policyMainController.do?getProductPlan";
+	getCommonSelect("planId", url, params);
 	getHolders("holderName");
 	getHolders("insuredName");
 
@@ -52,88 +56,58 @@ $(document).ready(function(){
 function customFunc() {
 	editablePolicy();
 	
-    //window.Utils.closeLoading();
 	window.Custom.dialogLoading(false);
 }
 
 //核保失败回调函数
 function failureCallback(result) {
-    if(console) console.log("returnObj == ", result);
+    //if(console) console.log("returnObj == ", result);
     debugger;
-	var draftId = result.draftId;
+	var freightId = result.id;
 	var createTime = result.createTime;
-	var vehicles = result.vehicles;
-	document.getElementById("draftId").value = draftId;
+	var payStatus = result.payStatus;
+	document.getElementById("id").value = freightId;
 	document.getElementById("createTime").value = createTime;
-	for(var j = 0; j < vehicles.length; j++) {
-		var vehicleBack = vehicles[j];
-		var frameNo = vehicleBack.frameNo;
-		var pid = vehicleBack.id;
-
-		var plateNos = $("[class='policy'][title='plateNo']");
-		var length = plateNos.length;
-		for(var i = 0; i < length; i++) {
-			var vehicle = {};
-			vehicle.id = document.getElementsByName("vehicles["+i+"].id")[0].value;
-			vehicle.frameNo = document.getElementsByName("vehicles["+i+"].frameNo")[0].value;
-			if(frameNo == vehicle.frameNo) {
-				document.getElementsByName("vehicles["+i+"].id")[0].value = pid;
-			}
-		}
-	}
+	document.getElementById("payStatus").value = payStatus;
 }
-//Ajax方式提交表单数据
-function submitForm() {
+//Ajax方式提交表单数据，并打开支付页面
+function submitForm(tabId) {
 	var url = "freightPolicyController.do?insuranceAdd";
 	var params = getSubmitParam();
-	ajaxSubmitForm(url, params, true);
+	ajaxPay(url, params, tabId);
 }
-function submitFormUpd() {
+function submitFormUpd(tabId) {
 	var url = "freightPolicyController.do?insuranceUpdate";
 	var params = getSubmitParam();
 	params = getUpdateParam(params);
-	ajaxSubmitForm(url, params, true);
+	ajaxPay(url, params, tabId);
 }
 function confirmSubmit() {
-	if($("#insResult").val() == "1") {
-		submitForm();
+	var tabId = "tab_4028e5846eb182ce016eb1d551d20001";
+	if($("#payResult").val() == "1") {
+		submitForm(tabId);
 	} else {
-		submitFormUpd();
+		submitFormUpd(tabId);
 	}
-	$("#save").attr("disabled", true);
-	$("#insur").attr("disabled", true);
     window.Utils.showLoading(imgName);
+    $("#pay").attr("disabled", true);
 	$("#promptDiv").hide();
 }
 
-//存草稿
-function saveDraft() {
-	$("#status").val("1");
-	submitData();
-}
-//提交核保
-function insurance() {
+//支付
+function doPay() {
 	$("#status").val("1");
 	if(!validData()) {
 		return false;
 	}
 
-	var invoice=$("#invoiceType").val();
-	if(invoice=='2') {
-		var taxpayerNo = $("#taxpayerNo2").val();
-        $("#taxpayerNop").val(taxpayerNo);
-	}
-
 	getMainContent();
 	$("#readedPrompt").attr("checked", false);
 	$('#promptDiv').show();
-	
-    //window.setTimeout(window.Utils.closeLoading, 2000);
-}
-//支付
-function doPay() {
+
 	//submitPay("${prodId}");
 }
+
 </SCRIPT>
 </head>
 <body style="overflow-x: hidden;overflow-y: auto;">
@@ -146,28 +120,68 @@ function doPay() {
 	<input id="prodId" name="prodId" type="hidden" value="${prodId}"/>
 	<input id="premium" name="premium" type="hidden"/>
  
+ <tr><td style="width:15px;text-align:center;border-top:1px solid #E3E3E3;border-left:1px solid #E3E3E3;"></td><td style="width:1185px;">
+	 <table cellpadding="0" cellspacing="0" class="formtable" style="border:1px solid #E3E3E3;border-bottom:0px solid #FFF;" width="100%">
+	 <tr><td style="width:150px;">方案保障</td>
+	 <td style="width:auto;">
+		<select name="planId" id="planId" style="width:500px;">
+		</select>
+		<span class="Validform_checktip"></span></td>
+	 </tr>
+	 </table>
+ </td></tr>
+ 
  <tr><td style="width:15px;text-align:center;"></td><td style="width:1185px;">
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 	 <tr><td style="width:150px;" class="border-right"><span style="color: red;">*</span>总保额</td>
 	 <td style="width:300px;" class="border-right">
 		<input type="text" name="allInsuredAmount" id="allInsuredAmount" maxlength="10" style="width:200px;" />
 		<span class="Validform_checktip"></span></td>
-	 <td style="width:150px;" class="border-right"><span style="color: red;">*</span>附加盗窃险保额</td>
+	 <td style="width:150px;" class="border-right"><span style="color: red;">*</span>保费</td>
 	 <td style="width:auto;">
-		<input type="text" name="additionalAmount" id="additionalAmount" maxlength="10" style="width:200px;" />
-		<span class="Validform_checktip"></span></td>
-	 </tr>
-	 <tr><td style="width:150px;" class="border-right"><span style="color: red;">*</span>保费</td>
-	 <td style="width:300px;" class="border-right">
 		<input type="text" name="allPremium" id="allPremium" maxlength="10" style="width:200px;" />
 		<span class="Validform_checktip"></span></td>
-	 <td style="width:150px;" class="border-right"></td><td style="width:auto;"></td>
 	 </tr>
 	 </table>
  </td></tr>
  
  <tr><td style="width:15px;text-align:center;">投保内容</td><td style="width:1185px;">
 	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
+	 
+	 <tr><td>
+	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
+		 <tr><td style="width:150px;" class="border-right">车辆信息：</td>
+		 <td style="width:auto;">
+			<table name="vehicle_tabel" id="vehicle_tabel">
+			<tbody id="add_vehicle_tabel">
+				<tr name='vehicletr'>
+				<input name="id" type="hidden"/>
+				<td><div style="text-align:right;width:auto;"><span style="color: red;">*</span>车牌号</div></td>
+				<td><input type="text" name="vehiclePlateNo" id="vehiclePlateNo" class="policy" maxlength="8" style="width:100px;" value="未上牌"></td>
+				<td><span style="color: red;">*</span>挂车车牌号 </td>
+				<td><input type="text" name="trailerPlateNo" id="trailerPlateNo" class="policy" maxlength="8" style="width:100px;"></td>
+				<td><span style="color: red;">*</span>车架号 </td>
+				<td><input type="text" name="vehicleFrameNo" id="vehicleFrameNo" class="policy" maxlength="20"></td>
+				</tr>
+			</tbody>
+			</table>
+		 </td></tr>
+	 </table>
+	 </td></tr>
+	 
+	 <tr><td>
+	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
+		 <tr><td style="width:150px;" class="border-right">保险期间：</td>
+		 <td style="width:auto;">
+		 <span>自 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:100px;" onblur="calculateYear();"
+		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> <input type="text"
+		 name="shour" id="shour" style="width:20px;" value="00" disabled/> 起 至 <input type="text" name="endDate" id="end" value="${end}" class="Wdate"
+		 style="width:100px;" disabled/> <input type="text" name="ehour" id="ehour" style="width:20px;" value="24" disabled/> 止 </span> 
+		 <div style="display: none;"><span style="color: red;">*</span>起运地 <input type="text" name="cargoStartSite" 
+		 id="cargoStartSite"><span style="color: red;">*</span>目的地 <input type="text" name="cargoTargetSite" id="cargoTargetSite"></div>
+		 </td></tr>
+	 </table>
+	 </td></tr>
 	 
 	 <tr><td style="width:100%"><label class="Validform_label"> 投保人： </label></td></tr>
 
@@ -200,7 +214,7 @@ function doPay() {
 		 <tr name="holderGRTr" style="display: none;">
 		 <td class="border-right"><span style="color: red;">*</span>性别</td>
 		 <td class="border-right"><t:dictSelect field="holderSex" id="holderSex" type="list" divClass="dict_select" title=""
-						typeGroupCode="sex" defaultVal="1" hasLabel="false" ></t:dictSelect></td>
+						typeGroupCode="sex" defaultVal="F" hasLabel="false" ></t:dictSelect></td>
 		 <td class="border-right"><span style="color: red;">*</span>职业</td>
 		 <td><input type="text" name="holderProfession" id="holderProfession" maxlength="20" style="width:200px;" /></td>
 		 </tr>
@@ -281,7 +295,7 @@ function doPay() {
 		 <tr name="insuredGRTr" style="display: none;">
 		 <td class="border-right"><span style="color: red;">*</span>性别</td>
 		 <td class="border-right"><t:dictSelect field="insuredSex" id="insuredSex" type="list" divClass="dict_select" title=""
-						typeGroupCode="sex" defaultVal="1" hasLabel="false" ></t:dictSelect></td>
+						typeGroupCode="sex" defaultVal="F" hasLabel="false" ></t:dictSelect></td>
 		 <td class="border-right"><span style="color: red;">*</span>职业</td>
 		 <td><input type="text" name="insuredProfession" id="insuredProfession" maxlength="20" style="width:200px;" /></td>
 		 </tr>
@@ -354,78 +368,36 @@ function doPay() {
 	 </table>
 	 </td></tr>
 	 
-	 <tr><td>
-	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
-		 <tr><td style="width:150px;" class="border-right">保险期间：</td>
-		 <td style="width:auto;">
-		 起运时间 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:150px;" 
-		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> 结束时间 <input type="text" name="endDate" id="end" value="卸货完成时结束"
-		 style="width:150px;" disabled/><span style="color: red;">*</span>起运地 <input type="text" name="cargoStartSite" 
-		 id="cargoStartSite"><span style="color: red;">*</span>目的地 <input type="text" name="cargoTargetSite" id="cargoTargetSite"> </td>
-		 </tr>
-	 </table>
-	 </td></tr>
-	 
-	 <tr><td>
-	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
-		 <tr><td style="width:150px;" class="border-right">车辆信息：</td>
-		 <td style="width:auto;">
-			<table name="vehicle_tabel" id="vehicle_tabel">
-			<tbody id="add_vehicle_tabel">
-				<tr name='vehicletr'>
-				<input name="id" type="hidden"/>
-				<td><div style="text-align:right;width:auto;"><span style="color: red;">*</span>车牌号/车次</div></td>
-				<td><input type="text" name="vehiclePlateNo" id="vehiclePlateNo" class="policy" maxlength="8" style="width:100px;" value=""></td>
-				<td><span style="color: red;">*</span>运输凭证号 </td>
-				<td><input type="text" name="certificateNo" id="certificateNo" class="policy" maxlength="20"></td>
-				<td><span style="color: red;">*</span>运输工具 </td>
-				<td><input type="text" name="transportation" id="transportation" class="policy"></td>
-				<td><span style="color: red;">*</span>运输方式 </td>
-				<td><select name="cargoTransWay" id="cargoTransWay" style="width:100px;" class="policy">
-				<option value="1">水运</option>
-				<option value="2">航空</option>
-				<option value="3">公路</option>
-				<option value="4">铁路</option>
-				<option value="5">邮包</option>
-				<option value="6">联运</option>
-				</select></td>
-				</tr>
-			</tbody>
-			</table>
-		 </td></tr>
-	 </table>
-	 </td></tr>
-	 
 	 </table>
  </td></tr>
  </table>
  <br>
 <div style="text-align:center;width:99%;padding-top:10px;">
-<input id="readedPrompt" type="checkbox" style=""/><b><span style="font-size: 15px;">我已阅读《投保须知》和《保险条款》</span></b>
+<input id="readedNotice" type="checkbox" style=""/><b><span style="font-size: 15px;">我已阅读《投保须知》和《保险条款》</span></b>
 </div>
 
 <div style="text-align:center;width:99%;padding-top:10px;">
-<input id="pay" class="subBtnmy" type="button" value="立即支付" onclick="doPay();" style="height:30px;width:100px !important;border-radius:5px" disabled/>
-<input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_4028e5846eb182ce016eb1d551d20001');" style="height:30px;width:100px !important;border-radius:5px"/>
+<input id="pay" class="subBtnmy" type="button" value="立即支付" onclick="doPay();" style="height:30px;width:100px !important;"/>
+<input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_4028e5846eb182ce016eb1d551d20001');" style="height:30px;width:100px !important;"/>
 </div>
 </fieldset>
 
 <input id="status" name="status" type="hidden" value="1" />
 <input id="userId" name="userId" type="hidden" />
-<input id="payStatus" name="payStatus" type="hidden" value="0"/>
-<input id="createTime" name="createTime" type="hidden" value="${freightPolicyPage.createTime }"/>
+<input id="payStatus" name="payStatus" type="hidden" value="${freightPolicyPage.payStatus}"/>
+<input id="createTime" name="createTime" type="hidden" value="${freightPolicyPage.createTime}"/>
 <input id="endDate" name="endDate" type="hidden" value="${end}" />
 <input id="recipients" name="recipients" type="hidden" />
 <input id="recipientsTel" name="recipientsTel" type="hidden" />
 <input id="reciAddress" name="reciAddress" type="hidden" />
-<input id="insuranceObj" name="insuranceObj" type="hidden" />
+<input id="payObj" name="payObj" type="hidden" />
 <input id="payUrl" name="payUrl" type="hidden" />
-<input id="payResult" name="payResult" type="hidden" />
+<input id="payResult" name="payResult" type="hidden" value="1"/>
 <input id="insResult" name="insResult" type="hidden" value="1"/>
 <input id="isDraft" name="isDraft" type="hidden" value="true"/>
 </t:formvalid>
 
-<%@include file="/webpage/com/weibao/chaopei/policy/policyPromptDiv.jsp"%>
+<%@include file="freightPromptDiv.jsp"%>
 <%@include file="/webpage/com/weibao/chaopei/policy/policyPayiFrame.jsp"%>
 </body>
 </html>

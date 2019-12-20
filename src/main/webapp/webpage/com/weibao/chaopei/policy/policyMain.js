@@ -439,7 +439,7 @@ $.ajax({
     },
     success: function (data) {
   	    var result = data.obj;
-        if(console) console.log("ajaxReturn == ", data);
+        //if(console) console.log("ajaxReturn == ", data);
         if (data.success) {
 		    //layer.msg(data.msg, {icon:6});
             var payUrl = result.data;
@@ -477,7 +477,7 @@ function ajaxSubmitForm(url, params, isAdd, mainTabId) {
       },
       success: function (data) {
           var result = data.obj;
-          if(console) console.log("ajaxReturn == ", data);
+          //if(console) console.log("ajaxReturn == ", data);
           $("#insResult").val("0");
           if (data.success) {
               result = JSON.stringify(result);
@@ -487,7 +487,7 @@ function ajaxSubmitForm(url, params, isAdd, mainTabId) {
               reloadPolicyList(mainTabId);
   			  layer.msg(data.msg, {icon:6});
           } else {
-              if(isAdd) {
+              if(isAdd && result != null && result != "") {
             	  failureCallback(result);
               }
               layer.alert(data.msg);

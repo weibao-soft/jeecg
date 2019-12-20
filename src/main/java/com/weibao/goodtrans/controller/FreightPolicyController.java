@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -17,16 +18,18 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.poi.excel.entity.ExportParams;
+import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.weibao.chaopei.entity.DraftEntity;
 import com.weibao.chaopei.service.GuorenApiServiceI;
 import com.weibao.goodtrans.entity.FreightPolicyEntity;
 import com.weibao.goodtrans.page.FreightPolicyPage;
@@ -96,7 +99,7 @@ public class FreightPolicyController extends BaseController {
 	public void datagrid(FreightPolicyEntity freightEntity, HttpServletRequest request, 
 			HttpServletResponse response, DataGrid dataGrid) {
 		
-		CriteriaQuery cq = new CriteriaQuery(DraftEntity.class, dataGrid);
+		CriteriaQuery cq = new CriteriaQuery(FreightPolicyEntity.class, dataGrid);
 		try{
 			//自定义追加查询条件
 			//查询当前用户下的草稿单
@@ -111,6 +114,32 @@ public class FreightPolicyController extends BaseController {
 		}
 		cq.add();
 		this.freightService.getDataGridReturn(cq, true);
+		TagUtil.datagrid(response, dataGrid);
+	}
+
+	/**
+	 * easyui AJAX请求数据
+	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 * @param user
+	 */
+	@RequestMapping(params = "freightDatagrid")
+	public void freightDatagrid(FreightPolicyPage policy, HttpServletRequest request,
+						 HttpServletResponse response, DataGrid dataGrid) {
+
+		try{
+			String userId = ResourceUtil.getSessionUser().getId();
+			policy.setUserId(userId);
+			//组装查询条件
+			freightService.getPolicyList(policy, dataGrid);
+		} catch (SecurityException e) {
+			logger.error(e);
+			throw new BusinessException(e.getMessage());
+		} catch (Exception e) {
+			logger.error(e);
+			throw new BusinessException(e.getMessage());
+		}
 		TagUtil.datagrid(response, dataGrid);
 	}
 	
@@ -136,52 +165,186 @@ public class FreightPolicyController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return new ModelAndView("com/weibao/chaopei/policy/draftMainListBase");
+		return new ModelAndView("com/weibao/goodtrans/freightPolicyListBase");
 	}
 	
 	/**
-	 * 货运险保单核保支付
+	 * 修改货运险保单
+	 * 
 	 * @param freightPolicyPage
 	 * @return
 	 */
-	@RequestMapping(params = "insurancePay")
-	@ResponseBody
-	public AjaxJson insurancePay(FreightPolicyPage freightPolicyPage, HttpServletRequest request) {
+	@RequestMapping(params = "doUpdate")
+	public ModelAndView doUpdate(FreightPolicyPage freightPolicyPage, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		String message = "支付成功";
-		Map<String, String> insRs = new HashMap<String, String>();
+		String message = "修改成功";
+		try{
+			String userId = ResourceUtil.getSessionUser().getId();
+			freightPolicyPage.setUserId(userId);
+			freightService.updateMain(freightPolicyPage);
+			systemService.addLog(message+":", Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "货运保单修改失败";
+			throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
+		request.setAttribute("freightPolicyPage", freightPolicyPage);
+		return new ModelAndView("com/weibao/goodtrans/freightPolicyListBase");
+	}
+
+	/**
+	 * 删除未支付状态的保单，已支付状态的保单不能删除
+	 *
+	 * @param policyId
+	 * @return
+	 */
+	@RequestMapping(params = "doDel")
+	@ResponseBody
+	public AjaxJson doDel(String freightId, String payStatus, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "删除成功";
+		try {
+			if(!"0".equals(payStatus)) {
+				j.setSuccess(false);
+				message = "不能删除已支付的保单";
+				j.setMsg(message);
+				return j;
+			}
+			freightService.delMain(freightId);
+			systemService.addLog(message+":", Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+		} catch(HibernateException e) {
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单删除失败";
+			throw new BusinessException("保单删除失败，原因：" + e.getMessage());
+		} catch(Exception e) {
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单删除失败";
+		}
+		j.setMsg(message);
+		return j;
+	}
+	
+	/**
+	 * 新增保单，并发起支付
+	 * @param freightPolicyPage
+	 * @return
+	 */
+	@RequestMapping(params = "insuranceAdd")
+	@ResponseBody
+	public AjaxJson insuranceAdd(FreightPolicyPage freightPolicyPage, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "新增成功";
 		try{
 			String userId = ResourceUtil.getSessionUser().getId();
 			freightPolicyPage.setUserId(userId);
 			//1.先将草稿单、保单、投保人等信息写进数据库，保单状态为草稿
 			FreightPolicyEntity policy = freightService.addMain(freightPolicyPage);
-			String freightId = freightPolicyPage.getId();
-			//2.调用支付接口
-			//调用支付接口，insRs = guorenApiService.payService(policy);
+			//String freightId = freightPolicyPage.getId();
+			
+			//2.调用核保接口
+			//List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
+			//j.setObj(insRsList);
+			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
+			
+			//3.调用支付接口
+			j = policyPay(policy, request);
+			if(!j.isSuccess()) {
+				freightPolicyPage.setPayStatus(policy.getPayStatus());
+				j.setObj(freightPolicyPage);
+			}
+			systemService.addLog(j.getMsg()+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			message = "保单新增失败：连接获取失败，请联系管理员处理！";
+			j.setSuccess(false);
+			j.setMsg(message);
+			//throw new BusinessException(e.getMessage());
+		}
+		return j;
+	}
+	
+	/**
+	 * 支付失败后，修改保单，并重新发起支付
+	 * @param freightPolicyPage
+	 * @return
+	 */
+	@RequestMapping(params = "insuranceUpdate")
+	@ResponseBody
+	public AjaxJson insuranceUpdate(FreightPolicyPage freightPolicyPage, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "修改成功";
+		try{
+			String userId = ResourceUtil.getSessionUser().getId();
+			freightPolicyPage.setUserId(userId);
+			//1.先修改草稿单、保单、投保人等信息，保单状态为草稿
+			FreightPolicyEntity policy = freightService.updateMain(freightPolicyPage);
+			//String freightId = freightPolicyPage.getId();
+			
+			//2.调用核保接口
+			//List<Map<String, String>> insRsList = guorenApiService.insuredService(list);
+			//j.setObj(insRsList);
+			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
+			
+			//3.调用支付接口
+			j = policyPay(policy, request);
+			if(!j.isSuccess()) {
+				freightPolicyPage.setPayStatus(policy.getPayStatus());
+				j.setObj(freightPolicyPage);
+			}
+			systemService.addLog(j.getMsg()+":", Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			message = "保单修改失败：连接获取失败，请联系管理员处理！";
+			j.setSuccess(false);
+			j.setMsg(message);
+			//throw new BusinessException(e.getMessage());
+		}
+		return j;
+	}
+	
+	/**
+	 * 货运险保单支付
+	 * @param freightPolicyPage
+	 * @return
+	 */
+	@RequestMapping(params = "policyPay")
+	@ResponseBody
+	public AjaxJson policyPay(FreightPolicyEntity policy, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "支付成功";
+		Map<String, String> insRs = new HashMap<String, String>();
+		try{
+			String freightId = policy.getId();
+			//1. 调用支付接口，insRs = guorenApiService.payService(policy);
 			j.setObj(insRs);
-			//3.根据支付接口返回的数据，修改保单支付状态
+			//2. 根据支付接口返回的数据，修改保单支付状态
 			if(insRs != null && !insRs.isEmpty()) {
 				String url = insRs.get("data");
 				String resultCode = insRs.get("resultCode");
 				request.setAttribute("payUrl", url);
 				logger.info("payurl ================ " + url);
-				//net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(insRs);
 				if("0".equals(resultCode)) {
-					//修改保单状态，freightService.updatePolicyStatus(policy, freightId);
+					//修改保单状态为：已核保，支付中
+					freightService.updatePolicyStatus(freightId, "2");
+					policy.setPayStatus("2");
 					j.setObj(insRs);
 				} else {
 					logger.info("insurancePay result info ==== " + insRs);
 					message = insRs.get("resultMsg");
+					policy.setPayStatus("1");
 					j.setSuccess(false);
 				}
 			} else {
 				j.setSuccess(false);
 				message = "支付链接获取失败，请重新发起申请！";
 				j.setMsg(message);
-				j.setObj(freightPolicyPage);
 				return j;
 			}
-			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			systemService.addLog(message+":", Globals.Log_Type_OTHER, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			logger.info(e.getMessage(), e);
 			j.setSuccess(false);
@@ -189,8 +352,36 @@ public class FreightPolicyController extends BaseController {
 			//throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		request.setAttribute("freightPolicyPage", freightPolicyPage);
 		return j;
 	}
 
+	
+	/**
+	 * 导出excel
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(params = "exportXls")
+	public String exportXls(FreightPolicyPage policy, HttpServletRequest request, 
+			HttpServletResponse response, DataGrid dataGrid, ModelMap modelMap) {
+		String userName = "";
+
+		try{
+			userName = ResourceUtil.getSessionUser().getRealName();
+			freightService.getPolicyList(policy, dataGrid);
+			//查询条件组装器
+		} catch (SecurityException e) {
+			logger.error(e);
+			throw new BusinessException(e.getMessage());
+		} catch (Exception e) {
+			logger.error(e);
+			throw new BusinessException(e.getMessage());
+		}
+		
+		modelMap.put(NormalExcelConstants.FILE_NAME, "guoren_freight_list");
+		modelMap.put(NormalExcelConstants.CLASS, FreightPolicyPage.class);
+		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams("永安货运保单数据列表", "导出人:" + userName, "导出信息"));
+		modelMap.put(NormalExcelConstants.DATA_LIST, dataGrid.getResults());
+		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+	}
 }

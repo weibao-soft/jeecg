@@ -23,14 +23,14 @@
 </style>
 <SCRIPT type="text/javascript">
 $(document).ready(function() {
-	$("#readedPrompt").change(function() {
-		/*var readed=$(this).prop("checked");
+	/*$("#readedPrompt").change(function() {
+		var readed=$(this).prop("checked");
         if(readed) {
         	$("#ensure").attr("disabled", false);
         } else {
         	$("#ensure").attr("disabled", true);
-        }*/
-	});
+        }
+	});*/
 	
 });
 

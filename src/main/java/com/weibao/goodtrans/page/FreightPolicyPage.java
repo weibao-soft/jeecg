@@ -2,6 +2,8 @@ package com.weibao.goodtrans.page;
 
 import java.io.Serializable;
 
+import org.jeecgframework.poi.excel.annotation.Excel;
+
 /**
  * 货运险保单Form Bean类
  * @author dms
@@ -12,29 +14,36 @@ public class FreightPolicyPage implements Serializable {
 
 	//保单id
 	private java.lang.String id;
-	//产品编号，东瑞给出 60021蔬果险，费率万
-	private java.lang.String productCode;
+	//保障方案id
+	private java.lang.String planId;
+	//产品编号
+	private java.lang.String planCode;
+	//产品方案计划
+	private java.lang.String prodPlan;
 	//保单号
 	private java.lang.String policyNo;
+	//电子保单链接url
+	private java.lang.String policyUrl;
+	//发票号码
+	private java.lang.String invoiceNumb;
+	//保险公司名称
+	private java.lang.String insurCompName;
 
 	/*****运输工具信息*****/
 	//车牌号|航班航次|车次|船名
+	@Excel(name="车牌号",width=15)
 	private java.lang.String vehiclePlateNo;
-	//运单号
-	private java.lang.String wayBillNo;
-	//发票或运输凭证号
-	private java.lang.String certificateNo;
-	//运输工具
-	private java.lang.String transportation;
-	//运输方式，1水运，2航空，3公路，4铁路，5邮包，6联运
-	private java.lang.String cargoTransWay;
-	//起运地名称
-	private java.lang.String cargoStartSite;
-	//目的地名称
-	private java.lang.String cargoTargetSite;
-	//起运时间 格式为：yyyy-MM-dd
+	//挂车牌号
+	@Excel(name="挂车牌号",width=15)
+	private java.lang.String trailerPlateNo;
+	//车架号
+	@Excel(name="车架号",width=22)
+	private java.lang.String vehicleFrameNo;
+	//保险开始日期
+	@Excel(name="起保日期",width=22)
 	private java.util.Date cargoStartDate;
-	//结束时间 
+	//保险结束日期
+	@Excel(name="终保日期",width=22)
 	private java.util.Date cargoEndDate;
 	
 	/*****投保货物信息*****/
@@ -43,28 +52,29 @@ public class FreightPolicyPage implements Serializable {
 	//承保险别
 	private java.lang.String category;
 	//件数|重量
-	private java.lang.String countOrWeight;
+	private java.lang.Float countOrWeight;
 	//保险金额
 	private java.math.BigDecimal insuredAmount;
 	//费率
-	private java.lang.String premiumRate;
+	private java.math.BigDecimal premiumRate;
 
 	/*****保单信息*****/
-	//附加盗窃险保险金额
-	private java.math.BigDecimal additionalAmount;
 	//总保险金额
 	private java.math.BigDecimal allInsuredAmount;
 	//总保费，保险费合计
+	@Excel(name="保费",width=11)
 	private java.math.BigDecimal allPremium;
 
 	/*****投保人信息*****/
 	//投保人类型，GR=>个人，QY=>企业
 	private java.lang.String holderPartType;
 	//投保人姓名，投保单位名称|企业名称，不可空
+	@Excel(name="投保人",width=24)
 	private java.lang.String holderName;
 	//投保人证件类型：(1-组织机构代码证 2-税务登记证 3-营业执照 4-身份证 5-其他)，默认为1
 	private java.lang.String holderCertType;
 	//投保人证件号码，投保单位组织机构代码，不可空
+	@Excel(name="证件号",width=24)
 	private java.lang.String holderCertNo;
 	//投保人证件有效期
 	private java.lang.String holderValidity;
@@ -163,17 +173,30 @@ public class FreightPolicyPage implements Serializable {
 	//最后修改时间
 	private java.util.Date lastUpdateTime;
 	
+	//查询条件支付时间范围
+	private String payTimeFilter_begin;
+	private String payTimeFilter_end;
+	//查询条件创建时间范围
+	private String createTimeFilter_begin;
+	private String createTimeFilter_end;
+	
 	public java.lang.String getId() {
 		return id;
 	}
 	public void setId(java.lang.String id) {
 		this.id = id;
 	}
-	public java.lang.String getProductCode() {
-		return productCode;
+	public java.lang.String getPlanId() {
+		return planId;
 	}
-	public void setProductCode(java.lang.String productCode) {
-		this.productCode = productCode;
+	public void setPlanId(java.lang.String planId) {
+		this.planId = planId;
+	}
+	public java.lang.String getPlanCode() {
+		return planCode;
+	}
+	public void setPlanCode(java.lang.String planCode) {
+		this.planCode = planCode;
 	}
 	public java.lang.String getPolicyNo() {
 		return policyNo;
@@ -187,47 +210,23 @@ public class FreightPolicyPage implements Serializable {
 	public void setVehiclePlateNo(java.lang.String vehiclePlateNo) {
 		this.vehiclePlateNo = vehiclePlateNo;
 	}
-	public java.lang.String getWayBillNo() {
-		return wayBillNo;
+	public java.lang.String getTrailerPlateNo() {
+		return trailerPlateNo;
 	}
-	public void setWayBillNo(java.lang.String wayBillNo) {
-		this.wayBillNo = wayBillNo;
+	public void setTrailerPlateNo(java.lang.String trailerPlateNo) {
+		this.trailerPlateNo = trailerPlateNo;
+	}
+	public java.lang.String getVehicleFrameNo() {
+		return vehicleFrameNo;
+	}
+	public void setVehicleFrameNo(java.lang.String vehicleFrameNo) {
+		this.vehicleFrameNo = vehicleFrameNo;
 	}
 	public java.util.Date getCargoStartDate() {
 		return cargoStartDate;
 	}
 	public void setCargoStartDate(java.util.Date cargoStartDate) {
 		this.cargoStartDate = cargoStartDate;
-	}
-	public java.lang.String getCargoStartSite() {
-		return cargoStartSite;
-	}
-	public void setCargoStartSite(java.lang.String cargoStartSite) {
-		this.cargoStartSite = cargoStartSite;
-	}
-	public java.lang.String getCargoTargetSite() {
-		return cargoTargetSite;
-	}
-	public void setCargoTargetSite(java.lang.String cargoTargetSite) {
-		this.cargoTargetSite = cargoTargetSite;
-	}
-	public java.lang.String getCertificateNo() {
-		return certificateNo;
-	}
-	public void setCertificateNo(java.lang.String certificateNo) {
-		this.certificateNo = certificateNo;
-	}
-	public java.lang.String getTransportation() {
-		return transportation;
-	}
-	public void setTransportation(java.lang.String transportation) {
-		this.transportation = transportation;
-	}
-	public java.lang.String getCargoTransWay() {
-		return cargoTransWay;
-	}
-	public void setCargoTransWay(java.lang.String cargoTransWay) {
-		this.cargoTransWay = cargoTransWay;
 	}
 	public java.util.Date getCargoEndDate() {
 		return cargoEndDate;
@@ -247,29 +246,23 @@ public class FreightPolicyPage implements Serializable {
 	public void setCategory(java.lang.String category) {
 		this.category = category;
 	}
-	public java.lang.String getCountOrWeight() {
+	public java.lang.Float getCountOrWeight() {
 		return countOrWeight;
 	}
-	public void setCountOrWeight(java.lang.String countOrWeight) {
+	public void setCountOrWeight(java.lang.Float countOrWeight) {
 		this.countOrWeight = countOrWeight;
+	}
+	public java.math.BigDecimal getPremiumRate() {
+		return premiumRate;
+	}
+	public void setPremiumRate(java.math.BigDecimal premiumRate) {
+		this.premiumRate = premiumRate;
 	}
 	public java.math.BigDecimal getInsuredAmount() {
 		return insuredAmount;
 	}
 	public void setInsuredAmount(java.math.BigDecimal insuredAmount) {
 		this.insuredAmount = insuredAmount;
-	}
-	public java.lang.String getPremiumRate() {
-		return premiumRate;
-	}
-	public void setPremiumRate(java.lang.String premiumRate) {
-		this.premiumRate = premiumRate;
-	}
-	public java.math.BigDecimal getAdditionalAmount() {
-		return additionalAmount;
-	}
-	public void setAdditionalAmount(java.math.BigDecimal additionalAmount) {
-		this.additionalAmount = additionalAmount;
 	}
 	public java.math.BigDecimal getAllInsuredAmount() {
 		return allInsuredAmount;
@@ -571,5 +564,53 @@ public class FreightPolicyPage implements Serializable {
 	}
 	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
+	}
+	public java.lang.String getProdPlan() {
+		return prodPlan;
+	}
+	public void setProdPlan(java.lang.String prodPlan) {
+		this.prodPlan = prodPlan;
+	}
+	public java.lang.String getPolicyUrl() {
+		return policyUrl;
+	}
+	public void setPolicyUrl(java.lang.String policyUrl) {
+		this.policyUrl = policyUrl;
+	}
+	public java.lang.String getInvoiceNumb() {
+		return invoiceNumb;
+	}
+	public void setInvoiceNumb(java.lang.String invoiceNumb) {
+		this.invoiceNumb = invoiceNumb;
+	}
+	public java.lang.String getInsurCompName() {
+		return insurCompName;
+	}
+	public void setInsurCompName(java.lang.String insurCompName) {
+		this.insurCompName = insurCompName;
+	}
+	public String getPayTimeFilter_begin() {
+		return payTimeFilter_begin;
+	}
+	public void setPayTimeFilter_begin(String payTimeFilter_begin) {
+		this.payTimeFilter_begin = payTimeFilter_begin;
+	}
+	public String getPayTimeFilter_end() {
+		return payTimeFilter_end;
+	}
+	public void setPayTimeFilter_end(String payTimeFilter_end) {
+		this.payTimeFilter_end = payTimeFilter_end;
+	}
+	public String getCreateTimeFilter_begin() {
+		return createTimeFilter_begin;
+	}
+	public void setCreateTimeFilter_begin(String createTimeFilter_begin) {
+		this.createTimeFilter_begin = createTimeFilter_begin;
+	}
+	public String getCreateTimeFilter_end() {
+		return createTimeFilter_end;
+	}
+	public void setCreateTimeFilter_end(String createTimeFilter_end) {
+		this.createTimeFilter_end = createTimeFilter_end;
 	}
 }

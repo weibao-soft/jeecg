@@ -57,7 +57,7 @@ function customFunc() {
 
 //核保失败回调函数
 function failureCallback(result) {
-    if(console) console.log("returnObj == ", result);
+    //if(console) console.log("returnObj == ", result);
     debugger;
 	var draftId = result.draftId;
 	var createTime = result.createTime;

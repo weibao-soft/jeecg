@@ -27,42 +27,38 @@ public class FreightPolicyEntity implements Serializable {
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")	
 	@Column(name ="id",nullable=false,length=32)
 	private java.lang.String id;
-	/**产品id*/
-	@Column(name ="prod_id",nullable=true,length=32)
-	private java.lang.String prodId;
+	/**方案id*/
+	@Column(name ="plan_id",nullable=true,length=32)
+	private java.lang.String planId;
 	//保单号
 	@Column(name ="policy_no",nullable=true,length=32)
 	private java.lang.String policyNo;
 
 
-	/*****运输工具信息*****/
+	/*****车辆信息*****/
 	//车牌号|航班航次|车次|船名
 	@Column(name ="vehicle_plate_no",nullable=true,length=20)
 	private java.lang.String vehiclePlateNo;
-	//运单号
-	@Column(name ="waybill_no",nullable=true,length=30)
-	private java.lang.String wayBillNo;
-	//发票或运输凭证号
-	@Column(name ="certificate_no",nullable=true,length=30)
-	private java.lang.String certificateNo;
-	//运输工具
-	@Column(name ="transportation",nullable=true,length=30)
-	private java.lang.String transportation;
-	//运输方式，1水运，2航空，3公路，4铁路，5邮包，6联运
-	@Column(name ="cargo_trans_way",nullable=true,length=10)
-	private java.lang.String cargoTransWay;
-	//起运地名称
-	@Column(name ="cargo_start_site",nullable=true,length=30)
-	private java.lang.String cargoStartSite;
-	//目的地名称
-	@Column(name ="cargo_target_site",nullable=true,length=30)
-	private java.lang.String cargoTargetSite;
+	//拖车车牌号
+	@Column(name ="trailer_plate_no",nullable=true,length=20)
+	private java.lang.String trailerPlateNo;
+	//车架号
+	@Column(name ="vehicle_frame_no",nullable=true,length=20)
+	private java.lang.String vehicleFrameNo;
+
+	/*****保单信息*****/
 	//起运时间 
 	@Column(name ="cargo_start_date",nullable=true)
 	private java.util.Date cargoStartDate;
 	//结束时间 
 	@Column(name ="cargo_end_date",nullable=true)
 	private java.util.Date cargoEndDate;
+	//总保险金额
+	@Column(name ="all_insured_amount",nullable=true,scale=2,length=10)
+	private java.math.BigDecimal allInsuredAmount;
+	//总保费，保险费合计
+	@Column(name ="all_premium",nullable=true,scale=2,length=10)
+	private java.math.BigDecimal allPremium;
 	
 	/*****投保货物信息*****/
 	//货物名称
@@ -80,17 +76,6 @@ public class FreightPolicyEntity implements Serializable {
 	//费率
 	@Column(name ="premium_rate",nullable=true,scale=2,length=10)
 	private java.math.BigDecimal premiumRate;
-
-	/*****保单信息*****/
-	//附加盗窃险保险金额
-	@Column(name ="additional_amount",nullable=true,scale=2,length=10)
-	private java.math.BigDecimal additionalAmount;
-	//总保险金额
-	@Column(name ="all_insured_amount",nullable=true,scale=2,length=10)
-	private java.math.BigDecimal allInsuredAmount;
-	//总保费，保险费合计
-	@Column(name ="all_premium",nullable=true,scale=2,length=10)
-	private java.math.BigDecimal allPremium;
 
 	/*****投保人信息*****/
 	//投保人类型，GR=>个人，QY=>企业
