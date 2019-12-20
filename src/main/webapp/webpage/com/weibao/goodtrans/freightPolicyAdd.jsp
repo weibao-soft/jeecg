@@ -7,13 +7,16 @@
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
 <script type="text/javascript" src="webpage/com/weibao/goodtrans/freightPolicy.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/policyCommon.js"></script>
-<script type="text/javascript" src="webpage/com/weibao/chaopei/common/driveValid.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/toast.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/common.js"></script>
-<script type="text/javascript" src="webpage/com/weibao/chaopei/common/toast.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/driveValid.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
+<link rel="stylesheet" type="text/css" href="plug-in/ace/assets/css/font-awesome.min.css"/>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 <link rel="stylesheet" type="text/css" href="plug-in/weibao/custom.css"/>
+<link rel="stylesheet" type="text/css" href="plug-in/weibao/main.css"/>
+<link rel="stylesheet" type="text/css" href="plug-in/weibao/popdiv.css"/>
 
 <style type="text/css">
 *{font-size:14px;}
@@ -40,22 +43,14 @@ $(document).ready(function(){
 	getHolders("holderName");
 	getHolders("insuredName");
 
-
-    $("#holderCertType").css("width", "200px");
-    $("#holderSex").css("width", "200px");
-    $("#holderNation").css("width", "200px");
-    $("#insuredCertType").css("width", "200px");
-    $("#insuredSex").css("width", "200px");
-    $("#insuredNation").css("width", "200px");
     window.setTimeout(customFunc, 500);
-
-	var abc = $("#formobj").width()+17;
-	$("#formobj").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
 });
 
 function customFunc() {
 	editablePolicy();
-	
+
+    var code=$('#planId option:first').attr("data-code");
+	$("#premium").val(code);
 	window.Custom.dialogLoading(false);
 }
 
@@ -119,6 +114,8 @@ function doPay() {
 	<input id="id" name="id" type="hidden" value="${freightPolicyPage.id }"/>
 	<input id="prodId" name="prodId" type="hidden" value="${prodId}"/>
 	<input id="premium" name="premium" type="hidden"/>
+	<input name="allInsuredAmount" id="allInsuredAmount" type="hidden"/>
+	<input name="allPremium" id="allPremium" type="hidden"/>
  
  <tr><td style="width:15px;text-align:center;border-top:1px solid #E3E3E3;border-left:1px solid #E3E3E3;"></td><td style="width:1185px;">
 	 <table cellpadding="0" cellspacing="0" class="formtable" style="border:1px solid #E3E3E3;border-bottom:0px solid #FFF;" width="100%">
@@ -126,20 +123,6 @@ function doPay() {
 	 <td style="width:auto;">
 		<select name="planId" id="planId" style="width:500px;">
 		</select>
-		<span class="Validform_checktip"></span></td>
-	 </tr>
-	 </table>
- </td></tr>
- 
- <tr><td style="width:15px;text-align:center;"></td><td style="width:1185px;">
-	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
-	 <tr><td style="width:150px;" class="border-right"><span style="color: red;">*</span>总保额</td>
-	 <td style="width:300px;" class="border-right">
-		<input type="text" name="allInsuredAmount" id="allInsuredAmount" maxlength="10" style="width:200px;" />
-		<span class="Validform_checktip"></span></td>
-	 <td style="width:150px;" class="border-right"><span style="color: red;">*</span>保费</td>
-	 <td style="width:auto;">
-		<input type="text" name="allPremium" id="allPremium" maxlength="10" style="width:200px;" />
 		<span class="Validform_checktip"></span></td>
 	 </tr>
 	 </table>
@@ -371,14 +354,11 @@ function doPay() {
 	 </table>
  </td></tr>
  </table>
- <br>
-<div style="text-align:center;width:99%;padding-top:10px;">
-<input id="readedNotice" type="checkbox" style=""/><b><span style="font-size: 15px;">我已阅读《投保须知》和《保险条款》</span></b>
-</div>
 
 <div style="text-align:center;width:99%;padding-top:10px;">
 <input id="pay" class="subBtnmy" type="button" value="立即支付" onclick="doPay();" style="height:30px;width:100px !important;"/>
 <input id="back" class="btnmy" type="button" value="关闭" onclick="closeCurrent('tab_4028e5846eb182ce016eb1d551d20001');" style="height:30px;width:100px !important;"/>
+<a href="#" onclick="tbydDiv();">特别约定</a>
 </div>
 </fieldset>
 

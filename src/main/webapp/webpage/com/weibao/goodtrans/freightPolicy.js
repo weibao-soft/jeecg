@@ -1,5 +1,28 @@
 
 $(document).ready(function() {
+	//初始化页面
+	initPageUI();
+	//绑定事件
+	bindEvents();
+});
+//初始化页面
+function initPageUI() {
+    $("#holderCertType").css("width", "200px");
+    $("#holderSex").css("width", "200px");
+    $("#holderNation").css("width", "200px");
+    $("#insuredCertType").css("width", "200px");
+    $("#insuredSex").css("width", "200px");
+    $("#insuredNation").css("width", "200px");
+
+	var abc = $("#formobj").width()+17;
+	$("#formobj").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
+}
+//绑定事件
+function bindEvents() {
+	$("#planId").change(function() {
+		var code=$(this).children('option:selected').attr("data-code");
+		$("#premium").val(code);
+	});
 	$("input[name='holderPartType']").change(function() {
 		//debugger;
 		var value=$("input[name='holderPartType']:checked").val();
@@ -37,9 +60,8 @@ $(document).ready(function() {
         	$("#insuredTr").css("display", "table-row");
         }
 	});
-});
-
-
+}
+//将下拉框修改为可编辑的下拉框
 function editablePolicy() {
 	$("#holderName").editableSelect({
         effects: 'slide',
@@ -178,8 +200,6 @@ function getSubmitParam() {
 	param.vehiclePlateNo = document.getElementById("vehiclePlateNo").value;
 	param.trailerPlateNo = document.getElementById("trailerPlateNo").value;
 	param.vehicleFrameNo = document.getElementById("vehicleFrameNo").value;
-	param.allInsuredAmount = document.getElementById("allInsuredAmount").value;
-	param.allPremium = document.getElementById("allPremium").value;
 	param.status = document.getElementById("status").value;
 	//var goods = {};
 	param.goodsName = document.getElementsByName("goodsName")[0].value;
@@ -188,6 +208,9 @@ function getSubmitParam() {
 	param.insuredAmount = document.getElementsByName("insuredAmount")[0].value;
 	param.premiumRate = document.getElementsByName("premiumRate")[0].value;
 
+	param.allPremium = document.getElementById("premium").value;
+	param.allInsuredAmount = 0;
+	
     var flag=$("#check1").is(':checked');
 	debugger;
     if(flag) {
@@ -505,13 +528,5 @@ function validPolicy() {
 		return false;
 	}
 
-	if(allInsuredAmount == null || allInsuredAmount == "") {
-		$.messager.alert('提示','请填总保额!','info');
-		return false;
-	}
-	if(allPremium == null || allPremium == "") {
-		$.messager.alert('提示','请填写保费!','info');
-		return false;
-	}
 	return true;
 }

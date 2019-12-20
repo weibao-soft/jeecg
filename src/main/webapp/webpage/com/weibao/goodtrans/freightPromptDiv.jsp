@@ -8,8 +8,8 @@
     background-color: #d9edf7;
     border-color: #bce8f1;
 }
-.alert {
-    padding: 5px;
+.myalert {
+    padding: 15px;
     margin-bottom: 0px;
     border: 1px solid transparent;
     border-radius: 4px;
@@ -43,8 +43,8 @@ function getMainContent() {
 	+"，保险期间: 自"+params.cargoStartDate+"起 至"+params.cargoEndDate+"止<br>";
 	content = content+"车辆，车牌号: "+params.vehiclePlateNo+", 挂车牌号: "+params.trailerPlateNo+", 车架号: "+params.vehicleFrameNo;
 	content = content+"<br>法人姓名: "+params.corporate
-	+", 投保人名称: "+params.holderName+", 组织机构代码: "+params.holderCertNo
-	+", 被保人名称: "+params.insuredName+", 组织机构代码: "+params.insuredCertNo;
+	+", 投保人名称: "+params.holderName+", 证件号码: "+params.holderCertNo
+	+", 被保人名称: "+params.insuredName+", 证件号码: "+params.insuredCertNo;
 	
 	$("#mainContent").html(content);
 	//layer.msg(content);
@@ -86,7 +86,7 @@ function closePromptDiv() {
   <div class="layerContianer layerBox" style="background-color: #d9edf7;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px;overflow-x: hidden;overflow-y: auto;">
   
     <div style="height: 406px;overflow-x: hidden;overflow-y: auto;">
-	  <div class="alert alert-info" id="toast_info" style="left: 60px; top: 325.5px; min-width: 200px; opacity: 0.987958;">
+	  <div class="myalert alert-info" id="my_toast" style="left: 60px; top: 325.5px; min-width: 200px; opacity: 0.987958;">
 	    <div style="text-align: left;display:inline-block;padding-right:5px;"><b><span style="color:red;">特别约定</span></b>
 	    <br>1、以下运输区域禁止承保：西藏地区全域、新疆地区全域。
 	    <br>2、不承担私人车辆运输货物的任何责任。
@@ -101,7 +101,7 @@ function closePromptDiv() {
 		<div style="padding: 0px;">
 			<div class="line" style="border-top: solid 1px #1a7bb9;"></div>
 		</div>
-	  <div class="alert alert-info" style="width: 100%;text-align: left;">
+	  <div class="myalert alert-info" style="width: 100%;text-align: left;">
 		<div id="mainContent" style="width: 100%;display:inline-block;padding-right:5px;"></div>
 	  </div>
     </div>
