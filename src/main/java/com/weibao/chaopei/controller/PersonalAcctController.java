@@ -95,7 +95,8 @@ public class PersonalAcctController extends BaseController {
 	}
 	
 	@RequestMapping(params = "withdrawOrderDetails")
-	public ModelAndView withdrawOrderDetails(HttpServletRequest request) {
+	public ModelAndView withdrawOrderDetails(String orderId, HttpServletRequest request) {
+		request.setAttribute("orderId", orderId);
 		return new ModelAndView("com/weibao/chaopei/personaacct/withdrawOrderDetails");
 	}
 	
@@ -242,6 +243,7 @@ public class PersonalAcctController extends BaseController {
 		try{
 		    //自定义追加查询条件
 			if(StringUtil.isNotEmpty(orderId)){		
+				orderId = orderId.replace(",", "");
 				personalAcctService.getWithdrawDetailList(orderId, dataGrid);
 			}
 		}catch (Exception e) {

@@ -8,8 +8,7 @@
   <t:datagrid name="withdrawOrderList" checkbox="false" title="提现记录" actionUrl="personalAcctController.do?withdrawOrderDatagrid&accountId=${accountId}" 
   	idField="id" fit="true" fitColumns="true" queryMode="group" collapsible="true" pageSize="100" sortName="applyTime" sortOrder="desc">
       <t:dgCol title="主键" hidden="true" field="id"  queryMode="single"  width="0"></t:dgCol>
-
-      <t:dgCol title="公司账户"  field="company" query="true" sortable="false" width="100"></t:dgCol>
+      
       <t:dgCol title="个人账户"  field="person" query="true" sortable="false" width="100"></t:dgCol>
       <t:dgCol title="联系电话"  field="telphone" sortable="false" width="100"></t:dgCol>
       <t:dgCol title="提现金额"  field="amount" sortable="false" width="80"></t:dgCol>
@@ -35,6 +34,7 @@ $(document).ready(function (){
 
 	$("#withdrawOrderList").datagrid({
 		onClickRow: function (index, row) {
+			debugger;
 			getOrderList(row.id);
 		}
 	});

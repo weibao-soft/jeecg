@@ -37,6 +37,14 @@ public class WithdrawOrderEntity implements Serializable {
 	/**联系电话*/
 	@Transient
 	private String telphone;
+	
+	/*
+	 * 申请时间的查询字符串
+	 */
+	@Transient
+	private String applyTimeFilter_begin;
+	@Transient
+	private String applyTimeFilter_end;
 
 
 	@Column(name ="account_id",nullable=true,length=32)

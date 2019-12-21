@@ -4,7 +4,7 @@
 
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="withdrawDetailList" checkbox="false" title="" actionUrl="personalAcctController.do?withdrawDetailDatagrid" 
+  <t:datagrid name="withdrawDetailList" checkbox="false" title="" actionUrl="personalAcctController.do?withdrawDetailDatagrid&orderId=${orderId}" 
   	idField="id" fit="true" fitColumns="true" queryMode="group" collapsible="true" pageSize="20" sortName="payTime" sortOrder="desc">
    <t:dgCol title="主键" hidden="true" field="id"  width="0"></t:dgCol>
    
@@ -26,7 +26,8 @@
 <script type="text/javascript">
 
 function getOrderList(id){
-	$('#withdrawDetailList').datagrid('load',{
+	debugger
+	$('#withdrawDetailList').datagrid('load',{		
 		orderId : id
 	});
 }

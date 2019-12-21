@@ -94,6 +94,25 @@ public class CompanyAcctController extends BaseController {
 		return j;
 	}
 	
+	@RequestMapping(params = "withdrawOrCancel")
+	@ResponseBody
+	public AjaxJson withdrawOrCancel(WithdrawOrderEntity orderEntity, HttpServletRequest request) {
+		String message = null;
+		AjaxJson j = new AjaxJson();
+		message = "操作成功";
+		try{			
+			//更新提现记录表的状态
+			companyAcctService.withdrawOrCancel(orderEntity);
+		}catch(Exception e){
+			e.printStackTrace();
+			message = "操作失败";
+			throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
+		return j;
+	}
+	
+	
 	@RequestMapping(params = "base")
 	public ModelAndView base(HttpServletRequest request) {
 		//查询公司账户基本信息
@@ -131,14 +150,26 @@ public class CompanyAcctController extends BaseController {
 		return new ModelAndView("com/weibao/chaopei/companyacct/withdrawOrderList");
 	}
 	
+	@RequestMapping(params = "withdrawOrderListAll")
+	public ModelAndView withdrawOrderListAll(String accountId, HttpServletRequest request) {		
+		return new ModelAndView("com/weibao/chaopei/companyacct/withdrawOrderListAll");
+	}
+	
 	@RequestMapping(params = "withdrawOrderListBase")
 	public ModelAndView withdrawOrderListBase(String accountId, HttpServletRequest request) {
 		request.setAttribute("accountId", accountId);
 		return new ModelAndView("com/weibao/chaopei/companyacct/withdrawOrderListBase");
 	}
 	
+	@RequestMapping(params = "withdrawOrderListBaseAll")
+	public ModelAndView withdrawOrderListBaseAll(String accountId, HttpServletRequest request) {
+		request.setAttribute("accountId", accountId);
+		return new ModelAndView("com/weibao/chaopei/companyacct/withdrawOrderListBaseAll");
+	}
+	
 	@RequestMapping(params = "withdrawOrderDetails")
-	public ModelAndView withdrawOrderDetails(HttpServletRequest request) {
+	public ModelAndView withdrawOrderDetails(String orderId, HttpServletRequest request) {
+		request.setAttribute("orderId", orderId);
 		return new ModelAndView("com/weibao/chaopei/companyacct/withdrawOrderDetails");
 	}
 	
@@ -234,6 +265,20 @@ public class CompanyAcctController extends BaseController {
 		TagUtil.datagrid(response, dataGrid);
 	}
 	
+	
+	@RequestMapping(params = "withdrawOrderDatagridAll")
+	public void withdrawOrderDatagridAll(WithdrawOrderEntity withdrawOrderEntity, HttpServletRequest request, 
+			HttpServletResponse response, DataGrid dataGrid) {
+		try{
+		    //自定义追加查询条件
+			companyAcctService.withdrawOrderDatagridAll(withdrawOrderEntity, dataGrid);
+		}catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+
+		TagUtil.datagrid(response, dataGrid);
+	}
+	
 	/**
 	 * 根据部门id获取公司账号，根据公司账户id查询提现记录明细列表
 	 * easyui AJAX请求数据查询dataGrid
@@ -248,6 +293,7 @@ public class CompanyAcctController extends BaseController {
 		try{
 		    //自定义追加查询条件
 			if(StringUtil.isNotEmpty(orderId)){		
+				orderId = orderId.replace(",", "");
 				companyAcctService.getWithdrawDetailList(orderId, dataGrid);
 			}
 		}catch (Exception e) {

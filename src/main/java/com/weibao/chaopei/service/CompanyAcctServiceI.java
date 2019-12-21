@@ -24,6 +24,9 @@ public interface CompanyAcctServiceI extends CommonService {
 	 * @return
 	 */
 	public DataGrid getWithdrawOrderList(WithdrawOrderEntity orderEntity, DataGrid dataGrid);
+	
+	public DataGrid withdrawOrderDatagridAll(WithdrawOrderEntity orderEntity, DataGrid dataGrid);
+	
 
 	/**
 	 *  查询取现订单的明细
@@ -35,5 +38,7 @@ public interface CompanyAcctServiceI extends CommonService {
 	 * @return
 	 */
 	public boolean withdrawCompany(String params);
+	
+	public boolean withdrawOrCancel(WithdrawOrderEntity orderEntity);
 
 }

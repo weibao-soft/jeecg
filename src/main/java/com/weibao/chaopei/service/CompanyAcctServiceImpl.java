@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.p3.core.utils.common.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -324,6 +325,98 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		}
 		return dataGrid;
 	}
+	
+	/**
+	 * 查询所有的提现记录，包括公司与个人	
+	 */
+	public DataGrid withdrawOrderDatagridAll(WithdrawOrderEntity orderEntity, DataGrid dataGrid){
+
+		StringBuffer stbAll = new StringBuffer();
+		
+		stbAll.append(" from ( ")
+				.append("select od.id, od.account_id, od.alipay_acct, od.alipay_name, od.bank_info, od.amount, ")
+				.append("od.org_type, od.`status`, od.apply_time, od.approval_time, dpt.departname , '' username ")
+				.append("from wb_withdraw_order od, wb_company_account acct, t_s_depart dpt ")
+				.append("where od.account_id=acct.id and acct.depart_id=dpt.ID ")
+				.append(" union all ")
+				.append("select od.id, od.account_id, od.alipay_acct, od.alipay_name, od.bank_info, od.amount, ")
+				.append("od.org_type, od.`status`, od.apply_time, od.approval_time, '' departname, usr.realname username ")
+				.append("from wb_withdraw_order od, wb_personal_account acct, t_s_base_user usr  ")
+				.append("where od.account_id=acct.id and acct.user_id=usr.ID  ")
+				.append(") all_ where 1=1 ");
+		
+		Long total = 0L;
+		List<Map<String, Object>> objs = null;
+		List<WithdrawOrderEntity> withdrawOrderList = new ArrayList<WithdrawOrderEntity>();
+		StringBuffer stbHeadSqlCount = new StringBuffer();
+		stbHeadSqlCount.append("select count(1) ");
+		StringBuffer stbHeadSqlDetail = new StringBuffer();
+		stbHeadSqlDetail.append("select * ");
+
+		try {
+			List<Object> objList = new ArrayList<Object>();
+			int page = dataGrid.getPage();
+			int rows = dataGrid.getRows();
+			String sort = dataGrid.getSort();
+			String order = dataGrid.getOrder();
+
+			if(StringUtils.isNotBlank(orderEntity.getAccountId())){
+				stbAll.append(" and all_.account_id = ?");
+				objList.add(orderEntity.getAccountId());
+			}
+			if(StringUtils.isNotBlank(orderEntity.getStatus())){
+				stbAll.append(" and all_.`status`=? ");
+				objList.add(orderEntity.getStatus());
+			}
+			
+			if(StringUtils.isNotBlank(orderEntity.getApplyTimeFilter_begin())) {
+				stbAll.append(" and all_.apply_time >= ?");			
+				objList.add(DateUtils.str2Date(orderEntity.getApplyTimeFilter_begin(), DateUtils.date_sdf));
+			}
+			if(StringUtils.isNotBlank(orderEntity.getApplyTimeFilter_end())) {			
+				stbAll.append(" and all_.apply_time <= ?");			
+				objList.add(DateUtils.str2Date(orderEntity.getApplyTimeFilter_end()+" 23:59:59", DateUtils.datetimeFormat));
+			}
+			
+			stbHeadSqlCount.append(stbAll);
+
+			if(StringUtils.isNotBlank(sort)) {
+				String column = "all_.apply_time";
+				stbAll.append(" order by " + column + " " + order);
+			}
+			
+			stbHeadSqlDetail.append(stbAll);
+			
+			Object[] objss = objList.toArray();
+
+			total = getCountForJdbcParam(stbHeadSqlCount.toString(), objss);
+			objs = findForJdbcParam(stbHeadSqlDetail.toString(), page, rows, objss);
+
+			for(int i = 0; i < objs.size(); i++) {
+				Map<String, Object> obj = objs.get(i);
+				WithdrawOrderEntity orderPage = new WithdrawOrderEntity();
+
+				orderPage.setId((String)obj.get("id"));
+				orderPage.setCompany((String)obj.get("departname"));
+				orderPage.setPerson((String)obj.get("username"));
+				orderPage.setAmount((BigDecimal)obj.get("amount"));
+				orderPage.setAlipayAcct((String)obj.get("alipay_acct"));
+				orderPage.setAlipayName((String)obj.get("alipay_name"));
+				orderPage.setBankInfo((String)obj.get("bank_info"));
+				orderPage.setApplyTime((Date)obj.get("apply_time"));
+				orderPage.setApprovalTime((Date)obj.get("approval_time"));
+				orderPage.setOrgType((String)obj.get("org_type"));
+				orderPage.setStatus((String)obj.get("status"));
+				withdrawOrderList.add(orderPage);
+			}
+			dataGrid.setResults(withdrawOrderList);
+			dataGrid.setTotal(total.intValue());
+		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new BusinessException(e.getMessage());
+		}
+		return dataGrid;
+	}
 
 	/**
 	 *  公司账户提现
@@ -369,6 +462,27 @@ public class CompanyAcctServiceImpl extends CommonServiceImpl implements Company
 		super.saveOrUpdate(companyAccount);
 		super.batchSave(orderDetList);
 
+		return true;
+	}
+	
+	public boolean withdrawOrCancel(WithdrawOrderEntity orderEntity) {
+		
+		//机构
+		String updateStatus = "update wb_withdraw_order set approval_time = ?, `status`= ? where id = ? ";
+		List<Object> params = new ArrayList<Object>();
+		
+		if("0".equals(orderEntity.getStatus())) {
+			params.add(new Date());
+			params.add("1");
+			super.executeSql(updateStatus, new Date(), "1", orderEntity.getId());
+		}else if("1".equals(orderEntity.getStatus())) {
+			params.add(null);
+			params.add("0");
+			super.executeSql(updateStatus, null, "0", orderEntity.getId());
+		}
+		String updateDetail = "";
+		params.add(orderEntity.getId());
+		
 		return true;
 	}
 }
