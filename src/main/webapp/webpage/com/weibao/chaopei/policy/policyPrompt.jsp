@@ -13,12 +13,7 @@
 
 <SCRIPT type="text/javascript">
 $(document).ready(function() {
-    window.setTimeout(customFunc, 300);
 });
-
-function customFunc() {
-	//$("#recipients").val("${policyMainPage.recipients }");
-}
 </SCRIPT>
 </head>
 <body class="panel-noscroll">

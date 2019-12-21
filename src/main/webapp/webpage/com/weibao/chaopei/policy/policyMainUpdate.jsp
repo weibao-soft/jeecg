@@ -150,28 +150,30 @@ function reloadPolicyLists() {
 
 <t:formvalid formid="formobj" dialog="false" layout="table" tiptype="1" action="policyDraftController.do?doUpdate" callback="jeecgFormFileCallBack@Override">
 <fieldset class="step" style="width:99%;padding-bottom: 20px;">
- <legend>国任投保</legend>
- <table cellpadding="0" cellspacing="1" class="formtable" style="table-layout: fixed;" width="1200">
+<legend>国任投保</legend>
+<table cellpadding="0" cellspacing="1" class="formtable" style="table-layout: fixed;" width="1200">
 	<input id="id" name="id" type="hidden" value="${policyMainPage.id }"/>
 	<input id="prodId" name="prodId" type="hidden" value="${policyMainPage.prodId }"/>
 	<input id="draftId" name="draftId" type="hidden" value="${policyMainPage.draftId }"/>
 	<input id="premium" name="premium" type="hidden" value="${policyMainPage.premium }"/>
  
- <tr><td style="width:15px;text-align:center;"></td><td style="width:1185px;">
+ <tr>
+ <td style="width:15px;text-align:center;"></td><td style="width:1185px;">
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 	 <tr><td style="width:130px;">方案保障</td>
 	 <td style="width:auto;">
 			<select name="planId" id="planId" style="width:500px;" value="${policyMainPage.planId}">
 			</select><span class="Validform_checktip"></span></td></tr>
-	 </table>
- </td></tr>
+	 </table></td>
+ </tr>
  
- <tr><td style="width:15px;text-align:center;">投保内容</td><td style="width:1185px;">
-	 <table cellpadding="0" cellspacing="1" class="formtable" width="100%">
+ <tr>
+ <td style="width:15px;text-align:center;">投保内容</td><td style="width:1185px;">
+	<table cellpadding="0" cellspacing="1" class="formtable" width="100%">
 	 
-	 <tr><td>
-	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
-		 <tr><td style="width:130px;border-right:1px solid #E3E3E3;">车辆信息：</td>
+	<tr><td>
+	<table cellpadding="0" cellspacing="0" class="formtable" width="100%">
+		<tr><td style="width:130px;border-right:1px solid #E3E3E3;">车辆信息：</td>
 		 <td style="width:auto;">
 			<table name="policy_tabel" id="policy_tabel">
 			<thead>
@@ -221,71 +223,78 @@ function reloadPolicyLists() {
 				</c:forEach>
 			</c:if>
 			</tbody>
-			</table>
-		 </td></tr>
-	 </table>
-	 </td></tr>
+			</table></td>
+		</tr>
+	</table></td>
+	</tr>
 	 
-	 <tr><td>
-	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
-		 <tr><td style="width:130px;border-right:1px solid #E3E3E3;">保险期间：</td>
+	<tr><td>
+	<table cellpadding="0" cellspacing="0" class="formtable" width="100%">
+		<tr><td style="width:130px;border-right:1px solid #E3E3E3;">保险期间：</td>
 		 <td id="defaultInsuranceDate" style="width:auto;">
 <%--		 <span>自 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:100px;" onblur="calculateYear();" --%>
 <%--		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> <input type="text" --%>
 <%--		 name="shour" id="shour" style="width:20px;" value="00" disabled/> 起 至 <input type="text" name="endDate" id="end" value="${end}" class="Wdate"--%>
 <%--		 style="width:100px;" disabled/> <input type="text" name="ehour" id="ehour" style="width:20px;" value="24" disabled/> 止，连续 <input type="text" --%>
 <%--		 name="year" id="year" style="width:60px;" value="${year}" onblur="calculateMonths(this);">年 共<label id="month">12</label>月 </span> --%>
-		 </td></tr>
-	 </table>
-	 </td></tr>
+		 </td>
+		</tr>
+	</table></td>
+	</tr>
 	 
-	 <tr><td style="width:100%"><label class="Validform_label"> 投保人： </label></td></tr>
+	<tr><td style="width:100%"><label class="Validform_label"> 投保人： </label></td></tr>
 	 
-	 <tr><td class="info-table">
-	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
-		 <tr><td style="width:130px;">投保人性质</td>
+	<tr><td class="info-table">
+	<table cellpadding="0" cellspacing="0" class="formtable" width="100%">
+		<tr><td style="width:130px;"><span style="color: red;">*</span>投保人性质</td>
 		 <td style="width:300px;"><t:dictSelect field="holderNature" id="holderNature" type="list" divClass="dict_select" title=""
 						typeGroupCode="holdNature" defaultVal="${policyMainPage.holderNature}" hasLabel="false" ></t:dictSelect>
 						<span class="Validform_checktip"></span></td>
-		 <td style="width:130px;"></td><td style="width:auto;"></td></tr>
-		 <tr><td><span style="color: red;">*</span>单位名称</td>
+		 <td style="width:130px;"></td><td style="width:auto;"></td>
+		</tr>
+		<tr><td><span style="color: red;">*</span>单位名称</td>
 		 <td><select name="holderCompName" id="holderCompName" style="width:180px;" autocomplete="off" value="${policyMainPage.holderCompName}">
 				<option value=""></option>
 				</select></td>
 		 <td><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码) </td>
-		 <td><input type="text" name="holderOrgCode" id="holderOrgCode" maxlength="18" style="width:200px;" value="${policyMainPage.holderOrgCode}"/></td></tr>
-		 <tr><td><span style="color: red;">*</span>单位性质</td>
+		 <td><input type="text" name="holderOrgCode" id="holderOrgCode" maxlength="18" style="width:200px;" value="${policyMainPage.holderOrgCode}"/></td>
+		</tr>
+		<tr><td><span style="color: red;">*</span>单位性质</td>
 		 <td><t:dictSelect field="holderCompNature" id="holderCompNature" type="list" divClass="dict_select" title=""
 						typeGroupCode="compNature" defaultVal="${policyMainPage.holderCompNature}" hasLabel="false" ></t:dictSelect></td>
 		 <td><span style="color: red;">*</span>行业类别</td>
 		 <td><t:dictSelect field="industryType" id="industryType" type="list" divClass="dict_select" title=""
-						typeGroupCode="industType" defaultVal="${policyMainPage.industryType}" hasLabel="false" ></t:dictSelect></td></tr>
-		 <tr><td><span style="color: red;">*</span>联系人姓名</td>
+						typeGroupCode="industType" defaultVal="${policyMainPage.industryType}" hasLabel="false" ></t:dictSelect></td>
+		</tr>
+		<tr><td><span style="color: red;">*</span>联系人姓名</td>
 		 <td><input type="text" name="contactName" id="contactName" style="width:200px;" value="${policyMainPage.contactName}"/></td>
 		 <td><span style="color: red;">*</span>联系人手机</td>
-		 <td><input type="text" name="policyMobile" id="policyMobile" maxlength="11" style="width:200px;" value="${policyMainPage.policyMobile}"/></td></tr>
-		 <tr><td style="color: red">发票类型</td><td>
+		 <td><input type="text" name="policyMobile" id="policyMobile" maxlength="11" style="width:200px;" value="${policyMainPage.policyMobile}"/></td>
+		</tr>
+		<tr><td style="color: red;font-size:15px;">发票类型</td><td>
 		 <select name="invoiceType" id="invoiceType" style="width:200px;">
 				<option value="1">不开发票</option>
 				<option value="2">增值税普通发票</option>
 				<option value="3">增值税专用发票</option>
 				</select><span class="Validform_checktip"></span>
-		 </td><td></td><td></td></tr>
-		 <tr id="invoiceTr" style="display: none;">
+		 </td><td></td><td></td>
+		</tr>
+		<tr id="invoiceTr" style="display: none;">
 		 <td>纳税人识别号</td>
 		 <td><input type="text" name="taxpayerNo2" id="taxpayerNo2" maxlength="18" style="width:200px;" value="${policyMainPage.taxpayerNo}"/></td>
 		 <td>接收人手机</td>
-		 <td><input type="text" name="receiverMobile" id="receiverMobile" maxlength="11" style="width:200px;" value="${policyMainPage.receiverMobile}"/></td></tr>
-	 </table>
-	 </td></tr>
+		 <td><input type="text" name="receiverMobile" id="receiverMobile" maxlength="11" style="width:200px;" value="${policyMainPage.receiverMobile}"/></td>
+		</tr>
+	</table></td>
+	</tr>
 	 
-	 <tr>
-	 <td style="width:100%"><label class="Validform_label"> 纸质发票、保单收件人： </label><span style="color: red;"><input id="check2" 
+	<tr>
+	 <td style="width:100%"><label class="Validform_label"> 纸质发票、保单收件人： </label><span style="color: red;font-size:15px;"><input id="check2" 
 	     type="checkbox" />是否纸质保单&nbsp;&nbsp;<input id="check3" type="checkbox" />是否纸质发票</span></td>
-	 </tr>
+	</tr>
 	 
-	 <tr><td style="table-layout: fixed;" class="info-table">
-	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
+	<tr><td style="table-layout: fixed;" class="info-table">
+	<table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		<tr><td style="width:130px;">收件人</td>
 			<td style="width:300px;"><select name="recipients" id="recipients" class="editable-select" style="width:180px;" autocomplete="off" value="${policyMainPage.recipients }">
 				<option value=""></option></select>
@@ -303,15 +312,15 @@ function reloadPolicyLists() {
 				<span class="Validform_checktip"></span><label class="Validform_label" style="display: none;">收件地址</label>
 			</td>
 		</tr>
-	 </table>
-	 </td></tr>
+	</table></td>
+	</tr>
  
-	 <tr>
+	<tr>
 	 <td style="width:100%"><label class="Validform_label">被保人：</label><input id="check1" type="checkbox" />同投保人</td>
-	 </tr>
+	</tr>
 	 
-	 <tr><td class="info-table">
-	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
+	<tr><td class="info-table">
+	<table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr>
 		 <td style="width:130px;"><span style="color: red;">*</span>单位名称 </td>
 		 <td style="width:300px;"><input type="text" name="insuredCompName" id="insuredCompName" style="width:200px;" value="${policyMainPage.insuredCompName}" autocomplete="off"/></td>
@@ -319,23 +328,23 @@ function reloadPolicyLists() {
 		 <td style="width:auto;"><input type="text" name="insuredOrgCode" id="insuredOrgCode" maxlength="18" style="width:200px;" value="${policyMainPage.insuredOrgCode}"/>
 		 <span class="Validform_checktip"></span></td>
 		 </tr>
-	 </table>
-	 </td></tr>
+	</table></td>
+	</tr>
 	 
-	 </table>
- </td></tr>
- </table>
+	</table></td>
+ </tr>
+</table>
  
 <div style="text-align:center;width:98%;padding-top:10px;">
-<input id="save" class="btnmy btn-size" type="button" value="存草稿" onclick="saveDraft();"/>
-<input id="insur" class="subBtnmy btn-size" type="button" value="提交核保" onclick="insurance();"/>
-<input id="pay" class="subBtnmy btn-size" type="button" value="在线支付" onclick="doPay();" disabled/>
-<c:if test="${isDraft eq true }">
-<input id="back" class="btnmy btn-size" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.draftId}');"/>
-</c:if>
-<c:if test="${isDraft eq false }">
-<input id="back" class="btnmy btn-size" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.id}');"/>
-</c:if>
+	<input id="save" class="btnmy btn-size" type="button" value="存草稿" onclick="saveDraft();"/>
+	<input id="insur" class="subBtnmy btn-size" type="button" value="提交核保" onclick="insurance();"/>
+	<input id="pay" class="subBtnmy btn-size" type="button" value="在线支付" onclick="doPay();" disabled/>
+	<c:if test="${isDraft eq true }">
+	<input id="back" class="btnmy btn-size" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.draftId}');"/>
+	</c:if>
+	<c:if test="${isDraft eq false }">
+	<input id="back" class="btnmy btn-size" type="button" value="关闭" onclick="closeCurrent('tab_${policyMainPage.id}');"/>
+	</c:if>
 </div>
 </fieldset>
 

@@ -72,12 +72,15 @@ function confirmData() {
 		}
 	});
 }
+function openPromptDiv() {
+    $("#promptDiv").show();
+}
 function closePromptDiv() {
     $("#promptDiv").hide();
 }
 </SCRIPT>
 <div id="promptDiv" class="overlay" style="z-index: 11009;display: none;">
-<div class="animated zoomIn layerBox" style="width: 1086px; height: 486px; left: 77px; top: 6.8px;background: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px;z-index: 11009;">
+<div class="animated zoomIn layerBox" style="width: 1086px; height: 486px; left: 77px; top: 66.8px;background: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 3px;z-index: 11009;">
   <h4 class="layerHeader">
     <span>提示</span>
     <button id="prompt" type="button" data-dismiss="modal" aria-hidden="true" class="close close_btn" onclick="closePromptDiv();">
@@ -107,8 +110,8 @@ function closePromptDiv() {
     </div>
 
     <div style="margin:3px auto">
-    <input id="ensure" class="subBtnmy" type="button" value="确认提交" onclick="confirmInsurance();" style="height:30px;width:100px !important;"/>
-    <input id="back" class="btnmy" type="button" value="取消" onclick="closePromptDiv();" style="height:30px;width:100px !important;"/>
+	    <input id="ensure" class="subBtnmy btn-size" type="button" value="确认提交" onclick="confirmInsurance();"/>
+	    <input id="back" class="btnmy btn-size" type="button" value="取消" onclick="closePromptDiv();"/>
     </div>
     <span class="layer-size"></span>
     

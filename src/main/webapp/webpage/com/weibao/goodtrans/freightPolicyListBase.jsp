@@ -14,7 +14,7 @@ div.datagrid-cell{font-size:14px;}
   		idField="id" fit="true" collapsible="true" queryMode="group" superQuery="true" filter="true" pageSize="20">
    <t:dgCol title="操作" frozenColumn="true" field="opt" width="200"></t:dgCol>
    <t:dgFunOpt title="编辑"  funname="" urlclass="ace_button" urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
-   <t:dgDelOpt title="删除" exp="payStatus#eq#0" url="freightPolicyController.do?doDel&policyId={id}&payStatus={payStatus}" urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
+   <t:dgDelOpt title="删除" exp="payStatus#eq#0" url="freightPolicyController.do?doDel&freightId={id}&payStatus={payStatus}" urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
    <t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#18a689;"/>
    
    <t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
