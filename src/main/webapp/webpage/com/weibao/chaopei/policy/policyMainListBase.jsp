@@ -49,6 +49,8 @@ div.datagrid-cell{font-size:14px;}
    	<t:dgCol title="公司电话" field="compPhone" sortable="false" queryMode="single" width="120"></t:dgCol>
    	<t:dgCol title="开户行" field="depositBank" sortable="false" queryMode="single" width="260"></t:dgCol>
    	<t:dgCol title="账号" field="bankAccount" sortable="false" queryMode="single" width="200"></t:dgCol>
+   	<t:dgCol title="是否纸质保单"  field="isPaperPolicy" sortable="false" queryMode="single" dictionary="isPaper" width="80"></t:dgCol>
+   	<t:dgCol title="是否纸质发票"  field="isPaperInvoice" sortable="false" queryMode="single" dictionary="isPaper" width="80"></t:dgCol>
    	<t:dgCol title="邮寄地址" field="taxiAddr" sortable="false" queryMode="single" showLen="26" width="360"></t:dgCol>
    	<t:dgCol title="产品方案" 	field="prodPlan" sortable="false" queryMode="single" showLen="22" width="300"></t:dgCol>
    	<t:dgCol title="保险公司"	field="insurCompName" sortable="false" queryMode="single" dictionary="ins_comp" width="100"></t:dgCol>

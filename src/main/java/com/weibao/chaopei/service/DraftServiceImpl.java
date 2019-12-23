@@ -282,10 +282,10 @@ public class DraftServiceImpl extends CommonServiceImpl implements DraftServiceI
 			//删除草稿
 			this.delete(draftEntity);
 
-			//删除草稿和保单的关系
-			policyMainDao.deleteRelationsByDraft(draftId);
 			//删除保单
 			policyMainDao.deletePolicysByDraft(draftId);
+			//删除草稿和保单的关系
+			policyMainDao.deleteRelationsByDraft(draftId);
 		} catch(Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new BusinessException(e.getMessage());

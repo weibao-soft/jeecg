@@ -371,6 +371,9 @@ function reloadPolicyList(mainTabId) {
 	}
 	var mydiv = window.parent.$("#"+mainTabId);
 	var myframe = $(mydiv).children("iframe")[0];
+	if(myframe == null || myframe == undefined) {
+		return false;
+	}
 	var myWindow = myframe.contentWindow;
     myWindow.reload();
 }

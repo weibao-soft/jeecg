@@ -83,7 +83,10 @@ function submitForm() {
 	//window.Custom.dialogLoading(true);
     window.Utils.showLoading(imgName);
 
+    //由菜单打开草稿列表页面的TabId
     var mainTabId = "tab_402880ea6df0af64016df0b507840001";
+    //从修改页面保存后跳转到草稿列表页面的TabId
+    //var mainTabId = "tab_4028dc816e68c4e7016e68c859480001";
 	var url = "policyDraftController.do?insuranceUpdate";
 	var params = getSubmitParam();
 	params = getUpdateParam(params);

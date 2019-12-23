@@ -25,16 +25,18 @@ div.datagrid-cell{font-size:14px;}
    	<t:dgCol title="保单号"  frozenColumn="true" formatterjs="policyHref" field="policyNo" query="true" queryMode="single" sortable="false" width="165"></t:dgCol>
    	<t:dgCol title="车牌号"  frozenColumn="true" field="vehiclePlateNo" query="true" queryMode="single" sortable="false" width="80"></t:dgCol>
    	<t:dgCol title="挂车牌号"  frozenColumn="true" field="trailerPlateNo" query="true" queryMode="single" sortable="false" width="80"></t:dgCol>
-   	<t:dgCol title="车架号"   field="vehicleFrameNo" query="true" queryMode="single" sortable="false" width="160"></t:dgCol>   	
+   	<t:dgCol title="车架号"   field="vehicleFrameNo" query="true" queryMode="single" sortable="false" width="160"></t:dgCol>
    	<t:dgCol title="保单状态"  field="status" sortable="false" query="true" queryMode="single" dictionary="poliStatus" width="70"></t:dgCol>
    	<t:dgCol title="支付状态"  field="payStatus" sortable="false" query="true" queryMode="single" dictionary="payStatus" width="70"></t:dgCol>
    	<t:dgCol title="保费"  field="allPremium" sortable="false" queryMode="single" width="60"></t:dgCol>
-   	<t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="group" sortable="false"  width="150"></t:dgCol>   	
+   	<t:dgCol title="创建日期"  field="createTime" formatter="yyyy-MM-dd hh:mm:ss" queryMode="group" sortable="false"  width="150"></t:dgCol>
    	<t:dgCol title="支付时间"  field="payTime" formatter="yyyy-MM-dd hh:mm:ss" sortable="false"  width="150"></t:dgCol>   	
    	<t:dgCol title="投保人"  field="holderName" sortable="false" queryMode="single" width="220"></t:dgCol>
-   	<t:dgCol title="投保人证件号"  field="holderCertNo" sortable="false" queryMode="single" width="160"></t:dgCol>   	
+   	<t:dgCol title="投保人证件号"  field="holderCertNo" sortable="false" queryMode="single" width="160"></t:dgCol>
+   	<t:dgCol title="投保人证件名称"  field="holderCertName" sortable="false" queryMode="single" width="120"></t:dgCol>
    	<t:dgCol title="被保人"  field="insuredName" sortable="false" queryMode="single" width="220"></t:dgCol>
    	<t:dgCol title="被保人证件号"  field="insuredCertNo" sortable="false" queryMode="single" width="160"></t:dgCol>
+   	<t:dgCol title="被保人证件名称"  field="insuredCertName" sortable="false" queryMode="single" width="120"></t:dgCol>
    	<t:dgCol title="发票号码" field="invoiceNumb" sortable="false" queryMode="single" width="90"></t:dgCol>
    	<t:dgCol title="联系人名称" field="holderCtatName" sortable="false" queryMode="single" width="90"></t:dgCol>
    	<t:dgCol title="联系人手机" field="holderCtatMobile" sortable="false" queryMode="single" width="90"></t:dgCol>
@@ -42,6 +44,7 @@ div.datagrid-cell{font-size:14px;}
    	<t:dgCol title="公司地址" field="holderAddress" sortable="false" queryMode="single" showLen="20" width="300"></t:dgCol>
    	<t:dgCol title="法人姓名" field="corporate" sortable="false" queryMode="single" width="90"></t:dgCol>
    	<t:dgCol title="法人证件号码" field="corporCertNo" sortable="false" queryMode="single" width="200"></t:dgCol>
+   	<t:dgCol title="法人证件名称" field="corporCertName" sortable="false" queryMode="single" width="120"></t:dgCol>
    	<t:dgCol title="货物名称" field="goodsName" sortable="false" queryMode="single" width="80"></t:dgCol>
    	<t:dgCol title="邮寄地址" field="taxiAddr" sortable="false" queryMode="single" showLen="26" width="360"></t:dgCol>
    	<t:dgCol title="产品方案" 	field="prodPlan" sortable="false" queryMode="single" showLen="22" width="300"></t:dgCol>
@@ -85,7 +88,6 @@ function policyHref(value, row, index){
 
 //导出
 function ExportXls() {
-	debugger;
 	JeecgExcelExport("freightPolicyController.do?exportXls","yonganFreightPolicyList");
 }
 
@@ -94,8 +96,8 @@ function policyPay(id) {
     window.Utils.showLoading();
 	var params = {};
 	params.policyid = id;
-    var mainTabId = "tab_402880ea6e26628b016e26665a0f0001";
-	var url = "policyDraftController.do?insurancePays";
+    var mainTabId = "tab_4028e5846f2218da016f221a86cf0000";
+	var url = "freightPolicyController.do?insurancePays";
 	ajaxPay(url, params, id, mainTabId);
 	//reload();
 }

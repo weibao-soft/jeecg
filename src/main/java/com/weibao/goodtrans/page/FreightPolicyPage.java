@@ -18,8 +18,6 @@ public class FreightPolicyPage implements Serializable {
 	private java.lang.String planId;
 	//产品编号
 	private java.lang.String planCode;
-	//产品方案计划
-	private java.lang.String prodPlan;
 	//保单号
 	private java.lang.String policyNo;
 	//电子保单链接url
@@ -45,11 +43,23 @@ public class FreightPolicyPage implements Serializable {
 	//保险结束日期
 	@Excel(name="终保日期",width=22)
 	private java.util.Date cargoEndDate;
+
+	/*****保单信息*****/
+	//产品方案计划
+	@Excel(name="产品方案",width=30)
+	private java.lang.String prodPlan;
+	//总保险金额
+	private java.math.BigDecimal allInsuredAmount;
+	//总保费，保险费合计
+	@Excel(name="保费",width=11)
+	private java.math.BigDecimal allPremium;
 	
 	/*****投保货物信息*****/
 	//货物名称
+	@Excel(name="货物名称",width=12)
 	private java.lang.String goodsName;
 	//承保险别
+	@Excel(name="承保险别",width=15)
 	private java.lang.String category;
 	//件数|重量
 	private java.lang.Float countOrWeight;
@@ -57,13 +67,6 @@ public class FreightPolicyPage implements Serializable {
 	private java.math.BigDecimal insuredAmount;
 	//费率
 	private java.math.BigDecimal premiumRate;
-
-	/*****保单信息*****/
-	//总保险金额
-	private java.math.BigDecimal allInsuredAmount;
-	//总保费，保险费合计
-	@Excel(name="保费",width=11)
-	private java.math.BigDecimal allPremium;
 
 	/*****投保人信息*****/
 	//投保人类型，GR=>个人，QY=>企业
@@ -73,6 +76,9 @@ public class FreightPolicyPage implements Serializable {
 	private java.lang.String holderName;
 	//投保人证件类型：(1-组织机构代码证 2-税务登记证 3-营业执照 4-身份证 5-其他)，默认为1
 	private java.lang.String holderCertType;
+	//投保人证件名称
+	@Excel(name="证件名称",width=20)
+	private java.lang.String holderCertName;
 	//投保人证件号码，投保单位组织机构代码，不可空
 	@Excel(name="证件号",width=24)
 	private java.lang.String holderCertNo;
@@ -80,67 +86,98 @@ public class FreightPolicyPage implements Serializable {
 	private java.lang.String holderValidity;
 	//投保人性别|M男，F女，默认女
 	private java.lang.String holderSex;
+	//投保人性别
+	@Excel(name="性别",width=6)
+	private java.lang.String holderSexs;
 	//投保人职业
+	@Excel(name="职业",width=15)
 	private java.lang.String holderProfession;
 	//投保人国籍
+	@Excel(name="国籍",width=18)
 	private java.lang.String holderNation;
-	//投保人通讯地址
-	private java.lang.String holderAddress;
 	//投保人邮编
+	@Excel(name="邮编",width=11)
 	private java.lang.String holderPostal;
+	//投保人通讯地址
+	@Excel(name="地址",width=30)
+	private java.lang.String holderAddress;
 	//投保联系人名称
+	@Excel(name="联系人",width=12)
 	private java.lang.String holderCtatName;
 	//联系人Email地址
 	private java.lang.String holderCtatEmail;
 	//联系人办公电话
+	@Excel(name="联系人办公电话",width=20)
 	private java.lang.String holderCtatPhone;
 	//联系人手机号码
+	@Excel(name="联系人手机号",width=15)
 	private java.lang.String holderCtatMobile;
 	//投保人传真号码
+	@Excel(name="传真",width=20)
 	private java.lang.String holderCtatFax;
 
 	/*****被保人信息*****/
 	//投保人类型，GR=>个人，QY=>企业
 	private java.lang.String insuredPartType;
 	//被保人姓名，被保单位名称，不可空
+	@Excel(name="被保人",width=24)
 	private java.lang.String insuredName;
 	//被保人证件类型：(1-组织机构代码证 2-税务登记证 3-营业执照 4-身份证 5-其他)，默认为1
 	private java.lang.String insuredCertType;
+	//被保人证件名称
+	@Excel(name="证件名称",width=20)
+	private java.lang.String insuredCertName;
 	//被保人证件号码，被保单位组织机构代码，不可空
+	@Excel(name="证件号",width=24)
 	private java.lang.String insuredCertNo;
 	//被保人证件有效期
 	private java.lang.String insuredValidity;
 	//被保人性别|M男，F女，默认女
 	private java.lang.String insuredSex;
+	//被保人性别
+	@Excel(name="性别",width=6)
+	private java.lang.String insuredSexs;
 	//被保人职业
+	@Excel(name="职业",width=15)
 	private java.lang.String insuredProfession;
 	//被保人国籍
+	@Excel(name="国籍",width=18)
 	private java.lang.String insuredNation;
-	//被保人通讯地址
-	private java.lang.String insuredAddress;
 	//被保人邮编
+	@Excel(name="邮编",width=11)
 	private java.lang.String insuredPostal;
+	//被保人通讯地址
+	@Excel(name="地址",width=30)
+	private java.lang.String insuredAddress;
 	//被保联系人名称
+	@Excel(name="联系人",width=12)
 	private java.lang.String insuredCtatName;
 	//联系人Email地址
 	private java.lang.String insuredCtatEmail;
 	//联系人办公电话
+	@Excel(name="联系人办公电话",width=20)
 	private java.lang.String insuredCtatPhone;
 	//联系人手机号码
+	@Excel(name="联系人手机号",width=15)
 	private java.lang.String insuredCtatMobile;
 	//被保人传真号码
+	@Excel(name="传真",width=20)
 	private java.lang.String insuredCtatFax;
 	//法人、负责人姓名
+	@Excel(name="法人",width=12)
 	private java.lang.String corporate;
 	//法人证件名称
+	@Excel(name="证件名称",width=20)
 	private java.lang.String corporCertName;
 	//法人证件号码
+	@Excel(name="证件号",width=24)
 	private java.lang.String corporCertNo;
 	//法人证件有效期
 	private java.lang.String corporValidity;
 	
 	/*****权益人信息*****/
 	//权益人
+	@Excel(name="权益人",width=24)
 	private java.lang.String beneficiary;
 
 	/*****纸质保单收件人信息*****/
@@ -486,7 +523,6 @@ public class FreightPolicyPage implements Serializable {
 	public void setBeneficiary(java.lang.String beneficiary) {
 		this.beneficiary = beneficiary;
 	}
-	
 	public java.lang.String getRecipients() {
 		return recipients;
 	}
@@ -612,5 +648,29 @@ public class FreightPolicyPage implements Serializable {
 	}
 	public void setCreateTimeFilter_end(String createTimeFilter_end) {
 		this.createTimeFilter_end = createTimeFilter_end;
+	}
+	public java.lang.String getHolderCertName() {
+		return holderCertName;
+	}
+	public void setHolderCertName(java.lang.String holderCertName) {
+		this.holderCertName = holderCertName;
+	}
+	public java.lang.String getHolderSexs() {
+		return holderSexs;
+	}
+	public void setHolderSexs(java.lang.String holderSexs) {
+		this.holderSexs = holderSexs;
+	}
+	public java.lang.String getInsuredCertName() {
+		return insuredCertName;
+	}
+	public void setInsuredCertName(java.lang.String insuredCertName) {
+		this.insuredCertName = insuredCertName;
+	}
+	public java.lang.String getInsuredSexs() {
+		return insuredSexs;
+	}
+	public void setInsuredSexs(java.lang.String insuredSexs) {
+		this.insuredSexs = insuredSexs;
 	}
 }

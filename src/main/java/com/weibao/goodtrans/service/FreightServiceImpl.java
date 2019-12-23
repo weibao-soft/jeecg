@@ -126,6 +126,30 @@ public class FreightServiceImpl extends CommonServiceImpl implements FreightServ
 		return freightPolicyDao.updatePolicyStatus(freightId, status);
 	}
 	
+	private String getCertTypeName(String certType) {
+		if("1".equals(certType)) {
+			return "组织机构代码证";
+		} else if("2".equals(certType)) {
+			return "税务登记证";
+		} else if("3".equals(certType)) {
+			return "营业执照";
+		} else if("4".equals(certType)) {
+			return "身份证";
+		} else if("5".equals(certType)) {
+			return "其他";
+		} else {
+			return "";
+		}
+	}
+	
+	private String getSex(String code) {
+		if("M".equals(code)) {
+			return "男";
+		} else {
+			return "女";
+		}
+	}
+	
 	/**
 	 * 从结果Map中取值放入保单PageBean中
 	 * @param obj
@@ -154,10 +178,14 @@ public class FreightServiceImpl extends CommonServiceImpl implements FreightServ
 		freightPolicyPage.setCargoStartDate((Date)obj.get("cargo_start_date"));
 		freightPolicyPage.setCargoEndDate((Date)obj.get("cargo_end_date"));
 		//复制投保人
+		String certType = getCertTypeName((String)obj.get("holder_cert_type"));
+		String strSex = getSex((String)obj.get("holder_sex"));
 		freightPolicyPage.setHolderName((String)obj.get("holder_name"));
 		freightPolicyPage.setHolderCertNo((String)obj.get("holder_cert_no"));
 		freightPolicyPage.setHolderCertType((String)obj.get("holder_cert_type"));
 		freightPolicyPage.setHolderSex((String)obj.get("holder_sex"));
+		freightPolicyPage.setHolderCertName(certType);
+		freightPolicyPage.setHolderSexs(strSex);
 		freightPolicyPage.setHolderProfession((String)obj.get("holder_profession"));
 		freightPolicyPage.setHolderNation((String)obj.get("holder_nation"));
 		freightPolicyPage.setHolderAddress((String)obj.get("holder_address"));
@@ -168,10 +196,14 @@ public class FreightServiceImpl extends CommonServiceImpl implements FreightServ
 		freightPolicyPage.setHolderCtatMobile((String)obj.get("holder_ctat_mobile"));
 		freightPolicyPage.setHolderCtatFax((String)obj.get("holder_ctat_fax"));
 		//复制被保人
+		certType = getCertTypeName((String)obj.get("insured_cert_type"));
+		strSex = getSex((String)obj.get("insured_sex"));
 		freightPolicyPage.setInsuredName((String)obj.get("insured_name"));
 		freightPolicyPage.setInsuredCertNo((String)obj.get("insured_cert_no"));
 		freightPolicyPage.setInsuredCertType((String)obj.get("insured_cert_type"));
 		freightPolicyPage.setInsuredSex((String)obj.get("insured_sex"));
+		freightPolicyPage.setInsuredCertName(certType);
+		freightPolicyPage.setInsuredSexs(strSex);
 		freightPolicyPage.setInsuredProfession((String)obj.get("insured_profession"));
 		freightPolicyPage.setInsuredNation((String)obj.get("insured_nation"));
 		freightPolicyPage.setInsuredAddress((String)obj.get("insured_address"));
@@ -225,10 +257,13 @@ public class FreightServiceImpl extends CommonServiceImpl implements FreightServ
 		StringBuffer stbHeadSql1 = new StringBuffer();
 		StringBuffer stbHeadSql2 = new StringBuffer();
 		
-		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.vehicle_plate_no, a.trailer_plate_no, a.vehicle_frame_no, a.all_premium, a.`status`, a.pay_status, ");
-		stbHeadSql1.append("a.holder_name, a.holder_cert_no, a.insured_name, a.insured_cert_no, a.holder_ctat_name, a.holder_ctat_mobile, a.holder_ctat_phone, a.holder_address, ");
-		stbHeadSql1.append("a.corporate, a.corpor_cert_no, CONCAT(a.recipients, ' ', a.recipients_tel, ' ', a.reci_address) as taxi_addr, a.create_time, a.pay_time, a.last_update_time, ");
-		stbHeadSql1.append("a.invoice_numb, a.goods_name, d.id depart_id, d.departname, bu.username, c.plan_code, CONCAT(b.prod_name, '|', c.prod_plan) as prod_plan, b.insur_comp_name ");
+		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.vehicle_plate_no, a.trailer_plate_no, a.vehicle_frame_no, a.cargo_start_date, a.cargo_end_date, ");
+		stbHeadSql1.append("a.holder_name, a.holder_cert_no, a.insured_name, a.insured_cert_no, a.holder_sex, a.holder_profession, a.holder_nation, a.holder_address, a.holder_postal, ");
+		stbHeadSql1.append("a.holder_ctat_name, a.holder_ctat_mobile, a.holder_ctat_phone, a.holder_ctat_fax, a.holder_ctat_email, a.insured_sex, a.insured_profession, a.insured_nation, ");
+		stbHeadSql1.append("a.insured_address, a.insured_postal, a.insured_ctat_name, a.insured_ctat_mobile, a.insured_ctat_phone, a.insured_ctat_fax, insured_ctat_email, a.beneficiary, ");
+		stbHeadSql1.append("a.corporate, a.corpor_cert_no, a.corpor_cert_name, CONCAT(a.recipients, ' ', a.recipients_tel, ' ', a.reci_address) as taxi_addr, a.create_time, a.pay_time, a.last_update_time, ");
+		stbHeadSql1.append("a.goods_name, a.category, a.premium_rate, a.all_insured_amount, a.all_premium, a.`status`, a.pay_status, a.invoice_numb, a.holder_cert_type, a.insured_cert_type, ");
+		stbHeadSql1.append("d.id depart_id, d.departname, bu.username, bu.realname, c.plan_code, CONCAT(b.prod_name, '|', c.prod_plan) as prod_plan, b.insur_comp_name ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_freight_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d ");
 		stbSql.append(" where c.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id ");

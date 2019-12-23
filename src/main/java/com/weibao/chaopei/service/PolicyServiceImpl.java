@@ -237,7 +237,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		
 		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plate_no, a.`status`, a.pay_status, a.frame_no, a.premium, a.create_time, a.pay_time, a.holder_comp_name, ");
 		stbHeadSql1.append("a.holder_org_code, a.insured_comp_name, a.insured_org_code, a.invoice_type, a.invoice_numb, a.receiver_mobile, a.taxpayer_no, a.comp_address, ");
-		stbHeadSql1.append("a.comp_phone, a.deposit_bank, a.bank_account, CONCAT(a.recipients, ' ', a.recipients_tel, ' ', a.reci_address) as taxi_addr, ");
+		stbHeadSql1.append("a.comp_phone, a.deposit_bank, a.bank_account, CONCAT(a.recipients, ' ', a.recipients_tel, ' ', a.reci_address) as taxi_addr, a.is_paper_policy, a.is_paper_invoice, ");
 		stbHeadSql1.append("d.id depart_id, d.departname, bu.username, c.plan_code, CONCAT(b.prod_name, '|', c.prod_plan) as prod_plan, b.insur_comp_name ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d ");
@@ -837,10 +837,10 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		PolicyEntity policyEntity = null;
 		
 		try {
-			//删除草稿和保单的关系
-			policyMainDao.deleteRelationByPolicy(policyId);
 			//删除草稿
 			policyMainDao.deleteDraftByPolicy(policyId);
+			//删除草稿和保单的关系
+			policyMainDao.deleteRelationByPolicy(policyId);
 
 			policyEntity = new PolicyEntity();
 			//删除保单
