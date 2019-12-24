@@ -129,7 +129,6 @@ function calculateYearByParam($startEl, $endEl) {
     //layer.msg(str);
     //console.log(myDate.toLocaleDateString());
 }
-
 function calculateMonths(obj) {
 	var year = obj.value;
 	var months = Number(year * 12);
@@ -164,6 +163,41 @@ function isPositiveInteger(s){
     return re.test(s)
 }
 
+//刷新保单列表
+function reloadPolicyList(mainTabId) {
+	debugger;
+	if(mainTabId == null || mainTabId == undefined || mainTabId == '') {
+		return false;
+	}
+	var mydiv = window.parent.$("#"+mainTabId);
+	var myframe = $(mydiv).children("iframe")[0];
+	if(myframe == null || myframe == undefined) {
+		return false;
+	}
+	var myWindow = myframe.contentWindow;
+  myWindow.reload();
+}
+//打开浏览器窗口
+function openWindow(payUrl) {
+	payUrl = encodeURIComponent(payUrl);
+  EV_modeAlert();//弹出遮罩层
+    //参数： url, 名称, 窗体样式
+  var child = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+	try {
+		child.focus();//子窗口获取焦点
+    	window.onfocus=function (){child.focus();};
+    	window.onclick=function (){child.focus();};
+    	window.parent.onfocus=function (){child.focus();};
+    	window.parent.onclick=function (){child.focus();};
+	} catch (e) { }
+}
+//显示弹出层
+function openDiv(payUrl) {
+  var frameObj=document.getElementById("payiFrame");
+  frameObj.src=payUrl;
+  $("#payDiv").show();
+  window.Utils.showLoading();
+}
 
 
 //公共函数：参数 params为 Json类型，可以传空参数，如:  {}

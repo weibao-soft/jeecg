@@ -87,13 +87,6 @@ function editablePolicy() {
     });
 }
 
-//显示弹出层
-function openDiv(payUrl) {
-  var frameObj=document.getElementById("payiFrame");
-  frameObj.src=payUrl;
-  $("#payDiv").show();
-  window.Utils.showLoading();
-}
 //公共支付函数：参数 params为 Json类型
 function ajaxPay(url, params, tabId, mainTabId) {
 $.ajax({
@@ -108,11 +101,15 @@ $.ajax({
   	    var result = data.obj;
         //if(console) console.log("ajaxReturn == ", data);
         $("#payResult").val("0");
+    	if(result != null && result != "") {
+    		failureCallback(result);
+    	}
         if (data.success) {
 		    //layer.msg(data.msg, {icon:6});
-            var payUrl = result.data;
+            var payUrl = result.payUrl;
             //var payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&amp;code=&amp;payOrderNo=js02&amp;platform=pc";
             if(console) console.log("payUrl == ", payUrl);
+            result = JSON.stringify(result);
       	    $("#payObj").val(result);
       	    $("#payUrl").val(payUrl);
       	    $("#tabId").val(tabId);
@@ -121,10 +118,6 @@ $.ajax({
       		//弹出层的方式打开支付页面，打开的不是浏览器窗口，只是显示了一个层
       	    openDiv(payUrl);
         } else {
-        	if(result != null && result != "") {
-        		failureCallback(result);
-        	}
-      	    
             layer.alert(data.msg);
         }
         $("#pay").attr("disabled", false);

@@ -408,41 +408,6 @@ function parseData(info) {
 }
 
 
-//刷新保单列表
-function reloadPolicyList(mainTabId) {
-	debugger;
-	if(mainTabId == null || mainTabId == undefined || mainTabId == '') {
-		return false;
-	}
-	var mydiv = window.parent.$("#"+mainTabId);
-	var myframe = $(mydiv).children("iframe")[0];
-	if(myframe == null || myframe == undefined) {
-		return false;
-	}
-	var myWindow = myframe.contentWindow;
-    myWindow.reload();
-}
-//打开浏览器窗口
-function openWindow(payUrl) {
-	payUrl = encodeURIComponent(payUrl);
-    EV_modeAlert();//弹出遮罩层
-      //参数： url, 名称, 窗体样式
-    var child = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
-	try {
-  		child.focus();//子窗口获取焦点
-      	window.onfocus=function (){child.focus();};
-      	window.onclick=function (){child.focus();};
-      	window.parent.onfocus=function (){child.focus();};
-      	window.parent.onclick=function (){child.focus();};
-  	} catch (e) { }
-}
-//显示弹出层
-function openDiv(payUrl) {
-    var frameObj=document.getElementById("payiFrame");
-    frameObj.src=payUrl;
-    $("#payDiv").show();
-    window.Utils.showLoading();
-}
 //Form submit方式提交表单数据
 function submitData() {
 	if(!validData()) {
@@ -493,6 +458,7 @@ $.ajax({
             var payUrl = result.data;
             //var payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&amp;code=&amp;payOrderNo=js02&amp;platform=pc";
             if(console) console.log("payUrl == ", payUrl);
+            result = JSON.stringify(result);
       	    $("#payResult").val(result);
       	    $("#payUrl").val(payUrl);
       	    $("#tabId").val(tabId);

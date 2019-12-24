@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.weibao.chaopei.service.GuorenApiServiceI;
+import com.weibao.common.util.IshdrPayUtil;
 import com.weibao.goodtrans.entity.FreightPolicyEntity;
 import com.weibao.goodtrans.page.FreightPolicyPage;
 import com.weibao.goodtrans.service.FreightServiceI;
@@ -319,25 +320,16 @@ public class FreightPolicyController extends BaseController {
 		Map<String, String> insRs = new HashMap<String, String>();
 		try{
 			String freightId = policy.getId();
-			//1. 调用支付接口，insRs = guorenApiService.payService(policy);
-			j.setObj(insRs);
+			//1. 调用支付接口
+			String payUrl = IshdrPayUtil.freightPolicyPay(policy);
+			insRs.put("payUrl", payUrl);
 			//2. 根据支付接口返回的数据，修改保单支付状态
-			if(insRs != null && !insRs.isEmpty()) {
-				String url = insRs.get("data");
-				String resultCode = insRs.get("resultCode");
-				request.setAttribute("payUrl", url);
-				logger.info("payurl ================ " + url);
-				if("0".equals(resultCode)) {
-					//修改保单状态为：已核保，支付中
-					freightService.updatePolicyStatus(freightId, "2");
-					policy.setPayStatus("2");
-					j.setObj(insRs);
-				} else {
-					logger.info("insurancePay result info ==== " + insRs);
-					message = insRs.get("resultMsg");
-					policy.setPayStatus("1");
-					j.setSuccess(false);
-				}
+			if(payUrl != null && !"".equals(payUrl)) {
+				logger.info("payurl ================ " + payUrl);
+				//修改保单状态为：已核保，支付中
+				freightService.updatePolicyStatus(freightId, "2");
+				//policy.setPayStatus("2");
+				j.setObj(insRs);
 			} else {
 				j.setSuccess(false);
 				message = "支付链接获取失败，请重新发起申请！";

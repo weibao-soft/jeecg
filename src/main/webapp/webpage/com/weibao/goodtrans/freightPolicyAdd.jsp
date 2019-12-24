@@ -20,9 +20,16 @@
 
 <style type="text/css">
 *{font-size:14px;}
+a {
+    color: #428bca;
+}
+a:hover {
+    text-decoration: underline;
+}
 input[type="text"]{font-size:14px;}
 select{height:46px;}
 td .border-right{border-right:1px solid #E3E3E3;}
+.nobr {white-space: nowrap;}
 .my-style {
     border-radius: 7px;
     border: 2px solid #BABABA;
@@ -123,7 +130,7 @@ function doPay() {
 	 <tr><td style="width:150px;">方案保障</td>
 	 <td style="width:auto;">
 		<select name="planId" id="planId" style="width:500px;">
-		</select><span class="Validform_checktip"></span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="openRemindDiv();">禁止承保类</a></td>
+		</select><span class="Validform_checktip"></span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="nobr" onclick="openRemindDiv();">禁止承保类</a></td>
 	 </tr>
 	 </table></td>
  </tr>
