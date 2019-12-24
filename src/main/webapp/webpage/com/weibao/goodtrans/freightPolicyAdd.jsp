@@ -366,7 +366,7 @@ function doPay() {
 
 <div style="text-align:center;width:99%;padding-top:10px;">
 	<input id="pay" class="subBtnmy btn-size" type="button" value="立即支付" onclick="doPay();"/>
-	<input id="back" class="btnmy btn-size" type="button" value="关闭" onclick="closeCurrent('tab_4028e5846eb182ce016eb1d551d20001');"/>
+	<input id="back" class="btnmy btn-size" type="button" value="关闭" onclick="closeCurrent('tab_${prodId}');"/>
 </div>
 </fieldset>
 

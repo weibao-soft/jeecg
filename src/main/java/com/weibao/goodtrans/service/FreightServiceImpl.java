@@ -275,7 +275,7 @@ public class FreightServiceImpl extends CommonServiceImpl implements FreightServ
 		stbHeadSql1.append("d.id depart_id, d.departname, bu.username, bu.realname, c.plan_code, CONCAT(b.prod_name, '|', c.prod_plan) as prod_plan, b.insur_comp_name ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_freight_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d ");
-		stbSql.append(" where c.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id ");
+		stbSql.append(" where c.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id and (a.`status`='2' or a.`status`='3') ");
 		
 		try {
 			List<Object> objList = new ArrayList<Object>();
