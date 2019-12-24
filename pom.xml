@@ -665,6 +665,12 @@
 		</dependency>
 		<!-- update-end-author:taoYan date:20180828 for:jxls导出excel -->
 		
+		<dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.56</version>
+        </dependency>
+		
 	</dependencies>
 
 	<organization>
