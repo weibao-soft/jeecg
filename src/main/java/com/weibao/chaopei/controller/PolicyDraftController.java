@@ -21,6 +21,7 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.DateUtils;
+import org.jeecgframework.core.util.ExceptionUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.TSUser;
@@ -163,7 +164,7 @@ public class PolicyDraftController extends BaseController {
 			request.setAttribute("isDraft", true);
 			//request.setAttribute("payUrl", payUrl);
 		} catch (UnsupportedEncodingException e) {
-			logger.error(e.getMessage());
+			logger.error(ExceptionUtil.getExceptionMessage(e));
 		}
 		request.setAttribute("policyMainPage", policyMainPage);
 		return new ModelAndView("com/weibao/chaopei/policy/policyMainUpdate");
@@ -310,20 +311,17 @@ public class PolicyDraftController extends BaseController {
 				logger.info("insuranceAdd result info ==== " + insRsList);
 				message = "保单核保失败，请重新发起核保申请！";
 				j.setSuccess(false);
-				j.setObj(policyMainPage);
-				j.setMsg(message);
-				return j;
 			}
 			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
 			systemService.addLog(message+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
-			logger.info(e.getMessage(), e);
+			logger.error(ExceptionUtil.getExceptionMessage(e));
 			j.setSuccess(false);
 			message = "保单核保失败";
 			//throw new BusinessException(e.getMessage());
 		}
+		j.setBack(policyMainPage);
 		j.setMsg(message);
-		request.setAttribute("policyMainPage", policyMainPage);
 		return j;
 	}
 	
@@ -360,13 +358,13 @@ public class PolicyDraftController extends BaseController {
 			//TODO：如果提交核保的是3台车，但是返回的只有2台车，这种情况如何处理？？？
 			systemService.addLog(message+":", Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
-			logger.info(e.getMessage(), e);
+			logger.error(ExceptionUtil.getExceptionMessage(e));
 			j.setSuccess(false);
 			message = "保单核保失败";
 			//throw new BusinessException(e.getMessage());
 		}
+		j.setBack(policyMainPage);
 		j.setMsg(message);
-		request.setAttribute("policyMainPage", policyMainPage);
 		return j;
 	}
 	
@@ -411,7 +409,6 @@ public class PolicyDraftController extends BaseController {
 			if(insRs != null && !insRs.isEmpty()) {
 				String url = insRs.get("data");
 				String resultCode = insRs.get("resultCode");
-				request.setAttribute("payUrl", url);
 				logger.info("payurl ================ " + url);
 				//net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(insRs);
 				if("0".equals(resultCode)) {
@@ -496,7 +493,6 @@ public class PolicyDraftController extends BaseController {
 			if(insRs != null && !insRs.isEmpty()) {
 				String url = insRs.get("data");
 				String resultCode = insRs.get("resultCode");
-				request.setAttribute("payUrl", url);
 				logger.info("payurl ================ " + url);
 				//net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(insRs);
 				if("0".equals(resultCode)) {

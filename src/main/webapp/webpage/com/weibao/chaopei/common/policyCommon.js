@@ -259,7 +259,7 @@ function getReceivers(id) {
 }
 function addHldOptions(items,id) {
   $.each(items,function(n,value) {
-      var htmlContent = $('<option data-id="'+value.id+'" value="'+value.name+'">'+value.name+'</option>');
+      var htmlContent = $('<option data-code="'+value.code+'" data-id="'+value.id+'" value="'+value.name+'">'+value.name+'</option>');
       $('#'+id).append(htmlContent);
   });
 }
@@ -274,41 +274,4 @@ function addRceOptions(items,id) {
       var htmlContent = $('<option data-num="'+value.recipientsTel+'" data-text="'+value.reciAddress+'" value="'+value.recipients+'">'+value.recipients+'</option>');
       $('#'+id).append(htmlContent);
   });
-}
-function getHolderById(holderId) {
-	//根据id获取投保人，带出组织机构代码、单位性质、行业类别等
-  $.ajax({
-      url: "policyMainController.do?getHolderById",
-      type: "POST",
-      data: {id: holderId},
-      dataType: "json",
-      error: function () {
-          layer.alert("服务器异常");
-      },
-      success: function (data) {
-          //if(console) console.log(data);
-          if (data.code == 200) {
-          	addHolder(data.value);
-      		//tip($.i18n.prop('common.opt.success'));
-              return false;
-          } else {
-              layer.alert(data.message);
-          }
-      }
-  });
-}
-function addHolder(item) {
-	//tip(item.taxpayerNo);
-	document.getElementById("holderOrgCode").value = item.holderOrgCode;
-	document.getElementById("holderCompNature").value = item.holderCompNature;
-	document.getElementById("industryType").value = item.industryType;
-	document.getElementById("taxpayerNo2").value = item.taxpayerNo;
-	document.getElementById("receiverMobile").value = item.receiverMobile;
-	document.getElementById("taxpayerNop").value = item.taxpayerNo;
-	document.getElementById("compNamep").value = item.compName;
-	document.getElementById("compAddressp").value = item.compAddress;
-	document.getElementById("compPhonep").value = item.compPhone;
-	document.getElementById("depositBankp").value = item.depositBank;
-	document.getElementById("bankAccountp").value = item.bankAccount;
-
 }

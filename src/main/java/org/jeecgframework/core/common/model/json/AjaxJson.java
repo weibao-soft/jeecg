@@ -15,6 +15,7 @@ public class AjaxJson {
 	private boolean success = true;// 是否成功
 	private String msg = "操作成功";// 提示信息
 	private Object obj = null;// 其他信息
+	private Object back = null;// 其他信息
 	private Map<String, Object> attributes;// 其他参数
 	public Map<String, Object> getAttributes() {
 		return attributes;
@@ -40,6 +41,14 @@ public class AjaxJson {
 		this.obj = obj;
 	}
 
+	public Object getBack() {
+		return back;
+	}
+
+	public void setBack(Object back) {
+		this.back = back;
+	}
+
 	public boolean isSuccess() {
 		return success;
 	}
@@ -52,6 +61,7 @@ public class AjaxJson {
 		obj.put("success", this.isSuccess());
 		obj.put("msg", this.getMsg());
 		obj.put("obj", this.obj);
+		obj.put("back", this.back);
 		obj.put("attributes", this.attributes);
 		return obj.toJSONString();
 	}

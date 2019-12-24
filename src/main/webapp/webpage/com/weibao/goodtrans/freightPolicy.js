@@ -70,9 +70,8 @@ function editablePolicy() {
         items_then_scroll: 10,
         isFilter:false,
         onSelect: function(list_item) {
-            var holderId=$(list_item[0]).attr("data-id");
-            //$("#holderOrgCode").val(holderId);
-        	getHolderById(holderId);
+            var holderCode=$(list_item[0]).attr("data-code");
+            $("#holderCertNo").val(holderCode);
         }
     });
 	$("#insuredName").editableSelect({
@@ -82,9 +81,8 @@ function editablePolicy() {
         items_then_scroll: 10,
         isFilter:false,
         onSelect: function(list_item) {
-            var holderId=$(list_item[0]).attr("data-id");
-            //$("#holderOrgCode").val(holderId);
-        	getHolderById(holderId);
+            var holderCode=$(list_item[0]).attr("data-code");
+            $("#insuredCertNo").val(holderCode);
         }
     });
 }

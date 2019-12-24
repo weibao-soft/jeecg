@@ -104,7 +104,7 @@ public interface PolicyMainDao {
 	 *  查询投保人名称
 	 * @return
 	 */
-	@Sql("select id,holder_comp_name name from wb_policy_holder order by holder_comp_name")
+	@Sql("select id,holder_comp_name name,holder_org_code code from wb_policy_holder order by holder_comp_name")
 	@ResultType(CommonBean.class)
 	public List<CommonBean> getPolicyHolders();
 	

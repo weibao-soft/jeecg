@@ -123,6 +123,51 @@ function editableInvoice() {
         }
     });
 }
+function getHolderById(holderId) {
+	//根据id获取投保人，带出组织机构代码、单位性质、行业类别等
+  $.ajax({
+      url: "policyMainController.do?getHolderById",
+      type: "POST",
+      data: {id: holderId},
+      dataType: "json",
+      error: function () {
+          layer.alert("服务器异常");
+      },
+      success: function (data) {
+          //if(console) console.log(data);
+          if (data.code == 200) {
+        	  var item = data.value;
+          	  addHolder(item);
+          	  if(item.depositBank != null && item.depositBank != "") {
+      	    	  $("#invoiceType").val('3').trigger('change');
+          	  } else if(item.receiverMobile != null && item.receiverMobile != "") {
+      	    	  $("#invoiceType").val('2').trigger('change');
+          	  } else {
+        	      $("#invoiceType").val('1').trigger('change');
+          	  }
+      		  //tip($.i18n.prop('common.opt.success'));
+              return false;
+          } else {
+              layer.alert(data.message);
+          }
+      }
+  });
+}
+function addHolder(item) {
+	//tip(item.taxpayerNo);
+	document.getElementById("holderOrgCode").value = item.holderOrgCode;
+	document.getElementById("holderCompNature").value = item.holderCompNature;
+	document.getElementById("industryType").value = item.industryType;
+	document.getElementById("taxpayerNo2").value = item.taxpayerNo;
+	document.getElementById("receiverMobile").value = item.receiverMobile;
+	document.getElementById("taxpayerNop").value = item.taxpayerNo;
+	document.getElementById("compNamep").value = item.compName;
+	document.getElementById("compAddressp").value = item.compAddress;
+	document.getElementById("compPhonep").value = item.compPhone;
+	document.getElementById("depositBankp").value = item.depositBank;
+	document.getElementById("bankAccountp").value = item.bankAccount;
+
+}
 
 
 var index1 = 0;
@@ -480,8 +525,12 @@ function ajaxSubmitForm(url, params, isAdd, mainTabId) {
       },
       success: function (data) {
           var result = data.obj;
+          var backobj = data.back;
           //if(console) console.log("ajaxReturn == ", data);
           $("#insResult").val("0");
+          if(isAdd && backobj != null && backobj != "") {
+        	  failureCallback(backobj);
+          }
           if (data.success) {
               result = JSON.stringify(result);
               //if(console) console.log("returnObj == ", result);
@@ -490,17 +539,40 @@ function ajaxSubmitForm(url, params, isAdd, mainTabId) {
               reloadPolicyList(mainTabId);
   			  layer.msg(data.msg, {icon:6});
           } else {
-              if(isAdd && result != null && result != "") {
-            	  failureCallback(result);
-              }
               layer.alert(data.msg);
           }
-          
+
           $("#insur").attr("disabled", false);
           window.Utils.closeLoading();
           return false;
       }
   });
+}
+//核保失败回调函数
+function failureCallback(result) {
+    //if(console) console.log("returnObj == ", result);
+    debugger;
+	var draftId = result.draftId;
+	var createTime = result.createTime;
+	var vehicles = result.vehicles;
+	document.getElementById("draftId").value = draftId;
+	document.getElementById("createTime").value = createTime;
+	for(var j = 0; j < vehicles.length; j++) {
+		var vehicleBack = vehicles[j];
+		var frameNo = vehicleBack.frameNo;
+		var pid = vehicleBack.id;
+
+		var plateNos = $("[class='policy'][title='plateNo']");
+		var length = plateNos.length;
+		for(var i = 0; i < length; i++) {
+			var vehicle = {};
+			vehicle.id = document.getElementsByName("vehicles["+i+"].id")[0].value;
+			vehicle.frameNo = document.getElementsByName("vehicles["+i+"].frameNo")[0].value;
+			if(frameNo == vehicle.frameNo) {
+				document.getElementsByName("vehicles["+i+"].id")[0].value = pid;
+			}
+		}
+	}
 }
 function getSubmitParam() {
 	var param = {};

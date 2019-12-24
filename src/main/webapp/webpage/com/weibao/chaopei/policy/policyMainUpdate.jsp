@@ -90,7 +90,7 @@ function submitForm() {
 	var url = "policyDraftController.do?insuranceUpdate";
 	var params = getSubmitParam();
 	params = getUpdateParam(params);
-	ajaxSubmitForm(url, params, false, mainTabId);
+	ajaxSubmitForm(url, params, true, mainTabId);
 	//tip(JSON.stringify(params));
     //window.setTimeout(window.Utils.closeLoading, 2000);
     //window.setTimeout(customFunc2, 2000);

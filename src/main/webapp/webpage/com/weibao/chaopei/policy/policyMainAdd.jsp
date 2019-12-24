@@ -55,32 +55,6 @@ function customFunc() {
 	window.Custom.dialogLoading(false);
 }
 
-//核保失败回调函数
-function failureCallback(result) {
-    //if(console) console.log("returnObj == ", result);
-    debugger;
-	var draftId = result.draftId;
-	var createTime = result.createTime;
-	var vehicles = result.vehicles;
-	document.getElementById("draftId").value = draftId;
-	document.getElementById("createTime").value = createTime;
-	for(var j = 0; j < vehicles.length; j++) {
-		var vehicleBack = vehicles[j];
-		var frameNo = vehicleBack.frameNo;
-		var pid = vehicleBack.id;
-
-		var plateNos = $("[class='policy'][title='plateNo']");
-		var length = plateNos.length;
-		for(var i = 0; i < length; i++) {
-			var vehicle = {};
-			vehicle.id = document.getElementsByName("vehicles["+i+"].id")[0].value;
-			vehicle.frameNo = document.getElementsByName("vehicles["+i+"].frameNo")[0].value;
-			if(frameNo == vehicle.frameNo) {
-				document.getElementsByName("vehicles["+i+"].id")[0].value = pid;
-			}
-		}
-	}
-}
 //Ajax方式提交表单数据
 function submitForm() {
 	var url = "policyDraftController.do?insuranceAdd";
