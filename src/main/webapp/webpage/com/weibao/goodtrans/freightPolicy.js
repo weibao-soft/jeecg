@@ -99,10 +99,11 @@ $.ajax({
     },
     success: function (data) {
   	    var result = data.obj;
+        var backobj = data.back;
         //if(console) console.log("ajaxReturn == ", data);
         $("#payResult").val("0");
-    	if(result != null && result != "") {
-    		failureCallback(result);
+    	if(backobj != null && backobj != "") {
+    		failureCallback(backobj);
     	}
         if (data.success) {
 		    //layer.msg(data.msg, {icon:6});
@@ -110,7 +111,6 @@ $.ajax({
             //var payUrl = "https://devyun.guorenpcic.com/paycenter/?orderId=23a2e077d1e4fd19a61&amp;code=&amp;payOrderNo=js02&amp;platform=pc";
             if(console) console.log("payUrl == ", payUrl);
             result = JSON.stringify(result);
-      	    $("#payObj").val(result);
       	    $("#payUrl").val(payUrl);
       	    $("#tabId").val(tabId);
       	    $("#mainTabId").val(mainTabId);

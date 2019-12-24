@@ -5,7 +5,6 @@
 <head>
 <title>新增保单</title>
 <t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
-<script type="text/javascript" src="webpage/com/weibao/chaopei/policy/winEVMsgBox.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/policyCommon.js"></script>

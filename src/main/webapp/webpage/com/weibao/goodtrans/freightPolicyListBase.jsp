@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/goodtrans/freightPolicy.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/policyCommon.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
 
 <style type="text/css">
 *{font-size:14px;}
@@ -54,6 +56,8 @@ div.datagrid-cell{font-size:14px;}
   </t:datagrid>
   </div>
  </div>
+ 
+<%@include file="/webpage/com/weibao/chaopei/policy/policyPayiFrame.jsp"%>
  <script type="text/javascript">
 $(document).ready(function (){
 

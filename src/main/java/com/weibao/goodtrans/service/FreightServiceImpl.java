@@ -115,6 +115,15 @@ public class FreightServiceImpl extends CommonServiceImpl implements FreightServ
 			throw new BusinessException(e.getMessage());
 		}
 	}
+	
+	/**
+	 *  根据id查询保单支付信息
+	 * @param id
+	 * @return
+	 */
+	public Map<String, Object> getPolicyPayPage(String id) {
+		return freightPolicyDao.getPolicyPayPage(id);
+	}
 
 	/**
 	 * 根据保单id修改保单状态

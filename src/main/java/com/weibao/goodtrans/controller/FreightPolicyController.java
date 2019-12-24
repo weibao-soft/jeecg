@@ -1,5 +1,6 @@
 package com.weibao.goodtrans.controller;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -64,8 +65,8 @@ public class FreightPolicyController extends BaseController {
 	 * 保单信息新增 页面跳转
 	 * @return
 	 */
-	@RequestMapping(params = "goAdd")
-	public ModelAndView goAdd(String paramId, HttpServletRequest request) {
+	@RequestMapping(params = "add")
+	public ModelAndView add(String paramId, HttpServletRequest request) {
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar canlendar = Calendar.getInstance();
 		canlendar.add(Calendar.DATE, 1);
@@ -255,7 +256,6 @@ public class FreightPolicyController extends BaseController {
 			j = policyPay(policy, request);
 			if(!j.isSuccess()) {
 				freightPolicyPage.setPayStatus(policy.getPayStatus());
-				j.setObj(freightPolicyPage);
 			}
 			systemService.addLog(j.getMsg()+":", Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
@@ -265,6 +265,7 @@ public class FreightPolicyController extends BaseController {
 			j.setMsg(message);
 			//throw new BusinessException(e.getMessage());
 		}
+		j.setBack(freightPolicyPage);
 		return j;
 	}
 	
@@ -294,7 +295,6 @@ public class FreightPolicyController extends BaseController {
 			j = policyPay(policy, request);
 			if(!j.isSuccess()) {
 				freightPolicyPage.setPayStatus(policy.getPayStatus());
-				j.setObj(freightPolicyPage);
 			}
 			systemService.addLog(j.getMsg()+":", Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
@@ -304,6 +304,7 @@ public class FreightPolicyController extends BaseController {
 			j.setMsg(message);
 			//throw new BusinessException(e.getMessage());
 		}
+		j.setBack(freightPolicyPage);
 		return j;
 	}
 	
@@ -316,7 +317,7 @@ public class FreightPolicyController extends BaseController {
 	@ResponseBody
 	public AjaxJson policyPay(FreightPolicyEntity policy, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		String message = "支付成功";
+		String message = "支付链接获取成功";
 		Map<String, String> insRs = new HashMap<String, String>();
 		try{
 			String freightId = policy.getId();
@@ -328,6 +329,69 @@ public class FreightPolicyController extends BaseController {
 				logger.info("payurl ================ " + payUrl);
 				//修改保单状态为：已核保，支付中
 				freightService.updatePolicyStatus(freightId, "2");
+				//policy.setPayStatus("2");
+				j.setObj(insRs);
+			} else {
+				j.setSuccess(false);
+				message = "支付链接获取失败，请重新发起申请！";
+				j.setMsg(message);
+				return j;
+			}
+			systemService.addLog(message+":", Globals.Log_Type_OTHER, Globals.Log_Leavel_INFO);
+		}catch(Exception e){
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "保单支付失败";
+			//throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
+		return j;
+	}
+	
+	/**
+	 * 保单列表页面已核保的直接支付
+	 * @param policyid
+	 * @return
+	 */
+	@RequestMapping(params = "insurancePays")
+	@ResponseBody
+	public AjaxJson insurancePays(String policyid, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "支付链接获取成功";
+		Map<String, String> insRs = new HashMap<String, String>();
+		if(policyid == null) {
+			message = "参数错误，请重新发起支付申请！";
+			j.setMsg(message);
+			j.setSuccess(false);
+			return j;
+		}
+		try{
+			//1.页面传入的数据
+			Map<String, Object> param = freightService.getPolicyPayPage(policyid);
+			if(param == null || param.isEmpty()) {
+				message = "参数错误，请重新发起支付申请！";
+				j.setMsg(message);
+				j.setSuccess(false);
+				return j;
+			}
+			FreightPolicyEntity policy = new FreightPolicyEntity();
+    		BigDecimal premium = (BigDecimal)param.get("all_premium");
+    		String goodsName = (String)param.get("goods_name");
+    		//String id = (String)param.get("id");
+    		//String proposalNo = (String)param.get("proposal_no");
+    		//String orderNo = (String)param.get("order_no");
+    		policy.setId(policyid);
+    		policy.setAllPremium(premium);
+    		policy.setGoodsName(goodsName);
+	    		
+			//2. 调用支付接口
+			String payUrl = IshdrPayUtil.freightPolicyPay(policy);
+			insRs.put("payUrl", payUrl);
+			//3. 根据支付接口返回的数据，修改保单支付状态
+			if(payUrl != null && !"".equals(payUrl)) {
+				logger.info("payurl ================ " + payUrl);
+				//修改保单状态为：已核保，支付中
+				freightService.updatePolicyStatus(policyid, "2");
 				//policy.setPayStatus("2");
 				j.setObj(insRs);
 			} else {

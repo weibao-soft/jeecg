@@ -1,5 +1,7 @@
 package com.weibao.goodtrans.service;
 
+import java.util.Map;
+
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.service.CommonService;
 
@@ -12,6 +14,12 @@ public interface FreightServiceI extends CommonService {
 	 * @return
 	 */
 	public DataGrid getPolicyList(FreightPolicyPage policy, DataGrid dataGrid);
+	/**
+	 *  根据id查询保单支付信息
+	 * @param id
+	 * @return
+	 */
+	public Map<String, Object> getPolicyPayPage(String id);
 	/**
 	 * 新增保存货运险保单、投保人、被保人、法人、货物等信息
 	 */

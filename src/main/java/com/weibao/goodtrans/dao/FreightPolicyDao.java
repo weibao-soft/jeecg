@@ -15,6 +15,15 @@ public interface FreightPolicyDao {
 	@Sql("select * from wb_freight_insurance_policy p where p.user_id=:userid")
 	@ResultType(Map.class)
 	public MiniDaoPage<Map<String,Object>> getPolicyEntitys(String userId);
+
+	/**
+	 *  根据id查询保单支付信息
+	 * @return
+	 */
+	@Arguments({"policyid"})
+	@Sql("select p.id,p.all_premium,p.goods_name,p.order_no,p.proposal_no from wb_freight_insurance_policy p where p.pay_status='0' and p.id=:policyid")
+	@ResultType(Map.class)
+	public Map<String, Object> getPolicyPayPage(String policyid);
 	
 	/**
 	 * 根据保单id修改保单状态
@@ -22,6 +31,6 @@ public interface FreightPolicyDao {
 	 * @return
 	 */
 	@Sql("update wb_freight_insurance_policy set `status`=:status where id =:policyid")
-	public int updatePolicyStatus(@Param("policyId") String policyid, @Param("status") String status);
+	public int updatePolicyStatus(@Param("policyid") String policyid, @Param("status") String status);
 
 }

@@ -44,7 +44,7 @@ $(document).ready(function(){
 	window.Custom.dialogLoading(true);
 	var params = {};
 	params.paramId = "${prodId}";
-	params.paramId = "4028dc816ead101e016ead2eafcb0002";
+	//params.paramId = "4028dc816ead101e016ead2eafcb0002";
 	var url = "policyMainController.do?getProductPlan";
 	getCommonSelect("planId", url, params);
 	getHolders("holderName");
@@ -85,7 +85,8 @@ function submitFormUpd(tabId) {
 	ajaxPay(url, params, tabId);
 }
 function confirmSubmit() {
-	var tabId = "tab_4028e5846eb182ce016eb1d551d20001";
+	var tabId = "${prodId}";
+	//tabId = "4028e5846eb182ce016eb1d551d20001";
 	if($("#payResult").val() == "1") {
 		submitForm(tabId);
 	} else {
@@ -106,7 +107,6 @@ function doPay() {
 	getMainContent();
 	$("#readedPrompt").attr("checked", false);
 	$('#promptDiv').show();
-
 	//submitPay("${prodId}");
 }
 
