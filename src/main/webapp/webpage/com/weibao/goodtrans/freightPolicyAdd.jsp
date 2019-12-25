@@ -168,6 +168,7 @@ function doPay() {
 			 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> <input type="text"
 			 name="shour" id="shour" style="width:20px;" value="00" disabled/> 起 至 <input type="text" name="endDate" id="end" value="${end}" class="Wdate"
 			 style="width:100px;" disabled/> <input type="text" name="ehour" id="ehour" style="width:20px;" value="24" disabled/> 止 </span> 
+			 <input type="hidden" name="year" id="year" style="width:30px;" value="1">
 			 <div style="display: none;"><span style="color: red;">*</span>起运地 <input type="text" name="cargoStartSite" 
 			 id="cargoStartSite"><span style="color: red;">*</span>目的地 <input type="text" name="cargoTargetSite" id="cargoTargetSite"></div>
 		 </td>

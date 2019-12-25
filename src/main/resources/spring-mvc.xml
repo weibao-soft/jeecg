@@ -138,8 +138,9 @@
 				</property>
 				<property name="excludeContainUrls">
 					<list>
-						<value>/rest/tokens</value>					
+						<value>/rest/tokens</value>
 						<value>/rest/guoren/payback</value><!-- 	暂时先屏蔽国任的支付回调接口	 -->
+						<value>/rest/dongrui/payback</value>
 					</list>
 				</property>
 			</bean>
