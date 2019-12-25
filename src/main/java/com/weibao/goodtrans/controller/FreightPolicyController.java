@@ -1,6 +1,8 @@
 package com.weibao.goodtrans.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ishdr.pay.model.PayModel;
+import com.ishdr.pay.utils.PayClient;
 import com.weibao.chaopei.service.GuorenApiServiceI;
 import com.weibao.common.util.IshdrPayUtil;
 import com.weibao.goodtrans.entity.FreightPolicyEntity;
@@ -322,7 +326,7 @@ public class FreightPolicyController extends BaseController {
 		try{
 			String freightId = policy.getId();
 			//1. 调用支付接口
-			String payUrl = IshdrPayUtil.freightPolicyPay(policy);
+			String payUrl = freightPolicyPay(policy);
 			insRs.put("payUrl", payUrl);
 			//2. 根据支付接口返回的数据，修改保单支付状态
 			if(payUrl != null && !"".equals(payUrl)) {
@@ -385,7 +389,7 @@ public class FreightPolicyController extends BaseController {
     		policy.setGoodsName(goodsName);
 	    		
 			//2. 调用支付接口
-			String payUrl = IshdrPayUtil.freightPolicyPay(policy);
+			String payUrl = freightPolicyPay(policy);
 			insRs.put("payUrl", payUrl);
 			//3. 根据支付接口返回的数据，修改保单支付状态
 			if(payUrl != null && !"".equals(payUrl)) {
@@ -439,5 +443,22 @@ public class FreightPolicyController extends BaseController {
 		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams("永安货运保单数据列表", "导出人:" + userName, "导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST, dataGrid.getResults());
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+	}
+	
+	//调用永安货运险支付接口
+	public String freightPolicyPay(FreightPolicyEntity policy) 
+			throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        PayClient payClient = new PayClient(IshdrPayUtil.MD5_KEY, IshdrPayUtil.PAY_AES_KEY, IshdrPayUtil.REFUND_AES_KEY);
+        PayModel payModel = new PayModel();
+        payModel.setSubject(policy.getGoodsName());
+        BigDecimal premium = policy.getAllPremium().multiply(new BigDecimal(100));
+        int price = premium.intValue();
+        payModel.setPrice(price);
+        payModel.setPartnerCode(IshdrPayUtil.WEIBAO);
+        String partnerTransCode = policy.getId();
+        System.err.println(partnerTransCode);
+        payModel.setPartnerTransCode(partnerTransCode);
+        String payUrl = payClient.getPayUrl(payModel);
+        return payUrl;
 	}
 }

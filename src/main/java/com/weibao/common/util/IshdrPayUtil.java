@@ -30,7 +30,8 @@ public class IshdrPayUtil {
         PayModel payModel = new PayModel();
         payModel.setSubject(policy.getGoodsName());
         BigDecimal premium = policy.getAllPremium().multiply(new BigDecimal(100));
-        payModel.setPrice(premium.intValue());
+        int price = premium.intValue();
+        payModel.setPrice(price);
         payModel.setPartnerCode(WEIBAO);
         String partnerTransCode = policy.getId();
         System.err.println(partnerTransCode);
