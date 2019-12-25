@@ -1,5 +1,8 @@
 package com.weibao.goodtrans.service;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import org.jeecgframework.core.common.exception.BusinessException;
@@ -9,14 +12,44 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ishdr.pay.model.PayModel;
 import com.ishdr.pay.utils.AesUtil;
+import com.ishdr.pay.utils.PayClient;
 import com.weibao.common.util.IshdrPayUtil;
+import com.weibao.goodtrans.entity.FreightPolicyEntity;
 
 
 @Service("dongruiApiService")
 @Transactional
 public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiApiServiceI {
 	private static final Logger logger = LoggerFactory.getLogger(DongruiApiServiceImpl.class);
+	
+	/**
+	 * 调用永安货运险支付接口
+	 * @param policy
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 * @throws NoSuchAlgorithmException
+	 */
+	public String freightPolicyPay(FreightPolicyEntity policy) 
+			throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        PayClient payClient = new PayClient(IshdrPayUtil.MD5_KEY, IshdrPayUtil.PAY_AES_KEY, IshdrPayUtil.REFUND_AES_KEY);
+        PayModel payModel = new PayModel();
+        //账号
+        payModel.setPartnerCode(IshdrPayUtil.WEIBAO);
+        //商品
+        payModel.setSubject(policy.getGoodsName());
+        BigDecimal premium = policy.getAllPremium().multiply(new BigDecimal(100));
+        int price = premium.intValue();
+        //保费
+        payModel.setPrice(price);
+        String partnerTransCode = policy.getId();
+        //微保订单号
+        payModel.setPartnerTransCode(partnerTransCode);
+        System.err.println(partnerTransCode);
+        String payUrl = payClient.getPayUrl(payModel);
+        return payUrl;
+	}
 
 	/**
 	 * 支付成功后的回调处理
