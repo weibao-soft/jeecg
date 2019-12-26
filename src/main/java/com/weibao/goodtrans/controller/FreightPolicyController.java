@@ -55,6 +55,15 @@ public class FreightPolicyController extends BaseController {
 	 * 我的保单信息列表 页面跳转
 	 * @return
 	 */
+	@RequestMapping(params = "paySuccess")
+	public ModelAndView paySuccess(HttpServletRequest request) {
+		return new ModelAndView("com/weibao/chaopei/common/paySuccess");
+	}
+
+	/**
+	 * 我的保单信息列表 页面跳转
+	 * @return
+	 */
 	@RequestMapping(params = "list")
 	public ModelAndView list(HttpServletRequest request) {
 		return new ModelAndView("com/weibao/goodtrans/freightPolicyListBase");
