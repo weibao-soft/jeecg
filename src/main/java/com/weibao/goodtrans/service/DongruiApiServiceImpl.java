@@ -30,7 +30,15 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
 	DongruiApiConfig apiConfig;
 	
 	//东瑞支付客户端
-    private PayClient payClient = new PayClient(apiConfig.MD5_KEY, apiConfig.PAY_AES_KEY, apiConfig.REFUND_AES_KEY);
+    private PayClient payClient = null;
+    
+    private PayClient getPayClient() {
+    	if(payClient == null) {
+    		return new PayClient(apiConfig.MD5_KEY, apiConfig.PAY_AES_KEY, apiConfig.REFUND_AES_KEY);
+    	} else {
+    		return payClient;
+    	}
+    }
 	
 	/**
 	 * 调用永安货运险支付接口
@@ -54,7 +62,7 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
         //微保订单号
         payModel.setPartnerTransCode(partnerTransCode);
         System.err.println(partnerTransCode);
-        String payUrl = payClient.getPayUrl(payModel);
+        String payUrl = getPayClient().getPayUrl(payModel);
         return payUrl;
 	}
 
