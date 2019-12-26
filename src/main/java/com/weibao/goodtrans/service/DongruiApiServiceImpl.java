@@ -9,12 +9,14 @@ import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ishdr.pay.model.PayModel;
 import com.ishdr.pay.utils.AesUtil;
 import com.ishdr.pay.utils.PayClient;
+import com.weibao.common.util.DongruiApiConfig;
 import com.weibao.common.util.IshdrPayUtil;
 import com.weibao.goodtrans.entity.FreightPolicyEntity;
 
@@ -23,6 +25,12 @@ import com.weibao.goodtrans.entity.FreightPolicyEntity;
 @Transactional
 public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiApiServiceI {
 	private static final Logger logger = LoggerFactory.getLogger(DongruiApiServiceImpl.class);
+
+	@Autowired
+	DongruiApiConfig apiConfig;
+	
+	//东瑞支付客户端
+    private PayClient payClient = new PayClient(apiConfig.MD5_KEY, apiConfig.PAY_AES_KEY, apiConfig.REFUND_AES_KEY);
 	
 	/**
 	 * 调用永安货运险支付接口
@@ -33,7 +41,6 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
 	 */
 	public String freightPolicyPay(FreightPolicyEntity policy) 
 			throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        PayClient payClient = new PayClient(IshdrPayUtil.MD5_KEY, IshdrPayUtil.PAY_AES_KEY, IshdrPayUtil.REFUND_AES_KEY);
         PayModel payModel = new PayModel();
         //账号
         payModel.setPartnerCode(IshdrPayUtil.WEIBAO);
