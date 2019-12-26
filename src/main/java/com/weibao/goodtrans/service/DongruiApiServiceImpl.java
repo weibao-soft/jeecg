@@ -24,6 +24,9 @@ import com.weibao.goodtrans.entity.FreightPolicyEntity;
 public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiApiServiceI {
 	private static final Logger logger = LoggerFactory.getLogger(DongruiApiServiceImpl.class);
 	
+	//东瑞支付客户端
+    private PayClient payClient = new PayClient(IshdrPayUtil.MD5_KEY, IshdrPayUtil.PAY_AES_KEY, IshdrPayUtil.REFUND_AES_KEY);
+	
 	/**
 	 * 调用永安货运险支付接口
 	 * @param policy
@@ -33,7 +36,6 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
 	 */
 	public String freightPolicyPay(FreightPolicyEntity policy) 
 			throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        PayClient payClient = new PayClient(IshdrPayUtil.MD5_KEY, IshdrPayUtil.PAY_AES_KEY, IshdrPayUtil.REFUND_AES_KEY);
         PayModel payModel = new PayModel();
         //账号
         payModel.setPartnerCode(IshdrPayUtil.WEIBAO);
