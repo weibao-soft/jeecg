@@ -57,7 +57,7 @@ function customFunc() {
 	editablePolicy();
 
     var code=$('#planId option:first').attr("data-code");
-	$("#premium").val(code);
+	$("#premium").val("0.01");
 	window.Custom.dialogLoading(false);
 }
 
@@ -345,7 +345,7 @@ function doPay() {
 			<tbody id="add_policy_tabel">
 				<tr name='policytr'>
 				<td><span style="color: red;">*</span>货物名称 </td>
-				<td><input type="text" name="goodsName" class="policy" title="goodsName" maxlength="20"></td>
+				<td><input type="text" name="goodsName" class="policy" title="goodsName" maxlength="20" value="普通货物"></td>
 				<td><span style="color: red;">*</span>承保险别 </td>
 				<td><input type="text" name="category" class="policy" title="category" style="width:100px;" maxlength="20"></td>
 				<td><span style="color: red;">*</span>件数/重量 </td>
