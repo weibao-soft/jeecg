@@ -34,7 +34,8 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
     
     private PayClient getPayClient() {
     	if(payClient == null) {
-    		return new PayClient(apiConfig.MD5_KEY, apiConfig.PAY_AES_KEY, apiConfig.REFUND_AES_KEY);
+    		payClient = new PayClient(apiConfig.MD5_KEY, apiConfig.PAY_AES_KEY, apiConfig.REFUND_AES_KEY);
+    		return payClient;
     	} else {
     		return payClient;
     	}
