@@ -32,9 +32,6 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
 	//东瑞支付客户端
     private PayClient payClient = new PayClient(apiConfig.MD5_KEY, apiConfig.PAY_AES_KEY, apiConfig.REFUND_AES_KEY);
 	
-	//东瑞支付客户端
-    private PayClient payClient = new PayClient(IshdrPayUtil.MD5_KEY, IshdrPayUtil.PAY_AES_KEY, IshdrPayUtil.REFUND_AES_KEY);
-	
 	/**
 	 * 调用永安货运险支付接口
 	 * @param policy
