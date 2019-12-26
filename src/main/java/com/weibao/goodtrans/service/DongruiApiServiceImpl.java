@@ -17,7 +17,6 @@ import com.ishdr.pay.model.PayModel;
 import com.ishdr.pay.utils.AesUtil;
 import com.ishdr.pay.utils.PayClient;
 import com.weibao.common.util.DongruiApiConfig;
-import com.weibao.common.util.IshdrPayUtil;
 import com.weibao.goodtrans.entity.FreightPolicyEntity;
 
 
@@ -34,7 +33,8 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
     
     private PayClient getPayClient() {
     	if(payClient == null) {
-    		return new PayClient(apiConfig.MD5_KEY, apiConfig.PAY_AES_KEY, apiConfig.REFUND_AES_KEY);
+    		payClient = new PayClient(apiConfig.MD5_KEY, apiConfig.PAY_AES_KEY, apiConfig.REFUND_AES_KEY);
+    		return payClient;
     	} else {
     		return payClient;
     	}
@@ -51,7 +51,7 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
 			throws UnsupportedEncodingException, NoSuchAlgorithmException {
         PayModel payModel = new PayModel();
         //账号
-        payModel.setPartnerCode(IshdrPayUtil.WEIBAO);
+        payModel.setPartnerCode(apiConfig.WEIBAO);
         //商品
         payModel.setSubject(policy.getGoodsName());
         BigDecimal premium = policy.getAllPremium().multiply(new BigDecimal(100));
@@ -85,8 +85,8 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
 		String sign = (String)back.get("Sign");
 		//拼接验签字符串（合作伙伴code+合作伙伴订单号+支付平台订单号+金额+md5加密字符），使用支付密钥签名
 		String unencryptedSign = (new StringBuilder()).append(partnerCode).append(partnerTransCode)
-				.append(outTradeNo).append(totalFee.toString()).append(IshdrPayUtil.MD5_KEY).toString();
-        String encryptSign = AesUtil.encryptByEcbPkcs7Padding(unencryptedSign, IshdrPayUtil.PAY_AES_KEY);
+				.append(outTradeNo).append(totalFee.toString()).append(apiConfig.MD5_KEY).toString();
+        String encryptSign = AesUtil.encryptByEcbPkcs7Padding(unencryptedSign, apiConfig.PAY_AES_KEY);
         if(!encryptSign.equals(sign)) {
             throw new BusinessException("验签失败，签名不正确");
         } else {
