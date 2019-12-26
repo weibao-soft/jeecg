@@ -57,7 +57,7 @@ function customFunc() {
 	editablePolicy();
 
     var code=$('#planId option:first').attr("data-code");
-	$("#premium").val("0.01");
+	$("#premium").val(code);
 	window.Custom.dialogLoading(false);
 }
 
