@@ -1,15 +1,19 @@
 package com.weibao.goodtrans.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.jeecgframework.core.common.controller.BaseController;
@@ -18,8 +22,11 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.ExceptionUtil;
 import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
+import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.TSUser;
@@ -28,10 +35,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.weibao.goodtrans.entity.FreightPolicyEntity;
+import com.weibao.goodtrans.page.FreightImportPage;
 import com.weibao.goodtrans.page.FreightPolicyPage;
 import com.weibao.goodtrans.service.DongruiApiServiceI;
 import com.weibao.goodtrans.service.FreightServiceI;
@@ -419,7 +430,63 @@ public class FreightPolicyController extends BaseController {
 		return j;
 	}
 
-	
+	/**
+	 * 导入功能跳转
+	 * @return
+	 */
+	@RequestMapping(params = "upload")
+	public ModelAndView upload(HttpServletRequest request) {
+		request.setAttribute("controller_name", "freightPolicyController");
+		return new ModelAndView("common/upload/pub_excel_upload");
+	}
+
+	/**
+	 * 导入电子保单信息
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(params = "importExcel", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxJson importExcel(HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+		for(Map.Entry<String, MultipartFile> entry : fileMap.entrySet()) {
+			MultipartFile file = entry.getValue();
+			ImportParams params = new ImportParams();
+			params.setTitleRows(2);
+			params.setHeadRows(1);
+			params.setNeedSave(true);
+			try {
+				List<FreightImportPage> policys = ExcelImportUtil.importExcel(file.getInputStream(), FreightImportPage.class, params);
+				for(FreightImportPage policy : policys) {
+					String freightId = policy.getId();
+					String policyNo = policy.getPolicyNo();
+					String policyUrl = policy.getPolicyUrl();
+					if(StringUtils.isBlank(freightId)){
+						//j.setSuccess(false);
+						j.setMsg("“订单号/保单id”为必填字段, 导入失败");
+						return j;
+					}
+					freightService.updatePolicyNo(policyNo, policyUrl, freightId);
+				}
+				j.setMsg("文件导入成功！");
+			} catch(Exception e) {
+				//j.setSuccess(false);
+				j.setMsg("文件导入失败！");
+				logger.error(ExceptionUtil.getExceptionMessage(e));
+			} finally {
+				try {
+					file.getInputStream().close();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return j;
+	}
+
 	/**
 	 * 导出excel
 	 * @param request
@@ -432,6 +499,8 @@ public class FreightPolicyController extends BaseController {
 
 		try{
 			userName = ResourceUtil.getSessionUser().getRealName();
+			String userId = ResourceUtil.getSessionUser().getId();
+			policy.setUserId(userId);
 			freightService.getPolicyList(policy, dataGrid);
 			//查询条件组装器
 		} catch (SecurityException e) {
@@ -446,6 +515,21 @@ public class FreightPolicyController extends BaseController {
 		modelMap.put(NormalExcelConstants.CLASS, FreightPolicyPage.class);
 		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams("永安货运保单数据列表", "导出人:" + userName, "导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST, dataGrid.getResults());
+		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+	}
+
+	/**
+	 * 导出excel 使模板
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(params = "exportXlsByT")
+	public String exportXlsByT(HttpServletRequest request, HttpServletResponse response, 
+			DataGrid dataGrid, ModelMap modelMap) {
+		modelMap.put(NormalExcelConstants.FILE_NAME, "电子保单导入模板");
+		modelMap.put(NormalExcelConstants.CLASS, FreightImportPage.class);
+		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams("电子保单列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(), "导出模板"));
+		modelMap.put(NormalExcelConstants.DATA_LIST, new ArrayList());
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 }

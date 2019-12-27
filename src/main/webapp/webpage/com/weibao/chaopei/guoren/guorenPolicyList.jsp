@@ -42,6 +42,8 @@ div.datagrid-cell{font-size:14px;}
    	<t:dgCol title="公司电话" field="compPhone" sortable="false"  width="120"></t:dgCol>
    	<t:dgCol title="开户行" field="depositBank" sortable="false"  width="180"></t:dgCol>
    	<t:dgCol title="账号" field="bankAccount" sortable="false"  width="160"></t:dgCol>
+   	<t:dgCol title="是否纸质保单"  field="isPaperPolicy" sortable="false" queryMode="single" dictionary="isPaper" width="80"></t:dgCol>
+   	<t:dgCol title="是否纸质发票"  field="isPaperInvoice" sortable="false" queryMode="single" dictionary="isPaper" width="80"></t:dgCol>
    	<t:dgCol title="邮寄地址" field="taxiAddr" sortable="false"  width="360"></t:dgCol>
    	
    	<t:dgCol title="保单归属"  field="holderCompName24" sortable="false"  width="120"></t:dgCol>   	

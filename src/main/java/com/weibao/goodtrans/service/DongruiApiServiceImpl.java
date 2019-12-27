@@ -17,16 +17,24 @@ import com.ishdr.pay.model.PayModel;
 import com.ishdr.pay.utils.AesUtil;
 import com.ishdr.pay.utils.PayClient;
 import com.weibao.common.util.DongruiApiConfig;
+import com.weibao.goodtrans.dao.FreightPolicyDao;
 import com.weibao.goodtrans.entity.FreightPolicyEntity;
 
-
+/**
+ * 东瑞支付接口Api
+ * @author dms
+ *
+ */
 @Service("dongruiApiService")
 @Transactional
 public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiApiServiceI {
 	private static final Logger logger = LoggerFactory.getLogger(DongruiApiServiceImpl.class);
 
 	@Autowired
-	DongruiApiConfig apiConfig;
+	private DongruiApiConfig apiConfig;
+	
+	@Autowired
+	private FreightPolicyDao freightPolicyDao;
 	
 	//东瑞支付客户端
     private PayClient payClient = null;
@@ -74,7 +82,7 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
 		//合作伙伴代码
 		String partnerCode = (String)back.get("PartnerCode");
 		//支付平台
-		String payPlat = (String)back.get("PayPlat");
+		//String payPlat = (String)back.get("PayPlat");
 		//合作伙伴订单号
 		String partnerTransCode = (String)back.get("PartnerTransCode");
 		//支付平台订单号
@@ -93,8 +101,9 @@ public class DongruiApiServiceImpl extends CommonServiceImpl implements DongruiA
         	logger.info("订单：{0}验签通过", outTradeNo);
 
 	    	//	修改保单状态为已支付；写入支付时间、写入保单号、生成电子保单、修改电子保单url
-			String updSql = "update wb_freight_insurance_policy set status='3', pay_status='1', pay_time=SYSDATE(), order_no=? where id=? and pay_status='0'";
-			int updCnt = super.executeSql(updSql, outTradeNo, partnerTransCode);
+			//String updSql = "update wb_freight_insurance_policy set status='3', pay_status='1', pay_time=SYSDATE(), order_no=? where id=? and pay_status='0'";
+			//int updCnt = super.executeSql(updSql, outTradeNo, partnerTransCode);
+			int updCnt = freightPolicyDao.updatePolicyPayInfo(partnerTransCode, outTradeNo);
     		if(updCnt < 1) {
     			logger.error("update count is 0000!!!");
     		}

@@ -221,6 +221,18 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		policyMainPage.setDepositBank((String)obj.get("deposit_bank"));
 		policyMainPage.setBankAccount((String)obj.get("bank_account"));
 		policyMainPage.setTaxiAddr((String)obj.get("taxi_addr"));
+		String isPaperPolicy = getYesNo((String)obj.get("is_paper_policy"));
+		String isPaperInvoice = getYesNo((String)obj.get("is_paper_invoice"));
+		policyMainPage.setIsPaperPolicy(isPaperPolicy);
+		policyMainPage.setIsPaperInvoice(isPaperInvoice);
+	}
+	
+	private String getYesNo(String code) {
+		if("1".equals(code)) {
+			return "是";
+		} else {
+			return "否";
+		}
 	}
 	
 	/**
@@ -397,7 +409,7 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbHeadSql2 = new StringBuffer();
 		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plate_no, a.`status`, a.pay_status, a.frame_no, a.premium, a.create_time, a.pay_time, a.holder_comp_name, ");
 		stbHeadSql1.append("a.holder_org_code, a.insured_comp_name, a.insured_org_code, a.invoice_type, a.invoice_numb, a.receiver_mobile, a.taxpayer_no, a.comp_address, ");
-		stbHeadSql1.append("a.comp_phone, a.deposit_bank, a.bank_account, CONCAT(a.recipients, ' ', a.recipients_tel, ' ', a.reci_address) as taxi_addr, ");
+		stbHeadSql1.append("a.comp_phone, a.deposit_bank, a.bank_account, CONCAT(a.recipients, ' ', a.recipients_tel, ' ', a.reci_address) as taxi_addr, a.is_paper_policy, a.is_paper_invoice, ");
 		stbHeadSql1.append("d.id depart_id, d.departname, bu.username, c.plan_code, c.prod_plan ");
 		stbHeadSql2.append("select count(1) ");
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d ");
@@ -485,8 +497,8 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 				.append("bu.username user_no, bu.realname userName, a.plate_no, a.frame_no, a.engine_no, a.start_date, a.end_date,  a.premium, a.pay_time, type.typename invoice_type ");
 		
 		stbSql.append(" from wb_insurance_policy a,wb_insurance_product b,wb_product_detail c,t_s_base_user bu,t_s_user_org uo,t_s_depart d, t_s_typegroup tg, t_s_type type ")
-				.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id and a.pay_status in('1', '2') ")
-				.append(" and tg.ID=type.typegroupid  and tg.typegroupcode='taxiType' and type.typecode=a.invoice_type ");
+				.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id ")
+				.append(" and tg.ID=type.typegroupid and type.typecode=a.invoice_type and tg.typegroupcode='taxiType' and a.pay_status in('1', '2') ");
 		
 		try {
 			List<Object> objList = new ArrayList<Object>();
@@ -551,12 +563,11 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 		StringBuffer stbHeadSql1 = new StringBuffer();		
 		stbHeadSql1.append("select a.id, a.policy_no, a.policy_url, a.plate_no, a.`status`, a.pay_status, a.frame_no, a.premium, a.create_time, a.pay_time, a.holder_comp_name, ");
 		stbHeadSql1.append("a.holder_org_code, a.insured_comp_name, a.insured_org_code, a.invoice_type, a.invoice_numb, a.receiver_mobile, a.taxpayer_no, a.comp_address, ");
-		stbHeadSql1.append("a.comp_phone, a.deposit_bank, a.bank_account, type_.typename invoiceType, CONCAT(a.recipients, ' ', a.recipients_tel, ' ', a.reci_address) as taxi_addr, ");
-		stbHeadSql1.append("d.id depart_id, d.departname, bu.username, c.plan_code, c.prod_plan ");
+		stbHeadSql1.append("a.comp_phone, a.deposit_bank, a.bank_account, CONCAT(a.recipients, ' ', a.recipients_tel, ' ', a.reci_address) as taxi_addr, a.is_paper_policy, a.is_paper_invoice, ");
+		stbHeadSql1.append("d.id depart_id, d.departname, bu.username, c.plan_code, c.prod_plan, type_.typename invoiceType ");
 		stbSql.append(" from wb_insurance_policy a, wb_insurance_product b, wb_product_detail c, t_s_base_user bu, t_s_user_org uo,t_s_depart d, t_s_typegroup tg, t_s_type type_ ");
-		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id "
-				+ "and d.ID=uo.org_id and tg.ID=type_.typegroupid and tg.typegroupcode='taxiType' and "
-				+ "type_.typecode=a.invoice_type  and a.pay_status in('1', '2') ");
+		stbSql.append(" where a.prod_id=b.id and a.plan_id=c.id and bu.ID=a.user_id and bu.id=uo.user_id and d.ID=uo.org_id and tg.ID=type_.typegroupid ");
+		stbSql.append(" and type_.typecode=a.invoice_type and tg.typegroupcode='taxiType' and a.pay_status in('1', '2') ");
 		
 		try {
 			List<Object> objList = new ArrayList<Object>();

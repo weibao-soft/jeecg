@@ -199,6 +199,17 @@ public class FreightPolicyEntity implements Serializable {
 	@Column(name ="reci_address",nullable=true,length=20)
 	private java.lang.String reciAddress;
 
+	/*****保单支付后返回的保单编号等信息*****/
+	//投保单号
+	@Column(name ="proposal_no",nullable=true)
+	private String proposalNo;
+	//订单号
+	@Column(name ="order_no",nullable=true)
+	private String orderNo;
+	//电子保单下载路径url
+	@Column(name ="policy_url",nullable=true)
+	private String policyUrl;
+
 	/*****出单机构保单修改时间信息*****/
 	//用户id
 	@Column(name ="user_id",nullable=true,length=32)

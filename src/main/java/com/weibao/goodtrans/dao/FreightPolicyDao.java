@@ -32,5 +32,21 @@ public interface FreightPolicyDao {
 	 */
 	@Sql("update wb_freight_insurance_policy set `status`=:status where id =:policyid")
 	public int updatePolicyStatus(@Param("policyid") String policyid, @Param("status") String status);
+	
+	/**
+	 * 根据保单id修改支付状态、支付时间、支付平台订单号等
+	 * @param policyid
+	 * @param orderNo
+	 * @return
+	 */
+	@Sql("update wb_freight_insurance_policy set status='3', pay_status='1', pay_time=SYSDATE(), order_no=:orderNo where id=:policyid and pay_status='0'")
+	public int updatePolicyPayInfo(@Param("policyid") String policyid, @Param("orderNo") String orderNo);
 
+	/**
+	 * 根据保单id修改保单编号和电子保单url
+	 * @param policyid
+	 * @return
+	 */
+	@Sql("update wb_freight_insurance_policy set policy_no=:policyNo, policy_url=:policyUrl where id =:policyid")
+	public int updatePolicyNo(@Param("policyNo") String policyNo, @Param("policyUrl") String policyUrl, @Param("policyid") String policyid);
 }

@@ -134,6 +134,25 @@ public class FreightServiceImpl extends CommonServiceImpl implements FreightServ
 	public int updatePolicyStatus(String freightId, String status) {
 		return freightPolicyDao.updatePolicyStatus(freightId, status);
 	}
+
+	/**
+	 * 根据保单id修改支付状态、支付时间、支付平台订单号等
+	 * @param policyid
+	 * @param orderNo
+	 * @return
+	 */
+	public int updatePolicyPayInfo(String freightId, String orderNo) {
+		return freightPolicyDao.updatePolicyPayInfo(freightId, orderNo);
+	}
+
+	/**
+	 * 根据保单id修改保单编号和电子保单url
+	 * @param freightId
+	 * @return
+	 */
+	public int updatePolicyNo(String policyNo, String policyUrl, String freightId) {
+		return freightPolicyDao.updatePolicyNo(policyNo, policyUrl, freightId);
+	}
 	
 	private String getCertTypeName(String certType) {
 		if("1".equals(certType)) {

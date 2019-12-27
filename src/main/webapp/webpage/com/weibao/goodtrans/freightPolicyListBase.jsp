@@ -52,7 +52,9 @@ div.datagrid-cell{font-size:14px;}
    	<t:dgCol title="产品方案" 	field="prodPlan" sortable="false" queryMode="single" showLen="22" width="300"></t:dgCol>
    	<t:dgCol title="保险公司"	field="insurCompName" sortable="false" queryMode="single" dictionary="ins_comp" width="100"></t:dgCol>
    
+	<t:dgToolBar title="导入电子保单信息" icon="icon-put" funname="ImportXls"></t:dgToolBar>
    	<t:dgToolBar title="导出数据" icon="icon-putout" funname="ExportXls"></t:dgToolBar>
+	<t:dgToolBar title="templateDownload" icon="icon-putout" funname="ExportXlsByT"></t:dgToolBar>
   </t:datagrid>
   </div>
  </div>
@@ -90,9 +92,19 @@ function policyHref(value, row, index){
 	} 
 }
 
+//导入
+function ImportXls() {
+	openuploadwin('Excel导入', 'freightPolicyController.do?upload', "yonganFreightPolicyList");
+}
+
 //导出
 function ExportXls() {
 	JeecgExcelExport("freightPolicyController.do?exportXls","yonganFreightPolicyList");
+}
+
+//模板下载
+function ExportXlsByT() {
+	JeecgExcelExport("freightPolicyController.do?exportXlsByT", "yonganFreightPolicyList");
 }
 
 //Ajax方式打开支付页面

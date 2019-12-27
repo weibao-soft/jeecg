@@ -13,6 +13,7 @@ public class FreightPolicyPage implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	//保单id
+	@Excel(name="订单号/保单id",width=24)
 	private java.lang.String id;
 	//保障方案id
 	private java.lang.String planId;

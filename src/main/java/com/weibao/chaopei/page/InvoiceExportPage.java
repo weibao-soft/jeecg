@@ -57,6 +57,12 @@ public class InvoiceExportPage implements Serializable {
 	
 	@Excel(name="保单归属",width=15)
 	private String topOrg;
+	//是否纸质保单
+	@Excel(name="是否纸质保单",width=8)
+	private java.lang.String isPaperPolicy;
+	//是否纸质发票
+	@Excel(name="是否纸质发票",width=8)
+	private java.lang.String isPaperInvoice;
 	
 	
 	public java.lang.String getPolicyMobile() {
@@ -148,5 +154,17 @@ public class InvoiceExportPage implements Serializable {
 	}
 	public void setTopOrg(String topOrg) {
 		this.topOrg = topOrg;
-	}	
+	}
+	public java.lang.String getIsPaperPolicy() {
+		return isPaperPolicy;
+	}
+	public void setIsPaperPolicy(java.lang.String isPaperPolicy) {
+		this.isPaperPolicy = isPaperPolicy;
+	}
+	public java.lang.String getIsPaperInvoice() {
+		return isPaperInvoice;
+	}
+	public void setIsPaperInvoice(java.lang.String isPaperInvoice) {
+		this.isPaperInvoice = isPaperInvoice;
+	}
 }

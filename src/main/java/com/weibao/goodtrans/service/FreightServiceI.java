@@ -40,4 +40,17 @@ public interface FreightServiceI extends CommonService {
 	 * @return
 	 */
 	public int updatePolicyStatus(String freightId, String status);
+	/**
+	 * 根据保单id修改支付状态、支付时间、支付平台订单号等
+	 * @param policyid
+	 * @param orderNo
+	 * @return
+	 */
+	public int updatePolicyPayInfo(String freightId, String orderNo);
+	/**
+	 * 根据保单id修改保单编号和电子保单url
+	 * @param freightId
+	 * @return
+	 */
+	public int updatePolicyNo(String policyNo, String policyUrl, String freightId);
 }

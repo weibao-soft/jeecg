@@ -40,11 +40,11 @@ function getMainContent() {
 	params = getSelectParam(params);
 	
 	var content = "<b><span style='font-size:15px;color:red;'>保单主要内容：</span></b><br>方案名称："+params.planName
-	+"，保险期间: 自"+params.cargoStartDate+"起 至"+params.cargoEndDate+"止<br>";
+	+"，保险期间: 自<b>"+params.cargoStartDate+"</b>起 至<b>"+params.cargoEndDate+"</b>止<br>";
 	content = content+"车辆，车牌号: "+params.vehiclePlateNo+", 挂车牌号: "+params.trailerPlateNo+", 车架号: "+params.vehicleFrameNo;
 	content = content+"<br>法人姓名: "+params.corporate
-	+", 投保人名称: "+params.holderName+", 证件号码: "+params.holderCertNo
-	+", 被保人名称: "+params.insuredName+", 证件号码: "+params.insuredCertNo;
+	+", 投保人名称: <b>"+params.holderName+"</b>, 证件号码: "+params.holderCertNo
+	+", 被保人名称: <b>"+params.insuredName+"</b>, 证件号码: "+params.insuredCertNo;
 	
 	$("#mainContent").html(content);
 	//layer.msg(content);
