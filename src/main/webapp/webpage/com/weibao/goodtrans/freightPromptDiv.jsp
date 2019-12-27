@@ -39,7 +39,7 @@ function getMainContent() {
 	params = getUpdateParam(params);
 	params = getSelectParam(params);
 	
-	var content = "<b><span style='color:red;'>保单主要内容：</span></b><br>方案名称："+params.planName
+	var content = "<b><span style='font-size:15px;color:red;'>保单主要内容：</span></b><br>方案名称："+params.planName
 	+"，保险期间: 自"+params.cargoStartDate+"起 至"+params.cargoEndDate+"止<br>";
 	content = content+"车辆，车牌号: "+params.vehiclePlateNo+", 挂车牌号: "+params.trailerPlateNo+", 车架号: "+params.vehicleFrameNo;
 	content = content+"<br>法人姓名: "+params.corporate
@@ -90,7 +90,7 @@ function closePromptDiv() {
   
     <div style="height: 406px;overflow-x: hidden;overflow-y: auto;">
 	  <div class="myalert alert-info" id="my_toast" style="left: 60px; top: 325.5px; min-width: 200px; opacity: 0.987958;">
-	    <div style="text-align: left;display:inline-block;padding-right:5px;"><b><span style="color:red;">特别约定</span></b>
+	    <div style="text-align: left;display:inline-block;padding-right:5px;"><b><span style="font-size:15px;color:red;">特别约定：</span></b>
 	    <br>1、以下运输区域禁止承保：西藏地区全域、新疆地区全域。
 	    <br>2、不承担私人车辆运输货物的任何责任。
 	    <br>3、放弃代位追偿：经双方同意，保险人同意放弃对于投保物流企业的代位追偿权，但保留对于其他实际承运人或责任方的代位追偿权。

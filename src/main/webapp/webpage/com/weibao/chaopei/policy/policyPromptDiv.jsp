@@ -39,7 +39,7 @@ function getMainContent() {
 	params = getUpdateParam(params);
 	params = getSelectParam(params);
 	
-	var content = "<b><span style='color:red;'>保单主要内容：</span></b><br>方案名称："+params.planName
+	var content = "<b><span style='font-size:15px;color:red;'>保单主要内容：</span></b><br>方案名称："+params.planName
 	+"，保险期间: 自<b>"+params.startDate+"</b>起 至<b>"+params.endDate+"</b>止，发票类型: <b>"+params.invTypeName+"</b><br>";
 	var length = params.vehicleArr.length;
 	for(var i = 0; i < length; i++) {
@@ -103,7 +103,7 @@ function closePromptDiv() {
   
     <div style="height: 506px;overflow-x: hidden;overflow-y: auto;">
 	  <div class="alert alert-info" id="toast_info" style="left: 60px; top: 325.5px; min-width: 200px; opacity: 0.987958;">
-	    <div style="text-align: left;display:inline-block;padding-right:5px;"><b><span style="color:red;">特别约定</span></b>
+	    <div style="text-align: left;display:inline-block;padding-right:5px;"><b><span style="font-size:15px;color:red;">特别约定：</span></b>
 	    <br>1、国任保险客户服务电话：4008667788
 	    <br>2、被保险人在发生保险事故后，投保人、被保险人或受益人应在24小时之内拨打客服电话4008667788向国任财产保险公司报案，对超过24小时报案的案件，造成损失无法确定或损失扩大部分，保险公司有权不负责赔偿。
 	    <br>3、本保单仅承保50吨以下营运性质的箱式货车、普货车、集装箱车，除此以外的搅拌车、工程车、自卸车、其它特种车等车型不在本保单承保范围，以具体约定的车牌号/车辆识别代码对应的车辆为准，如果保险期间内发生车牌号变更，出险时以车辆识别代码为准。

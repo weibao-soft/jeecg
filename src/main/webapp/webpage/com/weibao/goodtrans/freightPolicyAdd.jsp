@@ -21,9 +21,10 @@
 <style type="text/css">
 *{font-size:14px;}
 a {
-    color: #428bca;
+    color: red;
 }
 a:hover {
+    color: #428bca;
     text-decoration: underline;
 }
 input[type="text"]{font-size:14px;}
@@ -130,7 +131,7 @@ function doPay() {
 	 <tr><td style="width:150px;">方案保障</td>
 	 <td style="width:auto;">
 		<select name="planId" id="planId" style="width:500px;">
-		</select><span class="Validform_checktip"></span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="nobr" onclick="openRemindDiv();">禁止承保类</a></td>
+		</select><span class="Validform_checktip"></span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="nobr" style="font-size:15px;" onclick="openRemindDiv();">禁止承保类</a></td>
 	 </tr>
 	 </table></td>
  </tr>

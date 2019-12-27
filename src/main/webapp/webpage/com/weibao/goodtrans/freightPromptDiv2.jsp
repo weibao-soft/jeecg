@@ -39,14 +39,15 @@ function closeRemindDiv() {
 }
 </SCRIPT>
 
-<div id="toast_jzcbl" class="alert alert-info" style="display: none;opacity: 1; min-width: 200px; top: 96px; left: 107.5px;">
+<div id="toast_jzcbl" class="alert alert-info" style="display: block;opacity: 1; min-width: 200px; top: 96px; left: 107.5px;">
   <button type="button" class="close" data-dismiss="" onclick="closeRemindDiv();">
     <i class="ace-icon fa fa-times"></i>
   </button>
   <strong style="margin-right:10px">
     <i class="ace-icon fa fa-info-circle" style="margin-right:5px"></i>
   </strong>
-  <div style="display:inline-block;padding-right:30px;">1、鲜活动植物、瓜果蔬菜、农产品如花生、玉米、豆类、大小麦、豆粕、鱼粉、大蒜、白糖、葵花子、冷藏冷冻品、罐头食品。
+  <div style="display:inline-block;padding-right:30px;"><b><span style='font-size:16px;color:red;'>禁止承保类：</span></b>
+    <br>1、鲜活动植物、瓜果蔬菜、农产品如花生、玉米、豆类、大小麦、豆粕、鱼粉、大蒜、白糖、葵花子、冷藏冷冻品、罐头食品。
     <br>2、超过60吨或高度超5米的变压器、精密仪器及设备、大件设备、大型港口机械设备、大型铸件、风力发电相关设备、商品车、航空器及航空发动机、游艇、船舶及船舶发动机及有关运输设备。
     <br>3、国际及国内法律法规规定的危险货物、各种压缩气体、武器弹药及其零配件、原油、各类矿砂、矿粉（铁精粉除外）、直接还原铁、原木。
     <br>4、玻璃制品、陶瓷制品、泥及石膏制品、石材类等易碎物品。
