@@ -513,7 +513,7 @@ public class FreightPolicyController extends BaseController {
 		
 		modelMap.put(NormalExcelConstants.FILE_NAME, "guoren_freight_list");
 		modelMap.put(NormalExcelConstants.CLASS, FreightPolicyPage.class);
-		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams("永安货运保单数据列表", "导出人:" + userName, "导出信息"));
+		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams("永安货运保单列表", "导出人:" + userName, "导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST, dataGrid.getResults());
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
@@ -526,9 +526,10 @@ public class FreightPolicyController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(HttpServletRequest request, HttpServletResponse response, 
 			DataGrid dataGrid, ModelMap modelMap) {
+		String userName = ResourceUtil.getSessionUser().getRealName();
 		modelMap.put(NormalExcelConstants.FILE_NAME, "电子保单导入模板");
 		modelMap.put(NormalExcelConstants.CLASS, FreightImportPage.class);
-		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams("电子保单列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(), "导出模板"));
+		modelMap.put(NormalExcelConstants.PARAMS, new ExportParams("电子保单信息列表", "模板导出人:" + userName, "模板"));
 		modelMap.put(NormalExcelConstants.DATA_LIST, new ArrayList());
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
