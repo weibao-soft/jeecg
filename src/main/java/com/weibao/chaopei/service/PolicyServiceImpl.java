@@ -808,6 +808,21 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 	public List<String> getDepartIdByUser(String userId) {
 		return policyMainDao.getUserDepartIds(userId);
 	}
+	
+	/**
+	 * 修改保单发票信息
+	 * @param invoice
+	 * @return
+	 */
+	public int updatePolicyInvoice(InvoiceExportPage invoice) {
+    	//	修改保单状态为已支付；写入支付时间、写入保单号、生成电子保单、修改电子保单url
+		String updSql = "update wb_insurance_policy set taxpayer_no=?, comp_name=?, comp_address=?, comp_phone=?, "
+				+ "deposit_bank=?, bank_account=?, recipients=?, recipients_tel=?, reci_address=? where id=?";
+		int updCnt = super.executeSql(updSql, invoice.getTaxpayerNo(), invoice.getCompName(), invoice.getCompAddress(),
+				invoice.getCompPhone(), invoice.getDepositBank(), invoice.getBankAccount(), invoice.getRecipients(),
+				invoice.getRecipientsTel(), invoice.getReciAddress(), invoice.getId());
+		return updCnt;
+	}
 
 	/**
 	 * 根据保单id、草稿id分别修改保单和草稿的状态为已投保

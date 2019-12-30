@@ -1,15 +1,20 @@
 package com.weibao.chaopei.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jeecg.demo.entity.TSDocument;
-import com.weibao.chaopei.entity.*;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.jeecgframework.core.common.controller.BaseController;
@@ -18,12 +23,14 @@ import org.jeecgframework.core.common.model.common.UploadFile;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.*;
+import org.jeecgframework.core.util.DateUtils;
+import org.jeecgframework.core.util.MyClassLoader;
+import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
-import org.jeecgframework.web.system.pojo.base.TSType;
-import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +40,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.weibao.chaopei.entity.HolderEntity;
+import com.weibao.chaopei.entity.PolicyEntity;
+import com.weibao.chaopei.entity.ReceiverEntity;
+import com.weibao.chaopei.entity.WBPolicyChange;
+import com.weibao.chaopei.entity.WBPolicyChangeContent;
 import com.weibao.chaopei.page.CommonBean;
+import com.weibao.chaopei.page.InvoiceExportPage;
 import com.weibao.chaopei.page.PolicyMainPage;
 import com.weibao.chaopei.service.PolicyServiceI;
 
@@ -96,7 +109,7 @@ public class PolicyMainController extends BaseController {
 			int year = endYear - startYear;
 			String start = sdfd.format(startDate);
 			String end = sdfd.format(endDate);
-			String max = sdfd.format(endDate);
+			String max = sdfd.format(maxDate);
 			request.setAttribute("start", start);
 			request.setAttribute("end", end);
 			request.setAttribute("max", max);
@@ -138,6 +151,29 @@ public class PolicyMainController extends BaseController {
 		}
 		req.setAttribute("policyMainPage", policyMainPage);
 		return new ModelAndView("com/weibao/chaopei/policy/speInvoiceAdd");
+	}
+
+	/**
+	 * 专票信息修改页面跳转
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "editSpe")
+	public ModelAndView editSpe(String policyId, HttpServletRequest req) {
+		PolicyMainPage policyMainPage = new PolicyMainPage();
+		try {
+			req.setCharacterEncoding(UTF8);
+			if (StringUtil.isNotEmpty(policyId)) {
+				PolicyEntity policyEntity = policyService.getEntity(PolicyEntity.class, policyId);
+				BeanUtils.copyProperties(policyMainPage, policyEntity);
+			}
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			logger.error(e.getMessage(), e);
+		} catch (UnsupportedEncodingException e) {
+			logger.error(e.getMessage(), e);
+		}
+		req.setAttribute("policyMainPage", policyMainPage);
+		return new ModelAndView("com/weibao/chaopei/policy/speInvoiceEdit");
 	}
 
 	/**
@@ -194,6 +230,38 @@ public class PolicyMainController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		TagUtil.datagrid(response, dataGrid);
+	}
+
+	/**
+	 * 修改发票信息
+	 * @param invoiceExportPage
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "updateInvoice")
+	@ResponseBody
+	public AjaxJson updateInvoice(InvoiceExportPage invoiceExportPage, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "修改成功";
+		try {
+			int updCnt = policyService.updatePolicyInvoice(invoiceExportPage);
+			if(updCnt < 1) {
+				j.setSuccess(false);
+				message = "发票信息修改失败";
+			}
+			systemService.addLog(message+":", Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+		} catch(HibernateException e) {
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "发票信息修改失败";
+			throw new BusinessException("发票信息修改失败，原因：" + e.getMessage());
+		} catch(Exception e) {
+			logger.info(e.getMessage(), e);
+			j.setSuccess(false);
+			message = "发票信息修改失败";
+		}
+		j.setMsg(message);
+		return j;
 	}
 
 	/**

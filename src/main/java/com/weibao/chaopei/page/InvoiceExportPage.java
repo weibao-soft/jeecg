@@ -12,6 +12,8 @@ import org.jeecgframework.poi.excel.annotation.Excel;
  */
 public class InvoiceExportPage implements Serializable {
 	private static final long serialVersionUID = -724566306691255205L;
+	//保单id
+	private java.lang.String id;
 	//创建时间
 	@Excel(name="创建日期",width=25)
 	private java.util.Date createTime;
@@ -35,7 +37,9 @@ public class InvoiceExportPage implements Serializable {
 	private java.lang.String receiverMobile;
 	//纳税人识别号
 	@Excel(name="纳税号",width=22)
-	private java.lang.String taxpayerNo;	
+	private java.lang.String taxpayerNo;
+	//专票公司名称
+	private java.lang.String compName;
 	//专票公司地址
 	@Excel(name="地址",width=50)
 	private java.lang.String compAddress;
@@ -51,10 +55,16 @@ public class InvoiceExportPage implements Serializable {
 	//发票类型
 	@Excel(name="专票/普票",width=10)
 	private java.lang.String invoiceType;
+	//专票收件人
+	private java.lang.String recipients;
+	//专票收件人电话
+	private java.lang.String recipientsTel;
+	//专票收件地址
+	private java.lang.String reciAddress;
 	//专票接收人、电话、地址拼接
 	@Excel(name="邮寄地址",width=50)
 	private String taxiAddr;
-	
+	//保单归属
 	@Excel(name="保单归属",width=15)
 	private String topOrg;
 	//是否纸质保单
@@ -65,6 +75,36 @@ public class InvoiceExportPage implements Serializable {
 	private java.lang.String isPaperInvoice;
 	
 	
+	public java.lang.String getId() {
+		return id;
+	}
+	public void setId(java.lang.String id) {
+		this.id = id;
+	}
+	public java.lang.String getCompName() {
+		return compName;
+	}
+	public void setCompName(java.lang.String compName) {
+		this.compName = compName;
+	}
+	public java.lang.String getRecipients() {
+		return recipients;
+	}
+	public void setRecipients(java.lang.String recipients) {
+		this.recipients = recipients;
+	}
+	public java.lang.String getRecipientsTel() {
+		return recipientsTel;
+	}
+	public void setRecipientsTel(java.lang.String recipientsTel) {
+		this.recipientsTel = recipientsTel;
+	}
+	public java.lang.String getReciAddress() {
+		return reciAddress;
+	}
+	public void setReciAddress(java.lang.String reciAddress) {
+		this.reciAddress = reciAddress;
+	}
 	public java.lang.String getPolicyMobile() {
 		return policyMobile;
 	}

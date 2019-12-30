@@ -101,6 +101,12 @@ public interface PolicyServiceI extends CommonService {
 	 */
 	public List<String> getDepartIdByUser(String userid);
 	/**
+	 * 修改保单发票信息
+	 * @param invoice
+	 * @return
+	 */
+	public int updatePolicyInvoice(InvoiceExportPage invoice);
+	/**
 	 * 根据保单id、草稿id分别修改保单和草稿的状态为已投保
 	 * @param policyid
 	 * @param draftId

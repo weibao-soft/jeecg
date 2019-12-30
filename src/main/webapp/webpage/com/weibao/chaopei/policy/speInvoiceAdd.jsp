@@ -10,17 +10,6 @@
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 <SCRIPT type="text/javascript">
-//var compName2 = parent.$("#compName2p").val();
-//layer.msg(compName2);
-$(document).ready(function() {
-    //window.setTimeout(customFunc, 300);
-});
-
-function customFunc() {
-	//$("#recipients").val("${policyMainPage.recipients }");
-    //var num=$('#recipients option:first').attr("data-num");
-	//$("#recipientsTel").val(num);
-}
 function closeDialog() {
 }
 </SCRIPT>

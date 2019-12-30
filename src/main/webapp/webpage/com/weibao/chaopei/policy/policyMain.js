@@ -294,7 +294,7 @@ function initToggleShourModeEvent(start, max, end, year, vehicles) {
  */
 function add(title,addurl) {
 	var url = setChildUrl();
-	createwindowN('开具增值税专用发票', addurl + url,'50%','50%');
+	createwindowN('开具增值税专用发票', addurl + url,'50%','50%',true);
 }
 
 /**
@@ -302,7 +302,7 @@ function add(title,addurl) {
  * @param title
  * @param addurl
  */
-function createwindowN(title,addurl,width,height) {
+function createwindowN(title,addurl,width,height,flag) {
 	if(width=="100%" || height=="100%"){
 		width = window.top.document.body.offsetWidth;
 		height =window.top.document.body.offsetHeight-100;
@@ -325,17 +325,23 @@ function createwindowN(title,addurl,width,height) {
 		onLoad:function(){
             if(console) console.log("onLoad");
 	    	var iframe = this.iframe.contentWindow;
-	    	setChildData(iframe);
+	    	//setChildData(iframe);
 		},
 	    ok: function(){
 	    	var iframe = this.iframe.contentWindow;
-	    	return setParentData(iframe);
+	    	if(flag) {
+	    		return setParentData(iframe);
+	    	} else {
+	    		return updInvoice(iframe);
+	    	}
 	    },
 	    okVal: '保存',/*$.i18n.prop('dialog.submit'),*/
 	    cancelVal: $.i18n.prop('dialog.close'),
 	    cancel: function(){
-	    	$("#invoiceType").val('2').trigger('change');
-			layer.msg("已默认选择增值税普通发票", {icon:6});
+	    	if(flag) {
+	    		$("#invoiceType").val('2').trigger('change');
+	    		layer.msg("已默认选择增值税普通发票", {icon:6});
+	    	}
 			return true;
 	    }
 	    /*cancel: true 为true等价于function(){}*/
@@ -380,13 +386,7 @@ function getParentParam() {
 }
 //把专票子页面上的数据写到父页面
 function setParentData(iframe) {
-	var param = {};
-	param.compName = $("#compName", iframe.document).val();
-	param.taxpayerNo = $("#taxpayerNo", iframe.document).val();
-	param.compAddress = $("#compAddress", iframe.document).val();
-	param.compPhone = $("#compPhone", iframe.document).val();
-	param.depositBank = $("#depositBank", iframe.document).val();
-	param.bankAccount = $("#bankAccount", iframe.document).val();
+	var param = getChildParam(iframe);
 
 	if(!validParam(param, iframe)) {
 		return false;
@@ -406,8 +406,59 @@ function parseData(info) {
         $("#bankAccountp").val(info.bankAccount);
     }
 }
+function getChildParam(iframe) {
+	debugger;
+	var param = {};
+	param.id = $("#id", iframe.document).val();
+	param.compName = $("#compName", iframe.document).val();
+	param.taxpayerNo = $("#taxpayerNo", iframe.document).val();
+	param.compAddress = $("#compAddress", iframe.document).val();
+	param.compPhone = $("#compPhone", iframe.document).val();
+	param.depositBank = $("#depositBank", iframe.document).val();
+	param.bankAccount = $("#bankAccount", iframe.document).val();
+	param.recipients = $("#recipients", iframe.document).val();
+	param.recipientsTel = $("#recipientsTel", iframe.document).val();
+	param.reciAddress = $("#reciAddress", iframe.document).val();
+	
+	return param;
+}
 
 
+function updInvoice(iframe) {
+	var mainTabId = "tab_402880ea6e26628b016e26665a0f0001";
+	var url = "policyMainController.do?updateInvoice";
+	var param = getChildParam(iframe);
+
+	if(!validParams(param, iframe)) {
+		return false;
+	}
+	ajaxUpdInvoice(url, param, mainTabId);
+	return true;
+}
+//修改发票信息函数
+function ajaxUpdInvoice(url, params, mainTabId) {
+$.ajax({
+    url: url,
+    type: "POST",
+    data: params,
+    dataType: "json",
+    error: function () {
+        layer.alert("服务器异常");
+    },
+    success: function (data) {
+        var result = data.obj;
+        //if(console) console.log("ajaxReturn == ", data);
+        if (data.success) {
+            reloadPolicyList(mainTabId);
+			layer.msg(data.msg, {icon:6});
+        } else {
+            layer.alert(data.msg);
+        }
+
+        return false;
+    }
+});
+}
 //Form submit方式提交表单数据
 function submitData() {
 	if(!validData()) {
@@ -417,7 +468,7 @@ function submitData() {
 	var invoice=$("#invoiceType").val();
 	if(invoice=='2') {
 		var taxpayerNo = $("#taxpayerNo2").val();
-      $("#taxpayerNop").val(taxpayerNo);
+        $("#taxpayerNop").val(taxpayerNo);
 	}
 	
 	$("#formobj").submit();
@@ -466,7 +517,6 @@ $.ajax({
       	    
       	    //open window方式打开支付窗口，打开的是一个浏览器窗口
       	    //openWindow(payUrl);
-      	    //closeCurrent('tab_'+id);
       		//弹出层的方式打开支付页面，打开的不是浏览器窗口，只是显示了一个层
       	    openDiv(payUrl);
         } else {
@@ -479,7 +529,7 @@ $.ajax({
     }
 });
 }
-//公共提交表单函数：参数 params为 Json类型，可以传空参数，如:  {}
+//公共提交核保函数：参数 params为 Json类型，可以传空参数，如:  {}
 function ajaxSubmitForm(url, params, isAdd, mainTabId) {
   $.ajax({
       url: url,
@@ -677,7 +727,7 @@ function validParam(param, iframe) {
 	return true;
 }
 //校验开具专用发票页面上的数据
-function validParam2(param, iframe) {
+function validParams(param, iframe) {
 	if(param.compName == null || param.compName == "") {
 		iframe.$.messager.alert('提示','请填写公司名称!','info');
 		return false;

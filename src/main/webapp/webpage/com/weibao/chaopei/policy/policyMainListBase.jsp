@@ -4,6 +4,7 @@
 <script type="text/javascript" src="webpage/com/weibao/chaopei/product/bootstrap-tab-product.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/policy/policyMain.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/policyCommon.js"></script>
+<script type="text/javascript" src="webpage/com/weibao/chaopei/common/common.js"></script>
 <script type="text/javascript" src="webpage/com/weibao/chaopei/common/utils.js"></script>
 
 <style type="text/css">
@@ -14,11 +15,11 @@ div.datagrid-cell{font-size:14px;}
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="myPolicysManageList" checkbox="true" pagination="true" fitColumns="false" title="保单列表" actionUrl="policyMainController.do?datagrid" 
   		 idField="id" fit="true" collapsible="false" queryMode="group" sortName="createTime" sortOrder="desc" filter="true" pageSize="20">
-   <t:dgCol title="操作" frozenColumn="true" field="opt" width="200"></t:dgCol>
+   <t:dgCol title="操作" frozenColumn="true" field="opt" width="230"></t:dgCol>
    <t:dgFunOpt title="编辑" exp="payStatus#eq#0" funname="addTab(id)" urlclass="ace_button" urlfont="fa-edit" urlStyle="background-color:#1a7bb9;"/>
    <t:dgDelOpt title="删除" exp="payStatus#eq#0" url="policyMainController.do?doDel&policyId={id}&payStatus={payStatus}" urlclass="ace_button" urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"/>
    <t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#18a689;"/>
-   <t:dgFunOpt title="发票信息" exp="status#eq#3&&payStatus#eq#1" funname="" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
+   <t:dgFunOpt title="编辑发票信息" exp="status#eq#3&&payStatus#eq#1" funname="edit(id)" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
    <t:dgFunOpt title="批改" exp="status#eq#3&&payStatus#eq#1" funname="policyChange(id)" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
    <t:dgFunOpt title="查看批改" exp="status#eq#3&&payStatus#eq#1" funname="viewPolicyChange" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#6fb3e0;"/>
 
@@ -54,6 +55,7 @@ div.datagrid-cell{font-size:14px;}
    	<t:dgCol title="产品方案" 	field="prodPlan" sortable="false" queryMode="single" showLen="22" width="300"></t:dgCol>
    	<t:dgCol title="保险公司"	field="insurCompName" sortable="false" queryMode="single" dictionary="ins_comp" width="100"></t:dgCol>
    	
+   <t:dgToolBar title="发票详情" icon="icon-search" url="policyMainController.do?editSpe&policyId=" funname="view"></t:dgToolBar>
    <t:dgToolBar title="批量支付" icon="icon-add" url="policyDraftController.do?insurancePays" funname="batchPay"></t:dgToolBar>
    
   </t:datagrid>
@@ -61,7 +63,7 @@ div.datagrid-cell{font-size:14px;}
  </div>
  
 <%@include file="policyPayiFrame.jsp"%>
- <script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function (){
 	var abc = $("#lywidth_demo").width()+17;
 	$("#lywidth_demo").css("min-width", abc).css("padding-right","17px").css("box-sizing","border-box");
@@ -152,4 +154,37 @@ function viewPolicyChange() {
 	self.parent.addOneTab('保单变更','policyChangeController.do?manager','icon-add')
 }
 
- </script>
+/**
+ * 修改事件打开窗口
+ * @param title 编辑框标题
+ * @param url//目标页面地址
+ */
+function edit(id) {
+	var url="policyMainController.do?editSpe&policyId="+id;
+	createwindowN('修改增值税专用发票', url,'50%','50%',false);
+}
+
+/**
+ * 查看事件打开窗口
+ * @param title 编辑框标题
+ * @param url//目标页面地址
+ */
+function view(title,url,gname) {
+	debugger;
+	var rowsData = $('#'+gname).datagrid('getSelections');
+	if (!rowsData || rowsData.length == 0) {
+		tip($.i18n.prop('read.selectItem'));
+		return;
+	}
+	if (rowsData.length > 1) {
+		tip($.i18n.prop('read.selectOneItem'));
+		return;
+	}
+	url = url + rowsData[0].id
+	createdetailwindow('增值税专用发票详情', url, null, null);
+}
+//pleaaseselectonerowtoview
+//pleaaseselectonerowtoedit
+//pleaseselectviewrow
+//pleaseselecteditrow
+</script>

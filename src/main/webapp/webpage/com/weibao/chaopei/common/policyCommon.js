@@ -175,14 +175,14 @@ function reloadPolicyList(mainTabId) {
 		return false;
 	}
 	var myWindow = myframe.contentWindow;
-  myWindow.reload();
+    myWindow.reload();
 }
-//打开浏览器窗口
+//通过打开浏览器新窗口的方式打开支付页面
 function openWindow(payUrl) {
 	payUrl = encodeURIComponent(payUrl);
-  EV_modeAlert();//弹出遮罩层
+    EV_modeAlert();//弹出遮罩层
     //参数： url, 名称, 窗体样式
-  var child = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+    var child = window.open("policyMainController.do?goChild&payUrl="+payUrl, "支付", "height=666, width=1266, top=0, left=0, alwaysRaised=yes, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
 	try {
 		child.focus();//子窗口获取焦点
     	window.onfocus=function (){child.focus();};
@@ -191,7 +191,7 @@ function openWindow(payUrl) {
     	window.parent.onclick=function (){child.focus();};
 	} catch (e) { }
 }
-//显示弹出层
+//显示弹出层的方式打开支付页面
 function openDiv(payUrl) {
   var frameObj=document.getElementById("payiFrame");
   frameObj.src=payUrl;

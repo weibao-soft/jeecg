@@ -10,11 +10,10 @@
 <script type="text/javascript" src="plug-in/jquery/jquery.editable-select.min.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/jquery/jquery.editable-select.min.css"/>
 <SCRIPT type="text/javascript">
-//var compName2 = parent.$("#compName2p").val();
-//layer.msg(compName2);
+//parent.layer.msg("专票信息", {icon:6});
 $(document).ready(function() {
     $("#recipients").css("width", "140px");
-	getReceivers("recipients");
+	//getReceivers("recipients");
     window.setTimeout(customFunc, 300);
 });
 
@@ -107,7 +106,7 @@ function closeDialog() {
 				<label class="Validform_label">发票收件地址:</label>
 			</td>
 			<td class="value" colspan="3">
-		     	<input id="reciAddress" name="reciAddress" type="text" style="width: 400px" class="inputxt"  datatype="*"  ignore="checked" value="${policyMainPage.reciAddress }" />
+		     	<input id="reciAddress" name="reciAddress" type="text" style="width: 500px" class="inputxt"  datatype="*"  ignore="checked" value="${policyMainPage.reciAddress }" />
 				<span class="Validform_checktip"></span><label class="Validform_label" style="display: none;">发票收件地址</label>
 			</td>
 		</tr>
