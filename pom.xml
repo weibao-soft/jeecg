@@ -670,7 +670,14 @@
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.56</version>
         </dependency>
-		
+		<dependency>
+            <groupId>com.dongrui</groupId>
+            <artifactId>sdk</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ishdr-paysdk-1.0.jar
+        </systemPath>
+        </dependency>
 	</dependencies>
 
 	<organization>
