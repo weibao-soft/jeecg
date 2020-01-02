@@ -12,11 +12,11 @@ div.datagrid-cell{font-size:14px;}
   <t:datagrid name="guorenPolicyList" checkbox="false" sortName="payTime" sortOrder="desc" pagination="true" fitColumns="false" title="保单列表" pageSize="100"
   	  actionUrl="guorenPolicyController.do?datagrid" idField="id" fit="true" queryMode="group" filter="true">	   	
   	
-  	<t:dgCol title="操作"  frozenColumn="true" field="opt" width="160"></t:dgCol>
+  	<t:dgCol title="操作"  frozenColumn="true" field="opt" width="200"></t:dgCol>
 	<t:dgFunOpt title="快递"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
    	<t:dgFunOpt title="退保"  funname="addTab(id)" urlclass="ace_button"  urlfont="fa-check" urlStyle="background-color:#1a7bb9;"/>
-   	<t:dgFunOpt title="支付" exp="status#eq#2&&payStatus#ne#1" funname="policyPay(id)" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#18a689;"/>
-   		
+   	<t:dgFunOpt title="导出Word" funname="exportWordDoc(id)" urlclass="ace_button" urlfont="fa-cog" urlStyle="background-color:#18a689;"/>
+
 	<t:dgCol title="主键"  field="id" hidden="true" queryMode="single" width="50"></t:dgCol>
 	<t:dgCol title="支付时间"  field="payTimeFilter" hidden="true" formatter="yyyy-MM-dd" query="true" queryMode="group" sortable="false"  width="150"></t:dgCol>
 	<t:dgCol title="创建日期"  field="createTimeFilter" hidden="true" formatter="yyyy-MM-dd" query="true" queryMode="group" sortable="false"  width="150"></t:dgCol>
@@ -60,7 +60,6 @@ div.datagrid-cell{font-size:14px;}
 </div>
 
 <script type="text/javascript">
-
 	function policyHref(value, row, index){	
 		if (value != null && value != ''){		
 			return '<a href="'+row.policyUrl+'" style="color:red" target="_blank" >'+value+'</a>';
@@ -69,16 +68,32 @@ div.datagrid-cell{font-size:14px;}
 	
 	//导出
 	function ExportXls() {
-		debugger;
 		JeecgExcelExport("guorenPolicyController.do?exportXls","guorenPolicyList");
 	}
 	
 	//导出发票信息
 	function ExportTaxiXls() {
-		debugger;
 		JeecgExcelExport("guorenPolicyController.do?ExportTaxiXls","guorenPolicyList");
 	}
 	
+	//导出Word文档
+	function exportWordDoc(id) {
+		JeecgExcelExport("guorenPolicyController.do?exportWordDoc&policyId="+id,"guorenPolicyList");
+	}
+	
+	//导出Word文档
+	function exportWordDocs(title, url, gname) {
+		var rowsData = $('#'+gname).datagrid('getSelections');
+		if (!rowsData || rowsData.length == 0) {
+			tip($.i18n.prop('read.selectItem'));
+			return;
+		}
+		if (rowsData.length > 1) {
+			tip($.i18n.prop('read.selectOneItem'));
+			return;
+		}
+		var id = rowsData[0].id
+		JeecgExcelExport("guorenPolicyController.do?exportWordDoc&policyId="+id,"guorenPolicyList");
+	}
 
-//layer.msg("${parentIds}");
 </script>
