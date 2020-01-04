@@ -153,7 +153,7 @@ function doPay() {
 				<td><span style="color: red;">*</span>挂车车牌号 </td>
 				<td><input type="text" name="trailerPlateNo" id="trailerPlateNo" class="policy" maxlength="8" style="width:100px;"></td>
 				<td><span style="color: red;">*</span>车架号 </td>
-				<td><input type="text" name="vehicleFrameNo" id="vehicleFrameNo" class="policy" maxlength="20"></td>
+				<td><input type="text" name="vehicleFrameNo" id="vehicleFrameNo" class="policy" maxlength="20" style="width:180px;"></td>
 				</tr>
 			</tbody>
 			</table></td>

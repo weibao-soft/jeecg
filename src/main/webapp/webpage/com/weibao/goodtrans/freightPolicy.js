@@ -273,21 +273,34 @@ function validHolder() {
 			holderPartType = holderPartTypes[i].value;
 		}
 	}
-	var holderName = document.getElementById("holderName").value;
-	var holderCertNo = document.getElementById("holderCertNo").value;
 	var holderCertType = document.getElementById("holderCertType").value;
-	var holderValidity = document.getElementById("holderValidity").value;
+	var holderName = jQuery.trim(document.getElementById("holderName").value);
+	var holderCertNo = jQuery.trim(document.getElementById("holderCertNo").value);
+	var holderValidity = jQuery.trim(document.getElementById("holderValidity").value);
+	document.getElementById("holderName").value = holderName;
+	document.getElementById("holderCertNo").value = holderCertNo;
+	document.getElementById("holderValidity").value = holderValidity;
 	
 	var holderSex = document.getElementById("holderSex").value;
-	var holderProfession = document.getElementById("holderProfession").value;
-	var holderNation = document.getElementById("holderNation").value;
-	var holderPostal = document.getElementById("holderPostal").value;
-	var holderAddress = document.getElementById("holderAddress").value;
-	var holderCtatName = document.getElementById("holderCtatName").value;
-	var holderCtatEmail = document.getElementById("holderCtatEmail").value;
-	var holderCtatPhone = document.getElementById("holderCtatPhone").value;
-	var holderCtatMobile = document.getElementById("holderCtatMobile").value;
-	var holderCtatFax = document.getElementById("holderCtatFax").value;
+	var holderProfession = jQuery.trim(document.getElementById("holderProfession").value);
+	var holderNation = jQuery.trim(document.getElementById("holderNation").value);
+	var holderPostal = jQuery.trim(document.getElementById("holderPostal").value);
+	var holderAddress = jQuery.trim(document.getElementById("holderAddress").value);
+	var holderCtatName = jQuery.trim(document.getElementById("holderCtatName").value);
+	var holderCtatEmail = jQuery.trim(document.getElementById("holderCtatEmail").value);
+	var holderCtatPhone = jQuery.trim(document.getElementById("holderCtatPhone").value);
+	var holderCtatMobile = jQuery.trim(document.getElementById("holderCtatMobile").value);
+	var holderCtatFax = jQuery.trim(document.getElementById("holderCtatFax").value);
+	document.getElementById("holderProfession").value = holderProfession;
+	document.getElementById("holderNation").value = holderNation;
+	document.getElementById("holderPostal").value = holderPostal;
+	document.getElementById("holderAddress").value = holderAddress;
+	document.getElementById("holderCtatName").value = holderCtatName;
+	document.getElementById("holderCtatEmail").value = holderCtatEmail;
+	document.getElementById("holderCtatPhone").value = holderCtatPhone;
+	document.getElementById("holderCtatMobile").value = holderCtatMobile;
+	document.getElementById("holderCtatFax").value = holderCtatFax;
+	
 	if(holderName == null || holderName == "") {
 		$.messager.alert('提示','“投保人”名称不能为空!','info');
 		return false;
@@ -357,21 +370,34 @@ function validInsured() {
 			insuredPartType = insuredPartTypes[i].value;
 		}
 	}
-	var insuredName = document.getElementById("insuredName").value;
-	var insuredCertNo = document.getElementById("insuredCertNo").value;
 	var insuredCertType = document.getElementById("insuredCertType").value;
-	var insuredValidity = document.getElementById("insuredValidity").value;
+	var insuredName = jQuery.trim(document.getElementById("insuredName").value);
+	var insuredCertNo = jQuery.trim(document.getElementById("insuredCertNo").value);
+	var insuredValidity = jQuery.trim(document.getElementById("insuredValidity").value);
+	document.getElementById("insuredName").value = insuredName;
+	document.getElementById("insuredCertNo").value = insuredCertNo;
+	document.getElementById("insuredValidity").value = insuredValidity;
 	
 	var insuredSex = document.getElementById("insuredSex").value;
-	var insuredProfession = document.getElementById("insuredProfession").value;
-	var insuredNation = document.getElementById("insuredNation").value;
-	var insuredPostal = document.getElementById("insuredPostal").value;
-	var insuredAddress = document.getElementById("insuredAddress").value;
-	var insuredCtatName = document.getElementById("insuredCtatName").value;
-	var insuredCtatEmail = document.getElementById("insuredCtatEmail").value;
-	var insuredCtatPhone = document.getElementById("insuredCtatPhone").value;
-	var insuredCtatMobile = document.getElementById("insuredCtatMobile").value;
-	var insuredCtatFax = document.getElementById("insuredCtatFax").value;
+	var insuredProfession = jQuery.trim(document.getElementById("insuredProfession").value);
+	var insuredNation = jQuery.trim(document.getElementById("insuredNation").value);
+	var insuredPostal = jQuery.trim(document.getElementById("insuredPostal").value);
+	var insuredAddress = jQuery.trim(document.getElementById("insuredAddress").value);
+	var insuredCtatName = jQuery.trim(document.getElementById("insuredCtatName").value);
+	var insuredCtatEmail = jQuery.trim(document.getElementById("insuredCtatEmail").value);
+	var insuredCtatPhone = jQuery.trim(document.getElementById("insuredCtatPhone").value);
+	var insuredCtatMobile = jQuery.trim(document.getElementById("insuredCtatMobile").value);
+	var insuredCtatFax = jQuery.trim(document.getElementById("insuredCtatFax").value);
+	document.getElementById("insuredProfession").value = insuredProfession;
+	document.getElementById("insuredNation").value = insuredNation;
+	document.getElementById("insuredPostal").value = insuredPostal;
+	document.getElementById("insuredAddress").value = insuredAddress;
+	document.getElementById("insuredCtatName").value = insuredCtatName;
+	document.getElementById("insuredCtatEmail").value = insuredCtatEmail;
+	document.getElementById("insuredCtatPhone").value = insuredCtatPhone;
+	document.getElementById("insuredCtatMobile").value = insuredCtatMobile;
+	document.getElementById("insuredCtatFax").value = insuredCtatFax;
+	
 	if(insuredName == null || insuredName == "") {
 		$.messager.alert('提示','“被保人”名称不能为空!','info');
 		return false;
@@ -434,11 +460,17 @@ function validInsured() {
 }
 //校验法人信息
 function validCorporate() {
-	var corporate = document.getElementById("corporate").value;
-	var corporCertNo = document.getElementById("corporCertNo").value;
-	var corporCertName = document.getElementById("corporCertName").value;
-	var corporValidity = document.getElementById("corporValidity").value;
-	var beneficiary = document.getElementById("beneficiary").value;
+	var corporate = jQuery.trim(document.getElementById("corporate").value);
+	var corporCertNo = jQuery.trim(document.getElementById("corporCertNo").value);
+	var corporCertName = jQuery.trim(document.getElementById("corporCertName").value);
+	var corporValidity = jQuery.trim(document.getElementById("corporValidity").value);
+	var beneficiary = jQuery.trim(document.getElementById("beneficiary").value);
+	document.getElementById("corporate").value = corporate;
+	document.getElementById("corporCertNo").value = corporCertNo;
+	document.getElementById("corporCertName").value = corporCertName;
+	document.getElementById("corporValidity").value = corporValidity;
+	document.getElementById("beneficiary").value = beneficiary;
+	
 	if(corporate == null || corporate == "") {
 		$.messager.alert('提示','“法人”姓名不能为空!','info');
 		return false;
@@ -463,20 +495,29 @@ function validCorporate() {
 }
 //校验保单信息
 function validPolicy() {
-	var startDate = document.getElementById("start").value;
-	var endDate = document.getElementById("end").value;
-	var vehiclePlateNo = document.getElementById("vehiclePlateNo").value;
-	var trailerPlateNo = document.getElementById("trailerPlateNo").value;
-	var vehicleFrameNo = document.getElementById("vehicleFrameNo").value;
-
-	var goodsName = document.getElementsByName("goodsName")[0].value;
-	var category = document.getElementsByName("category")[0].value;
-	var countOrWeight = document.getElementsByName("countOrWeight")[0].value;
-	var insuredAmount = document.getElementsByName("insuredAmount")[0].value;
-	var premiumRate = document.getElementsByName("premiumRate")[0].value;
-
 	var allInsuredAmount = document.getElementById("allInsuredAmount").value;
 	var allPremium = document.getElementById("allPremium").value;
+	
+	var startDate = document.getElementById("start").value;
+	var endDate = document.getElementById("end").value;
+	var vehiclePlateNo = jQuery.trim(document.getElementById("vehiclePlateNo").value);
+	var trailerPlateNo = jQuery.trim(document.getElementById("trailerPlateNo").value);
+	var vehicleFrameNo = jQuery.trim(document.getElementById("vehicleFrameNo").value);
+	document.getElementById("vehiclePlateNo").value = vehiclePlateNo;
+	document.getElementById("trailerPlateNo").value = trailerPlateNo;
+	document.getElementById("vehicleFrameNo").value = vehicleFrameNo;
+
+	var goodsName = jQuery.trim(document.getElementsByName("goodsName")[0].value);
+	var category = jQuery.trim(document.getElementsByName("category")[0].value);
+	var countOrWeight = jQuery.trim(document.getElementsByName("countOrWeight")[0].value);
+	var insuredAmount = jQuery.trim(document.getElementsByName("insuredAmount")[0].value);
+	var premiumRate = jQuery.trim(document.getElementsByName("premiumRate")[0].value);
+	document.getElementsByName("goodsName")[0].value = goodsName;
+	document.getElementsByName("category")[0].value = category;
+	document.getElementsByName("countOrWeight")[0].value = countOrWeight;
+	document.getElementsByName("insuredAmount")[0].value = insuredAmount;
+	document.getElementsByName("premiumRate")[0].value = premiumRate;
+
 	if(startDate == null || startDate == "") {
 		$.messager.alert('提示','请填写保险开始时间!','info');
 		return false;

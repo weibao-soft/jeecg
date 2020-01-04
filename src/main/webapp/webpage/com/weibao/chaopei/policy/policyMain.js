@@ -409,16 +409,26 @@ function parseData(info) {
 function getChildParam(iframe) {
 	debugger;
 	var param = {};
-	param.id = $("#id", iframe.document).val();
-	param.compName = $("#compName", iframe.document).val();
-	param.taxpayerNo = $("#taxpayerNo", iframe.document).val();
-	param.compAddress = $("#compAddress", iframe.document).val();
-	param.compPhone = $("#compPhone", iframe.document).val();
-	param.depositBank = $("#depositBank", iframe.document).val();
-	param.bankAccount = $("#bankAccount", iframe.document).val();
-	param.recipients = $("#recipients", iframe.document).val();
-	param.recipientsTel = $("#recipientsTel", iframe.document).val();
-	param.reciAddress = $("#reciAddress", iframe.document).val();
+	param.id = jQuery.trim($("#id", iframe.document).val());
+	param.compName = jQuery.trim($("#compName", iframe.document).val());
+	param.taxpayerNo = jQuery.trim($("#taxpayerNo", iframe.document).val());
+	param.compAddress = jQuery.trim($("#compAddress", iframe.document).val());
+	param.compPhone = jQuery.trim($("#compPhone", iframe.document).val());
+	param.depositBank = jQuery.trim($("#depositBank", iframe.document).val());
+	param.bankAccount = jQuery.trim($("#bankAccount", iframe.document).val());
+	param.recipients = jQuery.trim($("#recipients", iframe.document).val());
+	param.recipientsTel = jQuery.trim($("#recipientsTel", iframe.document).val());
+	param.reciAddress = jQuery.trim($("#reciAddress", iframe.document).val());
+	$("#id", iframe.document).val(param.id);
+	$("#compName", iframe.document).val(param.compName);
+	$("#taxpayerNo", iframe.document).val(param.taxpayerNo);
+	$("#compAddress", iframe.document).val(param.compAddress);
+	$("#compPhone", iframe.document).val(param.compPhone);
+	$("#depositBank", iframe.document).val(param.depositBank);
+	$("#bankAccount", iframe.document).val(param.bankAccount);
+	$("#recipients", iframe.document).val(param.recipients);
+	$("#recipientsTel", iframe.document).val(param.recipientsTel);
+	$("#reciAddress", iframe.document).val(param.reciAddress);
 	
 	return param;
 }
@@ -768,80 +778,26 @@ function validParams(param, iframe) {
 }
 //校验主页面上的数据
 function validData() {
-	var message = "";
-    var aryFrameNo = new Array();
-    var aryEngineNo = new Array();
-	var plateNos = $("[class='policy'][title='plateNo']");
-	var frameNos = $("[class='policy'][title='frameNo']");
-	var engineNos = $("[class='policy'][title='engineNo']");
-	var tonCounts = $("[class='policy'][title='tonCount']");
-	//var frameNos = document.getElementsByName("vehicles[*].frameNo");
-	//var engineNos = document.getElementsByName("vehicles[*].engineNo");
-	for(var i = 0; i < plateNos.length; i++) {
-		var plateNo = $(plateNos[i]).val();
-	    //if(window.console) console.log(plateNo);
-		if(plateNo == null || plateNo == "") {
-			message = "第" + (i + 1) + "行，车牌号不能为空!";
-			$.messager.alert('提示',message,'info');
-			return false;
-		} else if(!checkLicenseNo(plateNo)) {
-			message = "第" + (i + 1) + "行，车牌号不正确，请重新输入!";
-            $.messager.alert('提示',message,'info');
-			return false;
-		}
+	if(!validVehicle()) {
+		return false;
 	}
-	for(var i = 0; i < frameNos.length; i++) {
-		var frameNo = $(frameNos[i]).val();
-	    //if(window.console) console.log($(frameNos[i]).parent().html());
-		if(frameNo == null || frameNo == "") {
-			message = "第" + (i + 1) + "行，车架号不能为空!";
-			$.messager.alert('提示',message,'info');
-			return false;
-		} else if(frameNo.length != 17) {
-			message = "第" + (i + 1) + "行，车架号必须为17位!";
-            //$.messager.alert('提示',message,'info');
-			//return false;
-		}
-		aryFrameNo.push(frameNo);
-	}
-	for(var i = 0; i < engineNos.length; i++) {
-		var engineNo = $(engineNos[i]).val();
-	    //if(window.console) console.log(engineNo);
-		if(engineNo == null || engineNo == "") {
-			message = "第" + (i + 1) + "行，发动机号不能为空!";
-			$.messager.alert('提示',message,'info');
-			return false;
-		}
-		aryEngineNo.push(engineNo);
-	}
-	for(var i = 0; i < tonCounts.length; i++) {
-		var tonCount = $(tonCounts[i]).val();
-	    //if(window.console) console.log(tonCount);
-		if(tonCount == null || tonCount == "") {
-			message = "第" + (i + 1) + "行，核定载重质量不能为空!";
-			$.messager.alert('提示',message,'info');
-			return false;
-		}
-	}
-	if (!isRepeat(aryFrameNo)) {
-		message = "车架号重复!请输入正确的车架号!";
-		$.messager.alert('提示',message,'info');
-        return false;
-    } else if (!isRepeat(aryEngineNo)) {
-		message = "发动机号重复!请输入正确的发动机号!";
-		$.messager.alert('提示',message,'info');
-        return false;
-    }
 	
 	var holderNature = document.getElementById("holderNature").value;
-	var holderCompName = document.getElementById("holderCompName").value;
-	var holderOrgCode = document.getElementById("holderOrgCode").value;
 	var holderCompNature = document.getElementById("holderCompNature").value;
 	var industryType = document.getElementById("industryType").value;
-	var contactName = document.getElementById("contactName").value;
-	var policyMobile = document.getElementById("policyMobile").value;
-	var insuredCompName = document.getElementById("insuredCompName").value;
-	var insuredOrgCode = document.getElementById("insuredOrgCode").value;
+	var holderCompName = jQuery.trim(document.getElementById("holderCompName").value);
+	var holderOrgCode = jQuery.trim(document.getElementById("holderOrgCode").value);
+	var contactName = jQuery.trim(document.getElementById("contactName").value);
+	var policyMobile = jQuery.trim(document.getElementById("policyMobile").value);
+	var insuredCompName = jQuery.trim(document.getElementById("insuredCompName").value);
+	var insuredOrgCode = jQuery.trim(document.getElementById("insuredOrgCode").value);
+
+	document.getElementById("holderCompName").value = holderCompName;
+	document.getElementById("holderOrgCode").value = holderOrgCode;
+	document.getElementById("contactName").value = contactName;
+	document.getElementById("policyMobile").value = policyMobile;
+	document.getElementById("insuredCompName").value = insuredCompName;
+	document.getElementById("insuredOrgCode").value = insuredOrgCode;
 	if(holderNature == null || holderNature == "") {
 		$.messager.alert('提示','投保人性质不能为空!','info');
 		return false;
@@ -880,8 +836,10 @@ function validData() {
 	}
 
 	var invoiceType = document.getElementById("invoiceType").value;
-	var taxpayerNo = document.getElementById("taxpayerNo2").value;
-	var receiverMobile = document.getElementById("receiverMobile").value;
+	var taxpayerNo = jQuery.trim(document.getElementById("taxpayerNo2").value);
+	var receiverMobile = jQuery.trim(document.getElementById("receiverMobile").value);
+	document.getElementById("taxpayerNo2").value = taxpayerNo;
+	document.getElementById("receiverMobile").value = receiverMobile;
 	if(invoiceType == '2') {
 		if(taxpayerNo == null || taxpayerNo == "") {
 			$.messager.alert('提示','请填写纳税人识别号!','info');
@@ -892,31 +850,83 @@ function validData() {
 			return false;
 		}
 	}
-	
-	var isPaperPolicy = document.getElementById("isPaperPolicy").value;
-	var isPaperInvoice = document.getElementById("isPaperInvoice").value;
-	if(isPaperPolicy == "0" && isPaperInvoice == "0") {
-		return true;
-	}
-	var recipients = document.getElementById("recipients").value;
-	var recipientsTel = document.getElementById("recipientsTel").value;
-	var reciAddress = document.getElementById("reciAddress").value;
-	if(recipients == null || recipients == "") {
-		$.messager.alert('提示','请填写收件人!','info');
-		return false;
-	}
-	if(recipientsTel == null || recipientsTel == "") {
-		$.messager.alert('提示','请填写收件人电话!','info');
-		return false;
-	}
-	if(reciAddress == null || reciAddress == "") {
-		$.messager.alert('提示','请填写发票收件地址!','info');
+
+	if(!validRecipients()) {
 		return false;
 	}
 	return true;
 }
 //校验车辆信息
 function validVehicle() {
+	var message = "";
+    var aryFrameNo = new Array();
+    var aryEngineNo = new Array();
+	var plateNos = $("[class='policy'][title='plateNo']");
+	var frameNos = $("[class='policy'][title='frameNo']");
+	var engineNos = $("[class='policy'][title='engineNo']");
+	var tonCounts = $("[class='policy'][title='tonCount']");
+	//var frameNos = document.getElementsByName("vehicles[*].frameNo");
+	//var engineNos = document.getElementsByName("vehicles[*].engineNo");
+	for(var i = 0; i < plateNos.length; i++) {
+		var plateNo = jQuery.trim($(plateNos[i]).val());
+		$(plateNos[i]).val(plateNo);
+	    //if(window.console) console.log(plateNo);
+		if(plateNo == null || plateNo == "") {
+			message = "第" + (i + 1) + "行，车牌号不能为空!";
+			$.messager.alert('提示',message,'info');
+			return false;
+		} else if(!checkLicenseNo(plateNo)) {
+			message = "第" + (i + 1) + "行，车牌号不正确，请重新输入!";
+            $.messager.alert('提示',message,'info');
+			return false;
+		}
+	}
+	for(var i = 0; i < frameNos.length; i++) {
+		var frameNo = jQuery.trim($(frameNos[i]).val());
+		$(frameNos[i]).val(frameNo);
+	    //if(window.console) console.log($(frameNos[i]).parent().html());
+		if(frameNo == null || frameNo == "") {
+			message = "第" + (i + 1) + "行，车架号不能为空!";
+			$.messager.alert('提示',message,'info');
+			return false;
+		} else if(frameNo.length != 17) {
+			message = "第" + (i + 1) + "行，车架号必须为17位!";
+            //$.messager.alert('提示',message,'info');
+			//return false;
+		}
+		aryFrameNo.push(frameNo);
+	}
+	for(var i = 0; i < engineNos.length; i++) {
+		var engineNo = jQuery.trim($(engineNos[i]).val());
+		$(engineNos[i]).val(engineNo);
+	    //if(window.console) console.log(engineNo);
+		if(engineNo == null || engineNo == "") {
+			message = "第" + (i + 1) + "行，发动机号不能为空!";
+			$.messager.alert('提示',message,'info');
+			return false;
+		}
+		aryEngineNo.push(engineNo);
+	}
+	for(var i = 0; i < tonCounts.length; i++) {
+		var tonCount = $(tonCounts[i]).val();
+	    //if(window.console) console.log(tonCount);
+		if(tonCount == null || tonCount == "") {
+			message = "第" + (i + 1) + "行，核定载重质量不能为空!";
+			$.messager.alert('提示',message,'info');
+			return false;
+		}
+	}
+	if (!isRepeat(aryFrameNo)) {
+		message = "车架号重复!请输入正确的车架号!";
+		$.messager.alert('提示',message,'info');
+        return false;
+    } else if (!isRepeat(aryEngineNo)) {
+		message = "发动机号重复!请输入正确的发动机号!";
+		$.messager.alert('提示',message,'info');
+        return false;
+    }
+	
+	return true;
 }
 //校验收件人信息
 function validRecipients() {
@@ -925,9 +935,12 @@ function validRecipients() {
 	if(isPaperPolicy == "0" && isPaperInvoice == "0") {
 		return true;
 	}
-	var recipients = document.getElementById("recipients").value;
-	var recipientsTel = document.getElementById("recipientsTel").value;
-	var reciAddress = document.getElementById("reciAddress").value;
+	var recipients = jQuery.trim(document.getElementById("recipients").value);
+	var recipientsTel = jQuery.trim(document.getElementById("recipientsTel").value);
+	var reciAddress = jQuery.trim(document.getElementById("reciAddress").value);
+	document.getElementById("recipients").value = recipients;
+	document.getElementById("recipientsTel").value = recipientsTel;
+	document.getElementById("reciAddress").value = reciAddress;
 	if(recipients == null || recipients == "") {
 		$.messager.alert('提示','请填写收件人!','info');
 		return false;
@@ -940,5 +953,6 @@ function validRecipients() {
 		$.messager.alert('提示','请填写发票收件地址!','info');
 		return false;
 	}
+	
 	return true;
 }
