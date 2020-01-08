@@ -269,6 +269,8 @@ public class GuorenPolicyController extends BaseController {
 		String strStartDate = DateUtils.date2Str(startDate, DateUtils.date_sdf_wz);
 		String strEndDate = DateUtils.date2Str(endDate, DateUtils.date_sdf_wz);
 		String strPolicyDate = DateUtils.date2Str(policyDate, DateUtils.date_sdf_wz);
+		String premium = policyMainPage.getPremium().toString();
+		premium = StringUtil.moneyToString(Double.parseDouble(premium), ",###.00");
 		String chnPremium = Convert.digitToChinese(policyMainPage.getPremium());
 		String prodPlan = policyMainPage.getProdPlan();
 		String[] insuredAmounts = getInsuredAmount(prodPlan);
@@ -278,7 +280,7 @@ public class GuorenPolicyController extends BaseController {
 		dataMap.put("chnPremium", chnPremium);
 		dataMap.put("onceInsAmount", insuredAmounts[0]);
 		dataMap.put("totalInsAmount", insuredAmounts[1]);
-		dataMap.put("premium", policyMainPage.getPremium());
+		dataMap.put("premium", premium);
 		dataMap.put("holderCompName", policyMainPage.getHolderCompName());
 		dataMap.put("insuredCompName", policyMainPage.getInsuredCompName());
 		dataMap.put("compAddress", policyMainPage.getCompAddress());
