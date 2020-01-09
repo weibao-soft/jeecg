@@ -192,9 +192,9 @@ function reloadPolicyLists() {
 			<c:if test="${fn:length(policyMainPage.vehicles) <= 0 }">
 				<tr name='policytr'>
 				<input name="vehicles[0].id" type="hidden"/>
-				<td><input type="text" name="vehicles[0].plateNo" class="policy" title="plateNo" maxlength="8" style="width:100px;" value="未上牌"></td>
-				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" maxlength="17" style="width:180px;" placeholder="输入车架号"></td>
-				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" maxlength="40" style="width:120px;" placeholder="输入发动机号"></td>
+				<td><input type="text" name="vehicles[0].plateNo" class="policy" title="plateNo" style="width:100px;" value="未上牌"></td>
+				<td><input type="text" name="vehicles[0].frameNo" class="policy" title="frameNo" style="width:180px;" placeholder="输入车架号"></td>
+				<td><input type="text" name="vehicles[0].engineNo" class="policy" title="engineNo" style="width:120px;" placeholder="输入发动机号"></td>
 				<td><input type="text" name="vehicles[0].tonCount" class="policy" title="tonCount" maxlength="2" style="width:60px;" value="0" placeholder="默认填: 0" readonly></td>
 				<td><input class="btn" type="button" value="新增 " onclick="addPolicy();" style="height:30px;width:100px !important;"/></td>
 				<td><span data-event="toggleShourMode" class="radio-one"><input type="checkbox" name="dateMode" value="custom"/>自定义</span></td>
@@ -204,11 +204,11 @@ function reloadPolicyLists() {
 				<c:forEach items="${policyMainPage.vehicles}" var="poVal" varStatus="stat">
 					<tr name='policytr'>
 					<input name="vehicles[${stat.index }].id" type="hidden" value="${poVal.id }"/>
-					<td><input type="text" name="vehicles[${stat.index }].plateNo" class="policy" title="plateNo" maxlength="8" 
+					<td><input type="text" name="vehicles[${stat.index }].plateNo" class="policy" title="plateNo" 
 					style="width:100px;" value="${poVal.plateNo}"></td>
-					<td><input type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" maxlength="17" 
+					<td><input type="text" name="vehicles[${stat.index }].frameNo" class="policy" title="frameNo" 
 					style="width:180px;" placeholder="输入车架号" value="${poVal.frameNo}"></td>
-					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" maxlength="40" 
+					<td><input type="text" name="vehicles[${stat.index }].engineNo" class="policy" title="engineNo" 
 					style="width:120px;" placeholder="输入发动机号" value="${poVal.engineNo}"></td>
 					<td><input type="text" name="vehicles[${stat.index }].tonCount" class="policy" title="tonCount" maxlength="2" 
 					style="width:60px;" placeholder="默认填: 0" value="${poVal.tonCount}" readonly></td>
@@ -259,7 +259,7 @@ function reloadPolicyLists() {
 				<option value=""></option>
 				</select></td>
 		 <td><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码) </td>
-		 <td><input type="text" name="holderOrgCode" id="holderOrgCode" maxlength="18" style="width:200px;" value="${policyMainPage.holderOrgCode}"/></td>
+		 <td><input type="text" name="holderOrgCode" id="holderOrgCode" style="width:200px;" value="${policyMainPage.holderOrgCode}"/></td>
 		</tr>
 		<tr><td><span style="color: red;">*</span>单位性质</td>
 		 <td><t:dictSelect field="holderCompNature" id="holderCompNature" type="list" divClass="dict_select" title=""
@@ -271,7 +271,7 @@ function reloadPolicyLists() {
 		<tr><td><span style="color: red;">*</span>联系人姓名</td>
 		 <td><input type="text" name="contactName" id="contactName" style="width:200px;" value="${policyMainPage.contactName}"/></td>
 		 <td><span style="color: red;">*</span>联系人手机</td>
-		 <td><input type="text" name="policyMobile" id="policyMobile" maxlength="11" style="width:200px;" value="${policyMainPage.policyMobile}"/></td>
+		 <td><input type="text" name="policyMobile" id="policyMobile" style="width:200px;" value="${policyMainPage.policyMobile}"/></td>
 		</tr>
 		<tr><td style="color: red;font-size:15px;">发票类型</td><td>
 		 <select name="invoiceType" id="invoiceType" style="width:200px;">
@@ -283,9 +283,9 @@ function reloadPolicyLists() {
 		</tr>
 		<tr id="invoiceTr" style="display: none;">
 		 <td>纳税人识别号</td>
-		 <td><input type="text" name="taxpayerNo2" id="taxpayerNo2" maxlength="18" style="width:200px;" value="${policyMainPage.taxpayerNo}"/></td>
+		 <td><input type="text" name="taxpayerNo2" id="taxpayerNo2" style="width:200px;" value="${policyMainPage.taxpayerNo}"/></td>
 		 <td>接收人手机</td>
-		 <td><input type="text" name="receiverMobile" id="receiverMobile" maxlength="11" style="width:200px;" value="${policyMainPage.receiverMobile}"/></td>
+		 <td><input type="text" name="receiverMobile" id="receiverMobile" style="width:200px;" value="${policyMainPage.receiverMobile}"/></td>
 		</tr>
 	</table></td>
 	</tr>
@@ -327,7 +327,7 @@ function reloadPolicyLists() {
 		 <td style="width:130px;"><span style="color: red;">*</span>单位名称 </td>
 		 <td style="width:300px;"><input type="text" name="insuredCompName" id="insuredCompName" style="width:200px;" value="${policyMainPage.insuredCompName}" autocomplete="off"/></td>
 		 <td style="width:130px;"><span style="color: red;">*</span>组织机构代码<BR/>(统一社会信用代码)</td>
-		 <td style="width:auto;"><input type="text" name="insuredOrgCode" id="insuredOrgCode" maxlength="18" style="width:200px;" value="${policyMainPage.insuredOrgCode}"/>
+		 <td style="width:auto;"><input type="text" name="insuredOrgCode" id="insuredOrgCode" style="width:200px;" value="${policyMainPage.insuredOrgCode}"/>
 		 <span class="Validform_checktip"></span></td>
 		 </tr>
 	</table></td>

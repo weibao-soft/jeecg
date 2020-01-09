@@ -31,7 +31,7 @@ function closeDialog() {
 				<label class="Validform_label">纳税人识别号:</label>
 			</td>
 			<td class="value">
-				<input id="taxpayerNo" name="taxpayerNo" type="text" maxlength="18" style="width: 150px"  class="inputxt" datatype="*" ignore="checked" value="${policyMainPage.taxpayerNo }" />
+				<input id="taxpayerNo" name="taxpayerNo" type="text" style="width: 150px"  class="inputxt" datatype="*" ignore="checked" value="${policyMainPage.taxpayerNo }" />
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">纳税人识别号</label>
 			</td>

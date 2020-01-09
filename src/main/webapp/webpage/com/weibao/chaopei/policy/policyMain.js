@@ -177,9 +177,9 @@ function addPolicy() {
 	//layer.msg(index);
 	var trbody = `<tr name='policytr'>
 		<input name='vehicles[${index}].id' type='hidden'/>
-		<td><input type='text' name='vehicles[${index}].plateNo' class='policy' title='plateNo' maxlength='8' style='width:100px;' value='未上牌'></td>
-		<td><input type='text' name='vehicles[${index}].frameNo' class='policy' title='frameNo' maxlength='17' style='width:180px;' placeholder='输入车架号'></td>
-		<td><input type='text' name='vehicles[${index}].engineNo' class='policy' title='engineNo' maxlength='40' style='width:120px;' placeholder='输入发动机号'></td>
+		<td><input type='text' name='vehicles[${index}].plateNo' class='policy' title='plateNo' style='width:100px;' value='未上牌'></td>
+		<td><input type='text' name='vehicles[${index}].frameNo' class='policy' title='frameNo' style='width:180px;' placeholder='输入车架号'></td>
+		<td><input type='text' name='vehicles[${index}].engineNo' class='policy' title='engineNo' style='width:120px;' placeholder='输入发动机号'></td>
 		<td><input type='text' name='vehicles[${index}].tonCount' class='policy' title='tonCount' maxlength='2' style='width:60px;' value='0' placeholder='默认填: 0' readonly></td>
 		<td><input class='btn' type='button' value='删除' onclick='removePolicy(this);' style='height:30px;width:100px !important;'/></td>
 		<td><span data-event="toggleShourMode" class="radio-one"><input type="checkbox" name="dateMode" value="custom"/>自定义</span></td>
