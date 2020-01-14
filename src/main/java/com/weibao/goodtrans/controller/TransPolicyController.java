@@ -26,16 +26,12 @@ import com.google.gson.GsonBuilder;
 import com.weibao.chaopei.entity.DraftEntity;
 
 /**
- * 货运险投保页面
- * @author 30360
+ * 货运险保单投保
  */
 @Controller
 @RequestMapping("/transPolicyController")
 public class TransPolicyController extends BaseController {
 	private static final Logger logger = Logger.getLogger(TransPolicyController.class);
-	
-	
-	private static final String UTF8 = "UTF-8";
 	
 	Gson gson = new GsonBuilder().create();	
 	
@@ -43,7 +39,6 @@ public class TransPolicyController extends BaseController {
 	@Autowired
 	private SystemService systemService;
 	
-
 	/**
 	 * 我的保单信息列表 页面跳转
 	 * 
@@ -51,16 +46,16 @@ public class TransPolicyController extends BaseController {
 	 */
 	@RequestMapping(params = "list")
 	public ModelAndView list(HttpServletRequest request) {
-		return new ModelAndView("com/weibao/chaopei/policy/draftMainListBase");
+		return new ModelAndView("com/weibao/chaopei/freight/freightPolicyListBase");
 	}
 
 	/**
-	 * 保单主信息新增 页面跳转
+	 * 保单信息新增 页面跳转
 	 * 
 	 * @return
 	 */
-	@RequestMapping(params = "add")
-	public ModelAndView add(String paramId, HttpServletRequest request) {
+	@RequestMapping(params = "goAdd")
+	public ModelAndView goAdd(String paramId, HttpServletRequest request) {
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar canlendar = Calendar.getInstance();
 		canlendar.add(Calendar.DATE, 1);
@@ -81,7 +76,8 @@ public class TransPolicyController extends BaseController {
 		request.setAttribute("end", end);
 		request.setAttribute("max", max);
 		request.setAttribute("prodId", paramId);
-		return new ModelAndView("com/weibao/goodtrans/goodtrans-add");
+		//return new ModelAndView("com/weibao/chaopei/freight/freightPolicyAdd");
+		return new ModelAndView("com/weibao/goodtrans/goodTransAdd");
 	}
 	
 	

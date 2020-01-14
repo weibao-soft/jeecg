@@ -745,7 +745,11 @@ public class PolicyServiceImpl extends CommonServiceImpl implements PolicyServic
 			String name = bean.getName();
 			String code = bean.getCode();
 			int length = code.length();
-			String num = code.substring(0, length - 3);
+			String decimal = code.substring(length - 3);
+			String num = code;
+			if(".00".equals(decimal)) {
+				num = code.substring(0, length - 3);
+			}
 			String value = "保障:" + name + " 保费:" + num;
 			bean.setName(value);
 		}
