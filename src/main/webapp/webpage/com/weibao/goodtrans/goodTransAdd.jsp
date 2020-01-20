@@ -33,15 +33,9 @@ td .border-right{border-right:1px solid #E3E3E3;}
 <SCRIPT type="text/javascript">
 $(document).ready(function(){
 	window.Custom.dialogLoading(true);
-	getHolders();
+	getHolders("holderCompName");
 
 
-    $("#holderCompNature").css("width", "200px");
-    $("#industryType").css("width", "200px");
-    $("#holderCertType").css("width", "200px");
-    $("#holderCardType").css("width", "200px");
-    $("#insuredCertType").css("width", "200px");
-    $("#insuredCardType").css("width", "200px");
     window.setTimeout(customFunc, 500);
 
 	var abc = $("#formobj").width()+17;
@@ -116,9 +110,13 @@ function doPay() {
  
  <tr><td style="width:15px;text-align:center;"></td><td style="width:1185px;">
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
-	 <tr><td style="width:150px;" class="border-right">保额</td>
+	 <tr><td style="width:150px;" class="border-right"><span style="color: red;">*</span>总保额</td>
+	 <td style="width:300px;" class="border-right">
+		<input type="text" name="insuredAmount" id="insuredAmount" maxlength="10" style="width:200px;" />
+		<span class="Validform_checktip"></span></td>
+	 <td style="width:150px;" class="border-right"><span style="color: red;">*</span>保费</td>
 	 <td style="width:auto;">
-		<input type="text" name="coverage" id="coverage" maxlength="10" style="width:200px;" />
+		<input type="text" name="allPremium" id="allPremium" maxlength="10" style="width:200px;" />
 		<span class="Validform_checktip"></span></td>
 	 </tr>
 	 </table>
@@ -145,26 +143,26 @@ function doPay() {
 				<option value=""></option>
 				</select></td>
 		 <td class="border-right"><span style="color: red;">*</span>证件号码<BR/>(统一社会信用编码) </td>
-		 <td><input type="text" name="holderOrgCode" id="holderOrgCode" maxlength="18" style="width:200px;" /></td>
+		 <td><input type="text" name="holderOrgCode" id="holderOrgCode" style="width:200px;" /></td>
 		 </tr>
 		 <tr name="holderQYTr">
 		 <td class="border-right"><span style="color: red;">*</span>联系人姓名</td>
-		 <td class="border-right"><input type="text" name="holderContName" id="holderContName" style="width:200px;" /></td>
+		 <td class="border-right"><input type="text" name="holderCtatName" id="holderCtatName" style="width:200px;" /></td>
 		 <td class="border-right"><span style="color: red;">*</span>联系人手机</td>
-		 <td><input type="text" name="holderPlcyMobile" id="holderPlcyMobile" maxlength="11" style="width:200px;" /></td>
+		 <td><input type="text" name="holderCtatMobile" id="holderCtatMobile" style="width:200px;" /></td>
 		 </tr>
 		 <tr name="holderGRTr" style="display: none;">
 		 <td class="border-right"><span style="color: red;">*</span>姓名</td>
 		 <td class="border-right"><input type="text" name="holderName" id="holderName" style="width:200px;" /></td>
 		 <td class="border-right"><span style="color: red;">*</span>证件号码</td>
-		 <td><input type="text" name="holderCardNumber" id="holderCardNumber" maxlength="18" style="width:200px;" /></td>
+		 <td><input type="text" name="holderCertNo" id="holderCertNo" style="width:200px;" /></td>
 		 </tr>
 		 <tr name="holderGRTr" style="display: none;">
 		 <td class="border-right"><span style="color: red;">*</span>证件类型</td>
-		 <td class="border-right"><t:dictSelect field="holderCardType" id="holderCardType" type="list" divClass="dict_select" title=""
+		 <td class="border-right"><t:dictSelect field="holderCertType" id="holderCertType" type="list" divClass="dict_select" title=""
 						typeGroupCode="cardType" defaultVal="1" hasLabel="false" ></t:dictSelect></td>
 		 <td class="border-right"><span style="color: red;">*</span>手机号码</td>
-		 <td><input type="text" name="holderMobileNo" id="holderMobileNo" maxlength="11" style="width:200px;" /></td>
+		 <td><input type="text" name="holderMobileNo" id="holderMobileNo" style="width:200px;" /></td>
 		 </tr>
 	 </table>
 	 </td></tr>
@@ -188,27 +186,27 @@ function doPay() {
 		 <td class="border-right"><span style="color: red;">*</span>企业名称 </td>
 		 <td class="border-right"><input type="text" name="insuredCompName" id="insuredCompName" style="width:200px;" autocomplete="off"/></td>
 		 <td class="border-right"><span style="color: red;">*</span>证件号码<BR/>(统一社会信用编码)</td>
-		 <td><input type="text" name="insuredOrgCode" id="insuredOrgCode" maxlength="18" style="width:200px;" />
+		 <td><input type="text" name="insuredOrgCode" id="insuredOrgCode" style="width:200px;" />
 		 <span class="Validform_checktip"></span></td>
 		 </tr>
 		 <tr name="insuredQYTr">
 		 <td class="border-right"><span style="color: red;">*</span>联系人姓名</td>
-		 <td class="border-right"><input type="text" name="insuredContName" id="insuredContName" style="width:200px;" /></td>
+		 <td class="border-right"><input type="text" name="insuredCtatName" id="insuredCtatName" style="width:200px;" /></td>
 		 <td class="border-right"><span style="color: red;">*</span>联系人手机</td>
-		 <td><input type="text" name="insuredPlcyMobile" id="insuredPlcyMobile" maxlength="11" style="width:200px;" /></td>
+		 <td><input type="text" name="insuredCtatMobile" id="insuredCtatMobile" style="width:200px;" /></td>
 		 </tr>
 		 <tr name="insuredGRTr" style="display: none;">
 		 <td class="border-right"><span style="color: red;">*</span>姓名</td>
 		 <td class="border-right"><input type="text" name="insuredName" id="insuredName" style="width:200px;" /></td>
 		 <td class="border-right"><span style="color: red;">*</span>证件号码</td>
-		 <td><input type="text" name="insuredCardNumber" id="insuredCardNumber" maxlength="18" style="width:200px;" /></td>
+		 <td><input type="text" name="insuredCertNo" id="insuredCertNo" style="width:200px;" /></td>
 		 </tr>
 		 <tr name="insuredGRTr" style="display: none;">
 		 <td class="border-right"><span style="color: red;">*</span>证件类型</td>
-		 <td class="border-right"><t:dictSelect field="insuredCardType" id="insuredCardType" type="list" divClass="dict_select" title=""
+		 <td class="border-right"><t:dictSelect field="insuredCertType" id="insuredCertType" type="list" divClass="dict_select" title=""
 						typeGroupCode="cardType" defaultVal="1" hasLabel="false" ></t:dictSelect></td>
 		 <td class="border-right"><span style="color: red;">*</span>手机号码</td>
-		 <td><input type="text" name="insuredMobileNo" id="insuredMobileNo" maxlength="11" style="width:200px;" /></td>
+		 <td><input type="text" name="insuredMobileNo" id="insuredMobileNo" style="width:200px;" /></td>
 		 </tr>
 		 </div>
 	 </table>
@@ -222,9 +220,9 @@ function doPay() {
 			<tbody id="add_policy_tabel">
 				<tr name='policytr'>
 				<td><span style="color: red;">*</span>保险货物项目 </td>
-				<td><input type="text" name="cargoItem" class="policy" title="cargoItem" style="width:100px;" maxlength="20"></td>
+				<td><input type="text" name="cargoItem" class="policy" title="cargoItem" style="width:100px;"></td>
 				<td><span style="color: red;">*</span>包装及数量 </td>
-				<td><input type="text" name="cargoPackageAndCount" class="policy" title="cargoPackageAndCount" style="width:60px;" maxlength="20"></td>
+				<td><input type="text" name="cargoPkgAndCount" class="policy" title="cargoPkgAndCount" style="width:60px;" maxlength="20"></td>
 				<td><span style="color: red;">*</span>起运地 </td>
 				<td><input type="text" name="cargoStartSite" class="policy" title="cargoStartSite"></td>
 				<td><span style="color: red;">*</span>目的地 </td>
@@ -240,8 +238,8 @@ function doPay() {
 	 <table cellpadding="0" cellspacing="0" class="formtable" width="100%">
 		 <tr><td style="width:150px;" class="border-right">保险期间：</td>
 		 <td style="width:auto;">
-		 起运时间 <input type="text" name="startDate" id="start" value="${start}" class="Wdate" style="width:150px;" 
-		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> 结束时间 <input type="text" name="endDate" id="end" value="卸货完成时结束"
+		 起运时间 <input type="text" name="cargoStartDate" id="start" value="${start}" class="Wdate" style="width:150px;" 
+		 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'${start}',maxDate:'${max}'})"/> 结束时间 <input type="text" name="cargoEndDate" id="end" value="卸货完成时结束"
 		 style="width:150px;" disabled/> </td>
 		 </tr>
 	 </table>
@@ -256,11 +254,11 @@ function doPay() {
 				<tr name='vehicletr'>
 				<input name="id" type="hidden"/>
 				<td><div style="text-align:right;width:auto;"><span style="color: red;">*</span>车牌号</div></td>
-				<td><input type="text" name="plateNo" class="policy" title="plateNo" maxlength="8" style="width:100px;" value=""></td>
+				<td><input type="text" name="vehiclePlateNo" class="policy" title="vehiclePlateNo" style="width:100px;" value=""></td>
 				<td><span style="color: red;">*</span>运单号 </td>
-				<td><input type="text" name="wayBillNo" class="policy" title="wayBillNo" maxlength="17"></td>
+				<td><input type="text" name="wayBillNo" class="policy" title="wayBillNo"></td>
 				<td><span style="color: red;">*</span>运输方式 </td>
-				<td><select name="cargoTransportWay" style="width:100px;" class="policy" title="cargoTransportWay">
+				<td><select name="cargoTransWay" style="width:100px;" class="policy" title="cargoTransWay">
 				<option value="1">水运</option>
 				<option value="2">航空</option>
 				<option value="3">公路</option>
@@ -291,9 +289,7 @@ function doPay() {
 <input id="payStatus" name="payStatus" type="hidden" value="0"/>
 <input id="createTime" name="createTime" type="hidden" value="${policyMainPage.createTime }"/>
 <input id="endDate" name="endDate" type="hidden" value="${end}" />
-<input id="compNamep" name="compName" type="hidden" />
-<input id="taxpayerNop" name="taxpayerNo" type="hidden" />
-<input id="compAddressp" name="compAddress" type="hidden" />
+<input id="phRelToIns" name="phRelToIns" type="hidden" value="0" />
 <input id="recipientsp" name="recipients" type="hidden" />
 <input id="recipientsTelp" name="recipientsTel" type="hidden" />
 <input id="reciAddressp" name="reciAddress" type="hidden" />
