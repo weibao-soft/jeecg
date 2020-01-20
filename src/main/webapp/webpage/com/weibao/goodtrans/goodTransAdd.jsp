@@ -159,7 +159,7 @@ function doPay() {
 		 </tr>
 		 <tr name="holderGRTr" style="display: none;">
 		 <td class="border-right"><span style="color: red;">*</span>证件类型</td>
-		 <td class="border-right"><t:dictSelect field="holderCertType" id="holderCertType" type="list" divClass="dict_select" title=""
+		 <td class="border-right"><t:dictSelect field="holderCertType2" id="holderCertType2" type="list" divClass="dict_select" title=""
 						typeGroupCode="cardType" defaultVal="1" hasLabel="false" ></t:dictSelect></td>
 		 <td class="border-right"><span style="color: red;">*</span>手机号码</td>
 		 <td><input type="text" name="holderMobileNo" id="holderMobileNo" style="width:200px;" /></td>
@@ -203,7 +203,7 @@ function doPay() {
 		 </tr>
 		 <tr name="insuredGRTr" style="display: none;">
 		 <td class="border-right"><span style="color: red;">*</span>证件类型</td>
-		 <td class="border-right"><t:dictSelect field="insuredCertType" id="insuredCertType" type="list" divClass="dict_select" title=""
+		 <td class="border-right"><t:dictSelect field="insuredCertType2" id="insuredCertType2" type="list" divClass="dict_select" title=""
 						typeGroupCode="cardType" defaultVal="1" hasLabel="false" ></t:dictSelect></td>
 		 <td class="border-right"><span style="color: red;">*</span>手机号码</td>
 		 <td><input type="text" name="insuredMobileNo" id="insuredMobileNo" style="width:200px;" /></td>
@@ -255,6 +255,8 @@ function doPay() {
 				<input name="id" type="hidden"/>
 				<td><div style="text-align:right;width:auto;"><span style="color: red;">*</span>车牌号</div></td>
 				<td><input type="text" name="vehiclePlateNo" class="policy" title="vehiclePlateNo" style="width:100px;" value=""></td>
+				<td><span style="color: red;">*</span>挂车车牌号 </td>
+				<td><input type="text" name="trailerPlateNo" class="policy" title="trailerPlateNo" style="width:100px;"></td>
 				<td><span style="color: red;">*</span>运单号 </td>
 				<td><input type="text" name="wayBillNo" class="policy" title="wayBillNo"></td>
 				<td><span style="color: red;">*</span>运输方式 </td>

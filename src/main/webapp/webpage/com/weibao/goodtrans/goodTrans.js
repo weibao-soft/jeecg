@@ -7,7 +7,9 @@ $(document).ready(function() {
 //初始化页面
 function initPageUI() {
     $("#holderCertType").css("width", "200px");
+    $("#holderCertType2").css("width", "200px");
     $("#insuredCertType").css("width", "200px");
+    $("#insuredCertType2").css("width", "200px");
 }
 //绑定事件
 function bindEvents() {
@@ -124,13 +126,15 @@ function getSubmitParam() {
 			param.holderPartType = holderPartTypes[i].value;
 		}
 	}
+
 	param.holderName = document.getElementById("holderName").value;
 	param.holderCertNo = document.getElementById("holderCertNo").value;
-	param.holderCertType = document.getElementById("holderCertType").value;
 	if(param.insuredPartType == 'QY') {
+		param.holderCertType = document.getElementById("holderCertType").value;
 		param.holderCtatName = document.getElementById("holderCtatName").value;
 		param.holderCtatMobile = document.getElementById("holderCtatMobile").value;
 	} else if(param.holderPartType == 'GR') {
+		param.holderCertType = document.getElementById("holderCertType2").value;
 		param.holderMobileNo = document.getElementById("holderMobileNo").value;
 		//param.holderSex = document.getElementById("holderSex").value;
 		//param.holderBirthday = document.getElementById("holderBirthday").value;
@@ -145,12 +149,14 @@ function getSubmitParam() {
 	}
 	param.insuredName = document.getElementById("insuredName").value;
 	param.insuredCertNo = document.getElementById("insuredCertNo").value;
-	param.insuredCertType = document.getElementById("insuredCertType").value;
 	param.phRelToIns = document.getElementById("phRelToIns").value;
 	if(param.insuredPartType == 'QY') {
+		param.insuredCertType = document.getElementById("insuredCertType").value;
 		param.insuredCtatName = document.getElementById("insuredCtatName").value;
 		param.insuredCtatMobile = document.getElementById("insuredCtatMobile").value;
 	} else if(param.insuredPartType == 'GR') {
+		param.insuredCertType = document.getElementById("insuredCertType2").value;
+		param.insuredMobileNo = document.getElementById("insuredMobileNo").value;
 		//param.insuredSex = document.getElementById("insuredSex").value;
 	}
 
@@ -160,20 +166,22 @@ function getSubmitParam() {
 	
 	param.cargoStartDate = document.getElementById("start").value;
 	param.cargoEndDate = document.getElementById("end").value;
-	param.vehiclePlateNo = document.getElementById("vehiclePlateNo").value;
-	param.trailerPlateNo = document.getElementById("trailerPlateNo").value;
-	param.wayBillNo = document.getElementById("wayBillNo").value;
-	param.cargoTransWay = document.getElementById("cargoTransWay").value;
-	param.status = document.getElementById("status").value;
-
+	param.cargoStartSite = document.getElementsByName("cargoStartSite")[0].value;
+	param.cargoTargetSite = document.getElementsByName("cargoTargetSite")[0].value;
 	param.cargoItem = document.getElementsByName("cargoItem")[0].value;
 	param.cargoPkgAndCount = document.getElementsByName("cargoPkgAndCount")[0].value;
+	
+	param.vehiclePlateNo = document.getElementsByName("vehiclePlateNo")[0].value;
+	param.trailerPlateNo = document.getElementsByName("trailerPlateNo")[0].value;
+	param.wayBillNo = document.getElementsByName("wayBillNo")[0].value;
+	param.cargoTransWay = document.getElementsByName("cargoTransWay")[0].value;
 
-	param.durationType = document.getElementById("durationType").value;
-	param.duration = document.getElementById("duration").value;
-	param.premiumRate = document.getElementById("premiumRate").value;
+	//param.durationType = document.getElementById("durationType").value;
+	//param.duration = document.getElementById("duration").value;
+	//param.premiumRate = document.getElementById("premiumRate").value;
 	param.allPremium = document.getElementById("premium").value;
 	param.insuredAmount = document.getElementById("insuredAmount").value;
+	param.status = document.getElementById("status").value;
 	
     var flag=$("#check1").is(':checked');
 	debugger;
@@ -193,7 +201,8 @@ function getInsuredParam(param) {
 		param.insuredCtatName = param.holderCtatName;
 		param.insuredCtatMobile = param.holderCtatMobile;
 	} else if(param.insuredPartType == 'GR') {
-		param.insuredSex = param.holderSex;
+		param.insuredMobileNo = param.holderMobileNo;
+		//param.insuredSex = param.holderSex;
 	}
 	
 	return param;
@@ -230,14 +239,17 @@ function validHolder() {
 			holderPartType = holderPartTypes[i].value;
 		}
 	}
+	var holderSex = document.getElementById("holderSex").value;
 	var holderCertType = document.getElementById("holderCertType").value;
+	var holderCertType2 = document.getElementById("holderCertType2").value;
+	var holderCompName = jQuery.trim(document.getElementById("holderCompName").value);
 	var holderName = jQuery.trim(document.getElementById("holderName").value);
 	var holderCertNo = jQuery.trim(document.getElementById("holderCertNo").value);
+	document.getElementById("holderCompName").value = holderCompName;
 	document.getElementById("holderName").value = holderName;
 	document.getElementById("holderCertNo").value = holderCertNo;
 
 	var holderMobileNo = jQuery.trim(document.getElementById("holderMobileNo").value);
-	var holderSex = document.getElementById("holderSex").value;
 	var holderBirthday = jQuery.trim(document.getElementById("holderBirthday").value);
 	var holderEmail = jQuery.trim(document.getElementById("holderEmail").value);
 	var holderCtatName = jQuery.trim(document.getElementById("holderCtatName").value);
@@ -248,19 +260,19 @@ function validHolder() {
 	document.getElementById("holderCtatName").value = holderCtatName;
 	document.getElementById("holderCtatMobile").value = holderCtatMobile;
 	
-	if(holderName == null || holderName == "") {
-		$.messager.alert('提示','“投保人”名称不能为空!','info');
-		return false;
-	}
-	if(holderCertType == null || holderCertType == "") {
-		$.messager.alert('提示','“投保人”证件类型不能为空!','info');
-		return false;
-	}
 	if(holderCertNo == null || holderCertNo == "") {
 		$.messager.alert('提示','“投保人”证件号码不能为空!','info');
 		return false;
 	}
 	if(holderPartType == 'QY') {
+		if(holderCompName == null || holderCompName == "") {
+			$.messager.alert('提示','“投保人”名称不能为空!','info');
+			return false;
+		}
+		if(holderCertType == null || holderCertType == "") {
+			$.messager.alert('提示','“投保人”证件类型不能为空!','info');
+			return false;
+		}
 		if(holderCtatName == null || holderCtatName == "") {
 			$.messager.alert('提示','“投保人”联系人名称不能为空!','info');
 			return false;
@@ -270,6 +282,14 @@ function validHolder() {
 			return false;
 		}
 	} else if(holderPartType == 'GR') {
+		if(holderName == null || holderName == "") {
+			$.messager.alert('提示','“投保人”名称不能为空!','info');
+			return false;
+		}
+		if(holderCertType2 == null || holderCertType2 == "") {
+			$.messager.alert('提示','“投保人”证件类型不能为空!','info');
+			return false;
+		}
 		if(holderMobileNo == null || holderMobileNo == "") {
 			$.messager.alert('提示','“投保人”手机号码不能为空!','info');
 			return false;
@@ -299,8 +319,11 @@ function validInsured() {
 		}
 	}
 	var insuredCertType = document.getElementById("insuredCertType").value;
+	var insuredCertType2 = document.getElementById("insuredCertType2").value;
+	var insuredCompName = jQuery.trim(document.getElementById("insuredCompName").value);
 	var insuredName = jQuery.trim(document.getElementById("insuredName").value);
 	var insuredCertNo = jQuery.trim(document.getElementById("insuredCertNo").value);
+	document.getElementById("insuredCompName").value = insuredCompName;
 	document.getElementById("insuredName").value = insuredName;
 	document.getElementById("insuredCertNo").value = insuredCertNo;
 	
@@ -314,19 +337,19 @@ function validInsured() {
 	document.getElementById("insuredCtatMobile").value = insuredCtatMobile;
 	document.getElementById("phRelToIns").value = phRelToIns;
 	
-	if(insuredName == null || insuredName == "") {
-		$.messager.alert('提示','“被保人”名称不能为空!','info');
-		return false;
-	}
-	if(insuredCertType == null || insuredCertType == "") {
-		$.messager.alert('提示','“被保人”证件类型不能为空!','info');
-		return false;
-	}
 	if(insuredCertNo == null || insuredCertNo == "") {
 		$.messager.alert('提示','“被保人”证件号码不能为空!','info');
 		return false;
 	}
 	if(holderPartType == 'QY') {
+		if(insuredCompName == null || insuredCompName == "") {
+			$.messager.alert('提示','“被保人”名称不能为空!','info');
+			return false;
+		}
+		if(insuredCertType == null || insuredCertType == "") {
+			$.messager.alert('提示','“被保人”证件类型不能为空!','info');
+			return false;
+		}
 		if(insuredCtatName == null || insuredCtatName == "") {
 			$.messager.alert('提示','“被保人”联系人名称不能为空!','info');
 			return false;
@@ -336,6 +359,14 @@ function validInsured() {
 			return false;
 		}
 	} else if(insuredPartType == 'GR') {
+		if(insuredName == null || insuredName == "") {
+			$.messager.alert('提示','“被保人”名称不能为空!','info');
+			return false;
+		}
+		if(insuredCertType2 == null || insuredCertType2 == "") {
+			$.messager.alert('提示','“被保人”证件类型不能为空!','info');
+			return false;
+		}
 		if(insuredMobileNo == null || insuredMobileNo == "") {
 			$.messager.alert('提示','“被保人”手机号码不能为空!','info');
 			return false;
@@ -354,21 +385,22 @@ function validPolicy() {
 	
 	var startDate = document.getElementById("start").value;
 	var endDate = document.getElementById("end").value;
-	var vehiclePlateNo = jQuery.trim(document.getElementById("vehiclePlateNo").value);
-	var trailerPlateNo = jQuery.trim(document.getElementById("trailerPlateNo").value);
-	var wayBillNo = jQuery.trim(document.getElementById("wayBillNo").value);
-	document.getElementById("vehiclePlateNo").value = vehiclePlateNo;
-	document.getElementById("trailerPlateNo").value = trailerPlateNo;
-	document.getElementById("wayBillNo").value = wayBillNo;
+	var cargoStartSite = jQuery.trim(document.getElementsByName("cargoStartSite")[0].value);
+	var cargoTargetSite = jQuery.trim(document.getElementsByName("cargoTargetSite")[0].value);
+	var vehiclePlateNo = jQuery.trim(document.getElementsByName("vehiclePlateNo")[0].value);
+	var trailerPlateNo = jQuery.trim(document.getElementsByName("trailerPlateNo")[0].value);
+	var wayBillNo = jQuery.trim(document.getElementsByName("wayBillNo")[0].value);
+	document.getElementsByName("vehiclePlateNo")[0].value = vehiclePlateNo;
+	document.getElementsByName("trailerPlateNo")[0].value = trailerPlateNo;
+	document.getElementsByName("wayBillNo")[0].value = wayBillNo;
 
 	var cargoTransWay = document.getElementsByName("cargoTransWay")[0].value;
-	var durationType = jQuery.trim(document.getElementsByName("durationType")[0].value);
+	var durationType = document.getElementsByName("durationType")[0].value;
 	var duration = jQuery.trim(document.getElementsByName("duration")[0].value);
 	var cargoItem = jQuery.trim(document.getElementsByName("cargoItem")[0].value);
 	var cargoPkgAndCount = jQuery.trim(document.getElementsByName("cargoPkgAndCount")[0].value);
 	var insuredAmount = jQuery.trim(document.getElementsByName("insuredAmount")[0].value);
 	var premiumRate = jQuery.trim(document.getElementsByName("premiumRate")[0].value);
-	document.getElementsByName("durationType")[0].value = durationType;
 	document.getElementsByName("duration")[0].value = duration;
 	document.getElementsByName("cargoItem")[0].value = cargoItem;
 	document.getElementsByName("cargoPkgAndCount")[0].value = cargoPkgAndCount;
@@ -381,6 +413,14 @@ function validPolicy() {
 	}
 	if(endDate == null || endDate == "") {
 		$.messager.alert('提示','请填写保险结束时间!','info');
+		return false;
+	}
+	if(cargoStartSite == null || cargoStartSite == "") {
+		$.messager.alert('提示','请填写起运地名称!','info');
+		return false;
+	}
+	if(cargoTargetSite == null || cargoTargetSite == "") {
+		$.messager.alert('提示','请填写目的地名称!','info');
 		return false;
 	}
 	if(vehiclePlateNo == null || vehiclePlateNo == "") {
